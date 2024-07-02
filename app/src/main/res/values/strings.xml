@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Compose Project</string>
+
+    <string name="text_content_description">Дефолтный аватар</string>
+
+    <!-- TODO: Remove -->
+    <string name="text_button">Button</string>
+    <string name="text">The quick brown fox jumps over the lazy dog</string>
+    <string name="text_avatar_meetings">Avatar Meetings</string>
+    <string name="text_people"> человек</string>
+    <string name="text_avatars_people">Люди, которые пойдут на встречу</string>
+    <string name="text_attendees_row">Вы будете первыми!</string>
+    <string name="event_screen">event_screen</string>
+    <string name="community_screen">community_screen</string>
+    <string name="still_screen">all_screen</string>
+    <string name="text_event">Встречи</string>
+    <string name="text_community">Сообщества</string>
+    <string name="text_still">Еще</string>
+    <string name="text_placeholder_input_search">Поиск</string>
+    <string name="text_inactive_event">Закончилась</string>
+    <string name="text_tab_all_events">Все встречи</string>
+    <string name="text_tab_active_events">Активные</string>
+    <string name="text_tab_my_event_plan">Запланировано</string>
+    <string name="text_tab_my_event_passed">Уже прошли</string>
+    <string name="text_content_desc_twitter">twitter</string>
+    <string name="text_content_desc_instagram">instagram</string>
+    <string name="text_content_desc_linkedIn">linkedIn</string>
+    <string name="text_content_desc_facebook">facebook</string>
+</resources>
