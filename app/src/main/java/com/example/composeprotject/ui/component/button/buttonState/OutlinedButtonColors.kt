@@ -11,14 +11,14 @@ class OutlinedButtonColors(
 {
     override fun backgroundColor(state: ButtonState): Color {
         return when(state){
-            ButtonState.INITIAL, ButtonState.HOVER, ButtonState.DISABLED -> params.backgroundColor
+            ButtonState.INITIAL, ButtonState.PRESSED, ButtonState.DISABLED -> params.backgroundColor
         }
     }
 
     override fun contentColor(state: ButtonState): Color {
         return when(state){
             ButtonState.INITIAL -> params.contentColorActive
-            ButtonState.HOVER -> params.contentColorHover
+            ButtonState.PRESSED -> params.contentColorHover
             ButtonState.DISABLED -> params.contentColorDisabled
         }
     }
@@ -26,7 +26,7 @@ class OutlinedButtonColors(
     override fun strokeColor(state: ButtonState): Color {
         return when(state){
             ButtonState.INITIAL -> params.strokeColorActive
-            ButtonState.HOVER -> params.strokeColorHover
+            ButtonState.PRESSED -> params.strokeColorHover
             ButtonState.DISABLED -> params.strokeColorDisabled
         }
     }

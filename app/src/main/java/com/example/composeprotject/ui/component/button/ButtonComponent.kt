@@ -7,12 +7,16 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.material.ripple.LocalRippleTheme
+import androidx.compose.material.ripple.RippleAlpha
+import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -40,28 +44,30 @@ fun FilledButton(
 ){
     val interactionSource = remember { MutableInteractionSource() }
     val changeableState = remember { mutableStateOf(state) }
-    val isHovered = interactionSource.collectIsPressedAsState().value ?: false
-    
-    Button(
-        onClick = { onClick() },
-        interactionSource = interactionSource,
-        enabled = state != ButtonState.DISABLED,
-        //contentPadding = PaddingValues(horizontal = 48.dp, vertical = 12.dp),
-        colors = ButtonDefaults.buttonColors(
-            disabledContainerColor = colors.backgroundColor(changeableState.value),
-            containerColor = colors.backgroundColor(changeableState.value),
-            contentColor = colors.contentColor(changeableState.value),
-            disabledContentColor = colors.contentColor(changeableState.value)
-        )
-    ) {
-        AnimatedVisibility(visible = isHovered) {
-            if (isHovered) {
-                changeableState.value = ButtonState.HOVER
-            }else{
-                changeableState.value = ButtonState.INITIAL
+    val isPressed = interactionSource.collectIsPressedAsState().value ?: false
+
+    CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme){
+        Button(
+            onClick = { onClick() },
+            interactionSource = interactionSource,
+            enabled = state != ButtonState.DISABLED,
+            //contentPadding = PaddingValues(horizontal = 48.dp, vertical = 12.dp),
+            colors = ButtonDefaults.buttonColors(
+                disabledContainerColor = colors.backgroundColor(changeableState.value),
+                containerColor = colors.backgroundColor(changeableState.value),
+                contentColor = colors.contentColor(changeableState.value),
+                disabledContentColor = colors.contentColor(changeableState.value)
+            )
+        ) {
+            AnimatedVisibility(visible = isPressed) {
+                if (isPressed) {
+                    changeableState.value = ButtonState.PRESSED
+                }else{
+                    changeableState.value = ButtonState.INITIAL
+                }
             }
+            Text(stringResource(id = R.string.text_button), style = MeetTheme.typography.subheading2)
         }
-        Text(stringResource(id = R.string.text_button), style = MeetTheme.typography.subheading2)
     }
 }
 
@@ -73,32 +79,34 @@ fun OutlinedButton(
 ){
     val interactionSource = remember { MutableInteractionSource() }
     val changeableState = remember { mutableStateOf(state) }
-    val isHovered = interactionSource.collectIsPressedAsState().value ?: false
+    val isPressed = interactionSource.collectIsPressedAsState().value ?: false
 
-    OutlinedButton(
-        onClick = { onClick() },
-        interactionSource = interactionSource,
-        enabled = changeableState.value != ButtonState.DISABLED,
-        //contentPadding = PaddingValues(horizontal = 48.dp, vertical = 12.dp),
-        border = outlinedBorderStroke(
-            width = 2,
-            color = colors.strokeColor(changeableState.value)
-        ),
-        colors = ButtonDefaults.buttonColors(
-            disabledContainerColor = colors.backgroundColor(changeableState.value),
-            disabledContentColor = colors.contentColor(changeableState.value),
-            containerColor = colors.backgroundColor(changeableState.value),
-            contentColor = colors.contentColor(changeableState.value)
-        )
-    ) {
-        AnimatedVisibility(visible = isHovered) {
-            if (isHovered) {
-                changeableState.value = ButtonState.HOVER
-            }else{
-                changeableState.value = ButtonState.INITIAL
+    CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme){
+        OutlinedButton(
+            onClick = { onClick() },
+            interactionSource = interactionSource,
+            enabled = changeableState.value != ButtonState.DISABLED,
+            //contentPadding = PaddingValues(horizontal = 48.dp, vertical = 12.dp),
+            border = outlinedBorderStroke(
+                width = 2,
+                color = colors.strokeColor(changeableState.value)
+            ),
+            colors = ButtonDefaults.buttonColors(
+                disabledContainerColor = colors.backgroundColor(changeableState.value),
+                disabledContentColor = colors.contentColor(changeableState.value),
+                containerColor = colors.backgroundColor(changeableState.value),
+                contentColor = colors.contentColor(changeableState.value)
+            )
+        ) {
+            AnimatedVisibility(visible = isPressed) {
+                if (isPressed) {
+                    changeableState.value = ButtonState.PRESSED
+                }else{
+                    changeableState.value = ButtonState.INITIAL
+                }
             }
+            Text(stringResource(id = R.string.text_button), style = MeetTheme.typography.subheading2)
         }
-        Text(stringResource(id = R.string.text_button), style = MeetTheme.typography.subheading2)
     }
 }
 
@@ -113,35 +121,37 @@ fun ImageOutlinedButton(
 ){
     val interactionSource = remember { MutableInteractionSource() }
     val changeableState = remember { mutableStateOf(state) }
-    val isHovered = interactionSource.collectIsPressedAsState().value ?: false
+    val isPressed = interactionSource.collectIsPressedAsState().value ?: false
 
-    OutlinedButton(
-        modifier = modifier
-            .defaultMinSize(minWidth = 1.dp, minHeight = 1.dp),
-        onClick = { onClick() },
-        interactionSource = interactionSource,
-        enabled = changeableState.value != ButtonState.DISABLED,
-        contentPadding = PaddingValues(horizontal = (25.85).dp, vertical = 10.dp),
-        border = outlinedBorderStroke(
-            width = 2,
-            color = colors.strokeColor(changeableState.value)
-        ),
-        colors = ButtonDefaults.buttonColors(
-            disabledContainerColor = colors.backgroundColor(changeableState.value),
-            disabledContentColor = colors.contentColor(changeableState.value),
-            containerColor = colors.backgroundColor(changeableState.value),
-            contentColor = colors.contentColor(changeableState.value)
-        )
-    ) {
-        AnimatedVisibility(visible = isHovered) {
-            if (isHovered) {
-                changeableState.value = ButtonState.HOVER
-            }else{
-                changeableState.value = ButtonState.INITIAL
-            }
+    CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
+        OutlinedButton(
+            modifier = modifier
+                .defaultMinSize(minWidth = 1.dp, minHeight = 1.dp),
+            onClick = { onClick() },
+            interactionSource = interactionSource,
+            enabled = changeableState.value != ButtonState.DISABLED,
+            contentPadding = PaddingValues(horizontal = (25.85).dp, vertical = 10.dp),
+            border = outlinedBorderStroke(
+                width = 2,
+                color = colors.strokeColor(changeableState.value)
+            ),
+            colors = ButtonDefaults.buttonColors(
+                disabledContainerColor = colors.backgroundColor(changeableState.value),
+                disabledContentColor = colors.contentColor(changeableState.value),
+                containerColor = colors.backgroundColor(changeableState.value),
+                contentColor = colors.contentColor(changeableState.value)
+            )
+        ) {
+             AnimatedVisibility(visible = isPressed) {
+                 if (isPressed) {
+                     changeableState.value = ButtonState.PRESSED
+                 }else{
+                     changeableState.value = ButtonState.INITIAL
+                 }
+             }
+            Image(painter = painterResource(id = icon)
+                , contentDescription = stringResource(id = contentDescription))
         }
-        Image(painter = painterResource(id = icon)
-            , contentDescription = stringResource(id = contentDescription))
     }
 }
 
@@ -153,34 +163,36 @@ fun TextButton(
 {
     val interactionSource = remember { MutableInteractionSource() }
     val changeableState = remember { mutableStateOf(state) }
-    val isHovered = interactionSource.collectIsPressedAsState().value ?: false
+    val isPressed = interactionSource.collectIsPressedAsState().value ?: false
 
-    TextButton(
-        //contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = colors.backgroundColor(changeableState.value),
-            contentColor = colors.contentColor(changeableState.value),
-            disabledContainerColor = colors.backgroundColor(changeableState.value),
-            disabledContentColor = colors.contentColor(changeableState.value)
-        ),
-        onClick = { onClick() },
-        interactionSource = interactionSource,
-        enabled = changeableState.value != ButtonState.DISABLED
-    ) {
-        AnimatedVisibility(visible = isHovered) {
-            if (isHovered) {
-                changeableState.value = ButtonState.HOVER
-            }else{
-                changeableState.value = ButtonState.INITIAL
-            }
-        }
-        Text(
-            stringResource(
-                id = R.string.text_button
+    CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme){
+        TextButton(
+            //contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = colors.backgroundColor(changeableState.value),
+                contentColor = colors.contentColor(changeableState.value),
+                disabledContainerColor = colors.backgroundColor(changeableState.value),
+                disabledContentColor = colors.contentColor(changeableState.value)
             ),
-            color = colors.contentColor(changeableState.value),
-            style = MeetTheme.typography.subheading2
-        )
+            onClick = { onClick() },
+            interactionSource = interactionSource,
+            enabled = changeableState.value != ButtonState.DISABLED
+        ) {
+            AnimatedVisibility(visible = isPressed) {
+                if (isPressed) {
+                    changeableState.value = ButtonState.PRESSED
+                }else{
+                    changeableState.value = ButtonState.INITIAL
+                }
+            }
+            Text(
+                stringResource(
+                    id = R.string.text_button
+                ),
+                color = colors.contentColor(changeableState.value),
+                style = MeetTheme.typography.subheading2
+            )
+        }
     }
 }
 
@@ -189,5 +201,16 @@ fun outlinedBorderStroke(width: Int, color: Color) = BorderStroke(
     width = width.dp, color = color
 )
 
+private object NoRippleTheme : RippleTheme {
 
+    @Composable
+    override fun defaultColor() = Color.Red
 
+    @Composable
+    override fun rippleAlpha(): RippleAlpha = RippleAlpha(
+        0.0f,
+        0.0f,
+        0.0f,
+        0.0f
+    )
+}

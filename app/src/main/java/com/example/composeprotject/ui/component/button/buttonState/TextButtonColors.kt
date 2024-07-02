@@ -10,14 +10,14 @@ class TextButtonColors(
 ) : TextButtonColorsState {
     override fun backgroundColor(state: ButtonState): Color {
         return when(state){
-            ButtonState.INITIAL, ButtonState.HOVER, ButtonState.DISABLED -> params.backgroundColor
+            ButtonState.INITIAL, ButtonState.PRESSED, ButtonState.DISABLED -> params.backgroundColor
         }
     }
 
     override fun contentColor(state: ButtonState): Color {
         return when(state){
             ButtonState.INITIAL -> params.contentColorActive
-            ButtonState.HOVER -> params.contentColorHover
+            ButtonState.PRESSED -> params.contentColorHover
             ButtonState.DISABLED -> params.contentColorDisabled
         }
     }

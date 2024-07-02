@@ -11,7 +11,7 @@ class FilledButtonColors(
     override fun backgroundColor(state: ButtonState): Color {
         return when(state){
             ButtonState.INITIAL -> params.backgroundColorActive
-            ButtonState.HOVER -> params.backgroundColorHover
+            ButtonState.PRESSED -> params.backgroundColorHover
             ButtonState.DISABLED -> params.backgroundColorDisabled
         }
     }
@@ -19,7 +19,7 @@ class FilledButtonColors(
     override fun contentColor(state: ButtonState): Color {
         return when(state){
             ButtonState.INITIAL -> params.contentColorActive
-            ButtonState.HOVER -> params.contentColorHover
+            ButtonState.PRESSED -> params.contentColorHover
             ButtonState.DISABLED -> params.contentColorDisabled
         }
     }
