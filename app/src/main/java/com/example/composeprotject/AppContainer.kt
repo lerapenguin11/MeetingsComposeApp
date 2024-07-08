@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.composeprotject.navigation.BottomNavItem
+import com.example.composeprotject.navigation.DetailedNavItem
 import com.example.composeprotject.navigation.NavigationHost
 import com.example.composeprotject.navigation.navComponent.BottomNavigationBar
 import com.example.composeprotject.ui.component.toolbar.ActionMode
@@ -61,6 +62,7 @@ fun AppContainer() {
 @Composable
 private fun getToolbarTitleSlot(currentScreen: BottomNavItem?): String? {
     val mode = getToolbarTitle(currentScreen!!.route)
+
     return when(mode){
         ToolbarTitleMode.TITLE -> stringResource(id = currentScreen.name)
         ToolbarTitleMode.NONE -> null

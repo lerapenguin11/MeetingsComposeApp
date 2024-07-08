@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.composeprotject.navigation.BottomNavItem
+import com.example.composeprotject.navigation.DetailedNavItem
 
 class MainViewModel : ViewModel() {
 
@@ -13,4 +14,6 @@ class MainViewModel : ViewModel() {
     fun setCurrentScreen(screen: BottomNavItem) {
         _currentScreen.value = screen
     }
+
+
 }

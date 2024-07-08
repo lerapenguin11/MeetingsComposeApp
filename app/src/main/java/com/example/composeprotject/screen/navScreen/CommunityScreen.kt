@@ -10,11 +10,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavHostController
 import com.example.composeprotject.R
 import com.example.composeprotject.model.Community
 import com.example.composeprotject.navigation.BottomNavItem
+import com.example.composeprotject.navigation.DetailedNavItem
 import com.example.composeprotject.ui.component.card.CommunitiesCard
-import com.example.composeprotject.ui.component.divider.StandardDivider
 import com.example.composeprotject.ui.component.input.CustomSearchOutlinedTextField
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.MainViewModel
@@ -23,7 +24,9 @@ import com.example.composeprotject.viewModel.MainViewModel
 fun CommunityScreen(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
-    contentPadding : PaddingValues
+    contentPadding : PaddingValues,
+    navController: NavHostController,
+    onCommunityClick: (Int) -> Unit
 ){
     viewModel.setCurrentScreen(BottomNavItem.CommunityItem)
     Column(
@@ -40,7 +43,9 @@ fun CommunityScreen(
                 CommunitiesCard(
                     placeholderImage = R.drawable.ic_placeholder_community,
                     community = community,
-                    onClick = {/*TODO*/}
+                    onClick = {
+                        onCommunityClick(community.id)
+                    }
                 )
             }
         }

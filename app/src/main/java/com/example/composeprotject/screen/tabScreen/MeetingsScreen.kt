@@ -30,8 +30,6 @@ fun MeetingsScreen(activeEvent: ActiveEventVariant) {
                 placeholderImage = R.drawable.ic_avatar_meetings,
                 isActiveMeet = item.active
             )
-            Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX12))
-            StandardDivider()
         }
     }
 }

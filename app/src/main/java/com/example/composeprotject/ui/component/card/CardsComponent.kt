@@ -75,6 +75,8 @@ fun EventCard(
                 }
             }
         }
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX12))
+        StandardDivider()
     }
 }
 
