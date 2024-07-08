@@ -7,6 +7,8 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
@@ -32,6 +34,7 @@ import com.example.composeprotject.ui.component.button.buttonState.OutlinedButto
 import com.example.composeprotject.ui.component.button.buttonState.OutlinedButtonDefaults
 import com.example.composeprotject.ui.component.button.buttonState.TextButtonColors
 import com.example.composeprotject.ui.component.button.buttonState.TextButtonDefaults
+import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
 
 //TODO: delete R.string.text_button
@@ -40,7 +43,9 @@ import com.example.composeprotject.ui.theme.MeetTheme
 fun FilledButton(
     onClick: () -> Unit,
     state : ButtonState = ButtonState.INITIAL,
-    colors: FilledButtonColors = FilledButtonDefaults.colors()
+    colors: FilledButtonColors = FilledButtonDefaults.colors(),
+    buttonText : Int,
+    modifier: Modifier = Modifier
 ){
     val interactionSource = remember { MutableInteractionSource() }
     val changeableState = remember { mutableStateOf(state) }
@@ -48,10 +53,13 @@ fun FilledButton(
 
     CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme){
         Button(
+            modifier = modifier
+                .fillMaxWidth()
+                .height(height = 52.dp),
             onClick = { onClick() },
             interactionSource = interactionSource,
             enabled = state != ButtonState.DISABLED,
-            //contentPadding = PaddingValues(horizontal = 48.dp, vertical = 12.dp),
+            contentPadding = PaddingValues(vertical = 12.dp),
             colors = ButtonDefaults.buttonColors(
                 disabledContainerColor = colors.backgroundColor(changeableState.value),
                 containerColor = colors.backgroundColor(changeableState.value),
@@ -66,7 +74,11 @@ fun FilledButton(
                     changeableState.value = ButtonState.INITIAL
                 }
             }
-            Text(stringResource(id = R.string.text_button), style = MeetTheme.typography.subheading2)
+            BaseText(
+                text = stringResource(id = buttonText),
+                textStyle = MeetTheme.typography.subheading2,
+                textColor = MeetTheme.colors.neutralWhite
+            )
         }
     }
 }

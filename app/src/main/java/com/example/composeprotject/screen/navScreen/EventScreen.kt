@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavHostController
 import com.example.composeprotject.R
 import com.example.composeprotject.navigation.BottomNavItem
 import com.example.composeprotject.common.EventScreenVariant
@@ -20,7 +21,8 @@ import com.example.composeprotject.viewModel.MainViewModel
 fun EventScreen(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
-    contentPadding : PaddingValues
+    contentPadding: PaddingValues,
+    navController: NavHostController
 ){
     viewModel.setCurrentScreen(BottomNavItem.EventItem)
     val tabs = listOf(R.string.text_tab_all_events, R.string.text_tab_active_events)
@@ -35,6 +37,6 @@ fun EventScreen(
             textPlaceholder = stringResource(id = R.string.text_placeholder_input_search),
             isEnabled = true)
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
-        EventTab(tabs = tabs, eventScreenVariant = EventScreenVariant.EVENT_SCREEN)
+        EventTab(tabs = tabs, eventScreenVariant = EventScreenVariant.EVENT_SCREEN, navController = navController)
     }
 }

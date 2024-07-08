@@ -26,8 +26,11 @@ import com.example.composeprotject.model.CommunityMeetings
 import com.example.composeprotject.navigation.BottomNavItem
 import com.example.composeprotject.ui.component.card.EventCard
 import com.example.composeprotject.ui.component.text.BaseText
+import com.example.composeprotject.ui.component.text.ExpandableText
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.MainViewModel
+
+private const val MAX_LINE_DESC = 13
 
 @Composable
 fun CommunityDetailsScreen(
@@ -48,6 +51,7 @@ fun CommunityDetailsScreen(
         item {
             Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
             ExpandableText(
+                maxLines = MAX_LINE_DESC,
                 text = "Lorem ipsum dolor sit amet consectetur. Libero duis cum egestas amet mollis massa. Convallis sit lacus tortor interdum auctor viverra vitae. Egestas aliquam odio aenean eget facilisi ipsum vitae. Risus lectus quam urna condimentum id massa magna id mattis. Sit tempor volutpat ac eget dignissim nibh sagittis vitae duis. Vivamus quis fusce egestas vel sodales arcu praesent non. Ullamcorper elit sit eros egestas euismod amet. Nec molestie a sit sed. At neque diam turpis cursus tincidunt nisi quam sed non. Tempor tortor ultricies ultrices maecenas lectus in nunc sapien dapibus.\n" +
                         "Volutpat placerat et placerat felis tristique quis. Pharetra velit faucibus lobortis vitae dui. Nibh diam velit hendrerit posuere vel ut augue varius velit. Eu eget ipsum vulputate consectetur adipiscing est mollis eleifend quisque. Porttitor senectus nibh molestie faucibus sit mi risus eget. Vivamus dolor ac tortor nibh. Metus amet odio id magna. Augue ac commodo sem varius purus eros eu pharetra nec.\n" +
                         "Bibendum eget donec senectus turpis massa. Magna nunc diam pellentesque egestas sit auctor. Ullamcorper placerat blandit eget scelerisque adipiscing nisi tellus. Aliquam aliquet arcu diam cursus. Egestas duis tellus etiam molestie imperdiet. Tellus turpis purus ligula odio at facilisi. Felis sed in adipiscing ut et amet eros at. Tortor tempor habitasse molestie sed enim condimentum. Purus tellus nec lacus nisl eu sit venenatis elit. Nunc at lacus sit iaculis et volutpat. Elit id vulputate non sed placerat neque parturient egestas. Proin pellentesque bibendum volutpat adipiscing sagittis habitant elit.\n" +
@@ -115,31 +119,3 @@ private fun communityEventList() = listOf<CommunityMeetings>(
         activeEvent = true
     )
 )
-
-@Composable
-fun ExpandableText(
-    text: String,
-    maxLines: Int = 13
-) {
-    var isExpanded by remember { mutableStateOf(false) }
-    Column(modifier = Modifier
-        .animateContentSize(animationSpec = tween(100))
-        .clickable(
-            interactionSource = remember { MutableInteractionSource() },
-            indication = null
-        ) { isExpanded = !isExpanded }) {
-        if (isExpanded) {
-            BaseText(
-                text = text,
-                textStyle = MeetTheme.typography.metadata1,
-                textColor = MeetTheme.colors.neutralWeak)
-        } else {
-            Text(
-                text = text,
-                maxLines = maxLines,
-                overflow = TextOverflow.Ellipsis,
-                color = MeetTheme.colors.neutralWeak,
-                style = MeetTheme.typography.metadata1)
-        }
-    }
-}

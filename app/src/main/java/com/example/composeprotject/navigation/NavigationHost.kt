@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.composeprotject.screen.detailsScreen.CommunityDetailsScreen
 import com.example.composeprotject.screen.ProfileScreen
+import com.example.composeprotject.screen.detailsScreen.EventDetailsScreen
 import com.example.composeprotject.screen.navScreen.CommunityScreen
 import com.example.composeprotject.screen.navScreen.EventScreen
 import com.example.composeprotject.viewModel.MainViewModel
@@ -27,7 +28,7 @@ fun NavigationHost(
         startDestination = BottomNavItem.EventItem.route
     ) {
         composable(BottomNavItem.EventItem.route) {
-            EventScreen(viewModel = viewModel, contentPadding = contentPadding)
+            EventScreen(viewModel = viewModel, contentPadding = contentPadding, navController = navController)
         }
 
         composable(BottomNavItem.CommunityItem.route) {
@@ -59,6 +60,10 @@ fun NavigationHost(
                 contentPadding = contentPadding,
                 communityName = communityName,
                 viewModel = viewModel)
+        }
+        composable("detailed") { backStackEntry ->
+            EventDetailsScreen(
+                contentPadding = contentPadding/*backStackEntry.arguments?.getInt("id")*/)
         }
     }
 }

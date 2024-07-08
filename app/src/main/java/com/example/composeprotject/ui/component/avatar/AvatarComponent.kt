@@ -35,6 +35,8 @@ import com.example.composeprotject.ui.component.variant.avatar.ProfileAvatarVari
 import com.example.composeprotject.ui.component.variant.avatar.AvatarState
 import com.example.composeprotject.ui.theme.MeetTheme
 
+private const val MAX_SHOW_AVATARS = 5
+
 @Composable
 fun ProfileAvatarContainer(
     variant: ProfileAvatarVariant = ProfileAvatarVariant.LARGE,
@@ -127,7 +129,7 @@ fun AvatarStatus(
 @Composable
 fun AttendeesRow(
     avatarList : List<String>,
-    maxShowAvatars : Int = 5,
+    maxShowAvatars : Int = MAX_SHOW_AVATARS,
     modifier: Modifier = Modifier
 ){
     Row(

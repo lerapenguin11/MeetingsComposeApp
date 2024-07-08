@@ -3,13 +3,14 @@ package com.example.composeprotject.screen.tabScreen
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 import com.example.composeprotject.R
 import com.example.composeprotject.common.ActiveEventVariant
 import com.example.composeprotject.model.Event
 import com.example.composeprotject.ui.component.card.EventCard
 
 @Composable
-fun MeetingsScreen(activeEvent: ActiveEventVariant) {
+fun MeetingsScreen(activeEvent: ActiveEventVariant, navController: NavHostController) {
     LazyColumn {
         items(
             when(activeEvent){
@@ -25,7 +26,7 @@ fun MeetingsScreen(activeEvent: ActiveEventVariant) {
                 avatarUrl = item.avatarUrl,
                 placeholderImage = R.drawable.ic_avatar_meetings,
                 isActiveMeet = item.active,
-                onClick = {/*TODO*/}
+                onClick = {navController.navigate("detailed")}
             )
         }
     }
