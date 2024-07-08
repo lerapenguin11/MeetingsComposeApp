@@ -9,9 +9,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.example.composeprotject.R
+import com.example.composeprotject.model.Community
 import com.example.composeprotject.navigation.BottomNavItem
 import com.example.composeprotject.ui.component.card.CommunitiesCard
 import com.example.composeprotject.ui.component.divider.StandardDivider
@@ -25,7 +25,7 @@ fun CommunityScreen(
     viewModel: MainViewModel,
     contentPadding : PaddingValues
 ){
-    viewModel.setCurrentScreen(BottomNavItem.Community)
+    viewModel.setCurrentScreen(BottomNavItem.CommunityItem)
     Column(
         modifier = modifier
             .padding(contentPadding)
@@ -47,13 +47,6 @@ fun CommunityScreen(
         }
     }
 }
-
-data class Community(
-    val id : Int,
-    val avatarUrl : String,
-    val nameGroup : String,
-    val numberPeople : Int
-)
 
 fun communityList() = listOf<Community>(
     Community(

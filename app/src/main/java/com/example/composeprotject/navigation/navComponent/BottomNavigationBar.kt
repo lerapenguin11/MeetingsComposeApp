@@ -33,7 +33,7 @@ fun BottomNavigationBar(
     items: List<BottomNavItem> = navItems,
     modifier: Modifier = Modifier
 ) {
-    val selectedMenuItem = remember { mutableStateOf<BottomNavItem>(BottomNavItem.Event) }
+    val selectedMenuItem = remember { mutableStateOf<BottomNavItem>(BottomNavItem.EventItem) }
 
     NavigationBar(
         containerColor = MeetTheme.colors.neutralWhite,

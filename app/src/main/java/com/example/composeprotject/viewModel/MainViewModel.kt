@@ -7,7 +7,7 @@ import com.example.composeprotject.navigation.BottomNavItem
 
 class MainViewModel : ViewModel() {
 
-    private val _currentScreen = MutableLiveData<BottomNavItem>(BottomNavItem.Event)
+    private val _currentScreen = MutableLiveData<BottomNavItem>(BottomNavItem.EventItem)
     val currentScreen: LiveData<BottomNavItem> = _currentScreen
 
     fun setCurrentScreen(screen: BottomNavItem) {

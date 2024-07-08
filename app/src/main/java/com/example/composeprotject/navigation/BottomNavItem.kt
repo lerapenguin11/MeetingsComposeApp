@@ -7,23 +7,23 @@ sealed class BottomNavItem(
     val name: Int,
     val icon: Int
 ) {
-    data object Event : BottomNavItem(
+    data object EventItem : BottomNavItem(
         route = "EVENT_SCREEN",
         name = R.string.text_event,
         icon = R.drawable.ic_menu_event,
     )
-    data object Community : BottomNavItem(
+    data object CommunityItem : BottomNavItem(
         route = "COMMUNITY_SCREEN",
         name = R.string.text_community,
         icon = R.drawable.ic_menu_community)
-    data object Still : BottomNavItem(
+    data object StillItem : BottomNavItem(
         route = "STILL_SCREEN",
         name = R.string.text_still,
         icon = R.drawable.ic_menu_still)
 }
 
 val navItems = listOf(
-    BottomNavItem.Event,
-    BottomNavItem.Community,
-    BottomNavItem.Still
+    BottomNavItem.EventItem,
+    BottomNavItem.CommunityItem,
+    BottomNavItem.StillItem
 )
