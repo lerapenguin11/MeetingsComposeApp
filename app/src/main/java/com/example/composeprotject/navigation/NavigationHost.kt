@@ -35,8 +35,9 @@ fun NavigationHost(
                 viewModel = viewModel,
                 contentPadding = contentPadding,
                 navController = navController,
-                onCommunityClick = { communityId ->
-                    navController.navigate("${DetailedNavItem.CommunityDetailsItem.route}/$communityId")
+                onCommunityClick = { community ->
+                    navController.navigate(
+                        route = "${BottomNavItem.CommunityDetailsItem.route}/${community.id}/${community.nameGroup}")
                 })
         }
 
@@ -44,14 +45,20 @@ fun NavigationHost(
             ProfileScreen(viewModel = viewModel, contentPadding = contentPadding) //TODO: поменять на StillScreen
         }
         composable(
-            route = "${DetailedNavItem.CommunityDetailsItem.route}/{communityId}",
-            arguments = listOf(navArgument("communityId") { type = NavType.IntType })
+            route = "${BottomNavItem.CommunityDetailsItem.route}/{communityId}/{communityName}",
+            arguments = listOf(
+                navArgument("communityId") { type = NavType.IntType },
+                navArgument("communityName"){type = NavType.StringType}
+            )
         ) { backStackEntry ->
             val communityId = backStackEntry.arguments?.getInt("communityId")
+            val communityName = backStackEntry.arguments?.getString("communityName")
             CommunityDetailsScreen(
                 navController = navController,
                 communityId = communityId,
-                contentPadding = contentPadding)
+                contentPadding = contentPadding,
+                communityName = communityName,
+                viewModel = viewModel)
         }
     }
 }

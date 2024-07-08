@@ -5,7 +5,7 @@ import com.example.composeprotject.R
 sealed class BottomNavItem(
     val route: String,
     val name: Int,
-    val icon: Int
+    val icon: Int?
 ) {
     data object EventItem : BottomNavItem(
         route = "EVENT_SCREEN",
@@ -20,6 +20,15 @@ sealed class BottomNavItem(
         route = "STILL_SCREEN",
         name = R.string.text_still,
         icon = R.drawable.ic_menu_still)
+    data object StilItem : BottomNavItem(
+        route = "STILL_SCREEN",
+        name = R.string.text_still,
+        icon = R.drawable.ic_menu_still)
+    data object CommunityDetailsItem : BottomNavItem(
+        route = "COMMUNITY_DETAILS",
+        name = R.string.text_community_details,
+        icon = null
+    )
 }
 
 val navItems = listOf(

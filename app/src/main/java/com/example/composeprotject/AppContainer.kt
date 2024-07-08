@@ -15,7 +15,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.composeprotject.navigation.BottomNavItem
-import com.example.composeprotject.navigation.DetailedNavItem
 import com.example.composeprotject.navigation.NavigationHost
 import com.example.composeprotject.navigation.navComponent.BottomNavigationBar
 import com.example.composeprotject.ui.component.toolbar.ActionMode
@@ -36,13 +35,14 @@ fun AppContainer() {
     val navController = rememberNavController()
     val viewModel: MainViewModel = viewModel()
     val currentScreen by viewModel.currentScreen.observeAsState()
+    val detailedTitle by viewModel.titleDetailedScreen.observeAsState()
 
     val topBar : @Composable () -> Unit = {
         CustomToolbar(
             navigationIcon = getNavigationIconSlot(currentScreen),
             actions = getActionsSlot(currentScreen),
             toolbarTitle = ToolbarTitle(
-            titleText = getToolbarTitleSlot(currentScreen),
+            titleText = getToolbarTitleSlot(currentScreen, detailedTitle),
             expandedTextStyle = MeetTheme.typography.subheading1,
             titleColor = MeetTheme.colors.neutralActive)
         )
@@ -60,11 +60,12 @@ fun AppContainer() {
 }
 
 @Composable
-private fun getToolbarTitleSlot(currentScreen: BottomNavItem?): String? {
+private fun getToolbarTitleSlot(currentScreen: BottomNavItem?, detailedTitle: String?): String? {
     val mode = getToolbarTitle(currentScreen!!.route)
 
     return when(mode){
         ToolbarTitleMode.TITLE -> stringResource(id = currentScreen.name)
+        ToolbarTitleMode.CHANGING_TITLE -> detailedTitle
         ToolbarTitleMode.NONE -> null
     }
 }

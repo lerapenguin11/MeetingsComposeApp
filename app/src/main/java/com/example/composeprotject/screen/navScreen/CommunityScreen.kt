@@ -14,7 +14,6 @@ import androidx.navigation.NavHostController
 import com.example.composeprotject.R
 import com.example.composeprotject.model.Community
 import com.example.composeprotject.navigation.BottomNavItem
-import com.example.composeprotject.navigation.DetailedNavItem
 import com.example.composeprotject.ui.component.card.CommunitiesCard
 import com.example.composeprotject.ui.component.input.CustomSearchOutlinedTextField
 import com.example.composeprotject.ui.theme.MeetTheme
@@ -26,7 +25,7 @@ fun CommunityScreen(
     viewModel: MainViewModel,
     contentPadding : PaddingValues,
     navController: NavHostController,
-    onCommunityClick: (Int) -> Unit
+    onCommunityClick: (Community) -> Unit
 ){
     viewModel.setCurrentScreen(BottomNavItem.CommunityItem)
     Column(
@@ -44,7 +43,7 @@ fun CommunityScreen(
                     placeholderImage = R.drawable.ic_placeholder_community,
                     community = community,
                     onClick = {
-                        onCommunityClick(community.id)
+                        onCommunityClick(community)
                     }
                 )
             }

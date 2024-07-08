@@ -60,7 +60,7 @@ fun BottomNavigationBar(
                                     .background(color = MeetTheme.colors.neutralActive))
                         }else{
                             Icon(
-                                painter = painterResource(id = navItem.icon),
+                                painter = painterResource(id = navItem.icon!!),
                                 contentDescription = stringResource(id = navItem.name),
                             )
                         }

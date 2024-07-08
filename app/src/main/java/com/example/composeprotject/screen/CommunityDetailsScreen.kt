@@ -27,14 +27,19 @@ import com.example.composeprotject.navigation.BottomNavItem
 import com.example.composeprotject.ui.component.card.EventCard
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.composeprotject.viewModel.MainViewModel
 
 @Composable
 fun CommunityDetailsScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     communityId: Int?,
-    contentPadding: PaddingValues
+    contentPadding: PaddingValues,
+    communityName: String?,
+    viewModel: MainViewModel,
 ) {
+    viewModel.setCurrentScreen(BottomNavItem.CommunityDetailsItem)
+    viewModel.setTitleDetailedScreen(communityName ?: "Community name")
     LazyColumn(
         modifier = modifier
             .padding(contentPadding)
@@ -82,7 +87,7 @@ private fun communityEventList() = listOf<CommunityMeetings>(
         dateLocation = "13.09.2024 — Москва",
         tags = listOf<String>("Python", "Junior","Moscow"),
         avatarUrl = "",
-        activeEvent = true
+        activeEvent = false
     ),
     CommunityMeetings(
         communityId = 2,
@@ -98,7 +103,7 @@ private fun communityEventList() = listOf<CommunityMeetings>(
         dateLocation = "13.09.2024 — Москва",
         tags = listOf<String>("Python", "Junior","Moscow"),
         avatarUrl = "",
-        activeEvent = true
+        activeEvent = false
     ),
     CommunityMeetings(
         communityId = 3,
