@@ -31,14 +31,19 @@ import com.example.composeprotject.ui.theme.MeetTheme
 
 @Composable
 fun EventCard(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+    placeholderImage : Int,
     meetingName : String,
     dateLocation : String,
     tags : List<String>,
-    placeholderImage : Int,
     avatarUrl : String,
-    modifier: Modifier = Modifier,
-    isActiveMeet : Boolean = true){
-    Column(modifier = modifier.background(color = MeetTheme.colors.neutralWhite)) {
+    isActiveMeet : Boolean = true
+){
+    Column(modifier = modifier
+        .background(color = MeetTheme.colors.neutralWhite)
+        .clickable(onClick = onClick)
+    ) {
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
         Card(
             colors = CardDefaults.cardColors(
@@ -90,7 +95,8 @@ fun CommunitiesCard(
     val textNumberPeople = "${formatNumberWithSpaces(community.numberPeople)} ${stringResource(id = R.string.text_people)}"
     Column(modifier = modifier
         .background(color = MeetTheme.colors.neutralWhite)
-        .clickable(onClick = onClick)) {
+        .clickable(onClick = onClick)
+    ) {
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
         Card(
             colors = CardDefaults.cardColors(

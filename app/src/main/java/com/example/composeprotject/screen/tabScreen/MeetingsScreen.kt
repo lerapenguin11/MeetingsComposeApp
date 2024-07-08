@@ -28,7 +28,8 @@ fun MeetingsScreen(activeEvent: ActiveEventVariant) {
                 tags = item.tags,
                 avatarUrl = item.avatarUrl,
                 placeholderImage = R.drawable.ic_avatar_meetings,
-                isActiveMeet = item.active
+                isActiveMeet = item.active,
+                onClick = {/*TODO*/}
             )
         }
     }

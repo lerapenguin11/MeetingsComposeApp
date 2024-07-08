@@ -66,7 +66,8 @@ fun CommunityDetailsScreen(
                 tags = event.tags,
                 avatarUrl = event.avatarUrl,
                 placeholderImage = R.drawable.ic_avatar_meetings,
-                isActiveMeet = event.activeEvent
+                isActiveMeet = event.activeEvent,
+                onClick = {/*TODO*/}
             )
         }
     }
