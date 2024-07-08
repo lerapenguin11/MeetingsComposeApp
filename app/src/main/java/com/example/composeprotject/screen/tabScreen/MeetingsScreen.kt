@@ -1,16 +1,12 @@
 package com.example.composeprotject.screen.tabScreen
 
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import com.example.composeprotject.R
 import com.example.composeprotject.common.ActiveEventVariant
+import com.example.composeprotject.model.Event
 import com.example.composeprotject.ui.component.card.EventCard
-import com.example.composeprotject.ui.component.divider.StandardDivider
-import com.example.composeprotject.ui.theme.MeetTheme
 
 @Composable
 fun MeetingsScreen(activeEvent: ActiveEventVariant) {
@@ -35,16 +31,9 @@ fun MeetingsScreen(activeEvent: ActiveEventVariant) {
     }
 }
 
-data class Event(
-    val meetingName : String,
-    val dateLocation : String,
-    val tags : List<String>,
-    val avatarUrl : String,
-    val active : Boolean
-)
-
 fun eventList() = arrayListOf<Event>(
     Event(
+        eventId = 0,
         meetingName = "Developer meeting",
         dateLocation = "13.09.2024 — Москва",
         tags = listOf<String>("Python", "Junior","Moscow"),
@@ -52,6 +41,7 @@ fun eventList() = arrayListOf<Event>(
         active = true
     ),
     Event(
+        eventId = 1,
         meetingName = "Developer meeting",
         dateLocation = "13.09.2024 — Москва",
         tags = listOf<String>("Python", "Junior","Moscow"),
@@ -59,6 +49,7 @@ fun eventList() = arrayListOf<Event>(
         active = false
     ),
     Event(
+        eventId = 2,
         meetingName = "Developer meeting",
         dateLocation = "13.09.2024 — Москва",
         tags = listOf<String>("Python", "Junior","Moscow"),
@@ -66,6 +57,7 @@ fun eventList() = arrayListOf<Event>(
         active = false
     ),
     Event(
+        eventId = 3,
         meetingName = "Developer meeting",
         dateLocation = "13.09.2024 — Москва",
         tags = listOf<String>("Python", "Junior","Moscow"),
@@ -73,6 +65,7 @@ fun eventList() = arrayListOf<Event>(
         active = true
     ),
     Event(
+        eventId = 4,
         meetingName = "Developer meeting",
         dateLocation = "13.09.2024 — Москва",
         tags = listOf<String>("Python", "Junior","Moscow"),
@@ -80,6 +73,7 @@ fun eventList() = arrayListOf<Event>(
         active = true
     ),
     Event(
+        eventId = 5,
         meetingName = "Developer meeting",
         dateLocation = "13.09.2024 — Москва",
         tags = listOf<String>("Python", "Junior","Moscow"),
@@ -87,6 +81,7 @@ fun eventList() = arrayListOf<Event>(
         active = true
     ),
     Event(
+        eventId = 6,
         meetingName = "Developer meeting",
         dateLocation = "13.09.2024 — Москва",
         tags = listOf<String>("Python", "Junior","Moscow"),
