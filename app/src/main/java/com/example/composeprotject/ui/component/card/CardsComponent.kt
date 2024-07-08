@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
+import com.example.composeprotject.screen.navScreen.Community
 import com.example.composeprotject.ui.component.avatar.RoundedAvatarMeetings
 import com.example.composeprotject.ui.component.chip.Chip
 import com.example.composeprotject.ui.component.divider.StandardDivider
@@ -79,14 +80,12 @@ fun EventCard(
 @Composable
 fun CommunitiesCard(
     placeholderImage : Int,
-    avatarUrl : String,
     modifier: Modifier = Modifier,
-    nameGroup : String,
-    numberPeople : Int,
+    community: Community
 ){
-    val textNumberPeople = "${formatNumberWithSpaces(numberPeople)} ${stringResource(id = R.string.text_people)}"
+    val textNumberPeople = "${formatNumberWithSpaces(community.numberPeople)} ${stringResource(id = R.string.text_people)}"
     Column(modifier = modifier.background(color = MeetTheme.colors.neutralWhite)) {
-        Spacer(modifier = modifier.height(16.dp))
+        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
         Card(
             colors = CardDefaults.cardColors(
                 containerColor = Color.Transparent,
@@ -95,22 +94,20 @@ fun CommunitiesCard(
             modifier = modifier.fillMaxWidth()
         ){
             Row(modifier = modifier, verticalAlignment = Alignment.Top) {
-                RoundedAvatarMeetings(placeholderImage = placeholderImage, avatarUrl = avatarUrl)
-                Spacer(modifier = modifier.width(12.dp))
+                RoundedAvatarMeetings(placeholderImage = placeholderImage, avatarUrl = community.avatarUrl)
+                Spacer(modifier = modifier.width(MeetTheme.sizes.sizeX12))
                 Column {
-                    BaseText(text = nameGroup,
+                    BaseText(text = community.nameGroup,
                         textColor = MeetTheme.colors.neutralActive,
                         textStyle = MeetTheme.typography.bodyText1)
-                    Spacer(modifier = modifier.height(2.dp))
+                    Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX2))
                     BaseText(text = textNumberPeople,
                         textColor = MeetTheme.colors.neutralDisabled,
                         textStyle = MeetTheme.typography.metadata1)
-                    Spacer(modifier = modifier.height(10.dp))
+                    Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX12))
                 }
             }
         }
-        Spacer(modifier = modifier.height(12.dp))
-        StandardDivider()
     }
 }
 

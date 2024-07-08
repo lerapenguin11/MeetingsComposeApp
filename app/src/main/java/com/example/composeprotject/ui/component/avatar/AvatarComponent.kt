@@ -170,9 +170,9 @@ fun RoundedAvatarMeetings(
 ) {
     Box(
         modifier = modifier
-            .size(56.dp)
+            .size(MeetTheme.sizes.sizeX56)
             .padding(all = MeetTheme.sizes.sizeX4)
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(MeetTheme.sizes.sizeX16))
             .background(color = Color.White)
     ) {
         AsyncImage(

@@ -28,7 +28,7 @@ fun EventScreen(
     Column(
         modifier = Modifier
             .padding(contentPadding)
-            .padding(horizontal = MeetTheme.sizes.sizeX24),
+            .padding(horizontal = MeetTheme.sizes.sizeX24)
     ) {
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
         CustomSearchOutlinedTextField(

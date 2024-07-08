@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.composeprotject.screen.MyMeetingsScreen
 import com.example.composeprotject.screen.ProfileScreen
+import com.example.composeprotject.screen.navScreen.CommunityScreen
 import com.example.composeprotject.screen.navScreen.EventScreen
 import com.example.composeprotject.viewModel.MainViewModel
 
@@ -28,7 +29,7 @@ fun NavigationHost(
         }
 
         composable(BottomNavItem.Community.route) {
-            MyMeetingsScreen(viewModel = viewModel, contentPadding = contentPadding) //TODO: поменять на CommunityScreen
+            CommunityScreen(viewModel = viewModel, contentPadding = contentPadding)
         }
 
         composable(BottomNavItem.Still.route) {
