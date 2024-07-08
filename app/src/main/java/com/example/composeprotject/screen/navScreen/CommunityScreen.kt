@@ -39,10 +39,9 @@ fun CommunityScreen(
             items(communityList()) { community ->
                 CommunitiesCard(
                     placeholderImage = R.drawable.ic_placeholder_community,
-                    community = community
+                    community = community,
+                    onClick = {/*TODO*/}
                 )
-                Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX12))
-                StandardDivider()
             }
         }
     }

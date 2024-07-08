@@ -1,6 +1,7 @@
 package com.example.composeprotject.ui.component.card
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,7 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
-import com.example.composeprotject.screen.navScreen.Community
+import com.example.composeprotject.model.Community
 import com.example.composeprotject.ui.component.avatar.RoundedAvatarMeetings
 import com.example.composeprotject.ui.component.chip.Chip
 import com.example.composeprotject.ui.component.divider.StandardDivider
@@ -81,17 +82,21 @@ fun EventCard(
 fun CommunitiesCard(
     placeholderImage : Int,
     modifier: Modifier = Modifier,
-    community: Community
+    community: Community,
+    onClick: () -> Unit
 ){
     val textNumberPeople = "${formatNumberWithSpaces(community.numberPeople)} ${stringResource(id = R.string.text_people)}"
-    Column(modifier = modifier.background(color = MeetTheme.colors.neutralWhite)) {
+    Column(modifier = modifier
+        .background(color = MeetTheme.colors.neutralWhite)
+        .clickable(onClick = onClick)) {
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
         Card(
             colors = CardDefaults.cardColors(
                 containerColor = Color.Transparent,
             ),
             shape = RoundedCornerShape(0.dp),
-            modifier = modifier.fillMaxWidth()
+            modifier = modifier
+                .fillMaxWidth()
         ){
             Row(modifier = modifier, verticalAlignment = Alignment.Top) {
                 RoundedAvatarMeetings(placeholderImage = placeholderImage, avatarUrl = community.avatarUrl)
@@ -107,6 +112,8 @@ fun CommunitiesCard(
                     Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX12))
                 }
             }
+            Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX12))
+            StandardDivider()
         }
     }
 }
