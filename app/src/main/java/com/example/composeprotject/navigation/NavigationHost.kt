@@ -9,7 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.composeprotject.screen.CommunityDetailsScreen
+import com.example.composeprotject.screen.detailsScreen.CommunityDetailsScreen
 import com.example.composeprotject.screen.ProfileScreen
 import com.example.composeprotject.screen.navScreen.CommunityScreen
 import com.example.composeprotject.screen.navScreen.EventScreen

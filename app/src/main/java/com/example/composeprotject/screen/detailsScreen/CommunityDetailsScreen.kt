@@ -1,4 +1,4 @@
-package com.example.composeprotject.screen
+package com.example.composeprotject.screen.detailsScreen
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
@@ -59,7 +59,7 @@ fun CommunityDetailsScreen(
                 textStyle = MeetTheme.typography.bodyText1,
                 textColor = MeetTheme.colors.neutralWeak)
         }
-        items(communityEventList().filter { communityId == it.communityId }){event ->
+        items(communityEventList().filter { communityId == it.communityId }){ event ->
             EventCard(
                 meetingName = event.meetingName,
                 dateLocation = event.dateLocation,
