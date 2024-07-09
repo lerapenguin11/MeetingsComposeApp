@@ -59,7 +59,7 @@ fun FilledButton(
             onClick = { onClick() },
             interactionSource = interactionSource,
             enabled = state != ButtonState.DISABLED,
-            contentPadding = PaddingValues(vertical = 12.dp),
+            contentPadding = PaddingValues(vertical = MeetTheme.sizes.sizeX12),
             colors = ButtonDefaults.buttonColors(
                 disabledContainerColor = colors.backgroundColor(changeableState.value),
                 containerColor = colors.backgroundColor(changeableState.value),
