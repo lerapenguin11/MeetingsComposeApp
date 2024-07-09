@@ -22,6 +22,7 @@ fun EventScreen(
     viewModel: MainViewModel,
     contentPadding : PaddingValues
 ){
+    viewModel.setCurrentScreenShowTopBar(true)
     viewModel.setCurrentScreen(BottomNavItem.Event)
     val tabs = listOf(R.string.text_tab_all_events, R.string.text_tab_active_events)
 

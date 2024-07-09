@@ -13,6 +13,7 @@ import com.example.composeprotject.viewModel.MainViewModel
 @Composable
 fun StillScreen(modifier: Modifier = Modifier, viewModel: MainViewModel){
     //viewModel.setCurrentScreen(BottomNavItems.Still)
+    viewModel.setCurrentScreenShowTopBar(true)
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,

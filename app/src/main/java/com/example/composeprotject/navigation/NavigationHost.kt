@@ -42,7 +42,8 @@ fun NavigationHost(
             SplashScreen(
                 viewModel = splashScreenViewModel,
                 navController = navController,
-                contentPadding = contentPadding)
+                contentPadding = contentPadding,
+                mainViewModel = mainViewModel)
         }
     }
 }

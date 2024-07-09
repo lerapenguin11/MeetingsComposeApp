@@ -35,8 +35,10 @@ import com.example.composeprotject.viewModel.SplashScreenViewModel
 fun AppContainer() {
     val navController = rememberNavController()
     val viewModel: MainViewModel = viewModel()
-    val splashScreenViewModel : SplashScreenViewModel = viewModel()
+    val splashScreenViewModel: SplashScreenViewModel = viewModel()
     val currentScreen by viewModel.currentScreen.observeAsState()
+    val showTopBar by viewModel.showTopBar.observeAsState()
+    val showBottomBar by viewModel.showBottomBar.observeAsState()
 
     val topBar: @Composable () -> Unit = {
         CustomToolbar(
@@ -53,15 +55,22 @@ fun AppContainer() {
         modifier = Modifier.fillMaxSize(),
         containerColor = MeetTheme.colors.neutralWhite,
         topBar = {
-            topBar()
+            if (showTopBar!!){
+                topBar()
+            }
         },
-        bottomBar = { BottomNavigationBar(navController) }
+        bottomBar = {
+            if (showBottomBar!!){
+                BottomNavigationBar(navController)
+            }
+        }
     ) { contentPadding ->
         NavigationHost(
             navController = navController,
             contentPadding = contentPadding,
             mainViewModel = viewModel,
-            splashScreenViewModel = splashScreenViewModel)
+            splashScreenViewModel = splashScreenViewModel
+        )
     }
 }
 

@@ -13,6 +13,7 @@ import com.example.composeprotject.viewModel.MainViewModel
 @Composable
 fun CommunityScreen(modifier: Modifier = Modifier, viewModel: MainViewModel){
     //viewModel.setCurrentScreen(BottomNavItems.Community)
+    viewModel.setCurrentScreenShowTopBar(true)
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
