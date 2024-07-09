@@ -19,9 +19,9 @@ import com.example.composeprotject.viewModel.MainViewModel
 fun MyMeetingsScreen(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
-    contentPadding : PaddingValues,
+    contentPadding: PaddingValues,
     navController: NavHostController
-){
+) {
     viewModel.setCurrentScreen(BottomNavItem.CommunityItem) //TODO: изменить
     val tabs = listOf(R.string.text_tab_my_event_plan, R.string.text_tab_my_event_passed)
 
@@ -29,7 +29,7 @@ fun MyMeetingsScreen(
         modifier = modifier
             .padding(contentPadding)
             .padding(horizontal = MeetTheme.sizes.sizeX24),
-    ){
+    ) {
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
         EventTab(
             tabs = tabs,

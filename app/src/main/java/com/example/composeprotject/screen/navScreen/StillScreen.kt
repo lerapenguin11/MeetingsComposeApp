@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import com.example.composeprotject.viewModel.MainViewModel
 
 @Composable
-fun StillScreen(modifier: Modifier = Modifier, viewModel: MainViewModel){
+fun StillScreen(modifier: Modifier = Modifier, viewModel: MainViewModel) {
     //viewModel.setCurrentScreen(BottomNavItems.Still)
     Column(
         modifier = modifier.fillMaxSize(),

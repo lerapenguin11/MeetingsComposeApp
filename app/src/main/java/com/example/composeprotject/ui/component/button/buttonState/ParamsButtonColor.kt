@@ -4,25 +4,25 @@ import androidx.compose.ui.graphics.Color
 
 data class ParamsFilledButtonColor(
     val backgroundColorActive: Color,
-    val backgroundColorHover : Color,
-    val backgroundColorDisabled : Color,
+    val backgroundColorHover: Color,
+    val backgroundColorDisabled: Color,
     val contentColorActive: Color,
     val contentColorHover: Color,
     val contentColorDisabled: Color
 )
 
 data class ParamsOutlinedButtonColor(
-    val backgroundColor : Color,
+    val backgroundColor: Color,
     val contentColorActive: Color,
     val contentColorHover: Color,
     val contentColorDisabled: Color,
-    val strokeColorActive : Color,
-    val strokeColorHover : Color,
-    val strokeColorDisabled : Color
+    val strokeColorActive: Color,
+    val strokeColorHover: Color,
+    val strokeColorDisabled: Color
 )
 
 data class ParamsTextButtonColor(
-    val backgroundColor : Color,
+    val backgroundColor: Color,
     val contentColorActive: Color,
     val contentColorHover: Color,
     val contentColorDisabled: Color

@@ -9,6 +9,6 @@ import com.example.composeprotject.ui.theme.MeetTheme
 fun StandardDivider() {
     HorizontalDivider(
         color = MeetTheme.colors.neutralLine,
-        thickness = 1.dp
+        thickness = MeetTheme.sizes.sizeX1
     )
 }

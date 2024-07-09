@@ -11,13 +11,13 @@ class MainViewModel : ViewModel() {
     val currentScreen: LiveData<BottomNavItem> = _currentScreen
 
     private val _titleDetailedScreen = MutableLiveData<String>()
-    val titleDetailedScreen : LiveData<String> = _titleDetailedScreen
+    val titleDetailedScreen: LiveData<String> = _titleDetailedScreen
 
     fun setCurrentScreen(screen: BottomNavItem) {
         _currentScreen.value = screen
     }
 
-    fun setTitleDetailedScreen(title : String){
+    fun setTitleDetailedScreen(title: String) {
         _titleDetailedScreen.value = title
     }
 }

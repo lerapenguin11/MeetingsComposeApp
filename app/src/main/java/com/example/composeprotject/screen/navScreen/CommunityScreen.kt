@@ -23,10 +23,10 @@ import com.example.composeprotject.viewModel.MainViewModel
 fun CommunityScreen(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
-    contentPadding : PaddingValues,
+    contentPadding: PaddingValues,
     navController: NavHostController,
     onCommunityClick: (Community) -> Unit
-){
+) {
     viewModel.setCurrentScreen(BottomNavItem.CommunityItem)
     Column(
         modifier = modifier
@@ -36,7 +36,8 @@ fun CommunityScreen(
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
         CustomSearchOutlinedTextField(
             textPlaceholder = stringResource(id = R.string.text_placeholder_input_search),
-            isEnabled = true)
+            isEnabled = true
+        )
         LazyColumn {
             items(communityList()) { community ->
                 CommunitiesCard(

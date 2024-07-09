@@ -22,12 +22,19 @@ private const val DURATION_OF_EXPANDABLE_TEXT_ANIMATION = 200
 
 @Composable
 fun BaseText(
-    textColor : Color = MeetTheme.colors.neutralActive,
-    textStyle : TextStyle = MeetTheme.typography.bodyText1,
-    text : String,
+    textColor: Color = MeetTheme.colors.neutralActive,
+    textStyle: TextStyle = MeetTheme.typography.bodyText1,
+    text: String,
     textAlign: TextAlign = TextAlign.Start,
-    modifier: Modifier = Modifier){
-    Text(text = text, color = textColor, style = textStyle, textAlign = textAlign, modifier = modifier)
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = text,
+        color = textColor,
+        style = textStyle,
+        textAlign = textAlign,
+        modifier = modifier
+    )
 }
 
 @Composable
@@ -46,22 +53,24 @@ fun ExpandableText(
             BaseText(
                 text = text,
                 textStyle = MeetTheme.typography.metadata1,
-                textColor = MeetTheme.colors.neutralWeak)
+                textColor = MeetTheme.colors.neutralWeak
+            )
         } else {
             Text(
                 text = text,
                 maxLines = maxLines,
                 overflow = TextOverflow.Ellipsis,
                 color = MeetTheme.colors.neutralWeak,
-                style = MeetTheme.typography.metadata1)
+                style = MeetTheme.typography.metadata1
+            )
         }
     }
 }
 
 data class TypographyStyleText(
-    val title : String,
-    val subtitle : String,
-    val titleTextStyle : TextStyle,
-    val subtitleTextStyle : TextStyle,
-    val textStyle : TextStyle
+    val title: String,
+    val subtitle: String,
+    val titleTextStyle: TextStyle,
+    val subtitleTextStyle: TextStyle,
+    val textStyle: TextStyle
 )

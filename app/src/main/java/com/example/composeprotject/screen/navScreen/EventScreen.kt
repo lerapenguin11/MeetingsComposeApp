@@ -23,7 +23,7 @@ fun EventScreen(
     viewModel: MainViewModel,
     contentPadding: PaddingValues,
     navController: NavHostController
-){
+) {
     viewModel.setCurrentScreen(BottomNavItem.EventItem)
     val tabs = listOf(R.string.text_tab_all_events, R.string.text_tab_active_events)
 
@@ -35,8 +35,13 @@ fun EventScreen(
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
         CustomSearchOutlinedTextField(
             textPlaceholder = stringResource(id = R.string.text_placeholder_input_search),
-            isEnabled = true)
+            isEnabled = true
+        )
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
-        EventTab(tabs = tabs, eventScreenVariant = EventScreenVariant.EVENT_SCREEN, navController = navController)
+        EventTab(
+            tabs = tabs,
+            eventScreenVariant = EventScreenVariant.EVENT_SCREEN,
+            navController = navController
+        )
     }
 }

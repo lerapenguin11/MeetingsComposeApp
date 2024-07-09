@@ -26,7 +26,9 @@ import com.example.composeprotject.navigation.BottomNavItem
 import com.example.composeprotject.navigation.navItems
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
+
 //TODO: переписать
+
 @Composable
 fun BottomNavigationBar(
     navController: NavController,
@@ -48,17 +50,19 @@ fun BottomNavigationBar(
                 label = null,
                 icon = {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        if (isSelected){
+                        if (isSelected) {
                             BaseText(
                                 text = stringResource(id = navItem.name),
-                                textStyle = MeetTheme.typography.bodyText1)
+                                textStyle = MeetTheme.typography.bodyText1
+                            )
                             Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX4))
                             Box(
                                 modifier = modifier
                                     .size(4.dp)
                                     .clip(CircleShape)
-                                    .background(color = MeetTheme.colors.neutralActive))
-                        }else{
+                                    .background(color = MeetTheme.colors.neutralActive)
+                            )
+                        } else {
                             Icon(
                                 painter = painterResource(id = navItem.icon!!),
                                 contentDescription = stringResource(id = navItem.name),

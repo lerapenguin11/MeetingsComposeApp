@@ -33,16 +33,17 @@ import com.example.composeprotject.ui.theme.MeetTheme
 fun EventCard(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    placeholderImage : Int,
-    meetingName : String,
-    dateLocation : String,
-    tags : List<String>,
-    avatarUrl : String,
-    isActiveMeet : Boolean = true
-){
-    Column(modifier = modifier
-        .background(color = MeetTheme.colors.neutralWhite)
-        .clickable(onClick = onClick)
+    placeholderImage: Int,
+    meetingName: String,
+    dateLocation: String,
+    tags: List<String>,
+    avatarUrl: String,
+    isActiveMeet: Boolean = true
+) {
+    Column(
+        modifier = modifier
+            .background(color = MeetTheme.colors.neutralWhite)
+            .clickable(onClick = onClick)
     ) {
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
         Card(
@@ -56,13 +57,17 @@ fun EventCard(
                 RoundedAvatarMeetings(placeholderImage = placeholderImage, avatarUrl = avatarUrl)
                 Spacer(modifier = modifier.width(MeetTheme.sizes.sizeX12))
                 Column {
-                    BaseText(text = meetingName,
+                    BaseText(
+                        text = meetingName,
                         textColor = MeetTheme.colors.neutralActive,
-                        textStyle = MeetTheme.typography.bodyText1)
+                        textStyle = MeetTheme.typography.bodyText1
+                    )
                     Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX2))
-                    BaseText(text = dateLocation, modifier = modifier,
+                    BaseText(
+                        text = dateLocation, modifier = modifier,
                         textColor = MeetTheme.colors.neutralWeak,
-                        textStyle = MeetTheme.typography.metadata1)
+                        textStyle = MeetTheme.typography.metadata1
+                    )
                     Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX2))
                     Row(horizontalArrangement = Arrangement.spacedBy(MeetTheme.sizes.sizeX4)) {
                         tags.forEach { tag ->
@@ -70,12 +75,17 @@ fun EventCard(
                         }
                     }
                 }
-                if (!isActiveMeet){
-                    Row(modifier = modifier.fillMaxWidth(), verticalAlignment = Alignment.Top, horizontalArrangement = Arrangement.End) {
+                if (!isActiveMeet) {
+                    Row(
+                        modifier = modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.Top,
+                        horizontalArrangement = Arrangement.End
+                    ) {
                         Text(
                             text = stringResource(id = R.string.text_inactive_event),
                             color = MeetTheme.colors.neutralWeak,
-                            style = MeetTheme.typography.metadata2)
+                            style = MeetTheme.typography.metadata2
+                        )
                     }
                 }
             }
@@ -87,15 +97,17 @@ fun EventCard(
 
 @Composable
 fun CommunitiesCard(
-    placeholderImage : Int,
+    placeholderImage: Int,
     modifier: Modifier = Modifier,
     community: Community,
     onClick: () -> Unit
-){
-    val textNumberPeople = "${formatNumberWithSpaces(community.numberPeople)} ${stringResource(id = R.string.text_people)}"
-    Column(modifier = modifier
-        .background(color = MeetTheme.colors.neutralWhite)
-        .clickable(onClick = onClick)
+) {
+    val textNumberPeople =
+        "${formatNumberWithSpaces(community.numberPeople)} ${stringResource(id = R.string.text_people)}"
+    Column(
+        modifier = modifier
+            .background(color = MeetTheme.colors.neutralWhite)
+            .clickable(onClick = onClick)
     ) {
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
         Card(
@@ -105,18 +117,25 @@ fun CommunitiesCard(
             shape = RoundedCornerShape(0.dp),
             modifier = modifier
                 .fillMaxWidth()
-        ){
+        ) {
             Row(modifier = modifier, verticalAlignment = Alignment.Top) {
-                RoundedAvatarMeetings(placeholderImage = placeholderImage, avatarUrl = community.avatarUrl)
+                RoundedAvatarMeetings(
+                    placeholderImage = placeholderImage,
+                    avatarUrl = community.avatarUrl
+                )
                 Spacer(modifier = modifier.width(MeetTheme.sizes.sizeX12))
                 Column {
-                    BaseText(text = community.nameGroup,
+                    BaseText(
+                        text = community.nameGroup,
                         textColor = MeetTheme.colors.neutralActive,
-                        textStyle = MeetTheme.typography.bodyText1)
+                        textStyle = MeetTheme.typography.bodyText1
+                    )
                     Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX2))
-                    BaseText(text = textNumberPeople,
+                    BaseText(
+                        text = textNumberPeople,
                         textColor = MeetTheme.colors.neutralDisabled,
-                        textStyle = MeetTheme.typography.metadata1)
+                        textStyle = MeetTheme.typography.metadata1
+                    )
                     Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX12))
                 }
             }

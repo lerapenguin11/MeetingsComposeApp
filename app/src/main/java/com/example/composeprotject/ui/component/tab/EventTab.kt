@@ -49,9 +49,12 @@ fun EventTab(
                 Tab(
                     unselectedContentColor = MeetTheme.colors.tabUnselectedContentColor,
                     selectedContentColor = MeetTheme.colors.brandDefault,
-                    text = { Text(
-                        text = stringResource(id = title).uppercase(),
-                        style = MeetTheme.typography.robotoMedium) },
+                    text = {
+                        Text(
+                            text = stringResource(id = title).uppercase(),
+                            style = MeetTheme.typography.robotoMedium
+                        )
+                    },
                     selected = tabIndex == index,
                     onClick = { tabIndex = index }
                 )
@@ -61,14 +64,15 @@ fun EventTab(
             0 -> {
                 if (eventScreenVariant == EventScreenVariant.EVENT_SCREEN) {
                     MeetingsScreen(ActiveEventVariant.ALL_EVENT, navController = navController)
-                } else{
+                } else {
                     MeetingsScreen(ActiveEventVariant.ACTIVE_EVENT, navController = navController)
                 }
             }
-            1 ->{
-                if (eventScreenVariant == EventScreenVariant.EVENT_SCREEN){
+
+            1 -> {
+                if (eventScreenVariant == EventScreenVariant.EVENT_SCREEN) {
                     MeetingsScreen(ActiveEventVariant.ACTIVE_EVENT, navController = navController)
-                }else{
+                } else {
                     MeetingsScreen(ActiveEventVariant.INACTIVE_EVENT, navController = navController)
                 }
             }
