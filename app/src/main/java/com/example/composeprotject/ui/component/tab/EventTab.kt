@@ -17,13 +17,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.composeprotject.common.ActiveEventVariant
 import com.example.composeprotject.common.EventScreenVariant
 import com.example.composeprotject.screen.tabScreen.MeetingsScreen
 import com.example.composeprotject.ui.theme.MeetTheme
 
 @Composable
-fun EventTab(tabs : List<Int>, eventScreenVariant: EventScreenVariant) {
+fun EventTab(
+    tabs: List<Int>,
+    eventScreenVariant: EventScreenVariant,
+    navController: NavHostController
+) {
     var tabIndex by remember { mutableIntStateOf(0) }
 
     Column(modifier = Modifier.fillMaxWidth()) {
@@ -44,9 +49,12 @@ fun EventTab(tabs : List<Int>, eventScreenVariant: EventScreenVariant) {
                 Tab(
                     unselectedContentColor = MeetTheme.colors.tabUnselectedContentColor,
                     selectedContentColor = MeetTheme.colors.brandDefault,
-                    text = { Text(
-                        text = stringResource(id = title).uppercase(),
-                        style = MeetTheme.typography.robotoMedium) },
+                    text = {
+                        Text(
+                            text = stringResource(id = title).uppercase(),
+                            style = MeetTheme.typography.robotoMedium
+                        )
+                    },
                     selected = tabIndex == index,
                     onClick = { tabIndex = index }
                 )
@@ -55,16 +63,17 @@ fun EventTab(tabs : List<Int>, eventScreenVariant: EventScreenVariant) {
         when (tabIndex) {
             0 -> {
                 if (eventScreenVariant == EventScreenVariant.EVENT_SCREEN) {
-                    MeetingsScreen(ActiveEventVariant.ALL_EVENT)
-                } else{
-                    MeetingsScreen(ActiveEventVariant.ACTIVE_EVENT)
+                    MeetingsScreen(ActiveEventVariant.ALL_EVENT, navController = navController)
+                } else {
+                    MeetingsScreen(ActiveEventVariant.ACTIVE_EVENT, navController = navController)
                 }
             }
-            1 ->{
-                if (eventScreenVariant == EventScreenVariant.EVENT_SCREEN){
-                    MeetingsScreen(ActiveEventVariant.ACTIVE_EVENT)
-                }else{
-                    MeetingsScreen(ActiveEventVariant.INACTIVE_EVENT)
+
+            1 -> {
+                if (eventScreenVariant == EventScreenVariant.EVENT_SCREEN) {
+                    MeetingsScreen(ActiveEventVariant.ACTIVE_EVENT, navController = navController)
+                } else {
+                    MeetingsScreen(ActiveEventVariant.INACTIVE_EVENT, navController = navController)
                 }
             }
         }

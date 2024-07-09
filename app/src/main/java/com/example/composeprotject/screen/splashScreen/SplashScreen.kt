@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,21 +19,21 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.composeprotject.R
-import com.example.composeprotject.navigation.BottomNavItem
+import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.viewModel.MainViewModel
 import com.example.composeprotject.viewModel.SplashScreenViewModel
 
 @Composable
 fun SplashScreen(
     modifier: Modifier = Modifier,
-    viewModel: SplashScreenViewModel,
+    splashScreenViewModel: SplashScreenViewModel,
     mainViewModel: MainViewModel,
     navController: NavController,
     contentPadding: PaddingValues
 ) {
-    mainViewModel.setCurrentScreenShowTopBar(false)
-    val isLoading by viewModel.isLoading.collectAsState()
-    val isUserLoggedIn by viewModel.isUserLoggedIn.collectAsState()
+    mainViewModel.setCurrentScreen(screen = NavItem.SplashScreenItem, show = false)
+    val isLoading by splashScreenViewModel.isLoading.collectAsState()
+    val isUserLoggedIn by splashScreenViewModel.isUserLoggedIn.collectAsState()
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.splash_animation))
     Box(
         modifier = modifier
@@ -51,7 +50,7 @@ fun SplashScreen(
             )
         } else {
             if (isUserLoggedIn) {
-                navController.navigate(route = BottomNavItem.Event.route)
+                navController.navigate(route = NavItem.EventItem.route)
             } else {
                 navController.navigate(/*TODO: добавить route регистрации*/ route = "")
             }

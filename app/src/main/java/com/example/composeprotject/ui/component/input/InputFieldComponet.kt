@@ -29,14 +29,16 @@ import com.example.composeprotject.ui.theme.MeetTheme
 @Composable
 fun CustomSearchOutlinedTextField(
     modifier: Modifier = Modifier,
-    textPlaceholder : String,
-    isEnabled : Boolean
+    textPlaceholder: String,
+    isEnabled: Boolean
 ) {
     var searchText by remember { mutableStateOf("") }
 
     val interactionSource = remember { MutableInteractionSource() }
-    val colorBorder = if (searchText.isNotEmpty()) MeetTheme.colors.neutralOffWhite else MeetTheme.colors.neutralLine
-    val colorContent = if (searchText.isNotEmpty()) MeetTheme.colors.neutralActive else MeetTheme.colors.neutralDisabled
+    val colorBorder =
+        if (searchText.isNotEmpty()) MeetTheme.colors.neutralOffWhite else MeetTheme.colors.neutralLine
+    val colorContent =
+        if (searchText.isNotEmpty()) MeetTheme.colors.neutralActive else MeetTheme.colors.neutralDisabled
     val singleLine = true
 
     val colors =
@@ -54,8 +56,11 @@ fun CustomSearchOutlinedTextField(
         )
     BasicTextField(
         value = searchText,
-        onValueChange = {searchText = it},
-        modifier = modifier.border(0.dp, Color.Transparent).height(36.dp).fillMaxWidth(),
+        onValueChange = { searchText = it },
+        modifier = modifier
+            .border(0.dp, Color.Transparent)
+            .height(36.dp)
+            .fillMaxWidth(),
         interactionSource = interactionSource,
         enabled = isEnabled,
         singleLine = singleLine,
@@ -68,17 +73,21 @@ fun CustomSearchOutlinedTextField(
             innerTextField = it,
             singleLine = singleLine,
             enabled = isEnabled,
-            placeholder = { Text(
-                text = textPlaceholder,
-                style = MeetTheme.typography.bodyText1,
-                color = if (isEnabled) MeetTheme.colors.neutralDisabled else MeetTheme.colors.neutralDisabled2) },
+            placeholder = {
+                Text(
+                    text = textPlaceholder,
+                    style = MeetTheme.typography.bodyText1,
+                    color = if (isEnabled) MeetTheme.colors.neutralDisabled else MeetTheme.colors.neutralDisabled2
+                )
+            },
             interactionSource = interactionSource,
             contentPadding =
             OutlinedTextFieldDefaults.contentPadding(
                 top = MeetTheme.sizes.sizeX6,
                 bottom = MeetTheme.sizes.sizeX6,
                 start = MeetTheme.sizes.sizeX8,
-                end = MeetTheme.sizes.sizeX8),
+                end = MeetTheme.sizes.sizeX8
+            ),
             colors = colors,
             container = {
                 OutlinedTextFieldDefaults.ContainerBox(
@@ -91,8 +100,10 @@ fun CustomSearchOutlinedTextField(
                 )
             },
             leadingIcon = {
-                Icon(painter = painterResource(id = R.drawable.ic_search),
-                    contentDescription = "Search")
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_search),
+                    contentDescription = "Search"
+                )
             }
         )
     }
