@@ -19,10 +19,11 @@ fun StillScreen(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
     contentPadding: PaddingValues,
-    onStillClickToProfileScreen: (/*TODO*/) -> Unit
+    onStillClickToProfileScreen: (/*TODO*/) -> Unit,
+    onStillClickToMyMeetingsScreen: (/*TODO*/) -> Unit,
 ) {
     viewModel.setCurrentScreen(BottomNavItem.StillItem)
-    
+
     Column(
         modifier = modifier
             .padding(contentPadding)
@@ -36,7 +37,7 @@ fun StillScreen(
         )
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX8))
         MyEventMenuItem(
-            onClick = {/*TODO*/ }
+            onClick = { onStillClickToMyMeetingsScreen(/*TODO*/) }
         )
     }
 }
