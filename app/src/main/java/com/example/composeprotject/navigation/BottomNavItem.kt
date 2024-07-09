@@ -19,13 +19,13 @@ sealed class BottomNavItem(
         icon = R.drawable.ic_menu_community
     )
 
-    data object StillItem : BottomNavItem(
-        route = "STILL_SCREEN",
-        name = R.string.text_still,
-        icon = R.drawable.ic_menu_still
+    data object ProfileItem : BottomNavItem(
+        route = "PROFILE_SCREEN",
+        name = R.string.text_profile,
+        icon = null
     )
 
-    data object StilItem : BottomNavItem(
+    data object StillItem : BottomNavItem(
         route = "STILL_SCREEN",
         name = R.string.text_still,
         icon = R.drawable.ic_menu_still

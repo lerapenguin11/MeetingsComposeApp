@@ -9,11 +9,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.composeprotject.screen.detailsScreen.CommunityDetailsScreen
 import com.example.composeprotject.screen.ProfileScreen
+import com.example.composeprotject.screen.detailsScreen.CommunityDetailsScreen
 import com.example.composeprotject.screen.detailsScreen.EventDetailsScreen
 import com.example.composeprotject.screen.navScreen.CommunityScreen
 import com.example.composeprotject.screen.navScreen.EventScreen
+import com.example.composeprotject.screen.navScreen.StillScreen
 import com.example.composeprotject.viewModel.MainViewModel
 
 @ExperimentalFoundationApi
@@ -27,7 +28,7 @@ fun NavigationHost(
         navController = navController,
         startDestination = BottomNavItem.EventItem.route
     ) {
-        composable(BottomNavItem.EventItem.route) {
+        composable(route = BottomNavItem.EventItem.route) {
             EventScreen(
                 viewModel = viewModel,
                 contentPadding = contentPadding,
@@ -35,7 +36,7 @@ fun NavigationHost(
             )
         }
 
-        composable(BottomNavItem.CommunityItem.route) {
+        composable(route = BottomNavItem.CommunityItem.route) {
             CommunityScreen(
                 viewModel = viewModel,
                 contentPadding = contentPadding,
@@ -48,11 +49,19 @@ fun NavigationHost(
                 })
         }
 
-        composable(BottomNavItem.StillItem.route) {
-            ProfileScreen(
+        composable(route = BottomNavItem.StillItem.route) {
+            StillScreen(
                 viewModel = viewModel,
-                contentPadding = contentPadding
-            ) //TODO: поменять на StillScreen
+                contentPadding = contentPadding,
+                onStillClickToProfileScreen = {
+                    navController.navigate(
+                        route = BottomNavItem.ProfileItem.route
+                    )
+                })
+        }
+
+        composable(route = BottomNavItem.ProfileItem.route){
+            ProfileScreen(viewModel = viewModel, contentPadding = contentPadding)
         }
 
         composable(

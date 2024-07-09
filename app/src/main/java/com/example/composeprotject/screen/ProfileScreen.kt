@@ -31,9 +31,9 @@ fun ProfileScreen(
     val username = "Иван Иванов" //TODO
     val phoneNumber = "+7 999 999-99-99" //TODO
 
-    viewModel.setCurrentScreen(BottomNavItem.StillItem) //TODO: изменить
+    viewModel.setCurrentScreen(BottomNavItem.ProfileItem) //TODO: изменить
     Column(
-        modifier = Modifier
+        modifier = modifier
             .padding(contentPadding)
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally

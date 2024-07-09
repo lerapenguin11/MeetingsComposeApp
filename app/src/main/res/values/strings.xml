@@ -30,4 +30,6 @@
     <string name="text_event_community">Встречи сообщества</string>
     <string name="text_go_to_meeting">Пойду на встречу!</string>
     <string name="text_event_details">Детали встречи</string>
+    <string name="text_profile">Профиль</string>
+    <string name="text_my_event">Мои встречи</string>
 </resources>
