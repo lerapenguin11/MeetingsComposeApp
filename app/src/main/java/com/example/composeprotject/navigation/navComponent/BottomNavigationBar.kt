@@ -22,18 +22,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import com.example.composeprotject.navigation.BottomNavItem
+import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.navigation.navItems
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
+
 //TODO: переписать
+
 @Composable
 fun BottomNavigationBar(
     navController: NavController,
-    items: List<BottomNavItem> = navItems,
+    items: List<NavItem> = navItems,
     modifier: Modifier = Modifier
 ) {
-    val selectedMenuItem = remember { mutableStateOf<BottomNavItem>(BottomNavItem.Event) }
+    val selectedMenuItem = remember { mutableStateOf<NavItem>(NavItem.EventItem) }
 
     NavigationBar(
         containerColor = MeetTheme.colors.neutralWhite,
@@ -48,19 +50,21 @@ fun BottomNavigationBar(
                 label = null,
                 icon = {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        if (isSelected){
+                        if (isSelected) {
                             BaseText(
                                 text = stringResource(id = navItem.name),
-                                textStyle = MeetTheme.typography.bodyText1)
+                                textStyle = MeetTheme.typography.bodyText1
+                            )
                             Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX4))
                             Box(
                                 modifier = modifier
                                     .size(4.dp)
                                     .clip(CircleShape)
-                                    .background(color = MeetTheme.colors.neutralActive))
-                        }else{
+                                    .background(color = MeetTheme.colors.neutralActive)
+                            )
+                        } else {
                             Icon(
-                                painter = painterResource(id = navItem.icon),
+                                painter = painterResource(id = navItem.icon!!),
                                 contentDescription = stringResource(id = navItem.name),
                             )
                         }
@@ -68,6 +72,7 @@ fun BottomNavigationBar(
                 },
                 onClick = {
                     navController.navigate(navItem.route) {
+
                         launchSingleTop = true
                         restoreState = true
                         popUpTo(navController.graph.findStartDestination().id) {

@@ -14,7 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
-import com.example.composeprotject.navigation.BottomNavItem
+import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.navigation.NavigationHost
 import com.example.composeprotject.navigation.navComponent.BottomNavigationBar
 import com.example.composeprotject.ui.component.toolbar.ActionMode
@@ -35,15 +35,17 @@ fun AppContainer() {
     val navController = rememberNavController()
     val viewModel: MainViewModel = viewModel()
     val currentScreen by viewModel.currentScreen.observeAsState()
+    val detailedTitle by viewModel.titleDetailedScreen.observeAsState()
 
-    val topBar : @Composable () -> Unit = {
+    val topBar: @Composable () -> Unit = {
         CustomToolbar(
             navigationIcon = getNavigationIconSlot(currentScreen),
             actions = getActionsSlot(currentScreen),
             toolbarTitle = ToolbarTitle(
-            titleText = getToolbarTitleSlot(currentScreen),
-            expandedTextStyle = MeetTheme.typography.subheading1,
-            titleColor = MeetTheme.colors.neutralActive)
+                titleText = getToolbarTitleSlot(currentScreen, detailedTitle),
+                expandedTextStyle = MeetTheme.typography.subheading1,
+                titleColor = MeetTheme.colors.neutralActive
+            )
         )
     }
     Scaffold(
@@ -53,33 +55,36 @@ fun AppContainer() {
             topBar()
         },
         bottomBar = { BottomNavigationBar(navController) }
-    ) {contentPadding ->
+    ) { contentPadding ->
         NavigationHost(navController, contentPadding = contentPadding, viewModel = viewModel)
     }
 }
 
 @Composable
-private fun getToolbarTitleSlot(currentScreen: BottomNavItem?): String? {
+private fun getToolbarTitleSlot(currentScreen: NavItem?, detailedTitle: String?): String? {
     val mode = getToolbarTitle(currentScreen!!.route)
-    return when(mode){
+
+    return when (mode) {
         ToolbarTitleMode.TITLE -> stringResource(id = currentScreen.name)
+        ToolbarTitleMode.CHANGING_TITLE -> detailedTitle
         ToolbarTitleMode.NONE -> null
     }
 }
 
-private fun getNavigationIconSlot(currentScreen: BottomNavItem?): (@Composable () -> Unit)? {
+private fun getNavigationIconSlot(currentScreen: NavItem?): (@Composable () -> Unit)? {
     val mode = getBackNavigation(currentScreen!!.route)
     return when (mode) {
         BackNavigationMode.BACK_ARROW -> {
             { Icon(painterResource(id = R.drawable.ic_arrow_back), null) }
         }
+
         BackNavigationMode.NONE -> {
             null
         }
     }
 }
 
-private fun getActionsSlot(currentScreen: BottomNavItem?): (@Composable RowScope.() -> Unit)? {
+private fun getActionsSlot(currentScreen: NavItem?): (@Composable RowScope.() -> Unit)? {
     val mode = getActionToolbar(currentScreen!!.route)
     return when (mode) {
         ActionMode.ADD_ICON -> {

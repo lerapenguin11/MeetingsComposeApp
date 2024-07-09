@@ -6,17 +6,16 @@ import com.example.composeprotject.ui.component.state.ButtonState
 import com.example.composeprotject.ui.theme.MeetTheme
 
 class OutlinedButtonColors(
-    private val params : ParamsOutlinedButtonColor
-) : OutlinedButtonColorsState
-{
+    private val params: ParamsOutlinedButtonColor
+) : OutlinedButtonColorsState {
     override fun backgroundColor(state: ButtonState): Color {
-        return when(state){
+        return when (state) {
             ButtonState.INITIAL, ButtonState.PRESSED, ButtonState.DISABLED -> params.backgroundColor
         }
     }
 
     override fun contentColor(state: ButtonState): Color {
-        return when(state){
+        return when (state) {
             ButtonState.INITIAL -> params.contentColorActive
             ButtonState.PRESSED -> params.contentColorHover
             ButtonState.DISABLED -> params.contentColorDisabled
@@ -24,7 +23,7 @@ class OutlinedButtonColors(
     }
 
     override fun strokeColor(state: ButtonState): Color {
-        return when(state){
+        return when (state) {
             ButtonState.INITIAL -> params.strokeColorActive
             ButtonState.PRESSED -> params.strokeColorHover
             ButtonState.DISABLED -> params.strokeColorDisabled
@@ -39,9 +38,9 @@ object OutlinedButtonDefaults {
         contentColorActive: Color = MeetTheme.colors.brandDefault,
         contentColorHover: Color = MeetTheme.colors.brandDark,
         contentColorDisabled: Color = MeetTheme.colors.disabledButton,
-        strokeColorActive : Color = MeetTheme.colors.brandDefault,
-        strokeColorHover : Color = MeetTheme.colors.brandDark,
-        strokeColorDisabled : Color = MeetTheme.colors.disabledButton
+        strokeColorActive: Color = MeetTheme.colors.brandDefault,
+        strokeColorHover: Color = MeetTheme.colors.brandDark,
+        strokeColorDisabled: Color = MeetTheme.colors.disabledButton
     ): OutlinedButtonColors {
         return OutlinedButtonColors(
             params = ParamsOutlinedButtonColor(
@@ -57,8 +56,8 @@ object OutlinedButtonDefaults {
     }
 }
 
-private interface OutlinedButtonColorsState{
-    fun backgroundColor(state : ButtonState): Color
-    fun contentColor(state : ButtonState): Color
-    fun strokeColor(state: ButtonState) : Color
+private interface OutlinedButtonColorsState {
+    fun backgroundColor(state: ButtonState): Color
+    fun contentColor(state: ButtonState): Color
+    fun strokeColor(state: ButtonState): Color
 }

@@ -6,16 +6,16 @@ import com.example.composeprotject.ui.component.state.ButtonState
 import com.example.composeprotject.ui.theme.MeetTheme
 
 class TextButtonColors(
-    private val params : ParamsTextButtonColor
+    private val params: ParamsTextButtonColor
 ) : TextButtonColorsState {
     override fun backgroundColor(state: ButtonState): Color {
-        return when(state){
+        return when (state) {
             ButtonState.INITIAL, ButtonState.PRESSED, ButtonState.DISABLED -> params.backgroundColor
         }
     }
 
     override fun contentColor(state: ButtonState): Color {
-        return when(state){
+        return when (state) {
             ButtonState.INITIAL -> params.contentColorActive
             ButtonState.PRESSED -> params.contentColorHover
             ButtonState.DISABLED -> params.contentColorDisabled
@@ -23,7 +23,7 @@ class TextButtonColors(
     }
 }
 
-object TextButtonDefaults{
+object TextButtonDefaults {
     @Composable
     fun colors(
         backgroundColor: Color = Color.Transparent,
@@ -42,7 +42,7 @@ object TextButtonDefaults{
     }
 }
 
-private interface TextButtonColorsState{
-    fun backgroundColor(state : ButtonState): Color
-    fun contentColor(state : ButtonState): Color
+private interface TextButtonColorsState {
+    fun backgroundColor(state: ButtonState): Color
+    fun contentColor(state: ButtonState): Color
 }

@@ -12,10 +12,13 @@ import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
 
 @Composable
-fun Chip(text : String) {
-    Box(modifier = Modifier.padding(
-        top = MeetTheme.sizes.sizeX4,
-        bottom = MeetTheme.sizes.sizeX4)){
+fun Chip(text: String) {
+    Box(
+        modifier = Modifier.padding(
+            top = MeetTheme.sizes.sizeX4,
+            bottom = MeetTheme.sizes.sizeX4
+        )
+    ) {
         Box(
             modifier = Modifier
                 .clip(shape = RoundedCornerShape(40.dp))
@@ -25,7 +28,8 @@ fun Chip(text : String) {
                 text = text,
                 textStyle = MeetTheme.typography.metadata3,
                 textColor = MeetTheme.colors.brandDarkInnerShadow,
-                modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp))
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
+            )
         }
     }
 }
