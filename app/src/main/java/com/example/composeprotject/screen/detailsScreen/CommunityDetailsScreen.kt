@@ -42,7 +42,9 @@ fun CommunityDetailsScreen(
     viewModel: MainViewModel,
 ) {
     viewModel.setCurrentScreen(BottomNavItem.CommunityDetailsItem)
-    viewModel.setTitleDetailedScreen(communityName ?: "Community name")
+    viewModel.setTitleDetailedScreen(
+        communityName ?: stringResource(id = R.string.text_community_details))
+
     LazyColumn(
         modifier = modifier
             .padding(contentPadding)

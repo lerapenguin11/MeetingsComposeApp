@@ -29,6 +29,11 @@ sealed class BottomNavItem(
         name = R.string.text_community_details,
         icon = null
     )
+    data object EventDetailsItem : BottomNavItem(
+        route = "EVENT_DETAILS",
+        name = R.string.text_event_details,
+        icon = null
+    )
 }
 
 val navItems = listOf(

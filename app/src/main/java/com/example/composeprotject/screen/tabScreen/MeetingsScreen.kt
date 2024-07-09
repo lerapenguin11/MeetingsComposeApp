@@ -7,18 +7,19 @@ import androidx.navigation.NavHostController
 import com.example.composeprotject.R
 import com.example.composeprotject.common.ActiveEventVariant
 import com.example.composeprotject.model.Event
+import com.example.composeprotject.navigation.BottomNavItem
 import com.example.composeprotject.ui.component.card.EventCard
 
 @Composable
 fun MeetingsScreen(activeEvent: ActiveEventVariant, navController: NavHostController) {
     LazyColumn {
         items(
-            when(activeEvent){
+            when (activeEvent) {
                 ActiveEventVariant.ALL_EVENT -> eventList()
                 ActiveEventVariant.ACTIVE_EVENT -> eventList().filter { it.active }
                 ActiveEventVariant.INACTIVE_EVENT -> eventList().filter { !it.active }
             }
-        ){ item ->
+        ) { item ->
             EventCard(
                 meetingName = item.meetingName,
                 dateLocation = item.dateLocation,
@@ -26,7 +27,11 @@ fun MeetingsScreen(activeEvent: ActiveEventVariant, navController: NavHostContro
                 avatarUrl = item.avatarUrl,
                 placeholderImage = R.drawable.ic_avatar_meetings,
                 isActiveMeet = item.active,
-                onClick = {navController.navigate("detailed")}
+                onClick = {
+                    navController.navigate(
+                        route = "${BottomNavItem.EventDetailsItem.route}/${item.eventId}/${item.meetingName}"
+                    )
+                }
             )
         }
     }
@@ -35,9 +40,9 @@ fun MeetingsScreen(activeEvent: ActiveEventVariant, navController: NavHostContro
 fun eventList() = arrayListOf<Event>(
     Event(
         eventId = 0,
-        meetingName = "Developer meeting",
+        meetingName = "Developer meeting 1",
         dateLocation = "13.09.2024 — Москва",
-        tags = listOf<String>("Python", "Junior","Moscow"),
+        tags = listOf<String>("Python", "Junior", "Moscow"),
         avatarUrl = "",
         active = true
     ),
@@ -45,7 +50,7 @@ fun eventList() = arrayListOf<Event>(
         eventId = 1,
         meetingName = "Developer meeting",
         dateLocation = "13.09.2024 — Москва",
-        tags = listOf<String>("Python", "Junior","Moscow"),
+        tags = listOf<String>("Python", "Junior", "Moscow"),
         avatarUrl = "",
         active = false
     ),
@@ -53,7 +58,7 @@ fun eventList() = arrayListOf<Event>(
         eventId = 2,
         meetingName = "Developer meeting",
         dateLocation = "13.09.2024 — Москва",
-        tags = listOf<String>("Python", "Junior","Moscow"),
+        tags = listOf<String>("Python", "Junior", "Moscow"),
         avatarUrl = "",
         active = false
     ),
@@ -61,7 +66,7 @@ fun eventList() = arrayListOf<Event>(
         eventId = 3,
         meetingName = "Developer meeting",
         dateLocation = "13.09.2024 — Москва",
-        tags = listOf<String>("Python", "Junior","Moscow"),
+        tags = listOf<String>("Python", "Junior", "Moscow"),
         avatarUrl = "",
         active = true
     ),
@@ -69,7 +74,7 @@ fun eventList() = arrayListOf<Event>(
         eventId = 4,
         meetingName = "Developer meeting",
         dateLocation = "13.09.2024 — Москва",
-        tags = listOf<String>("Python", "Junior","Moscow"),
+        tags = listOf<String>("Python", "Junior", "Moscow"),
         avatarUrl = "",
         active = true
     ),
@@ -77,7 +82,7 @@ fun eventList() = arrayListOf<Event>(
         eventId = 5,
         meetingName = "Developer meeting",
         dateLocation = "13.09.2024 — Москва",
-        tags = listOf<String>("Python", "Junior","Moscow"),
+        tags = listOf<String>("Python", "Junior", "Moscow"),
         avatarUrl = "",
         active = true
     ),
@@ -85,7 +90,7 @@ fun eventList() = arrayListOf<Event>(
         eventId = 6,
         meetingName = "Developer meeting",
         dateLocation = "13.09.2024 — Москва",
-        tags = listOf<String>("Python", "Junior","Moscow"),
+        tags = listOf<String>("Python", "Junior", "Moscow"),
         avatarUrl = "",
         active = true
     )

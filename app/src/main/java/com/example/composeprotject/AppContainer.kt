@@ -37,14 +37,15 @@ fun AppContainer() {
     val currentScreen by viewModel.currentScreen.observeAsState()
     val detailedTitle by viewModel.titleDetailedScreen.observeAsState()
 
-    val topBar : @Composable () -> Unit = {
+    val topBar: @Composable () -> Unit = {
         CustomToolbar(
             navigationIcon = getNavigationIconSlot(currentScreen),
             actions = getActionsSlot(currentScreen),
             toolbarTitle = ToolbarTitle(
-            titleText = getToolbarTitleSlot(currentScreen, detailedTitle),
-            expandedTextStyle = MeetTheme.typography.subheading1,
-            titleColor = MeetTheme.colors.neutralActive)
+                titleText = getToolbarTitleSlot(currentScreen, detailedTitle),
+                expandedTextStyle = MeetTheme.typography.subheading1,
+                titleColor = MeetTheme.colors.neutralActive
+            )
         )
     }
     Scaffold(
@@ -54,7 +55,7 @@ fun AppContainer() {
             topBar()
         },
         bottomBar = { BottomNavigationBar(navController) }
-    ) {contentPadding ->
+    ) { contentPadding ->
         NavigationHost(navController, contentPadding = contentPadding, viewModel = viewModel)
     }
 }
@@ -63,7 +64,7 @@ fun AppContainer() {
 private fun getToolbarTitleSlot(currentScreen: BottomNavItem?, detailedTitle: String?): String? {
     val mode = getToolbarTitle(currentScreen!!.route)
 
-    return when(mode){
+    return when (mode) {
         ToolbarTitleMode.TITLE -> stringResource(id = currentScreen.name)
         ToolbarTitleMode.CHANGING_TITLE -> detailedTitle
         ToolbarTitleMode.NONE -> null
@@ -76,6 +77,7 @@ private fun getNavigationIconSlot(currentScreen: BottomNavItem?): (@Composable (
         BackNavigationMode.BACK_ARROW -> {
             { Icon(painterResource(id = R.drawable.ic_arrow_back), null) }
         }
+
         BackNavigationMode.NONE -> {
             null
         }

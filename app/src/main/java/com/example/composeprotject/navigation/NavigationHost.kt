@@ -20,7 +20,7 @@ import com.example.composeprotject.viewModel.MainViewModel
 @Composable
 fun NavigationHost(
     navController: NavHostController = rememberNavController(),
-    contentPadding : PaddingValues,
+    contentPadding: PaddingValues,
     viewModel: MainViewModel
 ) {
     NavHost(
@@ -28,7 +28,11 @@ fun NavigationHost(
         startDestination = BottomNavItem.EventItem.route
     ) {
         composable(BottomNavItem.EventItem.route) {
-            EventScreen(viewModel = viewModel, contentPadding = contentPadding, navController = navController)
+            EventScreen(
+                viewModel = viewModel,
+                contentPadding = contentPadding,
+                navController = navController
+            )
         }
 
         composable(BottomNavItem.CommunityItem.route) {
@@ -38,32 +42,57 @@ fun NavigationHost(
                 navController = navController,
                 onCommunityClick = { community ->
                     navController.navigate(
-                        route = "${BottomNavItem.CommunityDetailsItem.route}/${community.id}/${community.nameGroup}")
+                        route = "${BottomNavItem.CommunityDetailsItem.route}/" +
+                                "${community.id}/${community.nameGroup}"
+                    )
                 })
         }
 
         composable(BottomNavItem.StillItem.route) {
-            ProfileScreen(viewModel = viewModel, contentPadding = contentPadding) //TODO: поменять на StillScreen
+            ProfileScreen(
+                viewModel = viewModel,
+                contentPadding = contentPadding
+            ) //TODO: поменять на StillScreen
         }
+
         composable(
-            route = "${BottomNavItem.CommunityDetailsItem.route}/{communityId}/{communityName}",
+            route = "${BottomNavItem.CommunityDetailsItem.route}/{$COMMUNITY_ID}/{$COMMUNITY_NAME}",
             arguments = listOf(
-                navArgument("communityId") { type = NavType.IntType },
-                navArgument("communityName"){type = NavType.StringType}
+                navArgument(COMMUNITY_ID) { type = NavType.IntType },
+                navArgument(COMMUNITY_NAME) { type = NavType.StringType }
             )
         ) { backStackEntry ->
-            val communityId = backStackEntry.arguments?.getInt("communityId")
-            val communityName = backStackEntry.arguments?.getString("communityName")
+            val communityId = backStackEntry.arguments?.getInt(COMMUNITY_ID)
+            val communityName = backStackEntry.arguments?.getString(COMMUNITY_NAME)
             CommunityDetailsScreen(
                 navController = navController,
                 communityId = communityId,
                 contentPadding = contentPadding,
                 communityName = communityName,
-                viewModel = viewModel)
+                viewModel = viewModel
+            )
         }
-        composable("detailed") { backStackEntry ->
+
+        composable(
+            route = "${BottomNavItem.EventDetailsItem.route}/{$EVENT_ID}/{$EVENT_NAME}",
+            arguments = listOf(
+                navArgument(EVENT_ID) { type = NavType.IntType },
+                navArgument(EVENT_NAME) { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val eventId = backStackEntry.arguments?.getInt(EVENT_ID)
+            val eventName = backStackEntry.arguments?.getString(EVENT_NAME)
             EventDetailsScreen(
-                contentPadding = contentPadding/*backStackEntry.arguments?.getInt("id")*/)
+                contentPadding = contentPadding,
+                eventId = eventId,
+                eventName = eventName,
+                viewModel = viewModel
+            )
         }
     }
 }
+
+private const val EVENT_ID = "eventId"
+private const val EVENT_NAME = "eventName"
+private const val COMMUNITY_ID = "communityId"
+private const val COMMUNITY_NAME = "communityName"
