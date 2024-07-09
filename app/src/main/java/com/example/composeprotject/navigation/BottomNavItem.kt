@@ -8,43 +8,43 @@ sealed class BottomNavItem(
     val icon: Int?
 ) {
     data object EventItem : BottomNavItem(
-        route = "EVENT_SCREEN",
+        route = EVENT_SCREEN,
         name = R.string.text_event,
         icon = R.drawable.ic_menu_event,
     )
 
     data object CommunityItem : BottomNavItem(
-        route = "COMMUNITY_SCREEN",
+        route = COMMUNITY_SCREEN,
         name = R.string.text_community,
         icon = R.drawable.ic_menu_community
     )
 
     data object ProfileItem : BottomNavItem(
-        route = "PROFILE_SCREEN",
+        route = PROFILE_SCREEN,
         name = R.string.text_profile,
         icon = null
     )
 
     data object StillItem : BottomNavItem(
-        route = "STILL_SCREEN",
+        route = STILL_SCREEN,
         name = R.string.text_still,
         icon = R.drawable.ic_menu_still
     )
 
     data object CommunityDetailsItem : BottomNavItem(
-        route = "COMMUNITY_DETAILS",
+        route = COMMUNITY_DETAILS,
         name = R.string.text_community_details,
         icon = null
     )
 
     data object EventDetailsItem : BottomNavItem(
-        route = "EVENT_DETAILS",
+        route = EVENT_DETAILS,
         name = R.string.text_event_details,
         icon = null
     )
 
     data object MyMeetingsScreen : BottomNavItem(
-        route = "MY_MEETINGS_SCREEN",
+        route = MY_MEETINGS_SCREEN,
         name = R.string.text_my_event,
         icon = null
     )
@@ -55,3 +55,11 @@ val navItems = listOf(
     BottomNavItem.CommunityItem,
     BottomNavItem.StillItem
 )
+
+private const val EVENT_SCREEN = "EVENT_SCREEN"
+private const val COMMUNITY_SCREEN = "COMMUNITY_SCREEN"
+private const val STILL_SCREEN = "STILL_SCREEN"
+private const val COMMUNITY_DETAILS = "COMMUNITY_DETAILS"
+private const val EVENT_DETAILS = "EVENT_DETAILS"
+private const val PROFILE_SCREEN = "PROFILE_SCREEN"
+private const val MY_MEETINGS_SCREEN = "MY_MEETINGS_SCREEN"
