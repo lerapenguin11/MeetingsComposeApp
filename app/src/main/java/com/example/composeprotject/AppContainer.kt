@@ -27,6 +27,7 @@ import com.example.composeprotject.ui.component.toolbar.getBackNavigation
 import com.example.composeprotject.ui.component.toolbar.getToolbarTitle
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.MainViewModel
+import com.example.composeprotject.viewModel.SplashScreenViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @ExperimentalFoundationApi
@@ -34,16 +35,18 @@ import com.example.composeprotject.viewModel.MainViewModel
 fun AppContainer() {
     val navController = rememberNavController()
     val viewModel: MainViewModel = viewModel()
+    val splashScreenViewModel : SplashScreenViewModel = viewModel()
     val currentScreen by viewModel.currentScreen.observeAsState()
 
-    val topBar : @Composable () -> Unit = {
+    val topBar: @Composable () -> Unit = {
         CustomToolbar(
             navigationIcon = getNavigationIconSlot(currentScreen),
             actions = getActionsSlot(currentScreen),
             toolbarTitle = ToolbarTitle(
-            titleText = getToolbarTitleSlot(currentScreen),
-            expandedTextStyle = MeetTheme.typography.subheading1,
-            titleColor = MeetTheme.colors.neutralActive)
+                titleText = getToolbarTitleSlot(currentScreen),
+                expandedTextStyle = MeetTheme.typography.subheading1,
+                titleColor = MeetTheme.colors.neutralActive
+            )
         )
     }
     Scaffold(
@@ -53,15 +56,19 @@ fun AppContainer() {
             topBar()
         },
         bottomBar = { BottomNavigationBar(navController) }
-    ) {contentPadding ->
-        NavigationHost(navController, contentPadding = contentPadding, viewModel = viewModel)
+    ) { contentPadding ->
+        NavigationHost(
+            navController = navController,
+            contentPadding = contentPadding,
+            mainViewModel = viewModel,
+            splashScreenViewModel = splashScreenViewModel)
     }
 }
 
 @Composable
 private fun getToolbarTitleSlot(currentScreen: BottomNavItem?): String? {
     val mode = getToolbarTitle(currentScreen!!.route)
-    return when(mode){
+    return when (mode) {
         ToolbarTitleMode.TITLE -> stringResource(id = currentScreen.name)
         ToolbarTitleMode.NONE -> null
     }
@@ -73,6 +80,7 @@ private fun getNavigationIconSlot(currentScreen: BottomNavItem?): (@Composable (
         BackNavigationMode.BACK_ARROW -> {
             { Icon(painterResource(id = R.drawable.ic_arrow_back), null) }
         }
+
         BackNavigationMode.NONE -> {
             null
         }

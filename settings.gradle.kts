@@ -8,8 +8,11 @@ pluginManagement {
             }
         }
         mavenCentral()
+        maven {
+            url = uri("http://oss.sonatype.org/content/repositories/snapshots")
+            isAllowInsecureProtocol = true
+        }
         gradlePluginPortal()
-        maven ( url = {"https://oss.sonatype.org/content/repositories/snapshots/"} )
     }
 }
 dependencyResolutionManagement {

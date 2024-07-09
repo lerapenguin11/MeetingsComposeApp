@@ -10,29 +10,39 @@ import androidx.navigation.compose.rememberNavController
 import com.example.composeprotject.screen.MyMeetingsScreen
 import com.example.composeprotject.screen.ProfileScreen
 import com.example.composeprotject.screen.navScreen.EventScreen
+import com.example.composeprotject.screen.splashScreen.SplashScreen
 import com.example.composeprotject.viewModel.MainViewModel
+import com.example.composeprotject.viewModel.SplashScreenViewModel
 
 @ExperimentalFoundationApi
 @Composable
 fun NavigationHost(
     navController: NavHostController = rememberNavController(),
     contentPadding : PaddingValues,
-    viewModel: MainViewModel
-) {
+    mainViewModel: MainViewModel,
+    splashScreenViewModel: SplashScreenViewModel
+    ) {
     NavHost(
         navController = navController,
-        startDestination = BottomNavItem.Event.route
+        startDestination = BottomNavItem.SplashScreenItem.route
     ) {
         composable(BottomNavItem.Event.route) {
-            EventScreen(viewModel = viewModel, contentPadding = contentPadding)
+            EventScreen(viewModel = mainViewModel, contentPadding = contentPadding)
         }
 
         composable(BottomNavItem.Community.route) {
-            MyMeetingsScreen(viewModel = viewModel, contentPadding = contentPadding) //TODO: поменять на CommunityScreen
+            MyMeetingsScreen(viewModel = mainViewModel, contentPadding = contentPadding) //TODO: поменять на CommunityScreen
         }
 
         composable(BottomNavItem.Still.route) {
-            ProfileScreen(viewModel = viewModel, contentPadding = contentPadding) //TODO: поменять на StillScreen
+            ProfileScreen(viewModel = mainViewModel, contentPadding = contentPadding) //TODO: поменять на StillScreen
+        }
+
+        composable(route = BottomNavItem.SplashScreenItem.route){
+            SplashScreen(
+                viewModel = splashScreenViewModel,
+                navController = navController,
+                contentPadding = contentPadding)
         }
     }
 }
