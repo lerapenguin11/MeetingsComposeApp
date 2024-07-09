@@ -7,7 +7,7 @@ import androidx.navigation.NavHostController
 import com.example.composeprotject.R
 import com.example.composeprotject.common.ActiveEventVariant
 import com.example.composeprotject.model.Event
-import com.example.composeprotject.navigation.BottomNavItem
+import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.card.EventCard
 
 @Composable
@@ -29,7 +29,7 @@ fun MeetingsScreen(activeEvent: ActiveEventVariant, navController: NavHostContro
                 isActiveMeet = item.active,
                 onClick = {
                     navController.navigate(
-                        route = "${BottomNavItem.EventDetailsItem.route}/${item.eventId}/${item.meetingName}"
+                        route = "${NavItem.EventDetailsItem.route}/${item.eventId}/${item.meetingName}"
                     )
                 }
             )

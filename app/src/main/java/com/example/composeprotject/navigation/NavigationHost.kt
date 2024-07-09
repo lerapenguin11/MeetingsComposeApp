@@ -27,9 +27,9 @@ fun NavigationHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = BottomNavItem.EventItem.route
+        startDestination = NavItem.EventItem.route
     ) {
-        composable(route = BottomNavItem.EventItem.route) {
+        composable(route = NavItem.EventItem.route) {
             EventScreen(
                 viewModel = viewModel,
                 contentPadding = contentPadding,
@@ -37,36 +37,36 @@ fun NavigationHost(
             )
         }
 
-        composable(route = BottomNavItem.CommunityItem.route) {
+        composable(route = NavItem.CommunityItem.route) {
             CommunityScreen(
                 viewModel = viewModel,
                 contentPadding = contentPadding,
                 navController = navController,
                 onCommunityClick = { community ->
                     navController.navigate(
-                        route = "${BottomNavItem.CommunityDetailsItem.route}/" +
+                        route = "${NavItem.CommunityDetailsItem.route}/" +
                                 "${community.id}/${community.nameGroup}"
                     )
                 })
         }
 
-        composable(route = BottomNavItem.StillItem.route) {
+        composable(route = NavItem.StillItem.route) {
             StillScreen(
                 viewModel = viewModel,
                 contentPadding = contentPadding,
                 onStillClickToProfileScreen = {
                     navController.navigate(
-                        route = BottomNavItem.ProfileItem.route
+                        route = NavItem.ProfileItem.route
                     )
                 },
                 onStillClickToMyMeetingsScreen = {
                     navController.navigate(
-                        route = BottomNavItem.MyMeetingsScreen.route
+                        route = NavItem.MyMeetingsScreen.route
                     )
                 })
         }
 
-        composable(route = BottomNavItem.MyMeetingsScreen.route){
+        composable(route = NavItem.MyMeetingsScreen.route){
             MyMeetingsScreen(
                 viewModel = viewModel,
                 contentPadding = contentPadding,
@@ -74,12 +74,12 @@ fun NavigationHost(
             )
         }
 
-        composable(route = BottomNavItem.ProfileItem.route){
+        composable(route = NavItem.ProfileItem.route){
             ProfileScreen(viewModel = viewModel, contentPadding = contentPadding)
         }
 
         composable(
-            route = "${BottomNavItem.CommunityDetailsItem.route}/{$COMMUNITY_ID}/{$COMMUNITY_NAME}",
+            route = "${NavItem.CommunityDetailsItem.route}/{$COMMUNITY_ID}/{$COMMUNITY_NAME}",
             arguments = listOf(
                 navArgument(COMMUNITY_ID) { type = NavType.IntType },
                 navArgument(COMMUNITY_NAME) { type = NavType.StringType }
@@ -97,7 +97,7 @@ fun NavigationHost(
         }
 
         composable(
-            route = "${BottomNavItem.EventDetailsItem.route}/{$EVENT_ID}/{$EVENT_NAME}",
+            route = "${NavItem.EventDetailsItem.route}/{$EVENT_ID}/{$EVENT_NAME}",
             arguments = listOf(
                 navArgument(EVENT_ID) { type = NavType.IntType },
                 navArgument(EVENT_NAME) { type = NavType.StringType }

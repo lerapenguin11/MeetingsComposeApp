@@ -2,48 +2,48 @@ package com.example.composeprotject.navigation
 
 import com.example.composeprotject.R
 
-sealed class BottomNavItem(
+sealed class NavItem(
     val route: String,
     val name: Int,
     val icon: Int?
 ) {
-    data object EventItem : BottomNavItem(
+    data object EventItem : NavItem(
         route = EVENT_SCREEN,
         name = R.string.text_event,
         icon = R.drawable.ic_menu_event,
     )
 
-    data object CommunityItem : BottomNavItem(
+    data object CommunityItem : NavItem(
         route = COMMUNITY_SCREEN,
         name = R.string.text_community,
         icon = R.drawable.ic_menu_community
     )
 
-    data object ProfileItem : BottomNavItem(
+    data object ProfileItem : NavItem(
         route = PROFILE_SCREEN,
         name = R.string.text_profile,
         icon = null
     )
 
-    data object StillItem : BottomNavItem(
+    data object StillItem : NavItem(
         route = STILL_SCREEN,
         name = R.string.text_still,
         icon = R.drawable.ic_menu_still
     )
 
-    data object CommunityDetailsItem : BottomNavItem(
+    data object CommunityDetailsItem : NavItem(
         route = COMMUNITY_DETAILS,
         name = R.string.text_community_details,
         icon = null
     )
 
-    data object EventDetailsItem : BottomNavItem(
+    data object EventDetailsItem : NavItem(
         route = EVENT_DETAILS,
         name = R.string.text_event_details,
         icon = null
     )
 
-    data object MyMeetingsScreen : BottomNavItem(
+    data object MyMeetingsScreen : NavItem(
         route = MY_MEETINGS_SCREEN,
         name = R.string.text_my_event,
         icon = null
@@ -51,9 +51,9 @@ sealed class BottomNavItem(
 }
 
 val navItems = listOf(
-    BottomNavItem.EventItem,
-    BottomNavItem.CommunityItem,
-    BottomNavItem.StillItem
+    NavItem.EventItem,
+    NavItem.CommunityItem,
+    NavItem.StillItem
 )
 
 private const val EVENT_SCREEN = "EVENT_SCREEN"

@@ -7,8 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.composeprotject.model.Community
-import com.example.composeprotject.navigation.BottomNavItem
+import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.menuItem.MyEventMenuItem
 import com.example.composeprotject.ui.component.menuItem.ProfileMenuItem
 import com.example.composeprotject.ui.theme.MeetTheme
@@ -22,7 +21,7 @@ fun StillScreen(
     onStillClickToProfileScreen: (/*TODO*/) -> Unit,
     onStillClickToMyMeetingsScreen: (/*TODO*/) -> Unit,
 ) {
-    viewModel.setCurrentScreen(BottomNavItem.StillItem)
+    viewModel.setCurrentScreen(NavItem.StillItem)
 
     Column(
         modifier = modifier

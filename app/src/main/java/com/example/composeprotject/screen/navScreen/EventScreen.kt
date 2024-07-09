@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import com.example.composeprotject.R
-import com.example.composeprotject.navigation.BottomNavItem
+import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.common.EventScreenVariant
 import com.example.composeprotject.ui.component.input.CustomSearchOutlinedTextField
 import com.example.composeprotject.ui.component.tab.EventTab
@@ -24,7 +24,7 @@ fun EventScreen(
     contentPadding: PaddingValues,
     navController: NavHostController
 ) {
-    viewModel.setCurrentScreen(BottomNavItem.EventItem)
+    viewModel.setCurrentScreen(NavItem.EventItem)
     val tabs = listOf(R.string.text_tab_all_events, R.string.text_tab_active_events)
 
     Column(

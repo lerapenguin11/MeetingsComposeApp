@@ -22,7 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import com.example.composeprotject.navigation.BottomNavItem
+import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.navigation.navItems
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
@@ -32,10 +32,10 @@ import com.example.composeprotject.ui.theme.MeetTheme
 @Composable
 fun BottomNavigationBar(
     navController: NavController,
-    items: List<BottomNavItem> = navItems,
+    items: List<NavItem> = navItems,
     modifier: Modifier = Modifier
 ) {
-    val selectedMenuItem = remember { mutableStateOf<BottomNavItem>(BottomNavItem.EventItem) }
+    val selectedMenuItem = remember { mutableStateOf<NavItem>(NavItem.EventItem) }
 
     NavigationBar(
         containerColor = MeetTheme.colors.neutralWhite,

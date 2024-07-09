@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
-import com.example.composeprotject.navigation.BottomNavItem
+import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.avatar.ProfileAvatarContainer
 import com.example.composeprotject.ui.component.button.ImageOutlinedButton
 import com.example.composeprotject.ui.component.text.BaseText
@@ -31,7 +31,7 @@ fun ProfileScreen(
     val username = "Иван Иванов" //TODO
     val phoneNumber = "+7 999 999-99-99" //TODO
 
-    viewModel.setCurrentScreen(BottomNavItem.ProfileItem) //TODO: изменить
+    viewModel.setCurrentScreen(NavItem.ProfileItem) //TODO: изменить
     Column(
         modifier = modifier
             .padding(contentPadding)

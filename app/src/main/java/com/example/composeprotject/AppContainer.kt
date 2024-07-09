@@ -14,7 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
-import com.example.composeprotject.navigation.BottomNavItem
+import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.navigation.NavigationHost
 import com.example.composeprotject.navigation.navComponent.BottomNavigationBar
 import com.example.composeprotject.ui.component.toolbar.ActionMode
@@ -61,7 +61,7 @@ fun AppContainer() {
 }
 
 @Composable
-private fun getToolbarTitleSlot(currentScreen: BottomNavItem?, detailedTitle: String?): String? {
+private fun getToolbarTitleSlot(currentScreen: NavItem?, detailedTitle: String?): String? {
     val mode = getToolbarTitle(currentScreen!!.route)
 
     return when (mode) {
@@ -71,7 +71,7 @@ private fun getToolbarTitleSlot(currentScreen: BottomNavItem?, detailedTitle: St
     }
 }
 
-private fun getNavigationIconSlot(currentScreen: BottomNavItem?): (@Composable () -> Unit)? {
+private fun getNavigationIconSlot(currentScreen: NavItem?): (@Composable () -> Unit)? {
     val mode = getBackNavigation(currentScreen!!.route)
     return when (mode) {
         BackNavigationMode.BACK_ARROW -> {
@@ -84,7 +84,7 @@ private fun getNavigationIconSlot(currentScreen: BottomNavItem?): (@Composable (
     }
 }
 
-private fun getActionsSlot(currentScreen: BottomNavItem?): (@Composable RowScope.() -> Unit)? {
+private fun getActionsSlot(currentScreen: NavItem?): (@Composable RowScope.() -> Unit)? {
     val mode = getActionToolbar(currentScreen!!.route)
     return when (mode) {
         ActionMode.ADD_ICON -> {

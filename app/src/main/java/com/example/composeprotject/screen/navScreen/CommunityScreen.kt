@@ -13,7 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import com.example.composeprotject.R
 import com.example.composeprotject.model.Community
-import com.example.composeprotject.navigation.BottomNavItem
+import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.card.CommunitiesCard
 import com.example.composeprotject.ui.component.input.CustomSearchOutlinedTextField
 import com.example.composeprotject.ui.theme.MeetTheme
@@ -27,7 +27,7 @@ fun CommunityScreen(
     navController: NavHostController,
     onCommunityClick: (Community) -> Unit
 ) {
-    viewModel.setCurrentScreen(BottomNavItem.CommunityItem)
+    viewModel.setCurrentScreen(NavItem.CommunityItem)
     Column(
         modifier = modifier
             .padding(contentPadding)

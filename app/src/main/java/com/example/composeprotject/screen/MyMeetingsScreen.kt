@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.composeprotject.R
 import com.example.composeprotject.common.EventScreenVariant
-import com.example.composeprotject.navigation.BottomNavItem
+import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.tab.EventTab
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.MainViewModel
@@ -22,7 +22,7 @@ fun MyMeetingsScreen(
     contentPadding: PaddingValues,
     navController: NavHostController
 ) {
-    viewModel.setCurrentScreen(BottomNavItem.MyMeetingsScreen)
+    viewModel.setCurrentScreen(NavItem.MyMeetingsScreen)
     val tabs = listOf(R.string.text_tab_my_event_plan, R.string.text_tab_my_event_passed)
 
     Column(
