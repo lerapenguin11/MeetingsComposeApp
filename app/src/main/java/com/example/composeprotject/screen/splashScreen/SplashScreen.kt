@@ -35,8 +35,6 @@ fun SplashScreen(
     mainViewModel.setCurrentScreenShowTopBar(false)
     val isLoading by viewModel.isLoading.collectAsState()
     val isUserLoggedIn by viewModel.isUserLoggedIn.collectAsState()
-
-    val test1 by viewModel.isLoadingt.observeAsState()
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.splash_animation))
     Box(
         modifier = modifier
