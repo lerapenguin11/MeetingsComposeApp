@@ -17,6 +17,7 @@ import com.example.composeprotject.screen.navScreen.CommunityScreen
 import com.example.composeprotject.screen.navScreen.EventScreen
 import com.example.composeprotject.screen.navScreen.StillScreen
 import com.example.composeprotject.screen.splashScreen.SplashScreen
+import com.example.composeprotject.screen.verification.VerificationCodeScreen
 import com.example.composeprotject.viewModel.MainViewModel
 import com.example.composeprotject.viewModel.SplashScreenViewModel
 
@@ -122,6 +123,14 @@ fun NavigationHost(
                 navController = navController,
                 contentPadding = contentPadding,
                 mainViewModel = mainViewModel)
+        }
+        
+        composable(route = NavItem.VerificationCodeScreenItem.route){
+            VerificationCodeScreen(
+                phoneNumber = "+7 999 999-99-99",
+                contentPadding = contentPadding,
+                splashScreenViewModel = splashScreenViewModel
+            )
         }
     }
 }

@@ -54,6 +54,12 @@ sealed class NavItem(
         name = R.string.text_splash_screen,
         icon = null
     )
+
+    data object VerificationCodeScreenItem : NavItem(
+        route = VER_CODE_SCREEN,
+        name = R.string.text_ver_code_screen,
+        icon = null
+    )
 }
 
 val navItems = listOf(
@@ -70,3 +76,4 @@ private const val EVENT_DETAILS = "EVENT_DETAILS"
 private const val PROFILE_SCREEN = "PROFILE_SCREEN"
 private const val MY_MEETINGS_SCREEN = "MY_MEETINGS_SCREEN"
 private const val SPLASH_SCREEN = "SPLASH_SCREEN"
+private const val VER_CODE_SCREEN = "VER_CODE_SCREEN"

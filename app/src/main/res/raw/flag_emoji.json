@@ -1,0 +1,1202 @@
+{
+  "AD": {
+    "flagEmoji": "🇦🇩",
+    "placeholder": "XXX-XXX",
+    "callingCode": "376"
+  },
+  "AE": {
+    "flagEmoji": "🇦🇪",
+    "placeholder": "XX-XXX-XXXX",
+    "callingCode": "971"
+  },
+  "AF": {
+    "flagEmoji": "🇦🇫",
+    "placeholder": "XX-XXX-XXXX",
+    "callingCode": "93"
+  },
+  "AG": {
+    "flagEmoji": "🇦🇬",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "AI": {
+    "flagEmoji": "🇦🇮",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "AL": {
+    "flagEmoji": "🇦🇱",
+    "placeholder": "XX-XXX-XXXX",
+    "callingCode": "355"
+  },
+  "AM": {
+    "flagEmoji": "🇦🇲",
+    "placeholder": "XX-XXXXXX",
+    "callingCode": "374"
+  },
+  "AO": {
+    "flagEmoji": "🇦🇴",
+    "placeholder": "XXX-XXX-XXX",
+    "callingCode": "244"
+  },
+  "AR": {
+    "flagEmoji": "🇦🇷",
+    "placeholder": "X-XX-XXXX-XXXX",
+    "callingCode": "54"
+  },
+  "AS": {
+    "flagEmoji": "🇦🇸",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "AT": {
+    "flagEmoji": "🇦🇹",
+    "placeholder": "XXX-XXXXXX",
+    "callingCode": "43"
+  },
+  "AU": {
+    "flagEmoji": "🇦🇺",
+    "placeholder": "XXX-XXX-XXX",
+    "callingCode": "61"
+  },
+  "AW": {
+    "flagEmoji": "🇦🇼",
+    "placeholder": "XXX-XXXX",
+    "callingCode": "297"
+  },
+  "AX": {
+    "flagEmoji": "🇦🇽",
+    "placeholder": "XX-XXXXXXX",
+    "callingCode": "358"
+  },
+  "AZ": {
+    "flagEmoji": "🇦🇿",
+    "placeholder": "XX-XXX-XX-XX",
+    "callingCode": "994"
+  },
+  "BA": {
+    "flagEmoji": "🇧🇦",
+    "placeholder": "XX-XXX-XXX",
+    "callingCode": "387"
+  },
+  "BB": {
+    "flagEmoji": "🇧🇧",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "BD": {
+    "flagEmoji": "🇧🇩",
+    "placeholder": "XXXX-XXXXXX",
+    "callingCode": "880"
+  },
+  "BE": {
+    "flagEmoji": "🇧🇪",
+    "placeholder": "XXX-XX-XX-XX",
+    "callingCode": "32"
+  },
+  "BF": {
+    "flagEmoji": "🇧🇫",
+    "placeholder": "XX-XX-XX-XX",
+    "callingCode": "226"
+  },
+  "BG": {
+    "flagEmoji": "🇧🇬",
+    "placeholder": "XX-XXX-XXX",
+    "callingCode": "359"
+  },
+  "BH": {
+    "flagEmoji": "🇧🇭",
+    "placeholder": "XXXX-XXXX",
+    "callingCode": "973"
+  },
+  "BI": {
+    "flagEmoji": "🇧🇮",
+    "placeholder": "XX-XX-XX-XX",
+    "callingCode": "257"
+  },
+  "BJ": {
+    "flagEmoji": "🇧🇯",
+    "placeholder": "XX-XX-XX-XX",
+    "callingCode": "229"
+  },
+  "BL": {
+    "flagEmoji": "🇧🇱",
+    "placeholder": "XXX-XX-XX-XX",
+    "callingCode": "590"
+  },
+  "BM": {
+    "flagEmoji": "🇧🇲",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "BN": {
+    "flagEmoji": "🇧🇳",
+    "placeholder": "XXX-XXXX",
+    "callingCode": "673"
+  },
+  "BO": {
+    "flagEmoji": "🇧🇴",
+    "placeholder": "XXXXXXXX",
+    "callingCode": "591"
+  },
+  "BQ": {
+    "flagEmoji": "🇧🇶",
+    "placeholder": "XXX-XXXX",
+    "callingCode": "599"
+  },
+  "BR": {
+    "flagEmoji": "🇧🇷",
+    "placeholder": "XX-XXXXX-XXXX",
+    "callingCode": "55"
+  },
+  "BS": {
+    "flagEmoji": "🇧🇸",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "BT": {
+    "flagEmoji": "🇧🇹",
+    "placeholder": "XX-XX-XX-XX",
+    "callingCode": "975"
+  },
+  "BW": {
+    "flagEmoji": "🇧🇼",
+    "placeholder": "XX-XXX-XXX",
+    "callingCode": "267"
+  },
+  "BY": {
+    "flagEmoji": "🇧🇾",
+    "placeholder": "XX-XXX-XX-XX",
+    "callingCode": "375"
+  },
+  "BZ": {
+    "flagEmoji": "🇧🇿",
+    "placeholder": "XXX-XXXX",
+    "callingCode": "501"
+  },
+  "CA": {
+    "flagEmoji": "🇨🇦",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "CC": {
+    "flagEmoji": "🇨🇨",
+    "placeholder": "XXX-XXX-XXX",
+    "callingCode": "61"
+  },
+  "CD": {
+    "flagEmoji": "🇨🇩",
+    "placeholder": "XXX-XXX-XXX",
+    "callingCode": "243"
+  },
+  "CF": {
+    "flagEmoji": "🇨🇫",
+    "placeholder": "XX-XX-XX-XX",
+    "callingCode": "236"
+  },
+  "CG": {
+    "flagEmoji": "🇨🇬",
+    "placeholder": "XX-XXX-XXXX",
+    "callingCode": "242"
+  },
+  "CH": {
+    "flagEmoji": "🇨🇭",
+    "placeholder": "XX-XXX-XX-XX",
+    "callingCode": "41"
+  },
+  "CI": {
+    "flagEmoji": "🇨🇮",
+    "placeholder": "XX-XX-XX-XXXX",
+    "callingCode": "225"
+  },
+  "CK": {
+    "flagEmoji": "🇨🇰",
+    "placeholder": "XX-XXX",
+    "callingCode": "682"
+  },
+  "CL": {
+    "flagEmoji": "🇨🇱",
+    "placeholder": "X-XXXX-XXXX",
+    "callingCode": "56"
+  },
+  "CM": {
+    "flagEmoji": "🇨🇲",
+    "placeholder": "X-XX-XX-XX-XX",
+    "callingCode": "237"
+  },
+  "CN": {
+    "flagEmoji": "🇨🇳",
+    "placeholder": "XXX-XXXX-XXXX",
+    "callingCode": "86"
+  },
+  "CO": {
+    "flagEmoji": "🇨🇴",
+    "placeholder": "XXX-XXXXXXX",
+    "callingCode": "57"
+  },
+  "CR": {
+    "flagEmoji": "🇨🇷",
+    "placeholder": "XXXX-XXXX",
+    "callingCode": "506"
+  },
+  "CU": {
+    "flagEmoji": "🇨🇺",
+    "placeholder": "X-XXXXXXX",
+    "callingCode": "53"
+  },
+  "CV": {
+    "flagEmoji": "🇨🇻",
+    "placeholder": "XXX-XX-XX",
+    "callingCode": "238"
+  },
+  "CW": {
+    "flagEmoji": "🇨🇼",
+    "placeholder": "X-XXX-XXXX",
+    "callingCode": "599"
+  },
+  "CX": {
+    "flagEmoji": "🇨🇽",
+    "placeholder": "XXX-XXX-XXX",
+    "callingCode": "61"
+  },
+  "CY": {
+    "flagEmoji": "🇨🇾",
+    "placeholder": "XX-XXXXXX",
+    "callingCode": "357"
+  },
+  "CZ": {
+    "flagEmoji": "🇨🇿",
+    "placeholder": "XXX-XXX-XXX",
+    "callingCode": "420"
+  },
+  "DE": {
+    "flagEmoji": "🇩🇪",
+    "placeholder": "XXXX-XXXXXXX",
+    "callingCode": "49"
+  },
+  "DJ": {
+    "flagEmoji": "🇩🇯",
+    "placeholder": "XX-XX-XX-XX",
+    "callingCode": "253"
+  },
+  "DK": {
+    "flagEmoji": "🇩🇰",
+    "placeholder": "XX-XX-XX-XX",
+    "callingCode": "45"
+  },
+  "DM": {
+    "flagEmoji": "🇩🇲",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "DO": {
+    "flagEmoji": "🇩🇴",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "DZ": {
+    "flagEmoji": "🇩🇿",
+    "placeholder": "XXX-XX-XX-XX",
+    "callingCode": "213"
+  },
+  "EC": {
+    "flagEmoji": "🇪🇨",
+    "placeholder": "XX-XXX-XXXX",
+    "callingCode": "593"
+  },
+  "EE": {
+    "flagEmoji": "🇪🇪",
+    "placeholder": "XXXX-XXXX",
+    "callingCode": "372"
+  },
+  "EG": {
+    "flagEmoji": "🇪🇬",
+    "placeholder": "XX-XXXXXXXX",
+    "callingCode": "20"
+  },
+  "EH": {
+    "flagEmoji": "🇪🇭",
+    "placeholder": "XXX-XXXXXX",
+    "callingCode": "212"
+  },
+  "ER": {
+    "flagEmoji": "🇪🇷",
+    "placeholder": "X-XXX-XXX",
+    "callingCode": "291"
+  },
+  "ES": {
+    "flagEmoji": "🇪🇸",
+    "placeholder": "XXX-XX-XX-XX",
+    "callingCode": "34"
+  },
+  "ET": {
+    "flagEmoji": "🇪🇹",
+    "placeholder": "XX-XXX-XXXX",
+    "callingCode": "251"
+  },
+  "FI": {
+    "flagEmoji": "🇫🇮",
+    "placeholder": "XX-XXXXXXX",
+    "callingCode": "358"
+  },
+  "FJ": {
+    "flagEmoji": "🇫🇯",
+    "placeholder": "XXX-XXXX",
+    "callingCode": "679"
+  },
+  "FK": {
+    "flagEmoji": "🇫🇰",
+    "placeholder": "XXXXX",
+    "callingCode": "500"
+  },
+  "FM": {
+    "flagEmoji": "🇫🇲",
+    "placeholder": "XXX-XXXX",
+    "callingCode": "691"
+  },
+  "FO": {
+    "flagEmoji": "🇫🇴",
+    "placeholder": "XXXXXX",
+    "callingCode": "298"
+  },
+  "FR": {
+    "flagEmoji": "🇫🇷",
+    "placeholder": "X-XX-XX-XX-XX",
+    "callingCode": "33"
+  },
+  "GA": {
+    "flagEmoji": "🇬🇦",
+    "placeholder": "XX-XX-XX-XX",
+    "callingCode": "241"
+  },
+  "GB": {
+    "flagEmoji": "🇬🇧",
+    "placeholder": "XXXX-XXXXXX",
+    "callingCode": "44"
+  },
+  "GD": {
+    "flagEmoji": "🇬🇩",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "GE": {
+    "flagEmoji": "🇬🇪",
+    "placeholder": "XXX-XX-XX-XX",
+    "callingCode": "995"
+  },
+  "GF": {
+    "flagEmoji": "🇬🇫",
+    "placeholder": "XXX-XX-XX-XX",
+    "callingCode": "594"
+  },
+  "GG": {
+    "flagEmoji": "🇬🇬",
+    "placeholder": "XXXX-XXXXXX",
+    "callingCode": "44"
+  },
+  "GH": {
+    "flagEmoji": "🇬🇭",
+    "placeholder": "XX-XXX-XXXX",
+    "callingCode": "233"
+  },
+  "GI": {
+    "flagEmoji": "🇬🇮",
+    "placeholder": "XXXXXXXX",
+    "callingCode": "350"
+  },
+  "GL": {
+    "flagEmoji": "🇬🇱",
+    "placeholder": "XX-XX-XX",
+    "callingCode": "299"
+  },
+  "GM": {
+    "flagEmoji": "🇬🇲",
+    "placeholder": "XXX-XXXX",
+    "callingCode": "220"
+  },
+  "GN": {
+    "flagEmoji": "🇬🇳",
+    "placeholder": "XXX-XX-XX-XX",
+    "callingCode": "224"
+  },
+  "GP": {
+    "flagEmoji": "🇬🇵",
+    "placeholder": "XXX-XX-XX-XX",
+    "callingCode": "590"
+  },
+  "GQ": {
+    "flagEmoji": "🇬🇶",
+    "placeholder": "XXX-XXX-XXX",
+    "callingCode": "240"
+  },
+  "GR": {
+    "flagEmoji": "🇬🇷",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "30"
+  },
+  "GT": {
+    "flagEmoji": "🇬🇹",
+    "placeholder": "XXXX-XXXX",
+    "callingCode": "502"
+  },
+  "GU": {
+    "flagEmoji": "🇬🇺",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "GW": {
+    "flagEmoji": "🇬🇼",
+    "placeholder": "XXX-XXX-XXX",
+    "callingCode": "245"
+  },
+  "GY": {
+    "flagEmoji": "🇬🇾",
+    "placeholder": "XXX-XXXX",
+    "callingCode": "592"
+  },
+  "HK": {
+    "flagEmoji": "🇭🇰",
+    "placeholder": "XXXX-XXXX",
+    "callingCode": "852"
+  },
+  "HN": {
+    "flagEmoji": "🇭🇳",
+    "placeholder": "XXXX-XXXX",
+    "callingCode": "504"
+  },
+  "HR": {
+    "flagEmoji": "🇭🇷",
+    "placeholder": "XX-XXX-XXXX",
+    "callingCode": "385"
+  },
+  "HT": {
+    "flagEmoji": "🇭🇹",
+    "placeholder": "XX-XX-XXXX",
+    "callingCode": "509"
+  },
+  "HU": {
+    "flagEmoji": "🇭🇺",
+    "placeholder": "XX-XXX-XXXX",
+    "callingCode": "36"
+  },
+  "ID": {
+    "flagEmoji": "🇮🇩",
+    "placeholder": "XXX-XXX-XXX",
+    "callingCode": "62"
+  },
+  "IE": {
+    "flagEmoji": "🇮🇪",
+    "placeholder": "XX-XXX-XXXX",
+    "callingCode": "353"
+  },
+  "IL": {
+    "flagEmoji": "🇮🇱",
+    "placeholder": "XX-XXX-XXXX",
+    "callingCode": "972"
+  },
+  "IM": {
+    "flagEmoji": "🇮🇲",
+    "placeholder": "XXXX-XXXXXX",
+    "callingCode": "44"
+  },
+  "IN": {
+    "flagEmoji": "🇮🇳",
+    "placeholder": "XXXXX-XXXXX",
+    "callingCode": "91"
+  },
+  "IO": {
+    "flagEmoji": "🇮🇴",
+    "placeholder": "XXX-XXXX",
+    "callingCode": "246"
+  },
+  "IQ": {
+    "flagEmoji": "🇮🇶",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "964"
+  },
+  "IR": {
+    "flagEmoji": "🇮🇷",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "98"
+  },
+  "IS": {
+    "flagEmoji": "🇮🇸",
+    "placeholder": "XXX-XXXX",
+    "callingCode": "354"
+  },
+  "IT": {
+    "flagEmoji": "🇮🇹",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "39"
+  },
+  "JE": {
+    "flagEmoji": "🇯🇪",
+    "placeholder": "XXXX-XXXXXX",
+    "callingCode": "44"
+  },
+  "JM": {
+    "flagEmoji": "🇯🇲",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "JO": {
+    "flagEmoji": "🇯🇴",
+    "placeholder": "X-XXXX-XXXX",
+    "callingCode": "962"
+  },
+  "JP": {
+    "flagEmoji": "🇯🇵",
+    "placeholder": "XX-XXXX-XXXX",
+    "callingCode": "81"
+  },
+  "KE": {
+    "flagEmoji": "🇰🇪",
+    "placeholder": "XXX-XXXXXX",
+    "callingCode": "254"
+  },
+  "KG": {
+    "flagEmoji": "🇰🇬",
+    "placeholder": "XXX-XXX-XXX",
+    "callingCode": "996"
+  },
+  "KH": {
+    "flagEmoji": "🇰🇭",
+    "placeholder": "XX-XXX-XXX",
+    "callingCode": "855"
+  },
+  "KI": {
+    "flagEmoji": "🇰🇮",
+    "placeholder": "XXXXXXXX",
+    "callingCode": "686"
+  },
+  "KM": {
+    "flagEmoji": "🇰🇲",
+    "placeholder": "XXX-XX-XX",
+    "callingCode": "269"
+  },
+  "KN": {
+    "flagEmoji": "🇰🇳",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "KP": {
+    "flagEmoji": "🇰🇵",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "850"
+  },
+  "KR": {
+    "flagEmoji": "🇰🇷",
+    "placeholder": "XX-XXXX-XXXX",
+    "callingCode": "82"
+  },
+  "KW": {
+    "flagEmoji": "🇰🇼",
+    "placeholder": "XXX-XXXXX",
+    "callingCode": "965"
+  },
+  "KY": {
+    "flagEmoji": "🇰🇾",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "KZ": {
+    "flagEmoji": "🇰🇿",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "7"
+  },
+  "LA": {
+    "flagEmoji": "🇱🇦",
+    "placeholder": "XX-XX-XXX-XXX",
+    "callingCode": "856"
+  },
+  "LB": {
+    "flagEmoji": "🇱🇧",
+    "placeholder": "XX-XXX-XXX",
+    "callingCode": "961"
+  },
+  "LC": {
+    "flagEmoji": "🇱🇨",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "LI": {
+    "flagEmoji": "🇱🇮",
+    "placeholder": "XXX-XXX-XXX",
+    "callingCode": "423"
+  },
+  "LK": {
+    "flagEmoji": "🇱🇰",
+    "placeholder": "XX-XXX-XXXX",
+    "callingCode": "94"
+  },
+  "LR": {
+    "flagEmoji": "🇱🇷",
+    "placeholder": "XX-XXX-XXXX",
+    "callingCode": "231"
+  },
+  "LS": {
+    "flagEmoji": "🇱🇸",
+    "placeholder": "XXXX-XXXX",
+    "callingCode": "266"
+  },
+  "LT": {
+    "flagEmoji": "🇱🇹",
+    "placeholder": "XXX-XXXXX",
+    "callingCode": "370"
+  },
+  "LU": {
+    "flagEmoji": "🇱🇺",
+    "placeholder": "XXX-XXX-XXX",
+    "callingCode": "352"
+  },
+  "LV": {
+    "flagEmoji": "🇱🇻",
+    "placeholder": "XX-XXX-XXX",
+    "callingCode": "371"
+  },
+  "LY": {
+    "flagEmoji": "🇱🇾",
+    "placeholder": "XX-XXXXXXX",
+    "callingCode": "218"
+  },
+  "MA": {
+    "flagEmoji": "🇲🇦",
+    "placeholder": "XXX-XXXXXX",
+    "callingCode": "212"
+  },
+  "MC": {
+    "flagEmoji": "🇲🇨",
+    "placeholder": "X-XX-XX-XX-XX",
+    "callingCode": "377"
+  },
+  "MD": {
+    "flagEmoji": "🇲🇩",
+    "placeholder": "XXX-XX-XXX",
+    "callingCode": "373"
+  },
+  "ME": {
+    "flagEmoji": "🇲🇪",
+    "placeholder": "XX-XXX-XXX",
+    "callingCode": "382"
+  },
+  "MF": {
+    "flagEmoji": "🇲🇫",
+    "placeholder": "XXX-XX-XX-XX",
+    "callingCode": "590"
+  },
+  "MG": {
+    "flagEmoji": "🇲🇬",
+    "placeholder": "XX-XX-XXX-XX",
+    "callingCode": "261"
+  },
+  "MH": {
+    "flagEmoji": "🇲🇭",
+    "placeholder": "XXX-XXXX",
+    "callingCode": "692"
+  },
+  "MK": {
+    "flagEmoji": "🇲🇰",
+    "placeholder": "XX-XXX-XXX",
+    "callingCode": "389"
+  },
+  "ML": {
+    "flagEmoji": "🇲🇱",
+    "placeholder": "XX-XX-XX-XX",
+    "callingCode": "223"
+  },
+  "MM": {
+    "flagEmoji": "🇲🇲",
+    "placeholder": "X-XXX-XXXX",
+    "callingCode": "95"
+  },
+  "MN": {
+    "flagEmoji": "🇲🇳",
+    "placeholder": "XXXX-XXXX",
+    "callingCode": "976"
+  },
+  "MO": {
+    "flagEmoji": "🇲🇴",
+    "placeholder": "XXXX-XXXX",
+    "callingCode": "853"
+  },
+  "MP": {
+    "flagEmoji": "🇲🇵",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "MQ": {
+    "flagEmoji": "🇲🇶",
+    "placeholder": "XXX-XX-XX-XX",
+    "callingCode": "596"
+  },
+  "MR": {
+    "flagEmoji": "🇲🇷",
+    "placeholder": "XX-XX-XX-XX",
+    "callingCode": "222"
+  },
+  "MS": {
+    "flagEmoji": "🇲🇸",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "MT": {
+    "flagEmoji": "🇲🇹",
+    "placeholder": "XXXX-XXXX",
+    "callingCode": "356"
+  },
+  "MU": {
+    "flagEmoji": "🇲🇺",
+    "placeholder": "XXXX-XXXX",
+    "callingCode": "230"
+  },
+  "MV": {
+    "flagEmoji": "🇲🇻",
+    "placeholder": "XXX-XXXX",
+    "callingCode": "960"
+  },
+  "MW": {
+    "flagEmoji": "🇲🇼",
+    "placeholder": "XXX-XX-XX-XX",
+    "callingCode": "265"
+  },
+  "MX": {
+    "flagEmoji": "🇲🇽",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "52"
+  },
+  "MY": {
+    "flagEmoji": "🇲🇾",
+    "placeholder": "XX-XXX-XXXX",
+    "callingCode": "60"
+  },
+  "MZ": {
+    "flagEmoji": "🇲🇿",
+    "placeholder": "XX-XXX-XXXX",
+    "callingCode": "258"
+  },
+  "NA": {
+    "flagEmoji": "🇳🇦",
+    "placeholder": "XX-XXX-XXXX",
+    "callingCode": "264"
+  },
+  "NC": {
+    "flagEmoji": "🇳🇨",
+    "placeholder": "XX-XX-XX",
+    "callingCode": "687"
+  },
+  "NE": {
+    "flagEmoji": "🇳🇪",
+    "placeholder": "XX-XX-XX-XX",
+    "callingCode": "227"
+  },
+  "NF": {
+    "flagEmoji": "🇳🇫",
+    "placeholder": "X-XXXXX",
+    "callingCode": "672"
+  },
+  "NG": {
+    "flagEmoji": "🇳🇬",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "234"
+  },
+  "NI": {
+    "flagEmoji": "🇳🇮",
+    "placeholder": "XXXX-XXXX",
+    "callingCode": "505"
+  },
+  "NL": {
+    "flagEmoji": "🇳🇱",
+    "placeholder": "X-XXXXXXXX",
+    "callingCode": "31"
+  },
+  "NO": {
+    "flagEmoji": "🇳🇴",
+    "placeholder": "XX-XX-XX-XX",
+    "callingCode": "47"
+  },
+  "NP": {
+    "flagEmoji": "🇳🇵",
+    "placeholder": "XXX-XXXXXXX",
+    "callingCode": "977"
+  },
+  "NR": {
+    "flagEmoji": "🇳🇷",
+    "placeholder": "XXX-XXXX",
+    "callingCode": "674"
+  },
+  "NU": {
+    "flagEmoji": "🇳🇺",
+    "placeholder": "XXX-XXXX",
+    "callingCode": "683"
+  },
+  "NZ": {
+    "flagEmoji": "🇳🇿",
+    "placeholder": "XX-XXX-XXXX",
+    "callingCode": "64"
+  },
+  "OM": {
+    "flagEmoji": "🇴🇲",
+    "placeholder": "XXXX-XXXX",
+    "callingCode": "968"
+  },
+  "PA": {
+    "flagEmoji": "🇵🇦",
+    "placeholder": "XXXX-XXXX",
+    "callingCode": "507"
+  },
+  "PE": {
+    "flagEmoji": "🇵🇪",
+    "placeholder": "XXX-XXX-XXX",
+    "callingCode": "51"
+  },
+  "PF": {
+    "flagEmoji": "🇵🇫",
+    "placeholder": "XX-XX-XX-XX",
+    "callingCode": "689"
+  },
+  "PG": {
+    "flagEmoji": "🇵🇬",
+    "placeholder": "XXXX-XXXX",
+    "callingCode": "675"
+  },
+  "PH": {
+    "flagEmoji": "🇵🇭",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "63"
+  },
+  "PK": {
+    "flagEmoji": "🇵🇰",
+    "placeholder": "XXX-XXXXXXX",
+    "callingCode": "92"
+  },
+  "PL": {
+    "flagEmoji": "🇵🇱",
+    "placeholder": "XXX-XXX-XXX",
+    "callingCode": "48"
+  },
+  "PM": {
+    "flagEmoji": "🇵🇲",
+    "placeholder": "XX-XX-XX",
+    "callingCode": "508"
+  },
+  "PR": {
+    "flagEmoji": "🇵🇷",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "PT": {
+    "flagEmoji": "🇵🇹",
+    "placeholder": "XXX-XXX-XXX",
+    "callingCode": "351"
+  },
+  "PW": {
+    "flagEmoji": "🇵🇼",
+    "placeholder": "XXX-XXXX",
+    "callingCode": "680"
+  },
+  "PY": {
+    "flagEmoji": "🇵🇾",
+    "placeholder": "XXX-XXXXXX",
+    "callingCode": "595"
+  },
+  "QA": {
+    "flagEmoji": "🇶🇦",
+    "placeholder": "XXXX-XXXX",
+    "callingCode": "974"
+  },
+  "RE": {
+    "flagEmoji": "🇷🇪",
+    "placeholder": "XXX-XX-XX-XX",
+    "callingCode": "262"
+  },
+  "RO": {
+    "flagEmoji": "🇷🇴",
+    "placeholder": "XXX-XXX-XXX",
+    "callingCode": "40"
+  },
+  "RS": {
+    "flagEmoji": "🇷🇸",
+    "placeholder": "XX-XXXXXXX",
+    "callingCode": "381"
+  },
+  "RU": {
+    "flagEmoji": "🇷🇺",
+    "placeholder": "XXX-XXX-XX-XX",
+    "callingCode": "7"
+  },
+  "RW": {
+    "flagEmoji": "🇷🇼",
+    "placeholder": "XXX-XXX-XXX",
+    "callingCode": "250"
+  },
+  "SA": {
+    "flagEmoji": "🇸🇦",
+    "placeholder": "XX-XXX-XXXX",
+    "callingCode": "966"
+  },
+  "SB": {
+    "flagEmoji": "🇸🇧",
+    "placeholder": "XX-XXXXX",
+    "callingCode": "677"
+  },
+  "SC": {
+    "flagEmoji": "🇸🇨",
+    "placeholder": "X-XXX-XXX",
+    "callingCode": "248"
+  },
+  "SD": {
+    "flagEmoji": "🇸🇩",
+    "placeholder": "XX-XXX-XXXX",
+    "callingCode": "249"
+  },
+  "SE": {
+    "flagEmoji": "🇸🇪",
+    "placeholder": "XX-XXX-XX-XX",
+    "callingCode": "46"
+  },
+  "SG": {
+    "flagEmoji": "🇸🇬",
+    "placeholder": "XXXX-XXXX",
+    "callingCode": "65"
+  },
+  "SH": {
+    "flagEmoji": "🇸🇭",
+    "placeholder": "XXXXX",
+    "callingCode": "290"
+  },
+  "SI": {
+    "flagEmoji": "🇸🇮",
+    "placeholder": "XX-XXX-XXX",
+    "callingCode": "386"
+  },
+  "SJ": {
+    "flagEmoji": "🇸🇯",
+    "placeholder": "XX-XX-XX-XX",
+    "callingCode": "47"
+  },
+  "SK": {
+    "flagEmoji": "🇸🇰",
+    "placeholder": "XXX-XXX-XXX",
+    "callingCode": "421"
+  },
+  "SL": {
+    "flagEmoji": "🇸🇱",
+    "placeholder": "XX-XXXXXX",
+    "callingCode": "232"
+  },
+  "SM": {
+    "flagEmoji": "🇸🇲",
+    "placeholder": "XX-XX-XX-XX",
+    "callingCode": "378"
+  },
+  "SN": {
+    "flagEmoji": "🇸🇳",
+    "placeholder": "XX-XXX-XX-XX",
+    "callingCode": "221"
+  },
+  "SO": {
+    "flagEmoji": "🇸🇴",
+    "placeholder": "X-XXXXXXX",
+    "callingCode": "252"
+  },
+  "SR": {
+    "flagEmoji": "🇸🇷",
+    "placeholder": "XXX-XXXX",
+    "callingCode": "597"
+  },
+  "SS": {
+    "flagEmoji": "🇸🇸",
+    "placeholder": "XXX-XXX-XXX",
+    "callingCode": "211"
+  },
+  "ST": {
+    "flagEmoji": "🇸🇹",
+    "placeholder": "XXX-XXXX",
+    "callingCode": "239"
+  },
+  "SV": {
+    "flagEmoji": "🇸🇻",
+    "placeholder": "XXXX-XXXX",
+    "callingCode": "503"
+  },
+  "SX": {
+    "flagEmoji": "🇸🇽",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "SY": {
+    "flagEmoji": "🇸🇾",
+    "placeholder": "XXX-XXX-XXX",
+    "callingCode": "963"
+  },
+  "SZ": {
+    "flagEmoji": "🇸🇿",
+    "placeholder": "XXXX-XXXX",
+    "callingCode": "268"
+  },
+  "TC": {
+    "flagEmoji": "🇹🇨",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "TD": {
+    "flagEmoji": "🇹🇩",
+    "placeholder": "XX-XX-XX-XX",
+    "callingCode": "235"
+  },
+  "TG": {
+    "flagEmoji": "🇹🇬",
+    "placeholder": "XX-XX-XX-XX",
+    "callingCode": "228"
+  },
+  "TH": {
+    "flagEmoji": "🇹🇭",
+    "placeholder": "XX-XXX-XXXX",
+    "callingCode": "66"
+  },
+  "TJ": {
+    "flagEmoji": "🇹🇯",
+    "placeholder": "XX-XXX-XXXX",
+    "callingCode": "992"
+  },
+  "TK": {
+    "flagEmoji": "🇹🇰",
+    "placeholder": "XXXX",
+    "callingCode": "690"
+  },
+  "TL": {
+    "flagEmoji": "🇹🇱",
+    "placeholder": "XXXX-XXXX",
+    "callingCode": "670"
+  },
+  "TM": {
+    "flagEmoji": "🇹🇲",
+    "placeholder": "XX-XXXXXX",
+    "callingCode": "993"
+  },
+  "TN": {
+    "flagEmoji": "🇹🇳",
+    "placeholder": "XX-XXX-XXX",
+    "callingCode": "216"
+  },
+  "TO": {
+    "flagEmoji": "🇹🇴",
+    "placeholder": "XXX-XXXX",
+    "callingCode": "676"
+  },
+  "TR": {
+    "flagEmoji": "🇹🇷",
+    "placeholder": "XXX-XXX-XX-XX",
+    "callingCode": "90"
+  },
+  "TT": {
+    "flagEmoji": "🇹🇹",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "TV": {
+    "flagEmoji": "🇹🇻",
+    "placeholder": "XX-XXXX",
+    "callingCode": "688"
+  },
+  "TZ": {
+    "flagEmoji": "🇹🇿",
+    "placeholder": "XXX-XXX-XXX",
+    "callingCode": "255"
+  },
+  "UA": {
+    "flagEmoji": "🇺🇦",
+    "placeholder": "XX-XXX-XXXX",
+    "callingCode": "380"
+  },
+  "UG": {
+    "flagEmoji": "🇺🇬",
+    "placeholder": "XXX-XXXXXX",
+    "callingCode": "256"
+  },
+  "US": {
+    "flagEmoji": "🇺🇸",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "UY": {
+    "flagEmoji": "🇺🇾",
+    "placeholder": "XX-XXX-XXX",
+    "callingCode": "598"
+  },
+  "UZ": {
+    "flagEmoji": "🇺🇿",
+    "placeholder": "XX-XXX-XX-XX",
+    "callingCode": "998"
+  },
+  "VA": {
+    "flagEmoji": "🇻🇦",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "39"
+  },
+  "VC": {
+    "flagEmoji": "🇻🇨",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "VE": {
+    "flagEmoji": "🇻🇪",
+    "placeholder": "XXX-XXXXXXX",
+    "callingCode": "58"
+  },
+  "VG": {
+    "flagEmoji": "🇻🇬",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "VI": {
+    "flagEmoji": "🇻🇮",
+    "placeholder": "XXX-XXX-XXXX",
+    "callingCode": "1"
+  },
+  "VN": {
+    "flagEmoji": "🇻🇳",
+    "placeholder": "XXX-XXX-XXX",
+    "callingCode": "84"
+  },
+  "VU": {
+    "flagEmoji": "🇻🇺",
+    "placeholder": "XXX-XXXX",
+    "callingCode": "678"
+  },
+  "WF": {
+    "flagEmoji": "🇼🇫",
+    "placeholder": "XX-XX-XX",
+    "callingCode": "681"
+  },
+  "WS": {
+    "flagEmoji": "🇼🇸",
+    "placeholder": "XX-XXXXX",
+    "callingCode": "685"
+  },
+  "YE": {
+    "flagEmoji": "🇾🇪",
+    "placeholder": "XXX-XXX-XXX",
+    "callingCode": "967"
+  },
+  "YT": {
+    "flagEmoji": "🇾🇹",
+    "placeholder": "XXX-XX-XX-XX",
+    "callingCode": "262"
+  },
+  "ZA": {
+    "flagEmoji": "🇿🇦",
+    "placeholder": "XX-XXX-XXXX",
+    "callingCode": "27"
+  },
+  "ZM": {
+    "flagEmoji": "🇿🇲",
+    "placeholder": "XX-XXXXXXX",
+    "callingCode": "260"
+  },
+  "ZW": {
+    "flagEmoji": "🇿🇼",
+    "placeholder": "XX-XXX-XXXX",
+    "callingCode": "263"
+  }
+}
