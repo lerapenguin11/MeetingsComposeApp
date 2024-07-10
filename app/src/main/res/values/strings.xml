@@ -37,4 +37,7 @@
     <string name="text_valid_code_title">Введите код</string>
     <string name="text_valid_code_header">Отправили код на номер</string>
     <string name="text_request_code_again">Запросить код повторно</string>
+    <string name="text_name">Имя (обязательно)</string>
+    <string name="text_surname">Фамилия (опционально)</string>
+    <string name="text_save">Сохранить</string>
 </resources>

@@ -109,3 +109,81 @@ fun CustomSearchOutlinedTextField(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CustomSearchOutlinedTextFieldIcon(
+    modifier: Modifier = Modifier,
+    textPlaceholder: String,
+    isEnabled: Boolean
+) {
+    var searchText by remember { mutableStateOf("") }
+
+    val interactionSource = remember { MutableInteractionSource() }
+    val colorBorder =
+        if (searchText.isNotEmpty()) MeetTheme.colors.neutralOffWhite else MeetTheme.colors.neutralLine
+    val colorContent =
+        if (searchText.isNotEmpty()) MeetTheme.colors.neutralActive else MeetTheme.colors.neutralDisabled
+    val singleLine = true
+
+    val colors =
+        OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = colorBorder,
+            unfocusedBorderColor = MeetTheme.colors.neutralOffWhite,
+            disabledBorderColor = Color.Transparent,
+            unfocusedContainerColor = MeetTheme.colors.neutralOffWhite,
+            focusedContainerColor = MeetTheme.colors.neutralOffWhite,
+            disabledContainerColor = MeetTheme.colors.neutralOffWhiteDisabled,
+            focusedTextColor = MeetTheme.colors.neutralActive,
+            disabledLeadingIconColor = MeetTheme.colors.neutralDisabled2,
+            focusedLeadingIconColor = colorContent,
+            unfocusedLeadingIconColor = colorContent,
+        )
+    BasicTextField(
+        value = searchText,
+        onValueChange = { searchText = it },
+        modifier = modifier
+            .border(0.dp, Color.Transparent)
+            .height(36.dp)
+            .fillMaxWidth(),
+        interactionSource = interactionSource,
+        enabled = isEnabled,
+        singleLine = singleLine,
+        textStyle = MeetTheme.typography.bodyText1,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+    ) {
+        OutlinedTextFieldDefaults.DecorationBox(
+            value = searchText,
+            visualTransformation = VisualTransformation.None,
+            innerTextField = it,
+            singleLine = singleLine,
+            enabled = isEnabled,
+            placeholder = {
+                Text(
+                    text = textPlaceholder,
+                    style = MeetTheme.typography.bodyText1,
+                    color = if (isEnabled) MeetTheme.colors.neutralDisabled else MeetTheme.colors.neutralDisabled2
+                )
+            },
+            interactionSource = interactionSource,
+            contentPadding =
+            OutlinedTextFieldDefaults.contentPadding(
+                top = MeetTheme.sizes.sizeX6,
+                bottom = MeetTheme.sizes.sizeX6,
+                start = MeetTheme.sizes.sizeX8,
+                end = MeetTheme.sizes.sizeX8
+            ),
+            colors = colors,
+            container = {
+                OutlinedTextFieldDefaults.ContainerBox(
+                    enabled = isEnabled,
+                    isError = false,
+                    colors = colors,
+                    interactionSource = interactionSource,
+                    shape = RoundedCornerShape(4.dp),
+                    focusedBorderThickness = 2.dp
+                )
+            }
+        )
+    }
+}
+

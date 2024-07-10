@@ -9,15 +9,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavHostController
 import com.example.composeprotject.R
+import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.button.TextButton
 import com.example.composeprotject.ui.component.custom.CodeInput
 import com.example.composeprotject.ui.component.text.BaseText
@@ -29,7 +26,8 @@ fun VerificationCodeScreen(
     modifier: Modifier = Modifier,
     phoneNumber: String,
     contentPadding: PaddingValues,
-    splashScreenViewModel: SplashScreenViewModel
+    splashScreenViewModel: SplashScreenViewModel,
+    navController: NavHostController
 ) {
     Column(
         modifier = modifier
@@ -58,7 +56,7 @@ fun VerificationCodeScreen(
         CodeInput(viewModel = splashScreenViewModel)
         val inputValue = splashScreenViewModel.code.collectAsState()
         if (inputValue.value.length == 4) {
-            /*TODO: переход на экран создания профиля*/
+            navController.navigate(NavItem.CreateProfileScreenItem.route)
         }
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX69))
         TextButton(onClick = { /*TODO*/}, buttonText = R.string.text_request_code_again)

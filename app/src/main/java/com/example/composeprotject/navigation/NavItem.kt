@@ -60,6 +60,12 @@ sealed class NavItem(
         name = R.string.text_ver_code_screen,
         icon = null
     )
+
+    data object CreateProfileScreenItem : NavItem(
+        route = CREATE_PROFILE_SCREEN,
+        name = R.string.text_profile,
+        icon = null
+    )
 }
 
 val navItems = listOf(
@@ -77,3 +83,4 @@ private const val PROFILE_SCREEN = "PROFILE_SCREEN"
 private const val MY_MEETINGS_SCREEN = "MY_MEETINGS_SCREEN"
 private const val SPLASH_SCREEN = "SPLASH_SCREEN"
 private const val VER_CODE_SCREEN = "VER_CODE_SCREEN"
+private const val CREATE_PROFILE_SCREEN = "CREATE_PROFILE_SCREEN"
