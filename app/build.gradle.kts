@@ -65,6 +65,8 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.lottie.compose)
+    implementation("com.googlecode.libphonenumber:libphonenumber:8.12.32")
+    implementation("com.google.code.gson:gson:2.8.7")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

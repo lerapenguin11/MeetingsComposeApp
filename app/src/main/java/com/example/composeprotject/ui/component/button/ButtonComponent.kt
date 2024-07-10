@@ -176,7 +176,8 @@ fun ImageOutlinedButton(
 fun TextButton(
     onClick: () -> Unit,
     state: ButtonState = ButtonState.INITIAL,
-    colors: TextButtonColors = TextButtonDefaults.colors()
+    colors: TextButtonColors = TextButtonDefaults.colors(),
+    buttonText : Int
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val changeableState = remember { mutableStateOf(state) }
@@ -184,7 +185,7 @@ fun TextButton(
 
     CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
         TextButton(
-            //contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp),
+            contentPadding = PaddingValues(vertical = MeetTheme.sizes.sizeX12),
             colors = ButtonDefaults.buttonColors(
                 containerColor = colors.backgroundColor(changeableState.value),
                 contentColor = colors.contentColor(changeableState.value),
@@ -204,7 +205,7 @@ fun TextButton(
             }
             Text(
                 stringResource(
-                    id = R.string.text_button
+                    id = buttonText
                 ),
                 color = colors.contentColor(changeableState.value),
                 style = MeetTheme.typography.subheading2

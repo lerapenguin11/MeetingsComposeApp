@@ -16,7 +16,6 @@ import com.example.composeprotject.ui.component.input.CustomSearchOutlinedTextFi
 import com.example.composeprotject.ui.component.tab.EventTab
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.MainViewModel
-import com.example.composeprotject.viewModel.SplashScreenViewModel
 
 @Composable
 fun EventScreen(

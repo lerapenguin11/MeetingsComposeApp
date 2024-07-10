@@ -49,10 +49,11 @@ fun SplashScreen(
                 iterations = LottieConstants.IterateForever
             )
         } else {
-            if (isUserLoggedIn) {
+            if (false) { //TODO: isUserLoggedIn
                 navController.navigate(route = NavItem.EventItem.route)
             } else {
-                navController.navigate(/*TODO: добавить route регистрации*/ route = "")
+                navController.navigate(/*TODO: добавить route регистрации*/
+                    route = NavItem.VerifInputPhoneNumberScreenItem.route)
             }
         }
     }
