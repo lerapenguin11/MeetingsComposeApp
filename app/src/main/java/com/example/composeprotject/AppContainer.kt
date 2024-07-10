@@ -57,12 +57,12 @@ fun AppContainer() {
         modifier = Modifier.fillMaxSize(),
         containerColor = MeetTheme.colors.neutralWhite,
         topBar = {
-            if (showTopBar!!) {
+            if (showTopBar) {
                 topBar()
             }
         },
         bottomBar = {
-            if (showBottomBar!!) {
+            if (showBottomBar) {
                 BottomNavigationBar(navController)
             }
         }
