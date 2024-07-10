@@ -1,5 +1,6 @@
 package com.example.composeprotject.ui.component.custom
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -16,7 +17,10 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,15 +31,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.composeprotject.R
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.SplashScreenViewModel
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.google.i18n.phonenumbers.PhoneNumberUtil
 
+//TODO: Доделать ввод номера
 
 data class CountryData(
     val flagEmoji: String,
@@ -43,32 +58,42 @@ data class CountryData(
     val callingCode: String
 )
 
-val mockCountryData = mapOf<String, CountryData>(
-    "RU" to CountryData(
-        flagEmoji = "\uD83C\uDDF7\uD83C\uDDFA",
-        callingCode = "7",
-        placeholder = "XXX-XXX-XX-XX"
-    ),
-    "US" to CountryData(
-        flagEmoji = "\uD83C\uDDFA\uD83C\uDDF8",
-        callingCode = "1",
-        placeholder = "XXX-XXX-XXXX"
-    )
-)
+fun readCountryDataFromJson(context: Context): Map<String, CountryData> {
+    val inputStream = context.resources.openRawResource(R.raw.country_data)
+    val jsonString = inputStream.bufferedReader().use { it.readText() }
+    val type = object : TypeToken<Map<String, CountryData>>() {}.type
+    return Gson().fromJson(jsonString, type)
+}
 
+var countryData: Map<String, CountryData>? = null
 
 @Composable
 fun PhoneNumberInput(
     value: String,
     onValueChange: (value: String) -> Unit
 ) {
+    if (countryData == null) {
+        countryData = readCountryDataFromJson(LocalContext.current)
+    }
+
     // TODO: move to enum
-    val currentCountryISO2 by remember { mutableStateOf<String?>("RU") }
-    val currentCountry = mockCountryData[currentCountryISO2]
+    val currentCountryISO2 = remember { mutableStateOf<String?>("RU") }
+    val currentCountry = countryData!![currentCountryISO2.value]
+    val currentCountryCode =
+        if (currentCountryISO2.value != null) countryData!![currentCountryISO2.value!!]!!.callingCode else null
 
     val nationalNumber = if (currentCountry != null)
-        value.replace("+${currentCountry!!.callingCode}", "") else value
+        value.replace("+${currentCountry.callingCode}", "") else value
 
+    val onTextFieldValueChange = fun (value: String) {
+        if (currentCountryCode != null) {
+            onValueChange("+${currentCountryCode}${value.replace(currentCountryCode, "")}")
+            return;
+        }
+
+        val parseResult = PhoneNumberUtil.getInstance().parse(value, "RU")
+
+    }
 
 //    val nationalNumber = currentCountryISO2 != null ?
 
@@ -83,7 +108,7 @@ fun PhoneNumberInput(
         BasicTextField(
             modifier = Modifier
                 .border(0.dp, Color.Transparent),
-            value = nationalNumber, onValueChange = onValueChange
+            value = nationalNumber, onValueChange = onTextFieldValueChange,
         )
     }
 }
@@ -159,6 +184,15 @@ fun CodeInput(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun Test(){
+    PhoneNumberInput(
+        value = "",
+        onValueChange = {}
+    )
 }
 
 private const val MAX_LENGTH_CODE = 4
