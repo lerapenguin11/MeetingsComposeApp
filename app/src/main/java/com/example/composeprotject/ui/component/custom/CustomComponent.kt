@@ -112,13 +112,12 @@ fun CodeInput(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     var value by remember { mutableStateOf(viewModel.code.value) }
-    val isInput = remember { mutableStateOf(false) }
     val v by viewModel.code.collectAsState()
 
     Box(modifier = Modifier.padding(10.dp)) {
         BasicTextField(
             modifier = Modifier
-                .width(232.dp),
+                .width(240.dp),
             textStyle = TextStyle(
                 letterSpacing = 40.sp,
                 fontFamily = MeetTheme.typography.heading1.fontFamily,
@@ -126,6 +125,7 @@ fun CodeInput(
                 fontSize = 32.sp
             ),
             cursorBrush = SolidColor(Color.Transparent),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             value = v, onValueChange = { if (it.length <= 4)  viewModel.setCode(it) },
         ) {
             OutlinedTextFieldDefaults.DecorationBox(
@@ -176,13 +176,4 @@ fun CodeInput(
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun Test() {
-    /*   PhoneNumberInput(value = "+7982") {
-
-       }*/
-    //CodeInput(value = "12", onValueChange = {})
 }
