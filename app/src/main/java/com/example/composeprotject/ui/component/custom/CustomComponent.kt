@@ -1,33 +1,21 @@
 package com.example.composeprotject.ui.component.custom
 
-import android.telephony.PhoneNumberUtils
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.IntrinsicSize
-
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -39,19 +27,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.composeprotject.R
-import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.SplashScreenViewModel
-import java.sql.Array
 
 
 data class CountryData(
@@ -114,7 +97,7 @@ fun CodeInput(
     var value by remember { mutableStateOf(viewModel.code.value) }
     val v by viewModel.code.collectAsState()
 
-    Box(modifier = Modifier.padding(10.dp)) {
+    Box(modifier = Modifier.padding(MeetTheme.sizes.sizeX10)) {
         BasicTextField(
             modifier = Modifier
                 .width(240.dp),
@@ -126,7 +109,7 @@ fun CodeInput(
             ),
             cursorBrush = SolidColor(Color.Transparent),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            value = v, onValueChange = { if (it.length <= 4)  viewModel.setCode(it) },
+            value = v, onValueChange = { if (it.length <= MAX_LENGTH_CODE)  viewModel.setCode(it) },
         ) {
             OutlinedTextFieldDefaults.DecorationBox(
                 value = value,
@@ -156,7 +139,7 @@ fun CodeInput(
         }
 
         for (i in 0..(3 - v.length)) {
-            val offsetLength = 15 + ((32 + 25) * i)
+            val offsetLength = INDENTATION_INSIDE_CONTAINER + ((INPUT_WIDTH + 25) * i)
 
             Box(
                 modifier = Modifier
@@ -177,3 +160,7 @@ fun CodeInput(
         }
     }
 }
+
+private const val MAX_LENGTH_CODE = 4
+private const val INPUT_WIDTH = 32
+private const val INDENTATION_INSIDE_CONTAINER = 15
