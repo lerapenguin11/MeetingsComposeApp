@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -36,10 +37,10 @@ fun AppContainer() {
     val navController = rememberNavController()
     val mainViewModel: MainViewModel = viewModel()
     val splashScreenViewModel: SplashScreenViewModel = viewModel()
-    val currentScreen by mainViewModel.currentScreen.observeAsState()
-    val detailedTitle by mainViewModel.titleDetailedScreen.observeAsState()
-    val showTopBar by mainViewModel.showTopBar.observeAsState()
-    val showBottomBar by mainViewModel.showBottomBar.observeAsState()
+    val currentScreen by mainViewModel.currentScreen.collectAsState()
+    val detailedTitle by mainViewModel.titleDetailedScreen.collectAsState()
+    val showTopBar by mainViewModel.showTopBar.collectAsState()
+    val showBottomBar by mainViewModel.showBottomBar.collectAsState()
 
     val topBar: @Composable () -> Unit = {
         CustomToolbar(
@@ -56,12 +57,12 @@ fun AppContainer() {
         modifier = Modifier.fillMaxSize(),
         containerColor = MeetTheme.colors.neutralWhite,
         topBar = {
-            if (showTopBar!!){
+            if (showTopBar!!) {
                 topBar()
             }
         },
         bottomBar = {
-            if (showBottomBar!!){
+            if (showBottomBar!!) {
                 BottomNavigationBar(navController)
             }
         }
