@@ -16,6 +16,7 @@ import com.example.composeprotject.ui.component.input.CustomSearchOutlinedTextFi
 import com.example.composeprotject.ui.component.tab.EventTab
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.MainViewModel
+import com.example.composeprotject.viewModel.SplashScreenViewModel
 
 @Composable
 fun EventScreen(
@@ -24,7 +25,7 @@ fun EventScreen(
     contentPadding: PaddingValues,
     navController: NavHostController
 ) {
-    viewModel.setCurrentScreen(NavItem.EventItem)
+    viewModel.setCurrentScreen(screen = NavItem.EventItem, show = true)
     val tabs = listOf(R.string.text_tab_all_events, R.string.text_tab_active_events)
 
     Column(

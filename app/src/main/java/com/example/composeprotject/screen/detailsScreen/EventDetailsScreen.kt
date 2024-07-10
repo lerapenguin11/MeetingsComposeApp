@@ -47,7 +47,7 @@ fun EventDetailsScreen(
     eventName: String?,
     viewModel: MainViewModel
 ) {
-    viewModel.setCurrentScreen(NavItem.EventDetailsItem)
+    viewModel.setCurrentScreen(screen = NavItem.EventDetailsItem, show = true)
     viewModel.setTitleDetailedScreen(
         eventName ?: stringResource(id = R.string.text_event_details)
     )

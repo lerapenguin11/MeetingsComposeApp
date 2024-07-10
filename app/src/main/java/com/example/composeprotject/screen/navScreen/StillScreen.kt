@@ -21,7 +21,7 @@ fun StillScreen(
     onStillClickToProfileScreen: (/*TODO*/) -> Unit,
     onStillClickToMyMeetingsScreen: (/*TODO*/) -> Unit,
 ) {
-    viewModel.setCurrentScreen(NavItem.StillItem)
+    viewModel.setCurrentScreen(screen = NavItem.StillItem, show = true)
 
     Column(
         modifier = modifier

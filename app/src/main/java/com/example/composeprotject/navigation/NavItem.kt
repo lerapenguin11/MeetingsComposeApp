@@ -48,6 +48,12 @@ sealed class NavItem(
         name = R.string.text_my_event,
         icon = null
     )
+
+    data object SplashScreenItem : NavItem(
+        route = SPLASH_SCREEN,
+        name = R.string.text_splash_screen,
+        icon = null
+    )
 }
 
 val navItems = listOf(
@@ -63,3 +69,4 @@ private const val COMMUNITY_DETAILS = "COMMUNITY_DETAILS"
 private const val EVENT_DETAILS = "EVENT_DETAILS"
 private const val PROFILE_SCREEN = "PROFILE_SCREEN"
 private const val MY_MEETINGS_SCREEN = "MY_MEETINGS_SCREEN"
+private const val SPLASH_SCREEN = "SPLASH_SCREEN"

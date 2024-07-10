@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -27,15 +28,19 @@ import com.example.composeprotject.ui.component.toolbar.getBackNavigation
 import com.example.composeprotject.ui.component.toolbar.getToolbarTitle
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.MainViewModel
+import com.example.composeprotject.viewModel.SplashScreenViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @ExperimentalFoundationApi
 @Composable
 fun AppContainer() {
     val navController = rememberNavController()
-    val viewModel: MainViewModel = viewModel()
-    val currentScreen by viewModel.currentScreen.observeAsState()
-    val detailedTitle by viewModel.titleDetailedScreen.observeAsState()
+    val mainViewModel: MainViewModel = viewModel()
+    val splashScreenViewModel: SplashScreenViewModel = viewModel()
+    val currentScreen by mainViewModel.currentScreen.collectAsState()
+    val detailedTitle by mainViewModel.titleDetailedScreen.collectAsState()
+    val showTopBar by mainViewModel.showTopBar.collectAsState()
+    val showBottomBar by mainViewModel.showBottomBar.collectAsState()
 
     val topBar: @Composable () -> Unit = {
         CustomToolbar(
@@ -52,11 +57,22 @@ fun AppContainer() {
         modifier = Modifier.fillMaxSize(),
         containerColor = MeetTheme.colors.neutralWhite,
         topBar = {
-            topBar()
+            if (showTopBar) {
+                topBar()
+            }
         },
-        bottomBar = { BottomNavigationBar(navController) }
+        bottomBar = {
+            if (showBottomBar) {
+                BottomNavigationBar(navController)
+            }
+        }
     ) { contentPadding ->
-        NavigationHost(navController, contentPadding = contentPadding, viewModel = viewModel)
+        NavigationHost(
+            navController = navController,
+            contentPadding = contentPadding,
+            mainViewModel = mainViewModel,
+            splashScreenViewModel = splashScreenViewModel
+        )
     }
 }
 

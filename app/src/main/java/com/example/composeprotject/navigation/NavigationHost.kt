@@ -16,22 +16,25 @@ import com.example.composeprotject.screen.detailsScreen.EventDetailsScreen
 import com.example.composeprotject.screen.navScreen.CommunityScreen
 import com.example.composeprotject.screen.navScreen.EventScreen
 import com.example.composeprotject.screen.navScreen.StillScreen
+import com.example.composeprotject.screen.splashScreen.SplashScreen
 import com.example.composeprotject.viewModel.MainViewModel
+import com.example.composeprotject.viewModel.SplashScreenViewModel
 
 @ExperimentalFoundationApi
 @Composable
 fun NavigationHost(
     navController: NavHostController = rememberNavController(),
     contentPadding: PaddingValues,
-    viewModel: MainViewModel
+    mainViewModel: MainViewModel,
+    splashScreenViewModel: SplashScreenViewModel
 ) {
     NavHost(
         navController = navController,
-        startDestination = NavItem.EventItem.route
+        startDestination = NavItem.SplashScreenItem.route
     ) {
         composable(route = NavItem.EventItem.route) {
             EventScreen(
-                viewModel = viewModel,
+                viewModel = mainViewModel,
                 contentPadding = contentPadding,
                 navController = navController
             )
@@ -39,7 +42,7 @@ fun NavigationHost(
 
         composable(route = NavItem.CommunityItem.route) {
             CommunityScreen(
-                viewModel = viewModel,
+                viewModel = mainViewModel,
                 contentPadding = contentPadding,
                 navController = navController,
                 onCommunityClick = { community ->
@@ -52,7 +55,7 @@ fun NavigationHost(
 
         composable(route = NavItem.StillItem.route) {
             StillScreen(
-                viewModel = viewModel,
+                viewModel = mainViewModel,
                 contentPadding = contentPadding,
                 onStillClickToProfileScreen = {
                     navController.navigate(
@@ -68,14 +71,14 @@ fun NavigationHost(
 
         composable(route = NavItem.MyMeetingsScreen.route){
             MyMeetingsScreen(
-                viewModel = viewModel,
+                viewModel = mainViewModel,
                 contentPadding = contentPadding,
                 navController = navController
             )
         }
 
         composable(route = NavItem.ProfileItem.route){
-            ProfileScreen(viewModel = viewModel, contentPadding = contentPadding)
+            ProfileScreen(viewModel = mainViewModel, contentPadding = contentPadding)
         }
 
         composable(
@@ -92,7 +95,7 @@ fun NavigationHost(
                 communityId = communityId,
                 contentPadding = contentPadding,
                 communityName = communityName,
-                viewModel = viewModel
+                viewModel = mainViewModel
             )
         }
 
@@ -109,8 +112,16 @@ fun NavigationHost(
                 contentPadding = contentPadding,
                 eventId = eventId,
                 eventName = eventName,
-                viewModel = viewModel
+                viewModel = mainViewModel
             )
+        }
+
+        composable(route = NavItem.SplashScreenItem.route){
+            SplashScreen(
+                splashScreenViewModel = splashScreenViewModel,
+                navController = navController,
+                contentPadding = contentPadding,
+                mainViewModel = mainViewModel)
         }
     }
 }

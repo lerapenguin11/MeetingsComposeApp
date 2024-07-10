@@ -27,7 +27,7 @@ fun CommunityScreen(
     navController: NavHostController,
     onCommunityClick: (Community) -> Unit
 ) {
-    viewModel.setCurrentScreen(NavItem.CommunityItem)
+    viewModel.setCurrentScreen(screen = NavItem.CommunityItem, show = true)
     Column(
         modifier = modifier
             .padding(contentPadding)
