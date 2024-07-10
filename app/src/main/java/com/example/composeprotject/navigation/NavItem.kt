@@ -66,6 +66,12 @@ sealed class NavItem(
         name = R.string.text_profile,
         icon = null
     )
+
+    data object VerifInputPhoneNumberScreenItem : NavItem(
+        route = INPUT_PHONE_NUMBER_SCREEN,
+        name = R.string.text_input_phone_number,
+        icon = null
+    )
 }
 
 val navItems = listOf(
@@ -82,5 +88,7 @@ private const val EVENT_DETAILS = "EVENT_DETAILS"
 private const val PROFILE_SCREEN = "PROFILE_SCREEN"
 private const val MY_MEETINGS_SCREEN = "MY_MEETINGS_SCREEN"
 private const val SPLASH_SCREEN = "SPLASH_SCREEN"
+
 private const val VER_CODE_SCREEN = "VER_CODE_SCREEN"
 private const val CREATE_PROFILE_SCREEN = "CREATE_PROFILE_SCREEN"
+private const val INPUT_PHONE_NUMBER_SCREEN = "INPUT_PHONE_NUMBER_SCREEN"

@@ -11,20 +11,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
-import androidx.navigation.NavOptions
 import com.example.composeprotject.R
 import com.example.composeprotject.navigation.NavItem
-import com.example.composeprotject.ui.component.avatar.ProfileAvatarContainer
 import com.example.composeprotject.ui.component.button.FilledButton
-import com.example.composeprotject.ui.component.input.CustomSearchOutlinedTextFieldIcon
+import com.example.composeprotject.ui.component.custom.PhoneNumberInput
 import com.example.composeprotject.ui.component.state.ButtonState
-import com.example.composeprotject.ui.component.variant.avatar.AvatarState
-import com.example.composeprotject.ui.component.variant.avatar.ProfileAvatarVariant
+import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
 
 @Composable
-fun CreateProfileScreen(
+fun VerifInputPhoneNumberScreen(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
     navController: NavHostController
@@ -36,29 +35,26 @@ fun CreateProfileScreen(
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        ProfileAvatarContainer(
-            variant = ProfileAvatarVariant.MEDIUM,
-            colorContainer = MeetTheme.colors.neutralOffWhite,
-            avatarUrl = null,
-            contentDescription = R.string.text_content_description,
-            state = AvatarState.EDITING
+    ){
+        BaseText(
+            text = stringResource(id = R.string.text_enter_phone_number),
+            textColor = MeetTheme.colors.neutralActive,
+            textStyle = MeetTheme.typography.heading2
         )
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX31))
-        CustomSearchOutlinedTextFieldIcon(
-            textPlaceholder = stringResource(id = R.string.text_name),
-            isEnabled = true
+        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX8))
+        BaseText(
+            text = stringResource(id = R.string.text_desc_code),
+            textColor = MeetTheme.colors.neutralActive,
+            textStyle = MeetTheme.typography.bodyText2,
+            textAlign = TextAlign.Center
         )
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX12))
-        CustomSearchOutlinedTextFieldIcon(
-            textPlaceholder = stringResource(id = R.string.text_surname),
-            isEnabled = true
-        )
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX68))
+        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX49))
+        PhoneNumberInput(value = "+7", onValueChange = {})
+        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX69))
         FilledButton(
-            onClick = { navController.navigate(route = NavItem.EventItem.route) /*TODO: докинуть логики*/ },
+            onClick = { navController.navigate(route = NavItem.VerificationCodeScreenItem.route) /*TODO: докинуть логики*/ },
             state = ButtonState.INITIAL,
-            buttonText = R.string.text_save
+            buttonText = R.string.text_continue
         )
     }
 }

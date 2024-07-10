@@ -40,4 +40,8 @@
     <string name="text_name">Имя (обязательно)</string>
     <string name="text_surname">Фамилия (опционально)</string>
     <string name="text_save">Сохранить</string>
+    <string name="text_enter_phone_number">Введите номер телефона</string>
+    <string name="text_desc_code">Мы вышлем код подтверждения \nна указаный номер</string>
+    <string name="text_continue">Продолжить</string>
+    <string name="text_input_phone_number">Ввод телефона</string>
 </resources>
