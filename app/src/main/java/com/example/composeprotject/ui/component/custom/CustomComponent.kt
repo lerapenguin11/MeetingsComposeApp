@@ -1,26 +1,27 @@
 package com.example.composeprotject.ui.component.custom
 
 import android.content.Context
+import android.telephony.PhoneNumberUtils
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,11 +32,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onKeyEvent
-import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
@@ -44,13 +42,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.composeprotject.R
+import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.SplashScreenViewModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.i18n.phonenumbers.PhoneNumberUtil
-
-//TODO: Доделать ввод номера
 
 data class CountryData(
     val flagEmoji: String,
@@ -66,52 +63,6 @@ fun readCountryDataFromJson(context: Context): Map<String, CountryData> {
 }
 
 var countryData: Map<String, CountryData>? = null
-
-@Composable
-fun PhoneNumberInput(
-    value: String,
-    onValueChange: (value: String) -> Unit
-) {
-    if (countryData == null) {
-        countryData = readCountryDataFromJson(LocalContext.current)
-    }
-
-    // TODO: move to enum
-    val currentCountryISO2 = remember { mutableStateOf<String?>("RU") }
-    val currentCountry = countryData!![currentCountryISO2.value]
-    val currentCountryCode =
-        if (currentCountryISO2.value != null) countryData!![currentCountryISO2.value!!]!!.callingCode else null
-
-    val nationalNumber = if (currentCountry != null)
-        value.replace("+${currentCountry.callingCode}", "") else value
-
-    val onTextFieldValueChange = fun (value: String) {
-        if (currentCountryCode != null) {
-            onValueChange("+${currentCountryCode}${value.replace(currentCountryCode, "")}")
-            return;
-        }
-
-        val parseResult = PhoneNumberUtil.getInstance().parse(value, "RU")
-
-    }
-
-//    val nationalNumber = currentCountryISO2 != null ?
-
-    Row(modifier = Modifier.background(Color.White)) {
-        if (currentCountry != null) {
-            Row {
-                Text(text = currentCountry.flagEmoji)
-                Text(text = "+${currentCountry.callingCode}")
-            }
-        }
-
-        BasicTextField(
-            modifier = Modifier
-                .border(0.dp, Color.Transparent),
-            value = nationalNumber, onValueChange = onTextFieldValueChange,
-        )
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -134,7 +85,7 @@ fun CodeInput(
             ),
             cursorBrush = SolidColor(Color.Transparent),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            value = v, onValueChange = { if (it.length <= MAX_LENGTH_CODE)  viewModel.setCode(it) },
+            value = v, onValueChange = { if (it.length <= MAX_LENGTH_CODE) viewModel.setCode(it) },
         ) {
             OutlinedTextFieldDefaults.DecorationBox(
                 value = value,
@@ -186,15 +137,175 @@ fun CodeInput(
     }
 }
 
-@Preview(showBackground = true)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Test(){
-    PhoneNumberInput(
-        value = "",
-        onValueChange = {}
-    )
+fun PhoneNumberInput(
+    modifier: Modifier = Modifier
+) {
+    var callingCodeValue by remember { mutableStateOf(EMPTY_LINE) }
+    var numberPhoneValue by remember { mutableStateOf(EMPTY_LINE) }
+    var region by remember { mutableStateOf(EMPTY_LINE) }
+
+    if (countryData == null) {
+        countryData = readCountryDataFromJson(LocalContext.current)
+    }
+
+    val interactionSource = remember { MutableInteractionSource() }
+    val colorContent =
+        if (callingCodeValue.isNotEmpty()) MeetTheme.colors.neutralActive else MeetTheme.colors.neutralDisabled
+    val singleLine = true
+
+
+    val colors =
+        OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = MeetTheme.colors.neutralOffWhite,
+            unfocusedBorderColor = MeetTheme.colors.neutralOffWhite,
+            disabledBorderColor = Color.Transparent,
+            unfocusedContainerColor = MeetTheme.colors.neutralOffWhite,
+            focusedContainerColor = MeetTheme.colors.neutralOffWhite,
+            disabledContainerColor = MeetTheme.colors.neutralOffWhiteDisabled,
+            focusedTextColor = MeetTheme.colors.neutralActive,
+            unfocusedLeadingIconColor = colorContent,
+        )
+
+    Row {
+        if (countryData!![region] != null) {
+            Row(modifier = Modifier
+                .background(MeetTheme.colors.neutralOffWhite)
+                .height(36.dp)
+                .clip(RoundedCornerShape(4.dp))
+                .padding(horizontal = MeetTheme.sizes.sizeX8),
+                verticalAlignment = Alignment.CenterVertically) {
+                BaseText(
+                    text = countryData!![region]?.flagEmoji ?: DEFAULT_FLAG_COUNTRY
+                )
+                Spacer(
+                    modifier = Modifier.width(MeetTheme.sizes.sizeX8)
+                )
+                BaseText(
+                    text = "$PLUS${countryData!![region]?.callingCode}"
+                        ?: stringResource(id = R.string.text_default_phone_code),
+                    textColor = MeetTheme.colors.neutralActive,
+                    textStyle = MeetTheme.typography.bodyText1
+                )
+            }
+
+            Spacer(
+                modifier = Modifier.width(MeetTheme.sizes.sizeX8)
+            )
+        }
+
+        BasicTextField(
+            value = textFieldValueChange(region = region, numberPhone = numberPhoneValue),
+            onValueChange = { newValue ->
+                numberPhoneValue = newValue
+
+                var countryISO2 = EMPTY_LINE
+
+                if (region.isEmpty()) {
+                    countryISO2 = getCountryNameByPhoneCode(numberPhoneValue)
+                }
+                if (region.isNotEmpty() && newValue.length > 5) {
+                    numberPhoneValue = formatPhoneNumber(newValue, region)
+                }
+                if (countryISO2.isNotEmpty() && countryISO2 != UNSPECIFIED_COUNTRY) {
+                    region = countryISO2
+
+                } else if (newValue.isEmpty()) {
+                    region = EMPTY_LINE
+                }
+            },
+            modifier = modifier
+                .border(0.dp, Color.Transparent)
+                .height(36.dp)
+                .fillMaxWidth(),
+            interactionSource = interactionSource,
+            enabled = true,
+            singleLine = singleLine,
+            textStyle = MeetTheme.typography.bodyText1,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
+        ) {
+            OutlinedTextFieldDefaults.DecorationBox(
+                value = numberPhoneValue,
+                visualTransformation = VisualTransformation.None,
+                innerTextField = it,
+                singleLine = singleLine,
+                enabled = true,
+                placeholder = {
+                    Text(
+                        text = formatPlaceholderPhoneNumber(region = region),
+                        style = MeetTheme.typography.bodyText1,
+                        color = MeetTheme.colors.neutralDisabled
+                    )
+                },
+                interactionSource = interactionSource,
+                contentPadding =
+                OutlinedTextFieldDefaults.contentPadding(
+                    top = MeetTheme.sizes.sizeX6,
+                    bottom = MeetTheme.sizes.sizeX6,
+                    start = MeetTheme.sizes.sizeX8,
+                    end = MeetTheme.sizes.sizeX8
+                ),
+                colors = colors,
+                container = {
+                    OutlinedTextFieldDefaults.ContainerBox(
+                        enabled = true,
+                        isError = false,
+                        colors = colors,
+                        interactionSource = interactionSource,
+                        shape = RoundedCornerShape(4.dp),
+                        focusedBorderThickness = 2.dp
+                    )
+                }
+            )
+        }
+    }
 }
+
+fun textFieldValueChange(region: String, numberPhone: String): String {
+    return if (region.isNotEmpty() && region != UNSPECIFIED_COUNTRY) numberPhone.replace(
+        "$PLUS${
+            countryData!![region]!!.callingCode
+        }", EMPTY_LINE
+    ) else numberPhone
+}
+
+fun getCountryNameByPhoneCode(phoneCode: String): String {
+    val phoneNumberUtil = PhoneNumberUtil.getInstance()
+    return try {
+        if (phoneCode.isNotEmpty()) {
+            val countryName = phoneNumberUtil.getRegionCodeForCountryCode(phoneCode.toInt())
+            return countryName
+        } else {
+            EMPTY_LINE
+        }
+    } catch (e: Exception) {
+        EMPTY_LINE
+    }
+}
+
+fun formatPhoneNumber(value: String, pattern: String): String {
+    return if (pattern.isEmpty()) {
+        return value
+    } else {
+        PhoneNumberUtils.formatNumber(value, pattern)
+    }
+}
+
+@Composable
+fun formatPlaceholderPhoneNumber(region: String): String {
+    return if (region.isEmpty()) {
+        stringResource(id = R.string.text_ph_phone_number_with_code)
+    } else {
+        stringResource(id = R.string.text_ph_phone_number)
+    }
+}
+
 
 private const val MAX_LENGTH_CODE = 4
 private const val INPUT_WIDTH = 32
 private const val INDENTATION_INSIDE_CONTAINER = 15
+private const val UNSPECIFIED_COUNTRY = "ZZ"
+private const val EMPTY_LINE = ""
+private const val DEFAULT_FLAG_COUNTRY = "\uD83C\uDDF7\uD83C\uDDFA"
+private const val PLUS = "+"

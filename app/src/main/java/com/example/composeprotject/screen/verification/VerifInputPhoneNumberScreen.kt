@@ -49,7 +49,7 @@ fun VerifInputPhoneNumberScreen(
             textAlign = TextAlign.Center
         )
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX49))
-        PhoneNumberInput(value = "+7", onValueChange = {})
+        PhoneNumberInput()
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX69))
         FilledButton(
             onClick = { navController.navigate(route = NavItem.VerificationCodeScreenItem.route) /*TODO: докинуть логики*/ },
