@@ -9,7 +9,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -27,6 +26,7 @@ import com.example.composeprotject.ui.component.toolbar.getActionToolbar
 import com.example.composeprotject.ui.component.toolbar.getBackNavigation
 import com.example.composeprotject.ui.component.toolbar.getToolbarTitle
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.composeprotject.viewModel.EventDetailsViewModel
 import com.example.composeprotject.viewModel.MainViewModel
 import com.example.composeprotject.viewModel.SplashScreenViewModel
 
@@ -37,15 +37,17 @@ fun AppContainer() {
     val navController = rememberNavController()
     val mainViewModel: MainViewModel = viewModel()
     val splashScreenViewModel: SplashScreenViewModel = viewModel()
+    val eventDetailsViewModel : EventDetailsViewModel = viewModel()
     val currentScreen by mainViewModel.currentScreen.collectAsState()
     val detailedTitle by mainViewModel.titleDetailedScreen.collectAsState()
     val showTopBar by mainViewModel.showTopBar.collectAsState()
     val showBottomBar by mainViewModel.showBottomBar.collectAsState()
+    val isActionDoneEvent by eventDetailsViewModel.isActionEventDetails.collectAsState()
 
     val topBar: @Composable () -> Unit = {
         CustomToolbar(
             navigationIcon = getNavigationIconSlot(currentScreen),
-            actions = getActionsSlot(currentScreen),
+            actions = getActionsSlot(currentScreen, isActionDoneEvent),
             toolbarTitle = ToolbarTitle(
                 titleText = getToolbarTitleSlot(currentScreen, detailedTitle),
                 expandedTextStyle = MeetTheme.typography.subheading1,
@@ -71,7 +73,8 @@ fun AppContainer() {
             navController = navController,
             contentPadding = contentPadding,
             mainViewModel = mainViewModel,
-            splashScreenViewModel = splashScreenViewModel
+            splashScreenViewModel = splashScreenViewModel,
+            eventDetailsViewModel = eventDetailsViewModel
         )
     }
 }
@@ -100,8 +103,8 @@ private fun getNavigationIconSlot(currentScreen: NavItem?): (@Composable () -> U
     }
 }
 
-private fun getActionsSlot(currentScreen: NavItem?): (@Composable RowScope.() -> Unit)? {
-    val mode = getActionToolbar(currentScreen!!.route)
+private fun getActionsSlot(currentScreen: NavItem?, isActionDoneEvent: Boolean): (@Composable RowScope.() -> Unit)? {
+    val mode = getActionToolbar(currentScreen!!.route, isAction = isActionDoneEvent)
     return when (mode) {
         ActionMode.ADD_ICON -> {
             {
@@ -112,6 +115,12 @@ private fun getActionsSlot(currentScreen: NavItem?): (@Composable RowScope.() ->
         ActionMode.EDIT_ICON -> {
             {
                 Icon(painterResource(id = R.drawable.ic_edit_profile), null)
+            }
+        }
+
+        ActionMode.DONE -> {
+            {
+                Icon(painterResource(id = R.drawable.ic_done_event), null)
             }
         }
 

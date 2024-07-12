@@ -17,7 +17,8 @@ enum class BackNavigationMode {
 enum class ActionMode {
     ADD_ICON,
     EDIT_ICON,
-    NONE
+    NONE,
+    DONE
 }
 
 enum class ToolbarTitleMode {
@@ -49,16 +50,25 @@ fun getToolbarTitle(param: String): ToolbarTitleMode {
     }
 }
 
-fun getActionToolbar(param: String): ActionMode {
+fun getActionToolbar(param: String, isAction: Boolean = false): ActionMode {
     return when (param) {
         CurrentScreen.EVENT_SCREEN.name -> ActionMode.ADD_ICON
         CurrentScreen.COMMUNITY_SCREEN.name -> ActionMode.NONE
         CurrentScreen.STILL_SCREEN.name -> ActionMode.NONE
         CurrentScreen.COMMUNITY_DETAILS.name -> ActionMode.NONE
         CurrentScreen.PROFILE_SCREEN.name -> ActionMode.EDIT_ICON
+        CurrentScreen.EVENT_DETAILS.name -> getActionEventScreen(isAction = isAction)
         else -> {
             ActionMode.NONE
         }
+    }
+}
+
+fun getActionEventScreen(isAction: Boolean): ActionMode {
+    return if (isAction) {
+        ActionMode.NONE
+    } else {
+        ActionMode.DONE
     }
 }
 
