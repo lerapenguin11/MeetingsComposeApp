@@ -26,6 +26,7 @@ import com.example.composeprotject.ui.component.toolbar.getActionToolbar
 import com.example.composeprotject.ui.component.toolbar.getBackNavigation
 import com.example.composeprotject.ui.component.toolbar.getToolbarTitle
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.composeprotject.viewModel.AuthViewModel
 import com.example.composeprotject.viewModel.EventDetailsViewModel
 import com.example.composeprotject.viewModel.MainViewModel
 import com.example.composeprotject.viewModel.SplashScreenViewModel
@@ -38,6 +39,7 @@ fun AppContainer() {
     val mainViewModel: MainViewModel = viewModel()
     val splashScreenViewModel: SplashScreenViewModel = viewModel()
     val eventDetailsViewModel : EventDetailsViewModel = viewModel()
+    val authViewModel : AuthViewModel = viewModel()
     val currentScreen by mainViewModel.currentScreen.collectAsState()
     val detailedTitle by mainViewModel.titleDetailedScreen.collectAsState()
     val showTopBar by mainViewModel.showTopBar.collectAsState()
@@ -74,7 +76,8 @@ fun AppContainer() {
             contentPadding = contentPadding,
             mainViewModel = mainViewModel,
             splashScreenViewModel = splashScreenViewModel,
-            eventDetailsViewModel = eventDetailsViewModel
+            eventDetailsViewModel = eventDetailsViewModel,
+            authViewModel = authViewModel
         )
     }
 }

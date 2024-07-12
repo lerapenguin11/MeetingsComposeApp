@@ -38,13 +38,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.composeprotject.R
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.SplashScreenViewModel
+import com.example.composeprotject.viewModel.AuthViewModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.i18n.phonenumbers.PhoneNumberUtil
@@ -67,7 +66,7 @@ var countryData: Map<String, CountryData>? = null
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CodeInput(
-    viewModel: SplashScreenViewModel
+    viewModel: AuthViewModel
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     var value by remember { mutableStateOf(viewModel.code.value) }
@@ -120,14 +119,14 @@ fun CodeInput(
             Box(
                 modifier = Modifier
                     .offset(-offsetLength.dp)
-                    .width(32.dp)
-                    .height(40.dp)
+                    .width(MeetTheme.sizes.sizeX32)
+                    .height(MeetTheme.sizes.sizeX40)
                     .background(Color.White)
                     .align(Alignment.CenterEnd)
             ) {
                 Box(
                     modifier = Modifier
-                        .size(24.dp)
+                        .size(MeetTheme.sizes.sizeX24)
                         .clip(CircleShape)
                         .align(Alignment.Center)
                         .background(color = MeetTheme.colors.neutralLine)

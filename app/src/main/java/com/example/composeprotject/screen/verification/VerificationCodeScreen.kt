@@ -19,14 +19,14 @@ import com.example.composeprotject.ui.component.button.TextButton
 import com.example.composeprotject.ui.component.custom.CodeInput
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.SplashScreenViewModel
+import com.example.composeprotject.viewModel.AuthViewModel
 
 @Composable
 fun VerificationCodeScreen(
     modifier: Modifier = Modifier,
     phoneNumber: String,
     contentPadding: PaddingValues,
-    splashScreenViewModel: SplashScreenViewModel,
+    authViewModel: AuthViewModel,
     navController: NavHostController
 ) {
     Column(
@@ -53,8 +53,8 @@ fun VerificationCodeScreen(
             textStyle = MeetTheme.typography.bodyText2
         )
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX49))
-        CodeInput(viewModel = splashScreenViewModel)
-        val inputValue = splashScreenViewModel.code.collectAsState()
+        CodeInput(viewModel = authViewModel)
+        val inputValue = authViewModel.code.collectAsState()
         if (inputValue.value.length == 4) {
             navController.navigate(NavItem.CreateProfileScreenItem.route)
         }
