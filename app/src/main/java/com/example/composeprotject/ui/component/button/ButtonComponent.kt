@@ -7,6 +7,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.ripple.LocalRippleTheme
@@ -38,6 +39,26 @@ import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
 
 //TODO: delete R.string.text_button
+
+@Composable
+fun ToggleMeetingButton(
+    showMeeting: Boolean,
+    onClick: () -> Unit,
+    textFieldButton : Int,
+    textOutlineButton : Int
+){
+    if (showMeeting) {
+        FilledButton(
+            onClick = onClick,
+            buttonText = textFieldButton
+        )
+    } else {
+        OutlinedButton(
+            onClick = onClick,
+            buttonText = textOutlineButton
+        )
+    }
+}
 
 @Composable
 fun FilledButton(
@@ -87,7 +108,8 @@ fun FilledButton(
 fun OutlinedButton(
     onClick: () -> Unit,
     state: ButtonState = ButtonState.INITIAL,
-    colors: OutlinedButtonColors = OutlinedButtonDefaults.colors()
+    colors: OutlinedButtonColors = OutlinedButtonDefaults.colors(),
+    buttonText: Int
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val changeableState = remember { mutableStateOf(state) }
@@ -95,10 +117,12 @@ fun OutlinedButton(
 
     CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
         OutlinedButton(
+            modifier = Modifier
+                .fillMaxSize(),
             onClick = { onClick() },
             interactionSource = interactionSource,
             enabled = changeableState.value != ButtonState.DISABLED,
-            //contentPadding = PaddingValues(horizontal = 48.dp, vertical = 12.dp),
+            contentPadding = PaddingValues(vertical = MeetTheme.sizes.sizeX12),
             border = outlinedBorderStroke(
                 width = 2,
                 color = colors.strokeColor(changeableState.value)
@@ -118,7 +142,7 @@ fun OutlinedButton(
                 }
             }
             Text(
-                stringResource(id = R.string.text_button),
+                stringResource(id = buttonText),
                 style = MeetTheme.typography.subheading2
             )
         }

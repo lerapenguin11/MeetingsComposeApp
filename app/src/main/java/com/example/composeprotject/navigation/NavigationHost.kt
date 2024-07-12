@@ -20,6 +20,8 @@ import com.example.composeprotject.screen.splashScreen.SplashScreen
 import com.example.composeprotject.screen.verification.CreateProfileScreen
 import com.example.composeprotject.screen.verification.VerifInputPhoneNumberScreen
 import com.example.composeprotject.screen.verification.VerificationCodeScreen
+import com.example.composeprotject.viewModel.AuthViewModel
+import com.example.composeprotject.viewModel.EventDetailsViewModel
 import com.example.composeprotject.viewModel.MainViewModel
 import com.example.composeprotject.viewModel.SplashScreenViewModel
 
@@ -29,7 +31,9 @@ fun NavigationHost(
     navController: NavHostController = rememberNavController(),
     contentPadding: PaddingValues,
     mainViewModel: MainViewModel,
-    splashScreenViewModel: SplashScreenViewModel
+    splashScreenViewModel: SplashScreenViewModel,
+    eventDetailsViewModel: EventDetailsViewModel,
+    authViewModel: AuthViewModel
 ) {
     NavHost(
         navController = navController,
@@ -115,7 +119,8 @@ fun NavigationHost(
                 contentPadding = contentPadding,
                 eventId = eventId,
                 eventName = eventName,
-                viewModel = mainViewModel
+                mainViewModel = mainViewModel,
+                eventDetailsViewModel = eventDetailsViewModel
             )
         }
 
@@ -131,7 +136,7 @@ fun NavigationHost(
             VerificationCodeScreen(
                 phoneNumber = "+7 999 999-99-99",
                 contentPadding = contentPadding,
-                splashScreenViewModel = splashScreenViewModel,
+                authViewModel = authViewModel,
                 navController = navController
             )
         }

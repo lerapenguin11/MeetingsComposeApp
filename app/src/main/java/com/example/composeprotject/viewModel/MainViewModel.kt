@@ -11,7 +11,7 @@ class MainViewModel : ViewModel() {
     val currentScreen: StateFlow<NavItem> = _currentScreen
 
     private val _titleDetailedScreen = MutableStateFlow<String>("")
-    val titleDetailedScreen: StateFlow<String> = _titleDetailedScreen //TODO
+    val titleDetailedScreen: StateFlow<String> = _titleDetailedScreen
 
     private val _showTopBar = MutableStateFlow<Boolean>(false)
     val showTopBar = _showTopBar

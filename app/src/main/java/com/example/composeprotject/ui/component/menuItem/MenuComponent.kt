@@ -84,7 +84,9 @@ fun ProfileMenuItem(
 @Composable
 fun MyEventMenuItem(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    menuIcon : Int,
+    menuName : Int
 ) {
     Box(
         modifier = modifier
@@ -97,13 +99,13 @@ fun MyEventMenuItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_still_nav_menu_my_event),
+                painter = painterResource(id = menuIcon),
                 contentDescription = stringResource(id = R.string.text_my_event)
             )
             Spacer(modifier = modifier.width(MeetTheme.sizes.sizeX6))
             Column {
                 BaseText(
-                    text = stringResource(id = R.string.text_my_event),
+                    text = stringResource(id = menuName),
                     textColor = MeetTheme.colors.neutralActive,
                     textStyle = MeetTheme.typography.bodyText1
                 )

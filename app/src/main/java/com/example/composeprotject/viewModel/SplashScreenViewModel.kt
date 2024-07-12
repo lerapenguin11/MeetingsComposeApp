@@ -14,9 +14,6 @@ class SplashScreenViewModel : ViewModel() {
     private val _isUserLoggedIn = MutableStateFlow(false)
     val isUserLoggedIn: StateFlow<Boolean> = _isUserLoggedIn
 
-    private val _code = MutableStateFlow("")
-    val code : StateFlow<String> = _code
-
     init {
         loadData()
         handleDeeplinks()
@@ -31,9 +28,5 @@ class SplashScreenViewModel : ViewModel() {
 
     private fun handleDeeplinks() {
         _isUserLoggedIn.value = true
-    }
-
-    fun setCode(code : String){
-        _code.value = code
     }
 }
