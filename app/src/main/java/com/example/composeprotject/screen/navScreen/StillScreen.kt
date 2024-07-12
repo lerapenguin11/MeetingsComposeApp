@@ -39,28 +39,28 @@ fun StillScreen(
         )
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX8))
         MyEventMenuItem(
-            onClick = { onStillClickToMyMeetingsScreen(/*TODO*/)},
+            onClick = { onStillClickToMyMeetingsScreen(/*TODO*/) },
             menuIcon = R.drawable.ic_still_nav_menu_my_event,
             menuName = R.string.text_my_event
         )
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX8))
         MyEventMenuItem(
-            onClick = {  /*TODO*/},
+            onClick = {  /*TODO*/ },
             menuIcon = R.drawable.ic_still_nav_menu_theme,
             menuName = R.string.text_theme
         )
         MyEventMenuItem(
-            onClick = {  /*TODO*/},
+            onClick = {  /*TODO*/ },
             menuIcon = R.drawable.ic_still_nav_menu_theme,
             menuName = R.string.text_notifications
         )
         MyEventMenuItem(
-            onClick = {  /*TODO*/},
+            onClick = {  /*TODO*/ },
             menuIcon = R.drawable.ic_stiil_nav_menu_safety,
             menuName = R.string.text_safety
         )
         MyEventMenuItem(
-            onClick = {  /*TODO*/},
+            onClick = {  /*TODO*/ },
             menuIcon = R.drawable.ic_stiil_nav_menu_memory_and_resources,
             menuName = R.string.text_memory_and_resources
         )
@@ -76,14 +76,4 @@ fun StillScreen(
             menuName = R.string.text_invite_friend
         )
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun TEST(){
-    MyEventMenuItem(
-        onClick = {  /*TODO*/},
-        menuIcon = R.drawable.ic_still_nav_menu_theme,
-        menuName = R.string.text_theme
-    )
 }
