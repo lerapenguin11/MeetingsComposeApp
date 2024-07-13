@@ -10,9 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -35,6 +32,7 @@ fun VerifInputPhoneNumberScreen(
     authViewModel: AuthViewModel
 ) {
     val activeAuthButton by authViewModel.activeAuthButton.collectAsState()
+    val isValidationPhoneNumber by authViewModel.validationPhoneNumber.collectAsState()
 
     Column(
         modifier = modifier
@@ -43,7 +41,7 @@ fun VerifInputPhoneNumberScreen(
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
         BaseText(
             text = stringResource(id = R.string.text_enter_phone_number),
             textColor = MeetTheme.colors.neutralActive,
@@ -60,7 +58,11 @@ fun VerifInputPhoneNumberScreen(
         PhoneNumberInput(authViewModel = authViewModel)
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX69))
         FilledButton(
-            onClick = { navController.navigate(route = NavItem.VerificationCodeScreenItem.route) /*TODO: докинуть логики*/ },
+            onClick = {
+                if (isValidationPhoneNumber) {
+                    navController.navigate(route = NavItem.VerificationCodeScreenItem.route) /*TODO: докинуть логики*/
+                }
+            },
             state = if (activeAuthButton) ButtonState.INITIAL else ButtonState.DISABLED,
             buttonText = R.string.text_continue
         )

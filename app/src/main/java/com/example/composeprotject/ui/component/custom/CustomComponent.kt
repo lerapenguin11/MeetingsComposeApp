@@ -46,6 +46,7 @@ import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.utils.CountryData
 import com.example.composeprotject.viewModel.AuthViewModel
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import com.google.i18n.phonenumbers.Phonenumber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -135,7 +136,6 @@ fun PhoneNumberInput(
     val interactionSource = remember { MutableInteractionSource() }
     val singleLine = true
 
-
     val colors =
         OutlinedTextFieldDefaults.colors(
             focusedBorderColor = MeetTheme.colors.neutralOffWhite,
@@ -204,6 +204,12 @@ fun PhoneNumberInput(
 
                 if (cleanPhoneNumber.length == cleanPlaceholder.length) {
                     authViewModel.activeAuthButton(isEnabled = true)
+                    val isValidation = isValidNumber(
+                        phoneNumber = cleanPhoneNumber,
+                        countryCode = countryData[region]?.callingCode ?: EMPTY_LINE,
+                        country = region
+                    )
+                    authViewModel.validationPhoneNumber(isValidation = isValidation)
                 } else {
                     authViewModel.activeAuthButton(isEnabled = false)
                 }
@@ -269,6 +275,7 @@ fun textFieldValueChange(
 
 fun getCountryNameByPhoneCode(phoneCode: String): String {
     val phoneNumberUtil = PhoneNumberUtil.getInstance()
+
     return try {
         if (phoneCode.isNotEmpty()) {
             val countryName = phoneNumberUtil.getRegionCodeForCountryCode(phoneCode.toInt())
@@ -278,6 +285,17 @@ fun getCountryNameByPhoneCode(phoneCode: String): String {
         }
     } catch (e: Exception) {
         EMPTY_LINE
+    }
+}
+
+fun isValidNumber(phoneNumber: String, country: String, countryCode: String): Boolean {
+    val phoneNumberUtil = PhoneNumberUtil.getInstance()
+    val isValidNumber = phoneNumberUtil.parse("$countryCode$phoneNumber", country)
+
+    return try {
+        phoneNumberUtil.isValidNumber(isValidNumber)
+    }catch (e: Exception){
+        false
     }
 }
 
@@ -298,14 +316,9 @@ fun formatPlaceholderPhoneNumber(region: String): String {
     }
 }
 
-fun validationPhoneNumber() {
-
-}
-
 fun cleanPhoneNumber(phoneNumber: String): String {
     return phoneNumber.replace(WHITESPACE, EMPTY_LINE).replace(DASH, EMPTY_LINE)
 }
-
 
 private const val MAX_LENGTH_CODE = 4
 private const val INPUT_WIDTH = 32
