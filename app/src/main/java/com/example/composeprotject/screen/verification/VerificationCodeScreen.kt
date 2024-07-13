@@ -55,10 +55,12 @@ fun VerificationCodeScreen(
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX49))
         CodeInput(viewModel = authViewModel)
         val inputValue = authViewModel.code.collectAsState()
-        if (inputValue.value.length == 4) {
+        if (inputValue.value.length == VERIFICATION_CODE_LENGTH) {
             navController.navigate(NavItem.CreateProfileScreenItem.route)
         }
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX69))
         TextButton(onClick = { /*TODO*/}, buttonText = R.string.text_request_code_again)
     }
 }
+
+private const val VERIFICATION_CODE_LENGTH = 4
