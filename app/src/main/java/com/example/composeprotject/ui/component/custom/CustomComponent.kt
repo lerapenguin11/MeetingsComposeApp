@@ -51,13 +51,14 @@ import com.google.i18n.phonenumbers.Phonenumber
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CodeInput(
+    modifier: Modifier = Modifier,
     viewModel: AuthViewModel
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val value by remember { mutableStateOf(viewModel.code.value) }
     val v by viewModel.code.collectAsState()
 
-    Box(modifier = Modifier.padding(MeetTheme.sizes.sizeX10)) {
+    Box(modifier = modifier.padding(MeetTheme.sizes.sizeX10)) {
         BasicTextField(
             modifier = Modifier
                 .width(240.dp),
@@ -161,7 +162,7 @@ fun PhoneNumberInput(
                     text = countryData[region]?.flagEmoji ?: DEFAULT_FLAG_COUNTRY
                 )
                 Spacer(
-                    modifier = Modifier.width(MeetTheme.sizes.sizeX8)
+                    modifier = modifier.width(MeetTheme.sizes.sizeX8)
                 )
                 BaseText(
                     text = "$PLUS${countryData[region]?.callingCode}",
@@ -171,7 +172,7 @@ fun PhoneNumberInput(
             }
 
             Spacer(
-                modifier = Modifier.width(MeetTheme.sizes.sizeX8)
+                modifier = modifier.width(MeetTheme.sizes.sizeX8)
             )
         }
 
