@@ -1,6 +1,6 @@
 package com.example.composeprotject.common
 
-enum class ActiveEventVariant{
+enum class ActiveEventVariant {
     ALL_EVENT, ACTIVE_EVENT, INACTIVE_EVENT
 }
 

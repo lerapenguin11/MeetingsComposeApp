@@ -1,23 +1,42 @@
 package com.example.composeprotject.screen.navScreen
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.example.composeprotject.navigation.NavItem
+import com.example.composeprotject.ui.component.menuItem.MyEventMenuItem
+import com.example.composeprotject.ui.component.menuItem.ProfileMenuItem
+import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.MainViewModel
 
 @Composable
-fun StillScreen(modifier: Modifier = Modifier, viewModel: MainViewModel){
-    //viewModel.setCurrentScreen(BottomNavItems.Still)
+fun StillScreen(
+    modifier: Modifier = Modifier,
+    viewModel: MainViewModel,
+    contentPadding: PaddingValues,
+    onStillClickToProfileScreen: (/*TODO*/) -> Unit,
+    onStillClickToMyMeetingsScreen: (/*TODO*/) -> Unit,
+) {
+    viewModel.setCurrentScreen(screen = NavItem.StillItem, show = true)
+
     Column(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = modifier
+            .padding(contentPadding)
     ) {
-        Text(text = "Still", style = MaterialTheme.typography.bodyLarge)
+        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX8))
+        ProfileMenuItem(
+            name = "Иван Иванов", //TODO
+            numberPhone = "+7 999 999-99-99", //TODO
+            avatarUrl = null,
+            onClick = { onStillClickToProfileScreen(/*TODO*/) }
+        )
+        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX8))
+        MyEventMenuItem(
+            onClick = { onStillClickToMyMeetingsScreen(/*TODO*/) }
+        )
     }
 }

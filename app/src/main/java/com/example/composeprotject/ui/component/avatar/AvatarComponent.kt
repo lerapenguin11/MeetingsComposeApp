@@ -35,6 +35,8 @@ import com.example.composeprotject.ui.component.variant.avatar.ProfileAvatarVari
 import com.example.composeprotject.ui.component.variant.avatar.AvatarState
 import com.example.composeprotject.ui.theme.MeetTheme
 
+private const val MAX_SHOW_AVATARS = 5
+
 @Composable
 fun ProfileAvatarContainer(
     variant: ProfileAvatarVariant = ProfileAvatarVariant.LARGE,
@@ -43,14 +45,18 @@ fun ProfileAvatarContainer(
     imageVariant: AvatarProfileImage = AvatarProfileImageDefault.image(),
     avatarUrl: String?,
     contentDescription: Int,
-    state: AvatarState){
-    Box(contentAlignment = Alignment.BottomEnd,
-        modifier = modifier){
+    state: AvatarState
+) {
+    Box(
+        contentAlignment = Alignment.BottomEnd,
+        modifier = modifier
+    ) {
         Box(
             modifier = modifier
                 .size(imageVariant.sizeAvatarContainer(variant = variant).dp)
                 .clip(CircleShape)
-                .background(colorContainer)){
+                .background(colorContainer)
+        ) {
             AsyncImage(
                 modifier = modifier
                     .clip(CircleShape)
@@ -65,14 +71,17 @@ fun ProfileAvatarContainer(
                 contentScale = ContentScale.Fit
             )
         }
-        if (state == AvatarState.EDITING){
-            Image(modifier = modifier
-                .padding(end = imageVariant.paddingEditingImage(variant = variant).dp)
-                .offset(y = imageVariant.offsetEditingImage(variant = variant).dp)
-                .size(imageVariant.sizeEditingImage(variant = variant).dp),
+        if (state == AvatarState.EDITING) {
+            Image(
+                modifier = modifier
+                    .padding(end = imageVariant.paddingEditingImage(variant = variant).dp)
+                    .offset(y = imageVariant.offsetEditingImage(variant = variant).dp)
+                    .size(imageVariant.sizeEditingImage(variant = variant).dp),
                 painter = painterResource(
-                    id = R.drawable.ic_add_photo_user),
-                contentDescription = "")
+                    id = R.drawable.ic_add_photo_user
+                ),
+                contentDescription = ""
+            )
         }
     }
 }
@@ -80,14 +89,14 @@ fun ProfileAvatarContainer(
 @Composable
 fun AvatarStatus(
     placeholderImage: Int,
-    avatarUrl : String,
+    avatarUrl: String,
     modifier: Modifier = Modifier,
-    contentDescription : Int,
-    borderCornerShape : Int = 16,
-    clipCornerShape : Int = 14,
-    borderWidth : Int = 2,
-    borderColor : Color = MeetTheme.colors.purpleColor
-){
+    contentDescription: Int,
+    borderCornerShape: Int = 16,
+    clipCornerShape: Int = 14,
+    borderWidth: Int = 2,
+    borderColor: Color = MeetTheme.colors.purpleColor
+) {
     Box(
         modifier = modifier
             .size(56.dp)
@@ -126,21 +135,24 @@ fun AvatarStatus(
 
 @Composable
 fun AttendeesRow(
-    avatarList : List<String>,
-    maxShowAvatars : Int = 5,
+    avatarList: List<String>,
+    maxShowAvatars: Int = MAX_SHOW_AVATARS,
     modifier: Modifier = Modifier
-){
+) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy((-24).dp)
     ) {
-        if (avatarList.isEmpty()){
-            BaseText(text = stringResource(
-                id = R.string.text_attendees_row),
+        if (avatarList.isEmpty()) {
+            BaseText(
+                text = stringResource(
+                    id = R.string.text_attendees_row
+                ),
                 textStyle = MeetTheme.typography.bodyText1,
-                textColor = MeetTheme.colors.neutralActive)
-        }else{
+                textColor = MeetTheme.colors.neutralActive
+            )
+        } else {
             avatarList.take(maxShowAvatars).forEachIndexed { index, element ->
                 val zIndex = avatarList.size - index
 
@@ -151,12 +163,13 @@ fun AttendeesRow(
                     modifier = Modifier.zIndex(zIndex.toFloat())
                 )
             }
-            if (avatarList.size > maxShowAvatars){
+            if (avatarList.size > maxShowAvatars) {
                 BaseText(
                     modifier = modifier.padding(start = 34.dp),
                     text = "+${avatarList.size - maxShowAvatars}",
                     textStyle = MeetTheme.typography.bodyText1,
-                    textColor = MeetTheme.colors.neutralActive)
+                    textColor = MeetTheme.colors.neutralActive
+                )
             }
         }
     }
@@ -165,14 +178,14 @@ fun AttendeesRow(
 @Composable
 fun RoundedAvatarMeetings(
     placeholderImage: Int,
-    avatarUrl : String,
+    avatarUrl: String,
     modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
-            .size(56.dp)
+            .size(MeetTheme.sizes.sizeX56)
             .padding(all = MeetTheme.sizes.sizeX4)
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(MeetTheme.sizes.sizeX16))
             .background(color = Color.White)
     ) {
         AsyncImage(

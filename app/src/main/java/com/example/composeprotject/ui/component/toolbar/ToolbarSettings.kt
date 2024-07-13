@@ -21,38 +21,58 @@ enum class ActionMode {
 }
 
 enum class ToolbarTitleMode {
-    TITLE, NONE
+    TITLE, NONE, CHANGING_TITLE
 }
 
-internal enum class CurrentScreen{
+internal enum class CurrentScreen {
     EVENT_SCREEN,
     COMMUNITY_SCREEN,
-    STILL_SCREEN
+    STILL_SCREEN,
+    COMMUNITY_DETAILS,
+    EVENT_DETAILS,
+    PROFILE_SCREEN,
+    MY_MEETINGS_SCREEN
 }
 
-fun getToolbarTitle(param : String) : ToolbarTitleMode{
-    return when(param){
+fun getToolbarTitle(param: String): ToolbarTitleMode {
+    return when (param) {
         CurrentScreen.EVENT_SCREEN.name -> ToolbarTitleMode.TITLE
         CurrentScreen.COMMUNITY_SCREEN.name -> ToolbarTitleMode.TITLE
         CurrentScreen.STILL_SCREEN.name -> ToolbarTitleMode.TITLE
-        else -> {ToolbarTitleMode.NONE}
+        CurrentScreen.COMMUNITY_DETAILS.name -> ToolbarTitleMode.CHANGING_TITLE
+        CurrentScreen.EVENT_DETAILS.name -> ToolbarTitleMode.CHANGING_TITLE
+        CurrentScreen.PROFILE_SCREEN.name -> ToolbarTitleMode.TITLE
+        CurrentScreen.MY_MEETINGS_SCREEN.name -> ToolbarTitleMode.TITLE
+        else -> {
+            ToolbarTitleMode.NONE
+        }
     }
 }
 
-fun getActionToolbar(param : String) : ActionMode{
-    return when(param){
+fun getActionToolbar(param: String): ActionMode {
+    return when (param) {
         CurrentScreen.EVENT_SCREEN.name -> ActionMode.ADD_ICON
         CurrentScreen.COMMUNITY_SCREEN.name -> ActionMode.NONE
         CurrentScreen.STILL_SCREEN.name -> ActionMode.NONE
-        else -> {ActionMode.NONE}
+        CurrentScreen.COMMUNITY_DETAILS.name -> ActionMode.NONE
+        CurrentScreen.PROFILE_SCREEN.name -> ActionMode.EDIT_ICON
+        else -> {
+            ActionMode.NONE
+        }
     }
 }
 
-fun getBackNavigation(param : String) : BackNavigationMode{
-    return when(param){
+fun getBackNavigation(param: String): BackNavigationMode {
+    return when (param) {
         CurrentScreen.EVENT_SCREEN.name -> BackNavigationMode.NONE
         CurrentScreen.COMMUNITY_SCREEN.name -> BackNavigationMode.NONE
         CurrentScreen.STILL_SCREEN.name -> BackNavigationMode.NONE
-        else -> {BackNavigationMode.NONE}
+        CurrentScreen.COMMUNITY_DETAILS.name -> BackNavigationMode.BACK_ARROW
+        CurrentScreen.EVENT_DETAILS.name -> BackNavigationMode.BACK_ARROW
+        CurrentScreen.PROFILE_SCREEN.name -> BackNavigationMode.BACK_ARROW
+        CurrentScreen.MY_MEETINGS_SCREEN.name -> BackNavigationMode.BACK_ARROW
+        else -> {
+            BackNavigationMode.NONE
+        }
     }
 }

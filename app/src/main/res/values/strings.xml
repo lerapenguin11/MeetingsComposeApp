@@ -26,4 +26,25 @@
     <string name="text_content_desc_instagram">instagram</string>
     <string name="text_content_desc_linkedIn">linkedIn</string>
     <string name="text_content_desc_facebook">facebook</string>
+    <string name="text_splash_screen">Splash Screen</string>
+    <string name="text_ver_code_screen">Verification</string>
+    <string name="text_community_details">Детали сообщества</string>
+    <string name="text_event_community">Встречи сообщества</string>
+    <string name="text_go_to_meeting">Пойду на встречу!</string>
+    <string name="text_event_details">Детали встречи</string>
+    <string name="text_profile">Профиль</string>
+    <string name="text_my_event">Мои встречи</string>
+    <string name="text_valid_code_title">Введите код</string>
+    <string name="text_valid_code_header">Отправили код на номер</string>
+    <string name="text_request_code_again">Запросить код повторно</string>
+    <string name="text_name">Имя (обязательно)</string>
+    <string name="text_surname">Фамилия (опционально)</string>
+    <string name="text_save">Сохранить</string>
+    <string name="text_enter_phone_number">Введите номер телефона</string>
+    <string name="text_desc_code">Мы вышлем код подтверждения \nна указаный номер</string>
+    <string name="text_continue">Продолжить</string>
+    <string name="text_input_phone_number">Ввод телефона</string>
+    <string name="text_default_phone_code">+7</string>
+    <string name="text_ph_phone_number_with_code">+7 000 000-00-00</string>
+    <string name="text_ph_phone_number">000 000-00-00</string>
 </resources>
