@@ -151,7 +151,8 @@ fun NavigationHost(
         composable(route = NavItem.VerifInputPhoneNumberScreenItem.route){
             VerifInputPhoneNumberScreen(
                 contentPadding = contentPadding,
-                navController = navController)
+                navController = navController,
+                authViewModel = authViewModel)
         }
     }
 }

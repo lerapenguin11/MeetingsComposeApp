@@ -124,7 +124,7 @@ fun CodeInput(
 @Composable
 fun PhoneNumberInput(
     modifier: Modifier = Modifier,
-
+    authViewModel: AuthViewModel
 ) {
     val context = LocalContext.current
     val countryData = (context.applicationContext as BaseApplication).countryData
@@ -149,12 +149,14 @@ fun PhoneNumberInput(
 
     Row {
         if (countryData[region] != null) {
-            Row(modifier = Modifier
-                .background(MeetTheme.colors.neutralOffWhite)
-                .height(36.dp)
-                .clip(RoundedCornerShape(4.dp))
-                .padding(horizontal = MeetTheme.sizes.sizeX8),
-                verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier
+                    .background(MeetTheme.colors.neutralOffWhite)
+                    .height(36.dp)
+                    .clip(RoundedCornerShape(4.dp))
+                    .padding(horizontal = MeetTheme.sizes.sizeX8),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 BaseText(
                     text = countryData[region]?.flagEmoji ?: DEFAULT_FLAG_COUNTRY
                 )
@@ -174,11 +176,18 @@ fun PhoneNumberInput(
         }
 
         BasicTextField(
-            value = textFieldValueChange(region = region, numberPhone = phoneNumberValue, countryData),
+            value = textFieldValueChange(
+                region = region,
+                numberPhone = phoneNumberValue,
+                countryData
+            ),
             onValueChange = { newValue ->
                 phoneNumberValue = newValue
 
                 var countryISO2 = EMPTY_LINE
+                var cleanPhoneNumber = cleanPhoneNumber(newValue)
+                var cleanPlaceholder =
+                    cleanPhoneNumber(countryData[region]?.placeholder ?: EMPTY_LINE)
 
                 if (region.isEmpty()) {
                     countryISO2 = getCountryNameByPhoneCode(phoneNumberValue)
@@ -191,6 +200,12 @@ fun PhoneNumberInput(
 
                 } else if (newValue.isEmpty()) {
                     region = EMPTY_LINE
+                }
+
+                if (cleanPhoneNumber.length == cleanPlaceholder.length) {
+                    authViewModel.activeAuthButton(isEnabled = true)
+                } else {
+                    authViewModel.activeAuthButton(isEnabled = false)
                 }
             },
             modifier = modifier
@@ -240,7 +255,11 @@ fun PhoneNumberInput(
     }
 }
 
-fun textFieldValueChange(region: String, numberPhone: String, countryData: Map<String, CountryData>): String {
+fun textFieldValueChange(
+    region: String,
+    numberPhone: String,
+    countryData: Map<String, CountryData>
+): String {
     return if (region.isNotEmpty() && region != UNSPECIFIED_COUNTRY) numberPhone.replace(
         "$PLUS${
             countryData[region]!!.callingCode
@@ -279,6 +298,14 @@ fun formatPlaceholderPhoneNumber(region: String): String {
     }
 }
 
+fun validationPhoneNumber() {
+
+}
+
+fun cleanPhoneNumber(phoneNumber: String): String {
+    return phoneNumber.replace(WHITESPACE, EMPTY_LINE).replace(DASH, EMPTY_LINE)
+}
+
 
 private const val MAX_LENGTH_CODE = 4
 private const val INPUT_WIDTH = 32
@@ -287,3 +314,5 @@ private const val UNSPECIFIED_COUNTRY = "ZZ"
 private const val EMPTY_LINE = ""
 private const val DEFAULT_FLAG_COUNTRY = "\uD83C\uDDF7\uD83C\uDDFA"
 private const val PLUS = "+"
+private const val WHITESPACE = " "
+private const val DASH = "-"

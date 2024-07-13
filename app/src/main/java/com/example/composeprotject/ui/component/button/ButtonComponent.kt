@@ -20,8 +20,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -45,12 +47,14 @@ fun ToggleMeetingButton(
     showMeeting: Boolean,
     onClick: () -> Unit,
     textFieldButton : Int,
-    textOutlineButton : Int
+    textOutlineButton : Int,
+    state: ButtonState = ButtonState.INITIAL
 ){
     if (showMeeting) {
         FilledButton(
             onClick = onClick,
-            buttonText = textFieldButton
+            buttonText = textFieldButton,
+            state = state
         )
     } else {
         OutlinedButton(
@@ -63,15 +67,15 @@ fun ToggleMeetingButton(
 @Composable
 fun FilledButton(
     onClick: () -> Unit,
-    state: ButtonState = ButtonState.INITIAL,
+    state: ButtonState,
     colors: FilledButtonColors = FilledButtonDefaults.colors(),
     buttonText: Int,
     modifier: Modifier = Modifier
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val changeableState = remember { mutableStateOf(state) }
+    var changeableState by remember { mutableStateOf(ButtonState.INITIAL) }
     val isPressed = interactionSource.collectIsPressedAsState().value ?: false
-
+    changeableState = state
     CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
         Button(
             modifier = modifier
@@ -79,20 +83,20 @@ fun FilledButton(
                 .height(height = 52.dp),
             onClick = { onClick() },
             interactionSource = interactionSource,
-            enabled = state != ButtonState.DISABLED,
+            enabled = changeableState != ButtonState.DISABLED,
             contentPadding = PaddingValues(vertical = MeetTheme.sizes.sizeX12),
             colors = ButtonDefaults.buttonColors(
-                disabledContainerColor = colors.backgroundColor(changeableState.value),
-                containerColor = colors.backgroundColor(changeableState.value),
-                contentColor = colors.contentColor(changeableState.value),
-                disabledContentColor = colors.contentColor(changeableState.value)
+                disabledContainerColor = colors.backgroundColor(changeableState),
+                containerColor = colors.backgroundColor(changeableState),
+                contentColor = colors.contentColor(changeableState),
+                disabledContentColor = colors.contentColor(changeableState)
             )
         ) {
             AnimatedVisibility(visible = isPressed) {
-                if (isPressed) {
-                    changeableState.value = ButtonState.PRESSED
+                changeableState = if (isPressed) {
+                    ButtonState.PRESSED
                 } else {
-                    changeableState.value = ButtonState.INITIAL
+                    ButtonState.INITIAL
                 }
             }
             BaseText(

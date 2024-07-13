@@ -8,11 +8,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import com.example.composeprotject.R
 import com.example.composeprotject.navigation.NavItem
@@ -21,13 +25,17 @@ import com.example.composeprotject.ui.component.custom.PhoneNumberInput
 import com.example.composeprotject.ui.component.state.ButtonState
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.composeprotject.viewModel.AuthViewModel
 
 @Composable
 fun VerifInputPhoneNumberScreen(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
-    navController: NavHostController
+    navController: NavHostController,
+    authViewModel: AuthViewModel
 ) {
+    val activeAuthButton by authViewModel.activeAuthButton.collectAsState()
+
     Column(
         modifier = modifier
             .padding(contentPadding)
@@ -49,11 +57,11 @@ fun VerifInputPhoneNumberScreen(
             textAlign = TextAlign.Center
         )
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX49))
-        PhoneNumberInput()
+        PhoneNumberInput(authViewModel = authViewModel)
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX69))
         FilledButton(
             onClick = { navController.navigate(route = NavItem.VerificationCodeScreenItem.route) /*TODO: докинуть логики*/ },
-            state = ButtonState.INITIAL,
+            state = if (activeAuthButton) ButtonState.INITIAL else ButtonState.DISABLED,
             buttonText = R.string.text_continue
         )
     }

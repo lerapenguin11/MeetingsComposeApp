@@ -6,5 +6,12 @@ import com.example.composeprotject.utils.readCountryDataFromJson
 
 class BaseApplication : Application() {
 
-    val countryData: Map<String, CountryData> by lazy { readCountryDataFromJson(applicationContext) }
+    val countryData: Map<String, CountryData> by lazy { readCountryDataFromJson(this) }
+
+    private lateinit var mInstance: BaseApplication
+
+    override fun onCreate() {
+        super.onCreate()
+        mInstance = this
+    }
 }
