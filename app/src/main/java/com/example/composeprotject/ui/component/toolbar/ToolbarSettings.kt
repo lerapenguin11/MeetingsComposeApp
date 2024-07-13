@@ -32,7 +32,10 @@ internal enum class CurrentScreen {
     COMMUNITY_DETAILS,
     EVENT_DETAILS,
     PROFILE_SCREEN,
-    MY_MEETINGS_SCREEN
+    MY_MEETINGS_SCREEN,
+    VER_CODE_SCREEN,
+    CREATE_PROFILE_SCREEN,
+    INPUT_PHONE_NUMBER_SCREEN
 }
 
 fun getToolbarTitle(param: String): ToolbarTitleMode {
@@ -44,6 +47,9 @@ fun getToolbarTitle(param: String): ToolbarTitleMode {
         CurrentScreen.EVENT_DETAILS.name -> ToolbarTitleMode.CHANGING_TITLE
         CurrentScreen.PROFILE_SCREEN.name -> ToolbarTitleMode.TITLE
         CurrentScreen.MY_MEETINGS_SCREEN.name -> ToolbarTitleMode.TITLE
+        CurrentScreen.INPUT_PHONE_NUMBER_SCREEN.name -> ToolbarTitleMode.NONE
+        CurrentScreen.CREATE_PROFILE_SCREEN.name -> ToolbarTitleMode.TITLE
+        CurrentScreen.VER_CODE_SCREEN.name -> ToolbarTitleMode.NONE
         else -> {
             ToolbarTitleMode.NONE
         }
@@ -81,6 +87,9 @@ fun getBackNavigation(param: String): BackNavigationMode {
         CurrentScreen.EVENT_DETAILS.name -> BackNavigationMode.BACK_ARROW
         CurrentScreen.PROFILE_SCREEN.name -> BackNavigationMode.BACK_ARROW
         CurrentScreen.MY_MEETINGS_SCREEN.name -> BackNavigationMode.BACK_ARROW
+        CurrentScreen.INPUT_PHONE_NUMBER_SCREEN.name -> BackNavigationMode.NONE
+        CurrentScreen.CREATE_PROFILE_SCREEN.name -> BackNavigationMode.BACK_ARROW
+        CurrentScreen.VER_CODE_SCREEN.name -> BackNavigationMode.BACK_ARROW
         else -> {
             BackNavigationMode.NONE
         }

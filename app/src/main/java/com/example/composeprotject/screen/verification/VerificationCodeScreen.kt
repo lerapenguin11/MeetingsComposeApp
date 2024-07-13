@@ -20,6 +20,7 @@ import com.example.composeprotject.ui.component.custom.CodeInput
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.AuthViewModel
+import com.example.composeprotject.viewModel.MainViewModel
 
 @Composable
 fun VerificationCodeScreen(
@@ -27,8 +28,15 @@ fun VerificationCodeScreen(
     phoneNumber: String,
     contentPadding: PaddingValues,
     authViewModel: AuthViewModel,
-    navController: NavHostController
+    navController: NavHostController,
+    mainViewModel: MainViewModel
 ) {
+    mainViewModel.setCurrentScreen(
+        screen = NavItem.VerificationCodeScreenItem,
+        showBottomBar = false,
+        showTopBar = true
+    )
+
     Column(
         modifier = modifier
             .padding(contentPadding)

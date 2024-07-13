@@ -3,7 +3,6 @@ package com.example.composeprotject.screen.detailsScreen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,7 +17,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -29,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
 import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.avatar.AttendeesRow
-import com.example.composeprotject.ui.component.button.FilledButton
 import com.example.composeprotject.ui.component.button.ToggleMeetingButton
 import com.example.composeprotject.ui.component.chip.Chip
 import com.example.composeprotject.ui.component.text.BaseText
@@ -50,7 +47,11 @@ fun EventDetailsScreen(
     mainViewModel: MainViewModel,
     eventDetailsViewModel: EventDetailsViewModel
 ) {
-    mainViewModel.setCurrentScreen(screen = NavItem.EventDetailsItem, show = true)
+    mainViewModel.setCurrentScreen(
+        screen = NavItem.EventDetailsItem,
+        showTopBar = true,
+        showBottomBar = true
+    )
     mainViewModel.setTitleDetailedScreen(
         eventName ?: stringResource(id = R.string.text_event_details)
     )

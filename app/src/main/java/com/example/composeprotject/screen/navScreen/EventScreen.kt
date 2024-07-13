@@ -24,7 +24,7 @@ fun EventScreen(
     contentPadding: PaddingValues,
     navController: NavHostController
 ) {
-    viewModel.setCurrentScreen(screen = NavItem.EventItem, show = true)
+    viewModel.setCurrentScreen(screen = NavItem.EventItem, showTopBar = true, showBottomBar = true)
     val tabs = listOf(R.string.text_tab_all_events, R.string.text_tab_active_events)
 
     Column(

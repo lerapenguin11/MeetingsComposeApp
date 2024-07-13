@@ -23,14 +23,21 @@ import com.example.composeprotject.ui.component.state.ButtonState
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.AuthViewModel
+import com.example.composeprotject.viewModel.MainViewModel
 
 @Composable
 fun VerifInputPhoneNumberScreen(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
     navController: NavHostController,
-    authViewModel: AuthViewModel
+    authViewModel: AuthViewModel,
+    mainViewModel: MainViewModel
 ) {
+    mainViewModel.setCurrentScreen(
+        screen = NavItem.VerifInputPhoneNumberScreenItem,
+        showBottomBar = false,
+        showTopBar = true
+    )
     val activeAuthButton by authViewModel.activeAuthButton.collectAsState()
     val isValidationPhoneNumber by authViewModel.validationPhoneNumber.collectAsState()
 

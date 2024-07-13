@@ -25,13 +25,20 @@ import com.example.composeprotject.ui.component.state.ButtonState
 import com.example.composeprotject.ui.component.variant.avatar.AvatarState
 import com.example.composeprotject.ui.component.variant.avatar.ProfileAvatarVariant
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.composeprotject.viewModel.MainViewModel
 
 @Composable
 fun CreateProfileScreen(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
-    navController: NavHostController
+    navController: NavHostController,
+    mainViewModel: MainViewModel
 ) {
+    mainViewModel.setCurrentScreen(
+        screen = NavItem.CreateProfileScreenItem,
+        showBottomBar = false,
+        showTopBar = true
+    )
     var userName by remember { mutableStateOf("") }
 
     Column(
@@ -61,9 +68,9 @@ fun CreateProfileScreen(
         CustomOutlinedTextField(
             textPlaceholder = stringResource(id = R.string.text_surname),
             isEnabled = true,
-            onValueChange = {/*TODO*/}
+            onValueChange = {/*TODO*/ }
         )
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX68))
+        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX58))
         FilledButton(
             onClick = {
                 navController.navigate(route = NavItem.EventItem.route) /*TODO: докинуть логики*/

@@ -27,7 +27,11 @@ fun SplashScreen(
     navController: NavController,
     contentPadding: PaddingValues
 ) {
-    mainViewModel.setCurrentScreen(screen = NavItem.SplashScreenItem, show = false)
+    mainViewModel.setCurrentScreen(
+        screen = NavItem.SplashScreenItem,
+        showTopBar = false,
+        showBottomBar = false
+    )
     val isLoading by splashScreenViewModel.isLoading.collectAsState()
     val isUserLoggedIn by splashScreenViewModel.isUserLoggedIn.collectAsState()
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.splash_animation))

@@ -19,10 +19,10 @@ class MainViewModel : ViewModel() {
     private val _showBottomBar = MutableStateFlow<Boolean>(false)
     val showBottomBar = _showBottomBar
 
-    fun setCurrentScreen(screen: NavItem, show: Boolean) {
+    fun setCurrentScreen(screen: NavItem, showTopBar: Boolean, showBottomBar: Boolean) {
         _currentScreen.value = screen
-        _showTopBar.value = show
-        _showBottomBar.value = show
+        _showTopBar.value = showTopBar
+        _showBottomBar.value = showBottomBar
     }
 
     fun setTitleDetailedScreen(title: String) {

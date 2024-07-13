@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.composeprotject.R
 import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.divider.StandardDivider
@@ -24,7 +23,7 @@ fun StillScreen(
     onStillClickToProfileScreen: (/*TODO*/) -> Unit,
     onStillClickToMyMeetingsScreen: (/*TODO*/) -> Unit,
 ) {
-    viewModel.setCurrentScreen(screen = NavItem.StillItem, show = true)
+    viewModel.setCurrentScreen(screen = NavItem.StillItem, showTopBar = true, showBottomBar = true)
 
     Column(
         modifier = modifier

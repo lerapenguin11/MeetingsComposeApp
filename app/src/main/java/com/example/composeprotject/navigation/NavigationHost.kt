@@ -137,14 +137,16 @@ fun NavigationHost(
                 phoneNumber = "+7 999 999-99-99",
                 contentPadding = contentPadding,
                 authViewModel = authViewModel,
-                navController = navController
+                navController = navController,
+                mainViewModel = mainViewModel
             )
         }
 
         composable(route = NavItem.CreateProfileScreenItem.route){
             CreateProfileScreen(
                 contentPadding = contentPadding,
-                navController = navController
+                navController = navController,
+                mainViewModel = mainViewModel
             )
         }
 
@@ -152,7 +154,8 @@ fun NavigationHost(
             VerifInputPhoneNumberScreen(
                 contentPadding = contentPadding,
                 navController = navController,
-                authViewModel = authViewModel)
+                authViewModel = authViewModel,
+                mainViewModel = mainViewModel)
         }
     }
 }
