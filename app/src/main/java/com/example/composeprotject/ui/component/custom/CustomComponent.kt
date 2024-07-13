@@ -1,6 +1,5 @@
 package com.example.composeprotject.ui.component.custom
 
-import android.content.Context
 import android.telephony.PhoneNumberUtils
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -41,27 +40,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.composeprotject.R
+import com.example.composeprotject.app.BaseApplication
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.composeprotject.utils.CountryData
 import com.example.composeprotject.viewModel.AuthViewModel
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.google.i18n.phonenumbers.PhoneNumberUtil
-
-data class CountryData(
-    val flagEmoji: String,
-    val placeholder: String,
-    val callingCode: String
-)
-
-fun readCountryDataFromJson(context: Context): Map<String, CountryData> {
-    val inputStream = context.resources.openRawResource(R.raw.country_data)
-    val jsonString = inputStream.bufferedReader().use { it.readText() }
-    val type = object : TypeToken<Map<String, CountryData>>() {}.type
-    return Gson().fromJson(jsonString, type)
-}
-
-var countryData: Map<String, CountryData>? = null
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -69,7 +53,7 @@ fun CodeInput(
     viewModel: AuthViewModel
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    var value by remember { mutableStateOf(viewModel.code.value) }
+    val value by remember { mutableStateOf(viewModel.code.value) }
     val v by viewModel.code.collectAsState()
 
     Box(modifier = Modifier.padding(MeetTheme.sizes.sizeX10)) {
@@ -139,19 +123,16 @@ fun CodeInput(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PhoneNumberInput(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+
 ) {
-    var callingCodeValue by remember { mutableStateOf(EMPTY_LINE) }
-    var numberPhoneValue by remember { mutableStateOf(EMPTY_LINE) }
+    val context = LocalContext.current
+    val countryData = (context.applicationContext as BaseApplication).countryData
+
+    var phoneNumberValue by remember { mutableStateOf(EMPTY_LINE) }
     var region by remember { mutableStateOf(EMPTY_LINE) }
 
-    if (countryData == null) {
-        countryData = readCountryDataFromJson(LocalContext.current)
-    }
-
     val interactionSource = remember { MutableInteractionSource() }
-    val colorContent =
-        if (callingCodeValue.isNotEmpty()) MeetTheme.colors.neutralActive else MeetTheme.colors.neutralDisabled
     val singleLine = true
 
 
@@ -163,12 +144,11 @@ fun PhoneNumberInput(
             unfocusedContainerColor = MeetTheme.colors.neutralOffWhite,
             focusedContainerColor = MeetTheme.colors.neutralOffWhite,
             disabledContainerColor = MeetTheme.colors.neutralOffWhiteDisabled,
-            focusedTextColor = MeetTheme.colors.neutralActive,
-            unfocusedLeadingIconColor = colorContent,
+            focusedTextColor = MeetTheme.colors.neutralActive
         )
 
     Row {
-        if (countryData!![region] != null) {
+        if (countryData[region] != null) {
             Row(modifier = Modifier
                 .background(MeetTheme.colors.neutralOffWhite)
                 .height(36.dp)
@@ -176,14 +156,13 @@ fun PhoneNumberInput(
                 .padding(horizontal = MeetTheme.sizes.sizeX8),
                 verticalAlignment = Alignment.CenterVertically) {
                 BaseText(
-                    text = countryData!![region]?.flagEmoji ?: DEFAULT_FLAG_COUNTRY
+                    text = countryData[region]?.flagEmoji ?: DEFAULT_FLAG_COUNTRY
                 )
                 Spacer(
                     modifier = Modifier.width(MeetTheme.sizes.sizeX8)
                 )
                 BaseText(
-                    text = "$PLUS${countryData!![region]?.callingCode}"
-                        ?: stringResource(id = R.string.text_default_phone_code),
+                    text = "$PLUS${countryData[region]?.callingCode}",
                     textColor = MeetTheme.colors.neutralActive,
                     textStyle = MeetTheme.typography.bodyText1
                 )
@@ -195,17 +174,17 @@ fun PhoneNumberInput(
         }
 
         BasicTextField(
-            value = textFieldValueChange(region = region, numberPhone = numberPhoneValue),
+            value = textFieldValueChange(region = region, numberPhone = phoneNumberValue, countryData),
             onValueChange = { newValue ->
-                numberPhoneValue = newValue
+                phoneNumberValue = newValue
 
                 var countryISO2 = EMPTY_LINE
 
                 if (region.isEmpty()) {
-                    countryISO2 = getCountryNameByPhoneCode(numberPhoneValue)
+                    countryISO2 = getCountryNameByPhoneCode(phoneNumberValue)
                 }
                 if (region.isNotEmpty() && newValue.length > 5) {
-                    numberPhoneValue = formatPhoneNumber(newValue, region)
+                    phoneNumberValue = formatPhoneNumber(newValue, region)
                 }
                 if (countryISO2.isNotEmpty() && countryISO2 != UNSPECIFIED_COUNTRY) {
                     region = countryISO2
@@ -225,7 +204,7 @@ fun PhoneNumberInput(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
         ) {
             OutlinedTextFieldDefaults.DecorationBox(
-                value = numberPhoneValue,
+                value = phoneNumberValue,
                 visualTransformation = VisualTransformation.None,
                 innerTextField = it,
                 singleLine = singleLine,
@@ -261,10 +240,10 @@ fun PhoneNumberInput(
     }
 }
 
-fun textFieldValueChange(region: String, numberPhone: String): String {
+fun textFieldValueChange(region: String, numberPhone: String, countryData: Map<String, CountryData>): String {
     return if (region.isNotEmpty() && region != UNSPECIFIED_COUNTRY) numberPhone.replace(
         "$PLUS${
-            countryData!![region]!!.callingCode
+            countryData[region]!!.callingCode
         }", EMPTY_LINE
     ) else numberPhone
 }

@@ -45,7 +45,7 @@ fun SplashScreen(
                 iterations = LottieConstants.IterateForever
             )
         } else {
-            val condition = true //TODO: isUserLoggedIn
+            val condition = false //TODO: isUserLoggedIn
 
             val route =
                 if (condition) NavItem.EventItem.route else NavItem.VerifInputPhoneNumberScreenItem.route
