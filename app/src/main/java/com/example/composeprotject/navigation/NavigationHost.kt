@@ -115,6 +115,9 @@ fun NavigationHost(
         ) { backStackEntry ->
             val eventId = backStackEntry.arguments?.getInt(EVENT_ID)
             val eventName = backStackEntry.arguments?.getString(EVENT_NAME)
+
+            //TODO:1
+
             EventDetailsScreen(
                 contentPadding = contentPadding,
                 eventId = eventId,

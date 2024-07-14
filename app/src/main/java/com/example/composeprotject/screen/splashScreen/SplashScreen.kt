@@ -41,19 +41,23 @@ fun SplashScreen(
             .padding(contentPadding),
         contentAlignment = Alignment.Center
     ) {
-        if (isLoading) {
-            LottieAnimation(
-                composition = composition,
-                isPlaying = true,
-                restartOnPlay = true,
-                iterations = LottieConstants.IterateForever
-            )
-        } else {
-            val condition = false //TODO: isUserLoggedIn
+        when (isLoading) {
+            true -> {
+                LottieAnimation(
+                    composition = composition,
+                    isPlaying = true,
+                    restartOnPlay = true,
+                    iterations = LottieConstants.IterateForever
+                )
+            }
 
-            val route =
-                if (condition) NavItem.EventItem.route else NavItem.VerifInputPhoneNumberScreenItem.route
-            navController.navigate(route = route)
+            false -> {
+                val condition = false //TODO: isUserLoggedIn
+
+                val route =
+                    if (condition) NavItem.EventItem.route else NavItem.VerifInputPhoneNumberScreenItem.route
+                navController.navigate(route = route)
+            }
         }
     }
 }

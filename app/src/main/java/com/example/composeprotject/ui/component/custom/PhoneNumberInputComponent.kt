@@ -45,14 +45,12 @@ fun PhoneNumberInput(
     authViewModel: AuthViewModel
 ) {
     val context = LocalContext.current
-    val countryData = (context.applicationContext as BaseApplication).countryData
-
+    val countryData = (context.applicationContext as? BaseApplication)?.countryData
     var phoneNumberValue by remember { mutableStateOf(EMPTY_LINE) }
     var region by remember { mutableStateOf(EMPTY_LINE) }
-
+    val countryDataRegion = countryData?.get(region)
     val interactionSource = remember { MutableInteractionSource() }
     val singleLine = true
-
     val colors =
         OutlinedTextFieldDefaults.colors(
             focusedBorderColor = MeetTheme.colors.neutralOffWhite,
@@ -65,7 +63,7 @@ fun PhoneNumberInput(
         )
 
     Row {
-        if (countryData[region] != null) {
+        if (countryDataRegion != null) {
             Row(
                 modifier = Modifier
                     .background(MeetTheme.colors.neutralOffWhite)
@@ -75,13 +73,13 @@ fun PhoneNumberInput(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 BaseText(
-                    text = countryData[region]?.flagEmoji ?: DEFAULT_FLAG_COUNTRY
+                    text = countryDataRegion.flagEmoji
                 )
                 Spacer(
                     modifier = modifier.width(MeetTheme.sizes.sizeX8)
                 )
                 BaseText(
-                    text = "$PLUS${countryData[region]?.callingCode}",
+                    text = "$PLUS${countryDataRegion.callingCode}",
                     textColor = MeetTheme.colors.neutralActive,
                     textStyle = MeetTheme.typography.bodyText1
                 )
@@ -96,20 +94,20 @@ fun PhoneNumberInput(
             value = textFieldValueChange(
                 region = region,
                 numberPhone = phoneNumberValue,
-                countryData
+                callingCode = countryDataRegion?.callingCode ?: EMPTY_LINE
             ),
             onValueChange = { newValue ->
                 phoneNumberValue = newValue
 
                 var countryISO2 = EMPTY_LINE
-                var cleanPhoneNumber = cleanPhoneNumber(newValue)
-                var cleanPlaceholder =
-                    cleanPhoneNumber(countryData[region]?.placeholder ?: EMPTY_LINE)
+                val cleanPhoneNumber = cleanPhoneNumber(newValue)
+                val cleanPlaceholder =
+                    cleanPhoneNumber(countryDataRegion?.placeholder ?: EMPTY_LINE)
 
                 if (region.isEmpty()) {
                     countryISO2 = getCountryNameByPhoneCode(phoneNumberValue)
                 }
-                if (region.isNotEmpty() && newValue.length > 5) {
+                if (region.isNotEmpty() && newValue.length > MIN_PHONE_NUMBER_LENGTH) {
                     phoneNumberValue = formatPhoneNumber(newValue, region)
                 }
                 if (countryISO2.isNotEmpty() && countryISO2 != UNSPECIFIED_COUNTRY) {
@@ -123,7 +121,7 @@ fun PhoneNumberInput(
                     authViewModel.activeAuthButton(isEnabled = true)
                     val isValidation = isValidNumber(
                         phoneNumber = cleanPhoneNumber,
-                        countryCode = countryData[region]?.callingCode ?: EMPTY_LINE,
+                        countryCode = countryDataRegion?.callingCode ?: EMPTY_LINE,
                         country = region
                     )
                     authViewModel.validationPhoneNumber(isValidation = isValidation)
@@ -181,11 +179,11 @@ fun PhoneNumberInput(
 fun textFieldValueChange(
     region: String,
     numberPhone: String,
-    countryData: Map<String, CountryData>
+    callingCode: String
 ): String {
     return if (region.isNotEmpty() && region != UNSPECIFIED_COUNTRY) numberPhone.replace(
         "$PLUS${
-            countryData[region]!!.callingCode
+            callingCode
         }", EMPTY_LINE
     ) else numberPhone
 }
@@ -217,7 +215,7 @@ fun isValidNumber(phoneNumber: String, country: String, countryCode: String): Bo
 }
 
 fun formatPhoneNumber(value: String, pattern: String): String {
-    return if (pattern.isEmpty()) {
+    return if (pattern.isEmpty() || UNSPECIFIED_CALLING_CODE == pattern) {
         return value
     } else {
         PhoneNumberUtils.formatNumber(value, pattern)
@@ -239,7 +237,8 @@ fun cleanPhoneNumber(phoneNumber: String): String {
 
 private const val UNSPECIFIED_COUNTRY = "ZZ"
 private const val EMPTY_LINE = ""
-private const val DEFAULT_FLAG_COUNTRY = "\uD83C\uDDF7\uD83C\uDDFA"
+private const val UNSPECIFIED_CALLING_CODE = "001"
 private const val PLUS = "+"
 private const val WHITESPACE = " "
 private const val DASH = "-"
+private const val MIN_PHONE_NUMBER_LENGTH = 5

@@ -66,11 +66,19 @@ fun VerifInputPhoneNumberScreen(
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX69))
         FilledButton(
             onClick = {
-                if (isValidationPhoneNumber) {
-                    navController.navigate(route = NavItem.VerificationCodeScreenItem.route) /*TODO: докинуть логики*/
+                when(isValidationPhoneNumber){
+                    true -> {
+                        navController.navigate(route = NavItem.VerificationCodeScreenItem.route)
+                    }
+                    false -> {
+                        /*TODO: докинуть логики*/
+                    }
                 }
             },
-            state = if (activeAuthButton) ButtonState.INITIAL else ButtonState.DISABLED,
+            state = when (activeAuthButton) {
+                true -> ButtonState.INITIAL
+                false -> ButtonState.DISABLED
+            },
             buttonText = R.string.text_continue
         )
     }
