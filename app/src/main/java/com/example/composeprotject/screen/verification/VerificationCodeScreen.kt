@@ -20,6 +20,7 @@ import com.example.composeprotject.ui.component.custom.CodeInput
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.AuthViewModel
+import com.example.composeprotject.viewModel.MainViewModel
 
 @Composable
 fun VerificationCodeScreen(
@@ -27,8 +28,15 @@ fun VerificationCodeScreen(
     phoneNumber: String,
     contentPadding: PaddingValues,
     authViewModel: AuthViewModel,
-    navController: NavHostController
+    navController: NavHostController,
+    mainViewModel: MainViewModel
 ) {
+    mainViewModel.setCurrentScreen(
+        screen = NavItem.VerificationCodeScreenItem,
+        showBottomBar = false,
+        showTopBar = true
+    )
+
     Column(
         modifier = modifier
             .padding(contentPadding)
@@ -55,10 +63,12 @@ fun VerificationCodeScreen(
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX49))
         CodeInput(viewModel = authViewModel)
         val inputValue = authViewModel.code.collectAsState()
-        if (inputValue.value.length == 4) {
+        if (inputValue.value.length == VERIFICATION_CODE_LENGTH) {
             navController.navigate(NavItem.CreateProfileScreenItem.route)
         }
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX69))
         TextButton(onClick = { /*TODO*/}, buttonText = R.string.text_request_code_again)
     }
 }
+
+private const val VERIFICATION_CODE_LENGTH = 4

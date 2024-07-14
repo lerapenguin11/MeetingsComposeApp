@@ -8,6 +8,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -16,18 +20,27 @@ import com.example.composeprotject.R
 import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.avatar.ProfileAvatarContainer
 import com.example.composeprotject.ui.component.button.FilledButton
-import com.example.composeprotject.ui.component.input.CustomSearchOutlinedTextFieldIcon
+import com.example.composeprotject.ui.component.input.CustomOutlinedTextField
 import com.example.composeprotject.ui.component.state.ButtonState
 import com.example.composeprotject.ui.component.variant.avatar.AvatarState
 import com.example.composeprotject.ui.component.variant.avatar.ProfileAvatarVariant
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.composeprotject.viewModel.MainViewModel
 
 @Composable
 fun CreateProfileScreen(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
-    navController: NavHostController
+    navController: NavHostController,
+    mainViewModel: MainViewModel
 ) {
+    mainViewModel.setCurrentScreen(
+        screen = NavItem.CreateProfileScreenItem,
+        showBottomBar = false,
+        showTopBar = true
+    )
+    var userName by remember { mutableStateOf("") }
+
     Column(
         modifier = modifier
             .padding(contentPadding)
@@ -44,19 +57,25 @@ fun CreateProfileScreen(
             state = AvatarState.EDITING
         )
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX31))
-        CustomSearchOutlinedTextFieldIcon(
+        CustomOutlinedTextField(
             textPlaceholder = stringResource(id = R.string.text_name),
-            isEnabled = true
+            isEnabled = true,
+            onValueChange = { newValue ->
+                userName = newValue
+            }
         )
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX12))
-        CustomSearchOutlinedTextFieldIcon(
+        CustomOutlinedTextField(
             textPlaceholder = stringResource(id = R.string.text_surname),
-            isEnabled = true
+            isEnabled = true,
+            onValueChange = {/*TODO*/ }
         )
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX68))
+        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX58))
         FilledButton(
-            onClick = { navController.navigate(route = NavItem.EventItem.route) /*TODO: докинуть логики*/ },
-            state = ButtonState.INITIAL,
+            onClick = {
+                navController.navigate(route = NavItem.EventItem.route) /*TODO: докинуть логики*/
+            },
+            state = if (userName.isNotEmpty()) ButtonState.INITIAL else ButtonState.DISABLED,
             buttonText = R.string.text_save
         )
     }

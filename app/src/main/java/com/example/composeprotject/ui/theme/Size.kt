@@ -32,7 +32,7 @@ data class MeetSizeSystem(
     val sizeX49: Dp,
     val sizeX69: Dp,
     val sizeX31: Dp,
-    val sizeX68: Dp,
+    val sizeX58: Dp,
     val sizeX32: Dp
 )
 
@@ -62,7 +62,7 @@ val EventsLocalSizeSystem = MeetSizeSystem(
     sizeX49 = 49.dp,
     sizeX69 = 69.dp,
     sizeX31 = 31.dp,
-    sizeX68 = 68.dp,
+    sizeX58 = 58.dp,
     sizeX32 = 32.dp
 )
 
