@@ -21,7 +21,7 @@ class SplashScreenViewModel : ViewModel() {
 
     private fun loadData() {
         viewModelScope.launch {
-            delay(1500)
+            delay(SPLASH_SCREEN_DURATION)
             _isLoading.value = false
         }
     }
@@ -30,3 +30,5 @@ class SplashScreenViewModel : ViewModel() {
         _isUserLoggedIn.value = true
     }
 }
+
+private const val SPLASH_SCREEN_DURATION = 2000L
