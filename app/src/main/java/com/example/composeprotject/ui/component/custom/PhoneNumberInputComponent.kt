@@ -17,6 +17,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +38,7 @@ import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.utils.CountryData
 import com.example.composeprotject.viewModel.AuthViewModel
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -94,8 +96,7 @@ fun PhoneNumberInput(
             value = textFieldValueChange(
                 region = region,
                 numberPhone = phoneNumberValue,
-                callingCode = countryDataRegion?.callingCode ?: EMPTY_LINE
-            ),
+                callingCode = countryDataRegion?.callingCode ?: EMPTY_LINE),
             onValueChange = { newValue ->
                 phoneNumberValue = newValue
 
@@ -117,7 +118,7 @@ fun PhoneNumberInput(
                     region = EMPTY_LINE
                 }
 
-                if (cleanPhoneNumber.length == cleanPlaceholder.length) {
+                if (cleanPhoneNumber.length == cleanPlaceholder.length && region.isNotEmpty()) {
                     authViewModel.activeAuthButton(isEnabled = true)
                     val isValidation = isValidNumber(
                         phoneNumber = cleanPhoneNumber,
@@ -181,11 +182,13 @@ fun textFieldValueChange(
     numberPhone: String,
     callingCode: String
 ): String {
-    return if (region.isNotEmpty() && region != UNSPECIFIED_COUNTRY) numberPhone.replace(
-        "$PLUS${
-            callingCode
-        }", EMPTY_LINE
-    ) else numberPhone
+    return if (region.isNotEmpty() && region != UNSPECIFIED_COUNTRY) {
+        numberPhone.replace(
+            "$PLUS${
+                callingCode
+            }", EMPTY_LINE)
+    }
+    else numberPhone
 }
 
 fun getCountryNameByPhoneCode(phoneCode: String): String {
@@ -205,9 +208,9 @@ fun getCountryNameByPhoneCode(phoneCode: String): String {
 
 fun isValidNumber(phoneNumber: String, country: String, countryCode: String): Boolean {
     val phoneNumberUtil = PhoneNumberUtil.getInstance()
-    val isValidNumber = phoneNumberUtil.parse("$countryCode$phoneNumber", country)
 
     return try {
+        val isValidNumber = phoneNumberUtil.parse("$countryCode$phoneNumber", country)
         phoneNumberUtil.isValidNumber(isValidNumber)
     } catch (e: Exception) {
         false
