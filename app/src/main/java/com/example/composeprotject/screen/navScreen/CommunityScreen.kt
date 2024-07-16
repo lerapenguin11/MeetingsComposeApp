@@ -15,7 +15,7 @@ import com.example.composeprotject.R
 import com.example.composeprotject.model.Community
 import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.card.CommunitiesCard
-import com.example.composeprotject.ui.component.input.CustomSearchOutlinedTextField
+import com.example.composeprotject.ui.component.input.CustomSearchOutlinedTextFieldIcon
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.MainViewModel
 
@@ -27,14 +27,18 @@ fun CommunityScreen(
     navController: NavHostController,
     onCommunityClick: (Community) -> Unit
 ) {
-    viewModel.setCurrentScreen(screen = NavItem.CommunityItem, show = true)
+    viewModel.setCurrentScreen(
+        screen = NavItem.CommunityItem,
+        showTopBar = true,
+        showBottomBar = true
+    )
     Column(
         modifier = modifier
             .padding(contentPadding)
             .padding(horizontal = MeetTheme.sizes.sizeX24)
     ) {
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
-        CustomSearchOutlinedTextField(
+        CustomSearchOutlinedTextFieldIcon(
             textPlaceholder = stringResource(id = R.string.text_placeholder_input_search),
             isEnabled = true
         )

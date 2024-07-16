@@ -146,5 +146,9 @@ fun CommunitiesCard(
 }
 
 fun formatNumberWithSpaces(number: Int): String {
-    return "%,d".format(number).replace(',', ' ')
+    return SPACE_FORMAT.format(number).replace(COMMA_REPLACEMENT, SPACE_REPLACEMENT)
 }
+
+private const val SPACE_FORMAT = "%,d"
+private const val SPACE_REPLACEMENT = ' '
+private const val COMMA_REPLACEMENT = ','

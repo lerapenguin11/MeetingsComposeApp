@@ -7,6 +7,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.ripple.LocalRippleTheme
@@ -19,8 +20,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -40,17 +43,39 @@ import com.example.composeprotject.ui.theme.MeetTheme
 //TODO: delete R.string.text_button
 
 @Composable
+fun ToggleMeetingButton(
+    showMeeting: Boolean,
+    onClick: () -> Unit,
+    textFieldButton : Int,
+    textOutlineButton : Int,
+    state: ButtonState = ButtonState.INITIAL
+){
+    if (showMeeting) {
+        FilledButton(
+            onClick = onClick,
+            buttonText = textFieldButton,
+            state = state
+        )
+    } else {
+        OutlinedButton(
+            onClick = onClick,
+            buttonText = textOutlineButton
+        )
+    }
+}
+
+@Composable
 fun FilledButton(
     onClick: () -> Unit,
-    state: ButtonState = ButtonState.INITIAL,
+    state: ButtonState,
     colors: FilledButtonColors = FilledButtonDefaults.colors(),
     buttonText: Int,
     modifier: Modifier = Modifier
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val changeableState = remember { mutableStateOf(state) }
+    var changeableState by remember { mutableStateOf(ButtonState.INITIAL) }
     val isPressed = interactionSource.collectIsPressedAsState().value ?: false
-
+    changeableState = state
     CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
         Button(
             modifier = modifier
@@ -58,20 +83,20 @@ fun FilledButton(
                 .height(height = 52.dp),
             onClick = { onClick() },
             interactionSource = interactionSource,
-            enabled = state != ButtonState.DISABLED,
+            enabled = changeableState != ButtonState.DISABLED,
             contentPadding = PaddingValues(vertical = MeetTheme.sizes.sizeX12),
             colors = ButtonDefaults.buttonColors(
-                disabledContainerColor = colors.backgroundColor(changeableState.value),
-                containerColor = colors.backgroundColor(changeableState.value),
-                contentColor = colors.contentColor(changeableState.value),
-                disabledContentColor = colors.contentColor(changeableState.value)
+                disabledContainerColor = colors.backgroundColor(changeableState),
+                containerColor = colors.backgroundColor(changeableState),
+                contentColor = colors.contentColor(changeableState),
+                disabledContentColor = colors.contentColor(changeableState)
             )
         ) {
             AnimatedVisibility(visible = isPressed) {
-                if (isPressed) {
-                    changeableState.value = ButtonState.PRESSED
+                changeableState = if (isPressed) {
+                    ButtonState.PRESSED
                 } else {
-                    changeableState.value = ButtonState.INITIAL
+                    ButtonState.INITIAL
                 }
             }
             BaseText(
@@ -87,7 +112,8 @@ fun FilledButton(
 fun OutlinedButton(
     onClick: () -> Unit,
     state: ButtonState = ButtonState.INITIAL,
-    colors: OutlinedButtonColors = OutlinedButtonDefaults.colors()
+    colors: OutlinedButtonColors = OutlinedButtonDefaults.colors(),
+    buttonText: Int
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val changeableState = remember { mutableStateOf(state) }
@@ -95,10 +121,12 @@ fun OutlinedButton(
 
     CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
         OutlinedButton(
+            modifier = Modifier
+                .fillMaxSize(),
             onClick = { onClick() },
             interactionSource = interactionSource,
             enabled = changeableState.value != ButtonState.DISABLED,
-            //contentPadding = PaddingValues(horizontal = 48.dp, vertical = 12.dp),
+            contentPadding = PaddingValues(vertical = MeetTheme.sizes.sizeX12),
             border = outlinedBorderStroke(
                 width = 2,
                 color = colors.strokeColor(changeableState.value)
@@ -118,7 +146,7 @@ fun OutlinedButton(
                 }
             }
             Text(
-                stringResource(id = R.string.text_button),
+                stringResource(id = buttonText),
                 style = MeetTheme.typography.subheading2
             )
         }

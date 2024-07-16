@@ -22,7 +22,11 @@ fun MyMeetingsScreen(
     contentPadding: PaddingValues,
     navController: NavHostController
 ) {
-    viewModel.setCurrentScreen(screen = NavItem.MyMeetingsScreen, show = true)
+    viewModel.setCurrentScreen(
+        screen = NavItem.MyMeetingsScreen,
+        showTopBar = true,
+        showBottomBar = true
+    )
     val tabs = listOf(R.string.text_tab_my_event_plan, R.string.text_tab_my_event_passed)
 
     Column(

@@ -80,7 +80,7 @@ fun ProfileAvatarContainer(
                 painter = painterResource(
                     id = R.drawable.ic_add_photo_user
                 ),
-                contentDescription = ""
+                contentDescription = stringResource(id = R.string.text_button_add_photo_user)
             )
         }
     }
@@ -92,9 +92,6 @@ fun AvatarStatus(
     avatarUrl: String,
     modifier: Modifier = Modifier,
     contentDescription: Int,
-    borderCornerShape: Int = 16,
-    clipCornerShape: Int = 14,
-    borderWidth: Int = 2,
     borderColor: Color = MeetTheme.colors.purpleColor
 ) {
     Box(
@@ -107,11 +104,11 @@ fun AvatarStatus(
             modifier = modifier
                 .size(48.dp)
                 .border(
-                    BorderStroke(borderWidth.dp, borderColor),
-                    RoundedCornerShape(borderCornerShape.dp)
+                    BorderStroke(BORDER_WIDTH.dp, borderColor),
+                    RoundedCornerShape(BORDER_CORNER_SHAPE.dp)
                 )
-                .padding(borderWidth.dp)
-                .clip(RoundedCornerShape(clipCornerShape.dp))
+                .padding(BORDER_WIDTH.dp)
+                .clip(RoundedCornerShape(CLIP_CORNER_SHAPE.dp))
                 .fillMaxSize(),
             model = ImageRequest.Builder(LocalContext.current)
                 .data(avatarUrl)
@@ -201,3 +198,7 @@ fun RoundedAvatarMeetings(
         )
     }
 }
+
+private const val BORDER_CORNER_SHAPE = 16
+private const val CLIP_CORNER_SHAPE = 14
+private const val BORDER_WIDTH = 2

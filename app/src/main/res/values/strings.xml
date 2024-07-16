@@ -47,4 +47,13 @@
     <string name="text_default_phone_code">+7</string>
     <string name="text_ph_phone_number_with_code">+7 000 000-00-00</string>
     <string name="text_ph_phone_number">000 000-00-00</string>
+    <string name="text_theme">Тема</string>
+    <string name="text_notifications">Уведомления</string>
+    <string name="text_safety">Безопасность</string>
+    <string name="text_memory_and_resources">Память и ресурсы</string>
+    <string name="text_help">Помощь</string>
+    <string name="text_invite_friend">Пригласи друга</string>
+    <string name="text_go_to_another_time">Схожу в другой раз</string>
+    <string name="text_button_add_photo_user">Добавить фото</string>
+    <string name="text_search">Поиск</string>
 </resources>

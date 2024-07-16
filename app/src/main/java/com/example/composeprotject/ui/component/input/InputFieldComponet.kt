@@ -19,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -27,7 +28,7 @@ import com.example.composeprotject.ui.theme.MeetTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomSearchOutlinedTextField(
+fun CustomSearchOutlinedTextFieldIcon(
     modifier: Modifier = Modifier,
     textPlaceholder: String,
     isEnabled: Boolean
@@ -102,7 +103,7 @@ fun CustomSearchOutlinedTextField(
             leadingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_search),
-                    contentDescription = "Search"
+                    contentDescription = stringResource(id = R.string.text_search)
                 )
             }
         )
@@ -111,18 +112,19 @@ fun CustomSearchOutlinedTextField(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomSearchOutlinedTextFieldIcon(
+fun CustomOutlinedTextField(
     modifier: Modifier = Modifier,
     textPlaceholder: String,
-    isEnabled: Boolean
+    isEnabled: Boolean,
+    onValueChange: (String) -> Unit
 ) {
-    var searchText by remember { mutableStateOf("") }
+    var inputText by remember { mutableStateOf("") }
 
     val interactionSource = remember { MutableInteractionSource() }
     val colorBorder =
-        if (searchText.isNotEmpty()) MeetTheme.colors.neutralOffWhite else MeetTheme.colors.neutralLine
+        if (inputText.isNotEmpty()) MeetTheme.colors.neutralOffWhite else MeetTheme.colors.neutralLine
     val colorContent =
-        if (searchText.isNotEmpty()) MeetTheme.colors.neutralActive else MeetTheme.colors.neutralDisabled
+        if (inputText.isNotEmpty()) MeetTheme.colors.neutralActive else MeetTheme.colors.neutralDisabled
     val singleLine = true
 
     val colors =
@@ -139,8 +141,11 @@ fun CustomSearchOutlinedTextFieldIcon(
             unfocusedLeadingIconColor = colorContent,
         )
     BasicTextField(
-        value = searchText,
-        onValueChange = { searchText = it },
+        value = inputText,
+        onValueChange = { newValue ->
+            inputText = newValue
+            onValueChange(newValue)
+        },
         modifier = modifier
             .border(0.dp, Color.Transparent)
             .height(36.dp)
@@ -152,7 +157,7 @@ fun CustomSearchOutlinedTextFieldIcon(
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
     ) {
         OutlinedTextFieldDefaults.DecorationBox(
-            value = searchText,
+            value = inputText,
             visualTransformation = VisualTransformation.None,
             innerTextField = it,
             singleLine = singleLine,

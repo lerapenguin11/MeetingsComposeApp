@@ -19,16 +19,24 @@ import com.example.composeprotject.ui.component.button.TextButton
 import com.example.composeprotject.ui.component.custom.CodeInput
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.SplashScreenViewModel
+import com.example.composeprotject.viewModel.AuthViewModel
+import com.example.composeprotject.viewModel.MainViewModel
 
 @Composable
 fun VerificationCodeScreen(
     modifier: Modifier = Modifier,
     phoneNumber: String,
     contentPadding: PaddingValues,
-    splashScreenViewModel: SplashScreenViewModel,
-    navController: NavHostController
+    authViewModel: AuthViewModel,
+    navController: NavHostController,
+    mainViewModel: MainViewModel
 ) {
+    mainViewModel.setCurrentScreen(
+        screen = NavItem.VerificationCodeScreenItem,
+        showBottomBar = false,
+        showTopBar = true
+    )
+
     Column(
         modifier = modifier
             .padding(contentPadding)
@@ -53,12 +61,14 @@ fun VerificationCodeScreen(
             textStyle = MeetTheme.typography.bodyText2
         )
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX49))
-        CodeInput(viewModel = splashScreenViewModel)
-        val inputValue = splashScreenViewModel.code.collectAsState()
-        if (inputValue.value.length == 4) {
+        CodeInput(viewModel = authViewModel)
+        val inputValue = authViewModel.code.collectAsState()
+        if (inputValue.value.length == VERIFICATION_CODE_LENGTH) {
             navController.navigate(NavItem.CreateProfileScreenItem.route)
         }
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX69))
         TextButton(onClick = { /*TODO*/}, buttonText = R.string.text_request_code_again)
     }
 }
+
+private const val VERIFICATION_CODE_LENGTH = 4

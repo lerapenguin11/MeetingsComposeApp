@@ -31,8 +31,7 @@ fun CommunityDetailsScreen(
     communityName: String?,
     viewModel: MainViewModel,
 ) {
-    viewModel.setCurrentScreen(screen = NavItem.CommunityDetailsItem, show = true)
-    viewModel
+    viewModel.setCurrentScreen(screen = NavItem.CommunityDetailsItem, showTopBar = true, showBottomBar = true)
     viewModel.setTitleDetailedScreen(
         communityName ?: stringResource(id = R.string.text_community_details)
     )

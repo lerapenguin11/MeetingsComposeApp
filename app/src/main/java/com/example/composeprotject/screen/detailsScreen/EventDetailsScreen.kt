@@ -3,7 +3,6 @@ package com.example.composeprotject.screen.detailsScreen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,7 +17,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -29,11 +27,12 @@ import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
 import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.avatar.AttendeesRow
-import com.example.composeprotject.ui.component.button.FilledButton
+import com.example.composeprotject.ui.component.button.ToggleMeetingButton
 import com.example.composeprotject.ui.component.chip.Chip
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.component.text.ExpandableText
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.composeprotject.viewModel.EventDetailsViewModel
 import com.example.composeprotject.viewModel.MainViewModel
 
 //TODO: delete text
@@ -45,13 +44,20 @@ fun EventDetailsScreen(
     contentPadding: PaddingValues,
     eventId: Int?,
     eventName: String?,
-    viewModel: MainViewModel
+    mainViewModel: MainViewModel,
+    eventDetailsViewModel: EventDetailsViewModel
 ) {
-    viewModel.setCurrentScreen(screen = NavItem.EventDetailsItem, show = true)
-    viewModel.setTitleDetailedScreen(
+    mainViewModel.setCurrentScreen(
+        screen = NavItem.EventDetailsItem,
+        showTopBar = true,
+        showBottomBar = true
+    )
+    mainViewModel.setTitleDetailedScreen(
         eventName ?: stringResource(id = R.string.text_event_details)
     )
     var isMapExpanded by remember { mutableStateOf(false) }
+    var showMeeting by remember { mutableStateOf(true) }
+    eventDetailsViewModel.setActionEventDetails(isAction = showMeeting)
 
     if (isMapExpanded) {
         Image(
@@ -105,9 +111,13 @@ fun EventDetailsScreen(
                 avatarList = avatarList()
             )
             Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX13))
-            FilledButton(
-                onClick = { /*TODO*/ },
-                buttonText = R.string.text_go_to_meeting
+            ToggleMeetingButton(
+                onClick = {
+                    showMeeting = !showMeeting
+                },
+                showMeeting = showMeeting,
+                textOutlineButton = R.string.text_go_to_another_time,
+                textFieldButton = R.string.text_go_to_meeting
             )
         }
     }
