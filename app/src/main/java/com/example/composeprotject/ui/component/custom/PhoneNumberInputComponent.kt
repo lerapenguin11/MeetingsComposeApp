@@ -17,7 +17,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,10 +34,8 @@ import com.example.composeprotject.R
 import com.example.composeprotject.app.BaseApplication
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.utils.CountryData
 import com.example.composeprotject.viewModel.AuthViewModel
 import com.google.i18n.phonenumbers.PhoneNumberUtil
-import kotlinx.coroutines.flow.MutableStateFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -65,7 +62,7 @@ fun PhoneNumberInput(
         )
 
     Row {
-        if (countryDataRegion != null) {
+        countryDataRegion?.let { country ->
             Row(
                 modifier = Modifier
                     .background(MeetTheme.colors.neutralOffWhite)
@@ -75,13 +72,13 @@ fun PhoneNumberInput(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 BaseText(
-                    text = countryDataRegion.flagEmoji
+                    text = country.flagEmoji
                 )
                 Spacer(
                     modifier = modifier.width(MeetTheme.sizes.sizeX8)
                 )
                 BaseText(
-                    text = "$PLUS${countryDataRegion.callingCode}",
+                    text = "$PLUS${country.callingCode}",
                     textColor = MeetTheme.colors.neutralActive,
                     textStyle = MeetTheme.typography.bodyText1
                 )
@@ -96,14 +93,15 @@ fun PhoneNumberInput(
             value = textFieldValueChange(
                 region = region,
                 numberPhone = phoneNumberValue,
-                callingCode = countryDataRegion?.callingCode ?: EMPTY_LINE),
+                callingCode = countryDataRegion?.callingCode.orEmpty()
+            ),
             onValueChange = { newValue ->
                 phoneNumberValue = newValue
 
                 var countryISO2 = EMPTY_LINE
                 val cleanPhoneNumber = cleanPhoneNumber(newValue)
                 val cleanPlaceholder =
-                    cleanPhoneNumber(countryDataRegion?.placeholder ?: EMPTY_LINE)
+                    cleanPhoneNumber(countryDataRegion?.placeholder.orEmpty())
 
                 if (region.isEmpty()) {
                     countryISO2 = getCountryNameByPhoneCode(phoneNumberValue)
@@ -122,7 +120,7 @@ fun PhoneNumberInput(
                     authViewModel.activeAuthButton(isEnabled = true)
                     val isValidation = isValidNumber(
                         phoneNumber = cleanPhoneNumber,
-                        countryCode = countryDataRegion?.callingCode ?: EMPTY_LINE,
+                        countryCode = countryDataRegion?.callingCode.orEmpty(),
                         country = region
                     )
                     authViewModel.validationPhoneNumber(isValidation = isValidation)
@@ -186,9 +184,9 @@ fun textFieldValueChange(
         numberPhone.replace(
             "$PLUS${
                 callingCode
-            }", EMPTY_LINE)
-    }
-    else numberPhone
+            }", EMPTY_LINE
+        )
+    } else numberPhone
 }
 
 fun getCountryNameByPhoneCode(phoneCode: String): String {
