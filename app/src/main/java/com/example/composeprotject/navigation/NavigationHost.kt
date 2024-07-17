@@ -53,7 +53,6 @@ fun NavigationHost(
             CommunityScreen(
                 viewModel = mainViewModel,
                 contentPadding = contentPadding,
-                navController = navController,
                 onCommunityClick = { community ->
                     navController.navigate(
                         route = "${NavItem.CommunityDetailsItem.route}/" +

@@ -12,7 +12,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavHostController
 import com.example.composeprotject.R
 import com.example.composeprotject.domain.model.Community
 import com.example.composeprotject.navigation.NavItem
@@ -28,7 +27,6 @@ fun CommunityScreen(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
     contentPadding: PaddingValues,
-    navController: NavHostController,
     onCommunityClick: (Community) -> Unit,
     communityViewModel: CommunityViewModel = koinViewModel()
 ) {
