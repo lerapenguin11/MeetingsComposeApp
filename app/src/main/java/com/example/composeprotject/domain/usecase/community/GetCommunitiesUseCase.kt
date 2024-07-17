@@ -1,4 +1,4 @@
-package com.example.composeprotject.domain.usecase
+package com.example.composeprotject.domain.usecase.community
 
 import com.example.composeprotject.domain.repository.CommunityRepository
 

@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.example.composeprotject.R
 import com.example.composeprotject.navigation.NavItem
@@ -14,28 +16,34 @@ import com.example.composeprotject.ui.component.menuItem.MyEventMenuItem
 import com.example.composeprotject.ui.component.menuItem.ProfileMenuItem
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.MainViewModel
+import com.example.composeprotject.viewModel.nav.StillViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun StillScreen(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
     contentPadding: PaddingValues,
+    stillViewModel: StillViewModel = koinViewModel(),
     onStillClickToProfileScreen: (/*TODO*/) -> Unit,
-    onStillClickToMyMeetingsScreen: (/*TODO*/) -> Unit,
+    onStillClickToMyMeetingsScreen: (/*TODO*/) -> Unit
 ) {
     viewModel.setCurrentScreen(screen = NavItem.StillItem, showTopBar = true, showBottomBar = true)
+    val userInfo by stillViewModel.shortInfoUserFlow().collectAsState()
 
     Column(
         modifier = modifier
             .padding(contentPadding)
     ) {
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX8))
-        ProfileMenuItem(
-            name = "Иван Иванов", //TODO
-            numberPhone = "+7 999 999-99-99", //TODO
-            avatarUrl = null,
-            onClick = { onStillClickToProfileScreen(/*TODO*/) }
-        )
+        userInfo?.let { user ->
+            ProfileMenuItem(
+                name = getUserFullName(user.userName, user.userSurname),
+                numberPhone = user.phoneNumber,
+                avatarUrl = user.avatarUrl,
+                onClick = { onStillClickToProfileScreen(/*TODO*/) }
+            )
+        }
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX8))
         MyEventMenuItem(
             onClick = { onStillClickToMyMeetingsScreen(/*TODO*/) },
@@ -74,5 +82,13 @@ fun StillScreen(
             menuIcon = R.drawable.ic_still_nav_menu_invite_friend,
             menuName = R.string.text_invite_friend
         )
+    }
+}
+
+fun getUserFullName(userName: String, userSurname: String?): String {
+    return if (userSurname.isNullOrEmpty()){
+        userName
+    }else{
+        "$userName $userSurname"
     }
 }

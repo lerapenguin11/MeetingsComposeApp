@@ -2,8 +2,8 @@ package com.example.composeprotject.viewModel.nav
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.composeprotject.domain.model.Community
-import com.example.composeprotject.domain.usecase.GetCommunitiesUseCase
+import com.example.composeprotject.domain.model.nav.Community
+import com.example.composeprotject.domain.usecase.community.GetCommunitiesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

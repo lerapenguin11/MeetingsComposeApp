@@ -1,6 +1,6 @@
 package com.example.composeprotject.data.repository
 
-import com.example.composeprotject.domain.model.Community
+import com.example.composeprotject.domain.model.nav.Community
 import com.example.composeprotject.domain.repository.CommunityRepository
 
 class CommunityRepositoryImpl : CommunityRepository {
