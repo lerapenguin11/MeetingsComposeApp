@@ -2,6 +2,8 @@ package com.example.composeprotject.app
 
 import android.app.Application
 import com.example.composeprotject.di.appModule
+import com.example.composeprotject.di.dataModule
+import com.example.composeprotject.di.domainModule
 import com.example.composeprotject.utils.CountryData
 import com.example.composeprotject.utils.readCountryDataFromJson
 import org.koin.android.ext.koin.androidContext
@@ -16,10 +18,16 @@ class BaseApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        startKoin{
+        startKoin {
             androidLogger(Level.DEBUG)
             androidContext(this@BaseApplication)
-            modules(appModule)
+            modules(
+                listOf(
+                    appModule,
+                    dataModule,
+                    domainModule
+                )
+            )
         }
     }
 }

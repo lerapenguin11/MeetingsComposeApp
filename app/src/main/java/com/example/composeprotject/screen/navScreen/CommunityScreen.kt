@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import com.example.composeprotject.R
-import com.example.composeprotject.model.Community
+import com.example.composeprotject.domain.model.Community
 import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.card.CommunitiesCard
 import com.example.composeprotject.ui.component.input.CustomSearchOutlinedTextFieldIcon
