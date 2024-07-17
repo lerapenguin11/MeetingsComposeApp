@@ -20,10 +20,11 @@ import com.example.composeprotject.screen.splashScreen.SplashScreen
 import com.example.composeprotject.screen.verification.CreateProfileScreen
 import com.example.composeprotject.screen.verification.VerifInputPhoneNumberScreen
 import com.example.composeprotject.screen.verification.VerificationCodeScreen
-import com.example.composeprotject.viewModel.AuthPhoneNumberViewModel
+import com.example.composeprotject.viewModel.auth.AuthPhoneNumberViewModel
 import com.example.composeprotject.viewModel.EventDetailsViewModel
 import com.example.composeprotject.viewModel.MainViewModel
 import com.example.composeprotject.viewModel.SplashScreenViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @ExperimentalFoundationApi
 @Composable
@@ -145,7 +146,6 @@ fun NavigationHost(
                 VerificationCodeScreen(
                     phoneNumber = it,
                     contentPadding = contentPadding,
-                    authPhoneNumberViewModel = authPhoneNumberViewModel,
                     navController = navController,
                     mainViewModel = mainViewModel
                 )

@@ -19,15 +19,17 @@ import com.example.composeprotject.ui.component.button.TextButton
 import com.example.composeprotject.ui.component.custom.CodeInput
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.AuthPhoneNumberViewModel
+import com.example.composeprotject.viewModel.auth.AuthPhoneNumberViewModel
 import com.example.composeprotject.viewModel.MainViewModel
+import com.example.composeprotject.viewModel.auth.AuthCodeViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun VerificationCodeScreen(
     modifier: Modifier = Modifier,
     phoneNumber: String,
     contentPadding: PaddingValues,
-    authPhoneNumberViewModel: AuthPhoneNumberViewModel,
+    codeViewModel: AuthCodeViewModel = koinViewModel(),
     navController: NavHostController,
     mainViewModel: MainViewModel
 ) {
@@ -61,8 +63,8 @@ fun VerificationCodeScreen(
             textStyle = MeetTheme.typography.bodyText2
         )
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX49))
-        CodeInput(viewModel = authPhoneNumberViewModel)
-        val inputValue = authPhoneNumberViewModel.code.collectAsState()
+        CodeInput(viewModel = codeViewModel)
+        val inputValue = codeViewModel.getCodeFlow().collectAsState()
         if (inputValue.value.length == VERIFICATION_CODE_LENGTH) {
             navController.navigate(NavItem.CreateProfileScreenItem.route)
         }

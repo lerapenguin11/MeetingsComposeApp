@@ -25,15 +25,16 @@ import com.example.composeprotject.ui.component.custom.PhoneNumberInput
 import com.example.composeprotject.ui.component.state.ButtonState
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.AuthPhoneNumberViewModel
+import com.example.composeprotject.viewModel.auth.AuthPhoneNumberViewModel
 import com.example.composeprotject.viewModel.MainViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun VerifInputPhoneNumberScreen(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
     navController: NavHostController,
-    authPhoneNumberViewModel: AuthPhoneNumberViewModel,
+    authPhoneNumberViewModel: AuthPhoneNumberViewModel = koinViewModel(),
     mainViewModel: MainViewModel,
     onSendCodePhoneNumberClick: (String) -> Unit
 ) {
@@ -43,7 +44,8 @@ fun VerifInputPhoneNumberScreen(
         showTopBar = true
     )
     val activeAuthButton by authPhoneNumberViewModel.activeAuthButton.collectAsState()
-    val isValidationPhoneNumber by authPhoneNumberViewModel.validationPhoneNumber.collectAsState()
+    val isValidationPhoneNumber by authPhoneNumberViewModel.getValidationPhoneNumberFlow()
+        .collectAsState()
     var phoneNumber by remember { mutableStateOf("") }
 
     Column(

@@ -30,17 +30,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.AuthPhoneNumberViewModel
+import com.example.composeprotject.viewModel.auth.AuthCodeViewModel
+import com.example.composeprotject.viewModel.auth.AuthPhoneNumberViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CodeInput(
     modifier: Modifier = Modifier,
-    viewModel: AuthPhoneNumberViewModel
+    viewModel: AuthCodeViewModel
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val value by remember { mutableStateOf(viewModel.code.value) }
-    val codeValue by viewModel.code.collectAsState()
+    val value by remember { mutableStateOf(viewModel.getCodeFlow().value) }
+    val codeValue by viewModel.getCodeFlow().collectAsState()
 
     Box(modifier = modifier.padding(MeetTheme.sizes.sizeX10)) {
         BasicTextField(

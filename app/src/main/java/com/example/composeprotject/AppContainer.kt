@@ -26,17 +26,18 @@ import com.example.composeprotject.ui.component.toolbar.getActionToolbar
 import com.example.composeprotject.ui.component.toolbar.getBackNavigation
 import com.example.composeprotject.ui.component.toolbar.getToolbarTitle
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.AuthPhoneNumberViewModel
+import com.example.composeprotject.viewModel.auth.AuthPhoneNumberViewModel
 import com.example.composeprotject.viewModel.EventDetailsViewModel
 import com.example.composeprotject.viewModel.MainViewModel
 import com.example.composeprotject.viewModel.SplashScreenViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @ExperimentalFoundationApi
 @Composable
 fun AppContainer() {
     val navController = rememberNavController()
-    val mainViewModel: MainViewModel = viewModel()
+    val mainViewModel: MainViewModel = koinViewModel()
     val splashScreenViewModel: SplashScreenViewModel = viewModel()
     val eventDetailsViewModel : EventDetailsViewModel = viewModel()
     val authPhoneNumberViewModel : AuthPhoneNumberViewModel = viewModel()
