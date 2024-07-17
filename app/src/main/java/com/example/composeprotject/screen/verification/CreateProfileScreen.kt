@@ -26,13 +26,16 @@ import com.example.composeprotject.ui.component.variant.avatar.AvatarState
 import com.example.composeprotject.ui.component.variant.avatar.ProfileAvatarVariant
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.MainViewModel
+import com.example.composeprotject.viewModel.auth.CreateProfileViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun CreateProfileScreen(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
     navController: NavHostController,
-    mainViewModel: MainViewModel
+    mainViewModel: MainViewModel,
+    createProfileViewModel: CreateProfileViewModel = koinViewModel()
 ) {
     mainViewModel.setCurrentScreen(
         screen = NavItem.CreateProfileScreenItem,
@@ -40,6 +43,7 @@ fun CreateProfileScreen(
         showTopBar = true
     )
     var userName by remember { mutableStateOf("") }
+    var userSurname by remember { mutableStateOf("") }
 
     Column(
         modifier = modifier
@@ -68,11 +72,17 @@ fun CreateProfileScreen(
         CustomOutlinedTextField(
             textPlaceholder = stringResource(id = R.string.text_surname),
             isEnabled = true,
-            onValueChange = {/*TODO*/ }
+            onValueChange = { newValue ->
+                userSurname = newValue
+            }
         )
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX58))
         FilledButton(
             onClick = {
+                createProfileViewModel.createProfile(
+                    userName = userName,
+                    userSurname = userSurname.ifEmpty { null }
+                )
                 navController.navigate(route = NavItem.EventItem.route) /*TODO: докинуть логики*/
             },
             state = if (userName.isNotEmpty()) ButtonState.INITIAL else ButtonState.DISABLED,

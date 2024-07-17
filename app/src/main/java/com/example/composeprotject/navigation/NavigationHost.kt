@@ -25,6 +25,8 @@ import com.example.composeprotject.viewModel.MainViewModel
 import com.example.composeprotject.viewModel.SplashScreenViewModel
 import com.example.composeprotject.viewModel.auth.AuthPhoneNumberViewModel
 
+/*TODO: переделать навигацию*/
+
 @ExperimentalFoundationApi
 @Composable
 fun NavigationHost(
@@ -147,7 +149,11 @@ fun NavigationHost(
                     phoneNumber = it,
                     contentPadding = contentPadding,
                     navController = navController,
-                    mainViewModel = mainViewModel
+                    mainViewModel = mainViewModel,
+                    onCreateProfile = {
+                        navController.navigate(
+                            route = NavItem.CreateProfileScreenItem.route)
+                    }
                 )
             }
         }

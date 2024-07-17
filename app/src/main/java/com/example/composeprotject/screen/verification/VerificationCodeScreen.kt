@@ -31,7 +31,8 @@ fun VerificationCodeScreen(
     contentPadding: PaddingValues,
     codeViewModel: AuthCodeViewModel = koinViewModel(),
     navController: NavHostController,
-    mainViewModel: MainViewModel
+    mainViewModel: MainViewModel,
+    onCreateProfile: () -> Unit
 ) {
     mainViewModel.setCurrentScreen(
         screen = NavItem.VerificationCodeScreenItem,
@@ -66,7 +67,7 @@ fun VerificationCodeScreen(
         CodeInput(viewModel = codeViewModel)
         val inputValue = codeViewModel.getCodeFlow().collectAsState()
         if (inputValue.value.length == VERIFICATION_CODE_LENGTH) {
-            navController.navigate(NavItem.CreateProfileScreenItem.route)
+            onCreateProfile()
         }
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX69))
         TextButton(onClick = { /*TODO*/}, buttonText = R.string.text_request_code_again)
