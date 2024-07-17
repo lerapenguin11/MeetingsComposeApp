@@ -7,26 +7,23 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import com.example.composeprotject.R
-import com.example.composeprotject.common.EventVariant
-import com.example.composeprotject.domain.model.nav.Event
+import com.example.composeprotject.common.MyEventVariant
 import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.card.EventCard
-import com.example.composeprotject.viewModel.nav.EventViewModel
+import com.example.composeprotject.viewModel.MyEventViewModel
 import org.koin.androidx.compose.koinViewModel
 
-//TODO: расшарить eventViewModel на MeetingsScreen и EventScreen
-
 @Composable
-fun MeetingsScreen(
-    eventVariant: EventVariant,
+fun MyMeetingsScreen(
+    eventVariant: MyEventVariant,
     navController: NavHostController,
-    eventViewModel: EventViewModel = koinViewModel() ) {
-
-    eventViewModel.getEvents(variantEvent = eventVariant.name)
-    val eventList by eventViewModel.getEventsFlow().collectAsState()
+    myEventViewModel: MyEventViewModel = koinViewModel()
+){
+    myEventViewModel.getMyEvents(variant = eventVariant.name)
+    val myEventList by myEventViewModel.getMyEventsFlow().collectAsState()
 
     LazyColumn {
-        items(eventList) { event ->
+        items(myEventList) { event ->
             EventCard(
                 meetingName = event.meetingName,
                 dateLocation = event.dateLocation,

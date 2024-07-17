@@ -9,7 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.composeprotject.screen.MyMeetingsScreen
+import com.example.composeprotject.screen.MyEventScreen
 import com.example.composeprotject.screen.ProfileScreen
 import com.example.composeprotject.screen.detailsScreen.CommunityDetailsScreen
 import com.example.composeprotject.screen.detailsScreen.EventDetailsScreen
@@ -78,7 +78,7 @@ fun NavigationHost(
         }
 
         composable(route = NavItem.MyMeetingsScreen.route) {
-            MyMeetingsScreen(
+            MyEventScreen(
                 viewModel = mainViewModel,
                 contentPadding = contentPadding,
                 navController = navController
