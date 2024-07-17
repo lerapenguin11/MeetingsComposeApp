@@ -6,6 +6,7 @@ import com.example.composeprotject.viewModel.ProfileViewModel
 import com.example.composeprotject.viewModel.auth.AuthCodeViewModel
 import com.example.composeprotject.viewModel.auth.AuthPhoneNumberViewModel
 import com.example.composeprotject.viewModel.auth.CreateProfileViewModel
+import com.example.composeprotject.viewModel.details.EventDetailsViewModel
 import com.example.composeprotject.viewModel.nav.CommunityViewModel
 import com.example.composeprotject.viewModel.nav.EventViewModel
 import com.example.composeprotject.viewModel.nav.StillViewModel
@@ -23,4 +24,5 @@ val appModule = module {
     viewModel { ProfileViewModel(getInfoUserProfileUseCase = get()) }
     viewModel { EventViewModel(getEventsUseCase = get()) }
     viewModel { MyEventViewModel(getMyEventsUseCase = get()) }
+    viewModel { EventDetailsViewModel(getEventByIdUseCase = get()) }
 }

@@ -27,7 +27,7 @@ import com.example.composeprotject.ui.component.toolbar.getBackNavigation
 import com.example.composeprotject.ui.component.toolbar.getToolbarTitle
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.auth.AuthPhoneNumberViewModel
-import com.example.composeprotject.viewModel.EventDetailsViewModel
+import com.example.composeprotject.viewModel.details.EventDetailsViewModel
 import com.example.composeprotject.viewModel.MainViewModel
 import com.example.composeprotject.viewModel.SplashScreenViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -39,13 +39,12 @@ fun AppContainer() {
     val navController = rememberNavController()
     val mainViewModel: MainViewModel = koinViewModel()
     val splashScreenViewModel: SplashScreenViewModel = viewModel()
-    val eventDetailsViewModel : EventDetailsViewModel = viewModel()
-    val authPhoneNumberViewModel : AuthPhoneNumberViewModel = viewModel()
     val currentScreen by mainViewModel.currentScreen.collectAsState()
     val detailedTitle by mainViewModel.titleDetailedScreen.collectAsState()
     val showTopBar by mainViewModel.showTopBar.collectAsState()
     val showBottomBar by mainViewModel.showBottomBar.collectAsState()
-    val isActionDoneEvent by eventDetailsViewModel.isActionEventDetails.collectAsState()
+    val eventDetailsViewModel : EventDetailsViewModel = koinViewModel()
+    val isActionDoneEvent by eventDetailsViewModel.getIsActionEventDetailsFlow().collectAsState()
 
     val topBar: @Composable () -> Unit = {
         CustomToolbar(
@@ -77,8 +76,7 @@ fun AppContainer() {
             contentPadding = contentPadding,
             mainViewModel = mainViewModel,
             splashScreenViewModel = splashScreenViewModel,
-            eventDetailsViewModel = eventDetailsViewModel,
-            authPhoneNumberViewModel = authPhoneNumberViewModel
+            eventDetailsViewModel = eventDetailsViewModel
         )
     }
 }

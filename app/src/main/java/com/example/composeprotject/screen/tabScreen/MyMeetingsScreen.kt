@@ -13,6 +13,8 @@ import com.example.composeprotject.ui.component.card.EventCard
 import com.example.composeprotject.viewModel.MyEventViewModel
 import org.koin.androidx.compose.koinViewModel
 
+//TODO: расшарить eventViewModel на MyMeetingsScreen и MyEventScreen
+
 @Composable
 fun MyMeetingsScreen(
     eventVariant: MyEventVariant,

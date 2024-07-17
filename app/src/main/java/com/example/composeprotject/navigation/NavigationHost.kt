@@ -20,7 +20,7 @@ import com.example.composeprotject.screen.splashScreen.SplashScreen
 import com.example.composeprotject.screen.verification.CreateProfileScreen
 import com.example.composeprotject.screen.verification.VerifInputPhoneNumberScreen
 import com.example.composeprotject.screen.verification.VerificationCodeScreen
-import com.example.composeprotject.viewModel.EventDetailsViewModel
+import com.example.composeprotject.viewModel.details.EventDetailsViewModel
 import com.example.composeprotject.viewModel.MainViewModel
 import com.example.composeprotject.viewModel.SplashScreenViewModel
 import com.example.composeprotject.viewModel.auth.AuthPhoneNumberViewModel
@@ -34,8 +34,7 @@ fun NavigationHost(
     contentPadding: PaddingValues,
     mainViewModel: MainViewModel,
     splashScreenViewModel: SplashScreenViewModel,
-    eventDetailsViewModel: EventDetailsViewModel,
-    authPhoneNumberViewModel: AuthPhoneNumberViewModel
+    eventDetailsViewModel: EventDetailsViewModel
 ) {
     NavHost(
         navController = navController,
@@ -116,9 +115,6 @@ fun NavigationHost(
         ) { backStackEntry ->
             val eventId = backStackEntry.arguments?.getInt(EVENT_ID)
             val eventName = backStackEntry.arguments?.getString(EVENT_NAME)
-
-            //TODO:1
-
             EventDetailsScreen(
                 contentPadding = contentPadding,
                 eventId = eventId,
@@ -168,7 +164,6 @@ fun NavigationHost(
         composable(route = NavItem.VerifInputPhoneNumberScreenItem.route) {
             VerifInputPhoneNumberScreen(
                 contentPadding = contentPadding,
-                authPhoneNumberViewModel = authPhoneNumberViewModel,
                 mainViewModel = mainViewModel,
                 onSendCodePhoneNumberClick = { phoneNumber ->
                     navController.navigate(
