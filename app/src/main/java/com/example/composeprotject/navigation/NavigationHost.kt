@@ -20,7 +20,7 @@ import com.example.composeprotject.screen.splashScreen.SplashScreen
 import com.example.composeprotject.screen.verification.CreateProfileScreen
 import com.example.composeprotject.screen.verification.VerifInputPhoneNumberScreen
 import com.example.composeprotject.screen.verification.VerificationCodeScreen
-import com.example.composeprotject.viewModel.AuthViewModel
+import com.example.composeprotject.viewModel.AuthPhoneNumberViewModel
 import com.example.composeprotject.viewModel.EventDetailsViewModel
 import com.example.composeprotject.viewModel.MainViewModel
 import com.example.composeprotject.viewModel.SplashScreenViewModel
@@ -33,7 +33,7 @@ fun NavigationHost(
     mainViewModel: MainViewModel,
     splashScreenViewModel: SplashScreenViewModel,
     eventDetailsViewModel: EventDetailsViewModel,
-    authViewModel: AuthViewModel
+    authPhoneNumberViewModel: AuthPhoneNumberViewModel
 ) {
     NavHost(
         navController = navController,
@@ -135,14 +135,21 @@ fun NavigationHost(
                 mainViewModel = mainViewModel)
         }
         
-        composable(route = NavItem.VerificationCodeScreenItem.route){
-            VerificationCodeScreen(
-                phoneNumber = "+7 999 999-99-99",
-                contentPadding = contentPadding,
-                authViewModel = authViewModel,
-                navController = navController,
-                mainViewModel = mainViewModel
+        composable(
+            route = "${NavItem.VerificationCodeScreenItem.route}/{$VER_PHONE_NUMBER}",
+            arguments = listOf(
+                navArgument(VER_PHONE_NUMBER) { type = NavType.StringType}
             )
+        ){backStackEntry ->
+            backStackEntry.arguments?.getString(VER_PHONE_NUMBER)?.let {
+                VerificationCodeScreen(
+                    phoneNumber = it,
+                    contentPadding = contentPadding,
+                    authPhoneNumberViewModel = authPhoneNumberViewModel,
+                    navController = navController,
+                    mainViewModel = mainViewModel
+                )
+            }
         }
 
         composable(route = NavItem.CreateProfileScreenItem.route){
@@ -157,8 +164,13 @@ fun NavigationHost(
             VerifInputPhoneNumberScreen(
                 contentPadding = contentPadding,
                 navController = navController,
-                authViewModel = authViewModel,
-                mainViewModel = mainViewModel)
+                authPhoneNumberViewModel = authPhoneNumberViewModel,
+                mainViewModel = mainViewModel,
+                onSendCodePhoneNumberClick = { phoneNumber ->
+                    navController.navigate(
+                        route = "${NavItem.VerificationCodeScreenItem.route}/${phoneNumber}"
+                    )
+                })
         }
     }
 }
@@ -167,3 +179,4 @@ private const val EVENT_ID = "eventId"
 private const val EVENT_NAME = "eventName"
 private const val COMMUNITY_ID = "communityId"
 private const val COMMUNITY_NAME = "communityName"
+private const val VER_PHONE_NUMBER = "ver_phone_number"

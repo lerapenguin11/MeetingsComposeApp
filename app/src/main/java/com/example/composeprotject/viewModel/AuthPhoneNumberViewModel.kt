@@ -1,12 +1,11 @@
 package com.example.composeprotject.viewModel
 
 import androidx.lifecycle.ViewModel
+import com.google.i18n.phonenumbers.PhoneNumberUtil
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class AuthViewModel(
-
-) : ViewModel() {
+class AuthPhoneNumberViewModel : ViewModel() {
 
     private val _code = MutableStateFlow("")
     val code: StateFlow<String> = _code
@@ -16,6 +15,15 @@ class AuthViewModel(
 
     private val _validationPhoneNumber = MutableStateFlow<Boolean>(false)
     val validationPhoneNumber : StateFlow<Boolean> = _validationPhoneNumber
+
+    private val _phoneNumber = MutableStateFlow("")
+    private val phoneNumber : StateFlow<String> = _phoneNumber
+
+    fun getPhoneNumberFlow() : StateFlow<String> = phoneNumber
+
+    fun phoneNumber(phoneNumber : String){
+        _phoneNumber.value = phoneNumber
+    }
 
     fun setCode(code: String) {
         _code.value = code

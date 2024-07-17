@@ -30,13 +30,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.AuthViewModel
+import com.example.composeprotject.viewModel.AuthPhoneNumberViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CodeInput(
     modifier: Modifier = Modifier,
-    viewModel: AuthViewModel
+    viewModel: AuthPhoneNumberViewModel
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val value by remember { mutableStateOf(viewModel.code.value) }

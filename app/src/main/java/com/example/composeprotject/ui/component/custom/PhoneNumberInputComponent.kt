@@ -34,14 +34,15 @@ import com.example.composeprotject.R
 import com.example.composeprotject.app.BaseApplication
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.AuthViewModel
+import com.example.composeprotject.viewModel.AuthPhoneNumberViewModel
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PhoneNumberInput(
     modifier: Modifier = Modifier,
-    authViewModel: AuthViewModel
+    authPhoneNumberViewModel: AuthPhoneNumberViewModel,
+    onValueChange: (String) -> Unit
 ) {
     val context = LocalContext.current
     val countryData = (context.applicationContext as? BaseApplication)?.countryData
@@ -97,6 +98,7 @@ fun PhoneNumberInput(
             ),
             onValueChange = { newValue ->
                 phoneNumberValue = newValue
+                onValueChange(newValue)
 
                 var countryISO2 = EMPTY_LINE
                 val cleanPhoneNumber = cleanPhoneNumber(newValue)
@@ -117,15 +119,19 @@ fun PhoneNumberInput(
                 }
 
                 if (cleanPhoneNumber.length == cleanPlaceholder.length && region.isNotEmpty()) {
-                    authViewModel.activeAuthButton(isEnabled = true)
+                    authPhoneNumberViewModel.activeAuthButton(isEnabled = true)
                     val isValidation = isValidNumber(
                         phoneNumber = cleanPhoneNumber,
                         countryCode = countryDataRegion?.callingCode.orEmpty(),
                         country = region
                     )
-                    authViewModel.validationPhoneNumber(isValidation = isValidation)
+                    authPhoneNumberViewModel.validationPhoneNumber(isValidation = isValidation)
+                    authPhoneNumberViewModel.phoneNumber(getPhoneNumber(
+                        callingCode = countryDataRegion?.callingCode.orEmpty(),
+                        phone = phoneNumberValue
+                    ))
                 } else {
-                    authViewModel.activeAuthButton(isEnabled = false)
+                    authPhoneNumberViewModel.activeAuthButton(isEnabled = false)
                 }
             },
             modifier = modifier
@@ -234,6 +240,10 @@ fun formatPlaceholderPhoneNumber(region: String): String {
 
 fun cleanPhoneNumber(phoneNumber: String): String {
     return phoneNumber.replace(WHITESPACE, EMPTY_LINE).replace(DASH, EMPTY_LINE)
+}
+
+fun getPhoneNumber(callingCode: String, phone : String) : String{
+    return  "$PLUS$callingCode $phone"
 }
 
 private const val UNSPECIFIED_COUNTRY = "ZZ"

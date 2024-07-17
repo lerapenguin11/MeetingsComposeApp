@@ -10,6 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -22,7 +25,7 @@ import com.example.composeprotject.ui.component.custom.PhoneNumberInput
 import com.example.composeprotject.ui.component.state.ButtonState
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.AuthViewModel
+import com.example.composeprotject.viewModel.AuthPhoneNumberViewModel
 import com.example.composeprotject.viewModel.MainViewModel
 
 @Composable
@@ -30,16 +33,18 @@ fun VerifInputPhoneNumberScreen(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
     navController: NavHostController,
-    authViewModel: AuthViewModel,
-    mainViewModel: MainViewModel
+    authPhoneNumberViewModel: AuthPhoneNumberViewModel,
+    mainViewModel: MainViewModel,
+    onSendCodePhoneNumberClick: (String) -> Unit
 ) {
     mainViewModel.setCurrentScreen(
         screen = NavItem.VerifInputPhoneNumberScreenItem,
         showBottomBar = false,
         showTopBar = true
     )
-    val activeAuthButton by authViewModel.activeAuthButton.collectAsState()
-    val isValidationPhoneNumber by authViewModel.validationPhoneNumber.collectAsState()
+    val activeAuthButton by authPhoneNumberViewModel.activeAuthButton.collectAsState()
+    val isValidationPhoneNumber by authPhoneNumberViewModel.validationPhoneNumber.collectAsState()
+    var phoneNumber by remember { mutableStateOf("") }
 
     Column(
         modifier = modifier
@@ -62,14 +67,20 @@ fun VerifInputPhoneNumberScreen(
             textAlign = TextAlign.Center
         )
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX49))
-        PhoneNumberInput(authViewModel = authViewModel)
+        PhoneNumberInput(
+            authPhoneNumberViewModel = authPhoneNumberViewModel,
+            onValueChange = { newValue ->
+                phoneNumber = newValue
+            })
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX69))
         FilledButton(
             onClick = {
-                when(isValidationPhoneNumber){
+
+                when (isValidationPhoneNumber) {
                     true -> {
-                        navController.navigate(route = NavItem.VerificationCodeScreenItem.route)
+                        onSendCodePhoneNumberClick(authPhoneNumberViewModel.getPhoneNumberFlow().value)
                     }
+
                     false -> {
                         /*TODO: докинуть логики*/
                     }
