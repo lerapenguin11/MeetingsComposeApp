@@ -8,16 +8,21 @@ import kotlinx.coroutines.flow.StateFlow
 class MainViewModel : ViewModel() {
 
     private val _currentScreen = MutableStateFlow<NavItem>(NavItem.EventItem)
-    val currentScreen: StateFlow<NavItem> = _currentScreen
+    private val currentScreen: StateFlow<NavItem> = _currentScreen
 
     private val _titleDetailedScreen = MutableStateFlow<String>("")
-    val titleDetailedScreen: StateFlow<String> = _titleDetailedScreen
+    private val titleDetailedScreen: StateFlow<String> = _titleDetailedScreen
 
     private val _showTopBar = MutableStateFlow<Boolean>(false)
-    val showTopBar = _showTopBar
+    private val showTopBar: StateFlow<Boolean> = _showTopBar
 
     private val _showBottomBar = MutableStateFlow<Boolean>(false)
-    val showBottomBar = _showBottomBar
+    private val showBottomBar = _showBottomBar
+
+    fun getCurrentScreenFlow(): StateFlow<NavItem> = currentScreen
+    fun getTitleDetailedScreenFlow(): StateFlow<String> = titleDetailedScreen
+    fun getShowTopBarFlow(): StateFlow<Boolean> = showTopBar
+    fun getShowBottomBarFlow(): StateFlow<Boolean> = showBottomBar
 
     fun setCurrentScreen(screen: NavItem, showTopBar: Boolean, showBottomBar: Boolean) {
         _currentScreen.value = screen

@@ -20,10 +20,8 @@ import com.example.composeprotject.screen.splashScreen.SplashScreen
 import com.example.composeprotject.screen.verification.CreateProfileScreen
 import com.example.composeprotject.screen.verification.VerifInputPhoneNumberScreen
 import com.example.composeprotject.screen.verification.VerificationCodeScreen
-import com.example.composeprotject.viewModel.details.EventDetailsViewModel
 import com.example.composeprotject.viewModel.MainViewModel
-import com.example.composeprotject.viewModel.SplashScreenViewModel
-import com.example.composeprotject.viewModel.auth.AuthPhoneNumberViewModel
+import com.example.composeprotject.viewModel.details.EventDetailsViewModel
 
 /*TODO: переделать навигацию*/
 
@@ -33,7 +31,6 @@ fun NavigationHost(
     navController: NavHostController = rememberNavController(),
     contentPadding: PaddingValues,
     mainViewModel: MainViewModel,
-    splashScreenViewModel: SplashScreenViewModel,
     eventDetailsViewModel: EventDetailsViewModel
 ) {
     NavHost(
@@ -126,7 +123,6 @@ fun NavigationHost(
 
         composable(route = NavItem.SplashScreenItem.route) {
             SplashScreen(
-                splashScreenViewModel = splashScreenViewModel,
                 navController = navController,
                 contentPadding = contentPadding,
                 mainViewModel = mainViewModel

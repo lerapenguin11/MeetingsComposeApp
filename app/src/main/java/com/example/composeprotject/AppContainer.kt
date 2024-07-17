@@ -12,7 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.navigation.NavigationHost
@@ -26,10 +25,8 @@ import com.example.composeprotject.ui.component.toolbar.getActionToolbar
 import com.example.composeprotject.ui.component.toolbar.getBackNavigation
 import com.example.composeprotject.ui.component.toolbar.getToolbarTitle
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.auth.AuthPhoneNumberViewModel
-import com.example.composeprotject.viewModel.details.EventDetailsViewModel
 import com.example.composeprotject.viewModel.MainViewModel
-import com.example.composeprotject.viewModel.SplashScreenViewModel
+import com.example.composeprotject.viewModel.details.EventDetailsViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -38,11 +35,10 @@ import org.koin.androidx.compose.koinViewModel
 fun AppContainer() {
     val navController = rememberNavController()
     val mainViewModel: MainViewModel = koinViewModel()
-    val splashScreenViewModel: SplashScreenViewModel = viewModel()
-    val currentScreen by mainViewModel.currentScreen.collectAsState()
-    val detailedTitle by mainViewModel.titleDetailedScreen.collectAsState()
-    val showTopBar by mainViewModel.showTopBar.collectAsState()
-    val showBottomBar by mainViewModel.showBottomBar.collectAsState()
+    val currentScreen by mainViewModel.getCurrentScreenFlow().collectAsState()
+    val detailedTitle by mainViewModel.getTitleDetailedScreenFlow().collectAsState()
+    val showTopBar by mainViewModel.getShowTopBarFlow().collectAsState()
+    val showBottomBar by mainViewModel.getShowBottomBarFlow().collectAsState()
     val eventDetailsViewModel : EventDetailsViewModel = koinViewModel()
     val isActionDoneEvent by eventDetailsViewModel.getIsActionEventDetailsFlow().collectAsState()
 
@@ -75,7 +71,6 @@ fun AppContainer() {
             navController = navController,
             contentPadding = contentPadding,
             mainViewModel = mainViewModel,
-            splashScreenViewModel = splashScreenViewModel,
             eventDetailsViewModel = eventDetailsViewModel
         )
     }

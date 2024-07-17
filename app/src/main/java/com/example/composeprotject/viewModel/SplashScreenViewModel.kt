@@ -9,10 +9,13 @@ import kotlinx.coroutines.launch
 
 class SplashScreenViewModel : ViewModel() {
     private val _isLoading = MutableStateFlow(true)
-    val isLoading: StateFlow<Boolean> = _isLoading
+    private val isLoading: StateFlow<Boolean> = _isLoading
 
     private val _isUserLoggedIn = MutableStateFlow(false)
-    val isUserLoggedIn: StateFlow<Boolean> = _isUserLoggedIn
+    private val isUserLoggedIn: StateFlow<Boolean> = _isUserLoggedIn
+
+    fun getIsLoadingFlow() : StateFlow<Boolean> = isLoading
+    fun getIsUserLoggedIn() : StateFlow<Boolean> = isUserLoggedIn
 
     init {
         loadData()
