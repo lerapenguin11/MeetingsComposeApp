@@ -20,11 +20,10 @@ import com.example.composeprotject.screen.splashScreen.SplashScreen
 import com.example.composeprotject.screen.verification.CreateProfileScreen
 import com.example.composeprotject.screen.verification.VerifInputPhoneNumberScreen
 import com.example.composeprotject.screen.verification.VerificationCodeScreen
-import com.example.composeprotject.viewModel.auth.AuthPhoneNumberViewModel
 import com.example.composeprotject.viewModel.EventDetailsViewModel
 import com.example.composeprotject.viewModel.MainViewModel
 import com.example.composeprotject.viewModel.SplashScreenViewModel
-import org.koin.androidx.compose.koinViewModel
+import com.example.composeprotject.viewModel.auth.AuthPhoneNumberViewModel
 
 @ExperimentalFoundationApi
 @Composable
@@ -77,7 +76,7 @@ fun NavigationHost(
                 })
         }
 
-        composable(route = NavItem.MyMeetingsScreen.route){
+        composable(route = NavItem.MyMeetingsScreen.route) {
             MyMeetingsScreen(
                 viewModel = mainViewModel,
                 contentPadding = contentPadding,
@@ -85,7 +84,7 @@ fun NavigationHost(
             )
         }
 
-        composable(route = NavItem.ProfileItem.route){
+        composable(route = NavItem.ProfileItem.route) {
             ProfileScreen(viewModel = mainViewModel, contentPadding = contentPadding)
         }
 
@@ -128,20 +127,21 @@ fun NavigationHost(
             )
         }
 
-        composable(route = NavItem.SplashScreenItem.route){
+        composable(route = NavItem.SplashScreenItem.route) {
             SplashScreen(
                 splashScreenViewModel = splashScreenViewModel,
                 navController = navController,
                 contentPadding = contentPadding,
-                mainViewModel = mainViewModel)
+                mainViewModel = mainViewModel
+            )
         }
-        
+
         composable(
             route = "${NavItem.VerificationCodeScreenItem.route}/{$VER_PHONE_NUMBER}",
             arguments = listOf(
-                navArgument(VER_PHONE_NUMBER) { type = NavType.StringType}
+                navArgument(VER_PHONE_NUMBER) { type = NavType.StringType }
             )
-        ){backStackEntry ->
+        ) { backStackEntry ->
             backStackEntry.arguments?.getString(VER_PHONE_NUMBER)?.let {
                 VerificationCodeScreen(
                     phoneNumber = it,
@@ -152,7 +152,7 @@ fun NavigationHost(
             }
         }
 
-        composable(route = NavItem.CreateProfileScreenItem.route){
+        composable(route = NavItem.CreateProfileScreenItem.route) {
             CreateProfileScreen(
                 contentPadding = contentPadding,
                 navController = navController,
@@ -160,10 +160,9 @@ fun NavigationHost(
             )
         }
 
-        composable(route = NavItem.VerifInputPhoneNumberScreenItem.route){
+        composable(route = NavItem.VerifInputPhoneNumberScreenItem.route) {
             VerifInputPhoneNumberScreen(
                 contentPadding = contentPadding,
-                navController = navController,
                 authPhoneNumberViewModel = authPhoneNumberViewModel,
                 mainViewModel = mainViewModel,
                 onSendCodePhoneNumberClick = { phoneNumber ->
