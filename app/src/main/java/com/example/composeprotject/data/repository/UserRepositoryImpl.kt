@@ -1,18 +1,17 @@
 package com.example.composeprotject.data.repository
 
+import com.example.composeprotject.data.mock.MockUserData
+import com.example.composeprotject.domain.model.Profile
 import com.example.composeprotject.domain.model.nav.ShortInfoUser
 import com.example.composeprotject.domain.repository.UserRepository
 
-class UserRepositoryImpl : UserRepository {
+class UserRepositoryImpl(private val mock : MockUserData) : UserRepository {
 
     override fun getShortInfoUser(): ShortInfoUser {
-        return shortInfoUser()
+        return mock.mockShortInfoUser()
     }
 
-    private fun shortInfoUser() = ShortInfoUser(
-        userName = "Ivan",
-        userSurname = "Ivanov",
-        avatarUrl = null,
-        phoneNumber = "+7 (989) 811-22-11"
-    )
+    override fun getInfoUserProfile(): Profile {
+        return mock.mockInfoUserProfile()
+    }
 }

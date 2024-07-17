@@ -1,6 +1,7 @@
 package com.example.composeprotject.di
 
 import com.example.composeprotject.viewModel.MainViewModel
+import com.example.composeprotject.viewModel.ProfileViewModel
 import com.example.composeprotject.viewModel.auth.AuthCodeViewModel
 import com.example.composeprotject.viewModel.auth.AuthPhoneNumberViewModel
 import com.example.composeprotject.viewModel.auth.CreateProfileViewModel
@@ -17,4 +18,5 @@ val appModule = module {
     viewModel { CreateProfileViewModel() }
     viewModel { CommunityViewModel(getCommunitiesUseCase = get()) }
     viewModel { StillViewModel(getShortInfoUserUseCase = get()) }
+    viewModel { ProfileViewModel(getInfoUserProfileUseCase = get()) }
 }

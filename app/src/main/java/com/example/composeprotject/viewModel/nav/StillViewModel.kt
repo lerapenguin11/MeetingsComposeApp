@@ -19,6 +19,6 @@ class StillViewModel(private val getShortInfoUserUseCase: GetShortInfoUserUseCas
         getShortInfoUser()
     }
     private fun getShortInfoUser() = viewModelScope.launch {
-        _shortInfoUser.emit(getShortInfoUserUseCase())
+        _shortInfoUser.emit(value = getShortInfoUserUseCase())
     }
 }

@@ -20,6 +20,6 @@ class CommunityViewModel(private val getCommunitiesUseCase: GetCommunitiesUseCas
     }
 
     private fun getCommunityList() = viewModelScope.launch {
-        _communities.emit(getCommunitiesUseCase())
+        _communities.emit(value = getCommunitiesUseCase())
     }
 }

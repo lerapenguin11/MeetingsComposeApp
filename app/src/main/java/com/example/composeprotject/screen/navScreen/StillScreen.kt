@@ -15,6 +15,7 @@ import com.example.composeprotject.ui.component.divider.StandardDivider
 import com.example.composeprotject.ui.component.menuItem.MyEventMenuItem
 import com.example.composeprotject.ui.component.menuItem.ProfileMenuItem
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.composeprotject.utils.getUserFullName
 import com.example.composeprotject.viewModel.MainViewModel
 import com.example.composeprotject.viewModel.nav.StillViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -82,13 +83,5 @@ fun StillScreen(
             menuIcon = R.drawable.ic_still_nav_menu_invite_friend,
             menuName = R.string.text_invite_friend
         )
-    }
-}
-
-fun getUserFullName(userName: String, userSurname: String?): String {
-    return if (userSurname.isNullOrEmpty()){
-        userName
-    }else{
-        "$userName $userSurname"
     }
 }
