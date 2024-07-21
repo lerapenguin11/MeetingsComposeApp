@@ -9,7 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.composeprotject.screen.MyMeetingsScreen
+import com.example.composeprotject.screen.MyEventScreen
 import com.example.composeprotject.screen.ProfileScreen
 import com.example.composeprotject.screen.detailsScreen.CommunityDetailsScreen
 import com.example.composeprotject.screen.detailsScreen.EventDetailsScreen
@@ -20,10 +20,10 @@ import com.example.composeprotject.screen.splashScreen.SplashScreen
 import com.example.composeprotject.screen.verification.CreateProfileScreen
 import com.example.composeprotject.screen.verification.VerifInputPhoneNumberScreen
 import com.example.composeprotject.screen.verification.VerificationCodeScreen
-import com.example.composeprotject.viewModel.AuthViewModel
-import com.example.composeprotject.viewModel.EventDetailsViewModel
 import com.example.composeprotject.viewModel.MainViewModel
-import com.example.composeprotject.viewModel.SplashScreenViewModel
+import com.example.composeprotject.viewModel.details.EventDetailsViewModel
+
+/*TODO: переделать навигацию*/
 
 @ExperimentalFoundationApi
 @Composable
@@ -31,9 +31,7 @@ fun NavigationHost(
     navController: NavHostController = rememberNavController(),
     contentPadding: PaddingValues,
     mainViewModel: MainViewModel,
-    splashScreenViewModel: SplashScreenViewModel,
-    eventDetailsViewModel: EventDetailsViewModel,
-    authViewModel: AuthViewModel
+    eventDetailsViewModel: EventDetailsViewModel
 ) {
     NavHost(
         navController = navController,
@@ -51,7 +49,6 @@ fun NavigationHost(
             CommunityScreen(
                 viewModel = mainViewModel,
                 contentPadding = contentPadding,
-                navController = navController,
                 onCommunityClick = { community ->
                     navController.navigate(
                         route = "${NavItem.CommunityDetailsItem.route}/" +
@@ -76,15 +73,15 @@ fun NavigationHost(
                 })
         }
 
-        composable(route = NavItem.MyMeetingsScreen.route){
-            MyMeetingsScreen(
+        composable(route = NavItem.MyMeetingsScreen.route) {
+            MyEventScreen(
                 viewModel = mainViewModel,
                 contentPadding = contentPadding,
                 navController = navController
             )
         }
 
-        composable(route = NavItem.ProfileItem.route){
+        composable(route = NavItem.ProfileItem.route) {
             ProfileScreen(viewModel = mainViewModel, contentPadding = contentPadding)
         }
 
@@ -115,9 +112,6 @@ fun NavigationHost(
         ) { backStackEntry ->
             val eventId = backStackEntry.arguments?.getInt(EVENT_ID)
             val eventName = backStackEntry.arguments?.getString(EVENT_NAME)
-
-            //TODO:1
-
             EventDetailsScreen(
                 contentPadding = contentPadding,
                 eventId = eventId,
@@ -127,25 +121,35 @@ fun NavigationHost(
             )
         }
 
-        composable(route = NavItem.SplashScreenItem.route){
+        composable(route = NavItem.SplashScreenItem.route) {
             SplashScreen(
-                splashScreenViewModel = splashScreenViewModel,
                 navController = navController,
                 contentPadding = contentPadding,
-                mainViewModel = mainViewModel)
-        }
-        
-        composable(route = NavItem.VerificationCodeScreenItem.route){
-            VerificationCodeScreen(
-                phoneNumber = "+7 999 999-99-99",
-                contentPadding = contentPadding,
-                authViewModel = authViewModel,
-                navController = navController,
                 mainViewModel = mainViewModel
             )
         }
 
-        composable(route = NavItem.CreateProfileScreenItem.route){
+        composable(
+            route = "${NavItem.VerificationCodeScreenItem.route}/{$VER_PHONE_NUMBER}",
+            arguments = listOf(
+                navArgument(VER_PHONE_NUMBER) { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            backStackEntry.arguments?.getString(VER_PHONE_NUMBER)?.let {
+                VerificationCodeScreen(
+                    phoneNumber = it,
+                    contentPadding = contentPadding,
+                    navController = navController,
+                    mainViewModel = mainViewModel,
+                    onCreateProfile = {
+                        navController.navigate(
+                            route = NavItem.CreateProfileScreenItem.route)
+                    }
+                )
+            }
+        }
+
+        composable(route = NavItem.CreateProfileScreenItem.route) {
             CreateProfileScreen(
                 contentPadding = contentPadding,
                 navController = navController,
@@ -153,12 +157,15 @@ fun NavigationHost(
             )
         }
 
-        composable(route = NavItem.VerifInputPhoneNumberScreenItem.route){
+        composable(route = NavItem.VerifInputPhoneNumberScreenItem.route) {
             VerifInputPhoneNumberScreen(
                 contentPadding = contentPadding,
-                navController = navController,
-                authViewModel = authViewModel,
-                mainViewModel = mainViewModel)
+                mainViewModel = mainViewModel,
+                onSendCodePhoneNumberClick = { phoneNumber ->
+                    navController.navigate(
+                        route = "${NavItem.VerificationCodeScreenItem.route}/${phoneNumber}"
+                    )
+                })
         }
     }
 }
@@ -167,3 +174,4 @@ private const val EVENT_ID = "eventId"
 private const val EVENT_NAME = "eventName"
 private const val COMMUNITY_ID = "communityId"
 private const val COMMUNITY_NAME = "communityName"
+private const val VER_PHONE_NUMBER = "ver_phone_number"

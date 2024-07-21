@@ -18,9 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.composeprotject.common.ActiveEventVariant
 import com.example.composeprotject.common.EventScreenVariant
+import com.example.composeprotject.common.EventVariant
+import com.example.composeprotject.common.MyEventVariant
 import com.example.composeprotject.screen.tabScreen.MeetingsScreen
+import com.example.composeprotject.screen.tabScreen.MyMeetingsScreen
 import com.example.composeprotject.ui.theme.MeetTheme
 
 @Composable
@@ -63,17 +65,17 @@ fun EventTab(
         when (tabIndex) {
             THE_FIRST_TAB -> {
                 if (eventScreenVariant == EventScreenVariant.EVENT_SCREEN) {
-                    MeetingsScreen(ActiveEventVariant.ALL_EVENT, navController = navController)
+                    MeetingsScreen(EventVariant.ALL_EVENT, navController = navController)
                 } else {
-                    MeetingsScreen(ActiveEventVariant.ACTIVE_EVENT, navController = navController)
+                    MyMeetingsScreen(MyEventVariant.ACTIVE_EVENT, navController = navController)
                 }
             }
 
             THE_SECOND_TAB -> {
                 if (eventScreenVariant == EventScreenVariant.EVENT_SCREEN) {
-                    MeetingsScreen(ActiveEventVariant.ACTIVE_EVENT, navController = navController)
+                    MeetingsScreen(EventVariant.ACTIVE_EVENT, navController = navController)
                 } else {
-                    MeetingsScreen(ActiveEventVariant.INACTIVE_EVENT, navController = navController)
+                    MyMeetingsScreen(MyEventVariant.INACTIVE_EVENT, navController = navController)
                 }
             }
         }

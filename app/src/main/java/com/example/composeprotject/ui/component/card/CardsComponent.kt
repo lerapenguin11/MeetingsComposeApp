@@ -20,7 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
-import com.example.composeprotject.model.Community
+import com.example.composeprotject.domain.model.nav.Community
 import com.example.composeprotject.ui.component.avatar.RoundedAvatarMeetings
 import com.example.composeprotject.ui.component.chip.Chip
 import com.example.composeprotject.ui.component.divider.StandardDivider

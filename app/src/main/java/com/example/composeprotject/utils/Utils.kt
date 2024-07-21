@@ -11,3 +11,11 @@ fun readCountryDataFromJson(context: Context): Map<String, CountryData> {
     val type = object : TypeToken<Map<String, CountryData>>() {}.type
     return Gson().fromJson(jsonString, type)
 }
+
+fun getUserFullName(userName: String, userSurname: String?): String {
+    return if (userSurname.isNullOrEmpty()){
+        userName
+    }else{
+        "$userName $userSurname"
+    }
+}

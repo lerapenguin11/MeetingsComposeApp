@@ -16,7 +16,7 @@ import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.MainViewModel
 
 @Composable
-fun MyMeetingsScreen(
+fun MyEventScreen(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
     contentPadding: PaddingValues,

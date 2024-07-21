@@ -18,11 +18,12 @@ import com.example.composeprotject.R
 import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.viewModel.MainViewModel
 import com.example.composeprotject.viewModel.SplashScreenViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SplashScreen(
     modifier: Modifier = Modifier,
-    splashScreenViewModel: SplashScreenViewModel,
+    splashScreenViewModel: SplashScreenViewModel = koinViewModel(),
     mainViewModel: MainViewModel,
     navController: NavController,
     contentPadding: PaddingValues
@@ -32,8 +33,8 @@ fun SplashScreen(
         showTopBar = false,
         showBottomBar = false
     )
-    val isLoading by splashScreenViewModel.isLoading.collectAsState()
-    val isUserLoggedIn by splashScreenViewModel.isUserLoggedIn.collectAsState()
+    val isLoading by splashScreenViewModel.getIsLoadingFlow().collectAsState()
+    val isUserLoggedIn by splashScreenViewModel.getIsUserLoggedIn().collectAsState()
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.splash_animation))
     Box(
         modifier = modifier

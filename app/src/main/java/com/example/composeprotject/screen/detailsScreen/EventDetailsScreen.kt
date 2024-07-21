@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,8 +33,9 @@ import com.example.composeprotject.ui.component.chip.Chip
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.component.text.ExpandableText
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.EventDetailsViewModel
+import com.example.composeprotject.viewModel.details.EventDetailsViewModel
 import com.example.composeprotject.viewModel.MainViewModel
+import org.koin.androidx.compose.koinViewModel
 
 //TODO: delete text
 private const val MAX_LINE_DESC = 8
@@ -55,6 +57,11 @@ fun EventDetailsScreen(
     mainViewModel.setTitleDetailedScreen(
         eventName ?: stringResource(id = R.string.text_event_details)
     )
+    eventId?.let {
+        eventDetailsViewModel.getEventDetails(eventId = it)
+    }
+
+    val event by eventDetailsViewModel.getEventDetailsFlow().collectAsState()
     var isMapExpanded by remember { mutableStateOf(false) }
     var showMeeting by remember { mutableStateOf(true) }
     eventDetailsViewModel.setActionEventDetails(isAction = showMeeting)
@@ -76,62 +83,53 @@ fun EventDetailsScreen(
             .padding(contentPadding)
             .padding(horizontal = MeetTheme.sizes.sizeX24)
     ) {
-        item {
-            Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
-            BaseText(
-                text = "13.09.2024 — Москва, ул. Громова, 4",
-                textStyle = MeetTheme.typography.bodyText1,
-                textColor = MeetTheme.colors.neutralWeak
-            )
-            Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX2))
-            Row(horizontalArrangement = Arrangement.spacedBy(MeetTheme.sizes.sizeX4)) {
-                val chips = listOf("Python", "Junior", "Moscow")
-                chips.forEach { textChip ->
-                    Chip(text = textChip)
+        event?.let {
+            item {
+                Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
+                BaseText(
+                    text = "${it.dateLocation}, ${it.address}", //TODO
+                    textStyle = MeetTheme.typography.bodyText1,
+                    textColor = MeetTheme.colors.neutralWeak
+                )
+                Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX2))
+                Row(horizontalArrangement = Arrangement.spacedBy(MeetTheme.sizes.sizeX4)) {
+                    it.tags.forEach { textChip ->
+                        Chip(text = textChip)
+                    }
                 }
+                Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX12))
+                Image(
+                    modifier = modifier
+                        .fillMaxSize()
+                        .height(height = 175.dp)
+                        .clip(RoundedCornerShape(MeetTheme.sizes.sizeX24))
+                        .clickable { isMapExpanded = true },
+                    contentScale = ContentScale.FillBounds,
+                    painter = painterResource(id = R.drawable.ic_map),
+                    contentDescription = "Map"
+                )
+                Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX20))
+                ExpandableText(
+                    maxLines = MAX_LINE_DESC,
+                    text = it.eventDescription
+                )
+                Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX20))
+                AttendeesRow(
+                    avatarList = it.avatarList
+                )
+                Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX13))
+                ToggleMeetingButton(
+                    onClick = {
+                        showMeeting = !showMeeting
+                    },
+                    showMeeting = showMeeting,
+                    textOutlineButton = R.string.text_go_to_another_time,
+                    textFieldButton = R.string.text_go_to_meeting
+                )
             }
-            Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX12))
-            Image(
-                modifier = modifier
-                    .fillMaxSize()
-                    .height(height = 175.dp)
-                    .clip(RoundedCornerShape(MeetTheme.sizes.sizeX24))
-                    .clickable { isMapExpanded = true },
-                contentScale = ContentScale.FillBounds,
-                painter = painterResource(id = R.drawable.ic_map),
-                contentDescription = "Map"
-            )
-            Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX20))
-            ExpandableText(
-                maxLines = MAX_LINE_DESC,
-                text = LoremIpsum(300).values.first()
-            )
-            Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX20))
-            AttendeesRow(
-                avatarList = avatarList()
-            )
-            Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX13))
-            ToggleMeetingButton(
-                onClick = {
-                    showMeeting = !showMeeting
-                },
-                showMeeting = showMeeting,
-                textOutlineButton = R.string.text_go_to_another_time,
-                textFieldButton = R.string.text_go_to_meeting
-            )
         }
+
     }
 }
-
-fun avatarList() = listOf(
-    "https://amiel.club/uploads/posts/2022-03/1647762904_9-amiel-club-p-kartinki-litsa-cheloveka-10.jpg",
-    "https://amiel.club/uploads/posts/2022-03/1647762904_9-amiel-club-p-kartinki-litsa-cheloveka-10.jpg",
-    "https://amiel.club/uploads/posts/2022-03/1647762904_9-amiel-club-p-kartinki-litsa-cheloveka-10.jpg",
-    "https://amiel.club/uploads/posts/2022-03/1647762904_9-amiel-club-p-kartinki-litsa-cheloveka-10.jpg",
-    "https://amiel.club/uploads/posts/2022-03/1647762904_9-amiel-club-p-kartinki-litsa-cheloveka-10.jpg",
-    "https://amiel.club/uploads/posts/2022-03/1647762904_9-amiel-club-p-kartinki-litsa-cheloveka-10.jpg",
-    "https://amiel.club/uploads/posts/2022-03/1647762904_9-amiel-club-p-kartinki-litsa-cheloveka-10.jpg",
-    "https://amiel.club/uploads/posts/2022-03/1647762904_9-amiel-club-p-kartinki-litsa-cheloveka-10.jpg"
-)
 
 
