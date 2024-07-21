@@ -8,17 +8,17 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class StillViewModel(private val getShortInfoUserUseCase: com.example.domain.usecase.user.GetShortInfoUserUseCase) : ViewModel() {
+class StillViewModel(private val getShortInfoUserUseCase: GetShortInfoUserUseCase) : ViewModel() {
 
-    private val _shortInfoUser = MutableStateFlow<com.example.domain.model.ShortInfoUser?>(null)
-    private val shortInfoUser : StateFlow<com.example.domain.model.ShortInfoUser?> = _shortInfoUser
+    private val _shortInfoUser = MutableStateFlow<ShortInfoUser?>(null)
+    private val shortInfoUser : StateFlow<ShortInfoUser?> = _shortInfoUser
 
-    fun shortInfoUserFlow() : StateFlow<com.example.domain.model.ShortInfoUser?> = shortInfoUser
+    fun shortInfoUserFlow() : StateFlow<ShortInfoUser?> = shortInfoUser
 
     init {
         getShortInfoUser()
     }
     private fun getShortInfoUser() = viewModelScope.launch {
-        _shortInfoUser.emit(value = getShortInfoUserUseCase())
+        _shortInfoUser.emit(value = getShortInfoUserUseCase.execute())
     }
 }

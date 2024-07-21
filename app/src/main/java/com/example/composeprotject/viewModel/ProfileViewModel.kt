@@ -9,11 +9,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(
-    private val getInfoUserProfileUseCase: com.example.domain.usecase.user.GetInfoUserProfileUseCase
+    private val getInfoUserProfileUseCase: GetInfoUserProfileUseCase
 ) : ViewModel() {
 
-    private val _infoUserProfile = MutableStateFlow<com.example.domain.model.Profile?>(null)
-    private val infoUserProfile : StateFlow<com.example.domain.model.Profile?> = _infoUserProfile
+    private val _infoUserProfile = MutableStateFlow<Profile?>(null)
+    private val infoUserProfile : StateFlow<Profile?> = _infoUserProfile
 
     fun getInfoUserProfileFlow() = infoUserProfile
 
@@ -22,6 +22,6 @@ class ProfileViewModel(
     }
 
     private fun getInfoUserProfile() = viewModelScope.launch {
-        _infoUserProfile.emit(value = getInfoUserProfileUseCase())
+        _infoUserProfile.emit(value = getInfoUserProfileUseCase.execute())
     }
 }

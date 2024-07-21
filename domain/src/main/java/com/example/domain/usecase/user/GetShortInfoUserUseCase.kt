@@ -1,8 +1,14 @@
 package com.example.domain.usecase.user
 
+import com.example.domain.model.ShortInfoUser
 import com.example.domain.repository.UserRepository
 
-class GetShortInfoUserUseCase(private val repository: UserRepository) {
+interface GetShortInfoUserUseCase {
+    fun execute(): ShortInfoUser
+}
 
-    operator fun invoke() = repository.getShortInfoUser()
+internal class GetShortInfoUserInteractor(private val repository: UserRepository) :
+    GetShortInfoUserUseCase {
+
+    override fun execute() = repository.getShortInfoUser()
 }

@@ -8,18 +8,18 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class CommunityViewModel(private val getCommunitiesUseCase: com.example.domain.usecase.community.GetCommunitiesUseCase) : ViewModel() {
+class CommunityViewModel(private val getCommunitiesUseCase: GetCommunitiesUseCase) : ViewModel() {
 
-    private val _communities = MutableStateFlow<List<com.example.domain.model.Community>>(emptyList())
-    private val communities : StateFlow<List<com.example.domain.model.Community>> = _communities
-
-    fun getCommunitiesFlow() = communities
+    private val _communities = MutableStateFlow<List<Community>>(emptyList())
+    private val communities : StateFlow<List<Community>> = _communities
 
     init {
         getCommunityList()
     }
 
+    fun getCommunitiesFlow() = communities
+
     private fun getCommunityList() = viewModelScope.launch {
-        _communities.emit(value = getCommunitiesUseCase())
+        _communities.emit(value = getCommunitiesUseCase.execute())
     }
 }

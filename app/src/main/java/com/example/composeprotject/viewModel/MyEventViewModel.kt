@@ -9,15 +9,15 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class MyEventViewModel(private val getMyEventsUseCase: com.example.domain.usecase.event.GetMyEventsUseCase) : ViewModel() {
+class MyEventViewModel(private val getMyEventsUseCase: GetMyEventsUseCase) : ViewModel() {
 
-    private val _myEvents = MutableStateFlow<List<com.example.domain.model.Event>>(emptyList())
-    private val myEvents: StateFlow<List<com.example.domain.model.Event>> = _myEvents
+    private val _myEvents = MutableStateFlow<List<Event>>(emptyList())
+    private val myEvents: StateFlow<List<Event>> = _myEvents
 
     fun getMyEventsFlow() = myEvents
 
     fun getMyEvents(variant: String) = viewModelScope.launch {
-        _myEvents.emit(value = getMyEventsUseCase.getMyEvents(variantMyEvent = variant))
+        _myEvents.emit(value = getMyEventsUseCase.execute(variantMyEvent = variant))
         _myEvents.update {
             it //TODO
         }
