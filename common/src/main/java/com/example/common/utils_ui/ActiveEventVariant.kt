@@ -1,4 +1,4 @@
-package com.example.composeprotject.common
+package com.example.common.utils_ui
 
 enum class EventScreenVariant {
     EVENT_SCREEN,

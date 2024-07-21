@@ -1,7 +1,7 @@
 package com.example.domain.usecase.event
 
-import com.example.composeprotject.common.EventVariant
 import com.example.domain.model.Event
+import com.example.domain.model.EventVariant
 import com.example.domain.repository.EventRepository
 
 class GetEventsUseCase(private val repository: EventRepository) {

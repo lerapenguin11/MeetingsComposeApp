@@ -9,6 +9,8 @@ java {
 }
 
 dependencies {
+    implementation(project(":common"))
+
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
 }

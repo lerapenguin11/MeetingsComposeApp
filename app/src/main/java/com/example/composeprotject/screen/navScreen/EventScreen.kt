@@ -11,7 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import com.example.composeprotject.R
 import com.example.composeprotject.navigation.NavItem
-import com.example.composeprotject.common.EventScreenVariant
+import com.example.common.utils_ui.EventScreenVariant
 import com.example.composeprotject.ui.component.input.CustomSearchOutlinedTextFieldIcon
 import com.example.composeprotject.ui.component.tab.EventTab
 import com.example.composeprotject.ui.theme.MeetTheme
@@ -40,7 +40,7 @@ fun EventScreen(
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
         EventTab(
             tabs = tabs,
-            eventScreenVariant = EventScreenVariant.EVENT_SCREEN,
+            eventScreenVariant = com.example.common.utils_ui.EventScreenVariant.EVENT_SCREEN,
             navController = navController
         )
     }

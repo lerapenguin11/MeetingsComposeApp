@@ -18,9 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.composeprotject.common.EventScreenVariant
-import com.example.composeprotject.common.EventVariant
-import com.example.composeprotject.common.MyEventVariant
+import com.example.common.utils_ui.EventScreenVariant
+import com.example.common.utils_ui.EventVariant
+import com.example.common.utils_ui.MyEventVariant
 import com.example.composeprotject.screen.tabScreen.MeetingsScreen
 import com.example.composeprotject.screen.tabScreen.MyMeetingsScreen
 import com.example.composeprotject.ui.theme.MeetTheme
@@ -28,7 +28,7 @@ import com.example.composeprotject.ui.theme.MeetTheme
 @Composable
 fun EventTab(
     tabs: List<Int>,
-    eventScreenVariant: EventScreenVariant,
+    eventScreenVariant: com.example.common.utils_ui.EventScreenVariant,
     navController: NavHostController
 ) {
     var tabIndex by remember { mutableIntStateOf(THE_FIRST_TAB) }
@@ -64,18 +64,18 @@ fun EventTab(
         }
         when (tabIndex) {
             THE_FIRST_TAB -> {
-                if (eventScreenVariant == EventScreenVariant.EVENT_SCREEN) {
-                    MeetingsScreen(EventVariant.ALL_EVENT, navController = navController)
+                if (eventScreenVariant == com.example.common.utils_ui.EventScreenVariant.EVENT_SCREEN) {
+                    MeetingsScreen(com.example.common.utils_ui.EventVariant.ALL_EVENT, navController = navController)
                 } else {
-                    MyMeetingsScreen(MyEventVariant.ACTIVE_EVENT, navController = navController)
+                    MyMeetingsScreen(com.example.common.utils_ui.MyEventVariant.ACTIVE_EVENT, navController = navController)
                 }
             }
 
             THE_SECOND_TAB -> {
-                if (eventScreenVariant == EventScreenVariant.EVENT_SCREEN) {
-                    MeetingsScreen(EventVariant.ACTIVE_EVENT, navController = navController)
+                if (eventScreenVariant == com.example.common.utils_ui.EventScreenVariant.EVENT_SCREEN) {
+                    MeetingsScreen(com.example.common.utils_ui.EventVariant.ACTIVE_EVENT, navController = navController)
                 } else {
-                    MyMeetingsScreen(MyEventVariant.INACTIVE_EVENT, navController = navController)
+                    MyMeetingsScreen(com.example.common.utils_ui.MyEventVariant.INACTIVE_EVENT, navController = navController)
                 }
             }
         }

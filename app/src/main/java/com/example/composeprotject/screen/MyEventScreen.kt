@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.composeprotject.R
-import com.example.composeprotject.common.EventScreenVariant
+import com.example.common.utils_ui.EventScreenVariant
 import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.tab.EventTab
 import com.example.composeprotject.ui.theme.MeetTheme
@@ -37,7 +37,7 @@ fun MyEventScreen(
         Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
         EventTab(
             tabs = tabs,
-            eventScreenVariant = EventScreenVariant.MY_EVENT_SCREEN,
+            eventScreenVariant = com.example.common.utils_ui.EventScreenVariant.MY_EVENT_SCREEN,
             navController = navController
         )
     }
