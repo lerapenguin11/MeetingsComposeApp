@@ -1,6 +1,6 @@
-package com.example.composeprotject.domain.repository
+package com.example.domain.repository
 
-import com.example.composeprotject.domain.model.nav.Event
+import com.example.domain.model.Event
 
 interface EventRepository {
 

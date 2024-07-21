@@ -10,11 +10,11 @@ import com.example.composeprotject.data.repository.CommunityRepositoryImpl
 import com.example.composeprotject.data.repository.EventDetailsRepositoryImpl
 import com.example.composeprotject.data.repository.EventRepositoryImpl
 import com.example.composeprotject.data.repository.UserRepositoryImpl
-import com.example.composeprotject.domain.repository.CommunityDetailsRepository
-import com.example.composeprotject.domain.repository.CommunityRepository
-import com.example.composeprotject.domain.repository.EventDetailsRepository
-import com.example.composeprotject.domain.repository.EventRepository
-import com.example.composeprotject.domain.repository.UserRepository
+import com.example.domain.repository.CommunityDetailsRepository
+import com.example.domain.repository.CommunityRepository
+import com.example.domain.repository.EventDetailsRepository
+import com.example.domain.repository.EventRepository
+import com.example.domain.repository.UserRepository
 import org.koin.dsl.module
 
 val dataModule = module {
@@ -24,9 +24,9 @@ val dataModule = module {
     single<MockEventDetailsData> { MockEventDetailsData() }
     single<MockCommunityDetails> { MockCommunityDetails() }
 
-    single<CommunityRepository> { CommunityRepositoryImpl(mock = get()) }
-    single<UserRepository> { UserRepositoryImpl(mock = get()) }
-    single<EventRepository> { EventRepositoryImpl(mock = get()) }
-    single<EventDetailsRepository> { EventDetailsRepositoryImpl(mock = get()) }
-    single<CommunityDetailsRepository> { CommunityDetailsRepositoryImpl(mock = get()) }
+    single<com.example.domain.repository.CommunityRepository> { CommunityRepositoryImpl(mock = get()) }
+    single<com.example.domain.repository.UserRepository> { UserRepositoryImpl(mock = get()) }
+    single<com.example.domain.repository.EventRepository> { EventRepositoryImpl(mock = get()) }
+    single<com.example.domain.repository.EventDetailsRepository> { EventDetailsRepositoryImpl(mock = get()) }
+    single<com.example.domain.repository.CommunityDetailsRepository> { CommunityDetailsRepositoryImpl(mock = get()) }
 }

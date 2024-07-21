@@ -1,6 +1,6 @@
-package com.example.composeprotject.domain.usecase.details
+package com.example.domain.usecase.details
 
-import com.example.composeprotject.domain.repository.EventDetailsRepository
+import com.example.domain.repository.EventDetailsRepository
 
 class GetEventByIdUseCase(private val repository: EventDetailsRepository) {
 

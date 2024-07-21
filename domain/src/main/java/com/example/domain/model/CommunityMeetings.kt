@@ -1,4 +1,4 @@
-package com.example.composeprotject.domain.model
+package com.example.domain.model
 
 data class CommunityMeetings(
     val communityId: Int,

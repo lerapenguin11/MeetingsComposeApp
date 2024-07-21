@@ -1,18 +1,18 @@
 package com.example.composeprotject.data.mock
 
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
-import com.example.composeprotject.domain.model.CommunityDetails
-import com.example.composeprotject.domain.model.CommunityMeetings
+import com.example.domain.model.CommunityDetails
+import com.example.domain.model.CommunityMeetings
 
 class MockCommunityDetails {
 
-    fun communityDetails() = listOf<CommunityDetails>(
-        CommunityDetails(
+    fun communityDetails() = listOf<com.example.domain.model.CommunityDetails>(
+        com.example.domain.model.CommunityDetails(
             communityId = 0,
             nameGroup = "Designa",
             communityDescription = LoremIpsum(300).values.first(),
             communityMeetings = listOf(
-                CommunityMeetings(
+                com.example.domain.model.CommunityMeetings(
                     communityId = 0,
                     meetingName = "Developer meeting",
                     dateLocation = "13.09.2024 — Москва",
@@ -22,12 +22,12 @@ class MockCommunityDetails {
                 )
             )
         ),
-        CommunityDetails(
+        com.example.domain.model.CommunityDetails(
             communityId = 1,
             nameGroup = "Designa",
             communityDescription = LoremIpsum(300).values.first(),
             communityMeetings = listOf(
-                CommunityMeetings(
+                com.example.domain.model.CommunityMeetings(
                     communityId = 1,
                     meetingName = "Developer meeting",
                     dateLocation = "13.09.2024 — Москва",
@@ -35,7 +35,7 @@ class MockCommunityDetails {
                     avatarUrl = "",
                     activeEvent = true
                 ),
-                CommunityMeetings(
+                com.example.domain.model.CommunityMeetings(
                     communityId = 1,
                     meetingName = "Developer meeting",
                     dateLocation = "13.09.2024 — Москва",
@@ -44,12 +44,12 @@ class MockCommunityDetails {
                     activeEvent = false
                 )
             )
-        ),CommunityDetails(
+        ), com.example.domain.model.CommunityDetails(
             communityId = 2,
             nameGroup = "Designa",
             communityDescription = LoremIpsum(300).values.first(),
             communityMeetings = listOf(
-                CommunityMeetings(
+                com.example.domain.model.CommunityMeetings(
                     communityId = 2,
                     meetingName = "Developer meeting",
                     dateLocation = "13.09.2024 — Москва",
@@ -58,12 +58,12 @@ class MockCommunityDetails {
                     activeEvent = true
                 )
             )
-        ), CommunityDetails(
+        ), com.example.domain.model.CommunityDetails(
             communityId = 3,
             nameGroup = "Designa",
             communityDescription = LoremIpsum(300).values.first(),
             communityMeetings = listOf(
-                CommunityMeetings(
+                com.example.domain.model.CommunityMeetings(
                     communityId = 3,
                     meetingName = "Developer meeting",
                     dateLocation = "13.09.2024 — Москва",
@@ -71,7 +71,7 @@ class MockCommunityDetails {
                     avatarUrl = "",
                     activeEvent = false
                 ),
-                CommunityMeetings(
+                com.example.domain.model.CommunityMeetings(
                     communityId = 3,
                     meetingName = "Developer meeting",
                     dateLocation = "13.09.2024 — Москва",

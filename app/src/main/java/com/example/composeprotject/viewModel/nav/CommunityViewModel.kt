@@ -2,16 +2,16 @@ package com.example.composeprotject.viewModel.nav
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.composeprotject.domain.model.nav.Community
-import com.example.composeprotject.domain.usecase.community.GetCommunitiesUseCase
+import com.example.domain.model.Community
+import com.example.domain.usecase.community.GetCommunitiesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class CommunityViewModel(private val getCommunitiesUseCase: GetCommunitiesUseCase) : ViewModel() {
+class CommunityViewModel(private val getCommunitiesUseCase: com.example.domain.usecase.community.GetCommunitiesUseCase) : ViewModel() {
 
-    private val _communities = MutableStateFlow<List<Community>>(emptyList())
-    private val communities : StateFlow<List<Community>> = _communities
+    private val _communities = MutableStateFlow<List<com.example.domain.model.Community>>(emptyList())
+    private val communities : StateFlow<List<com.example.domain.model.Community>> = _communities
 
     fun getCommunitiesFlow() = communities
 

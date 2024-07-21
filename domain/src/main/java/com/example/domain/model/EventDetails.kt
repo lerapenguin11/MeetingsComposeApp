@@ -1,4 +1,4 @@
-package com.example.composeprotject.domain.model
+package com.example.domain.model
 
 data class EventDetails(
     val eventId: Int,

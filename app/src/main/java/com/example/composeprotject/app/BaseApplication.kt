@@ -3,7 +3,7 @@ package com.example.composeprotject.app
 import android.app.Application
 import com.example.composeprotject.di.appModule
 import com.example.composeprotject.di.dataModule
-import com.example.composeprotject.di.domainModule
+import com.example.domain.di.domainModule
 import com.example.composeprotject.utils.CountryData
 import com.example.composeprotject.utils.readCountryDataFromJson
 import org.koin.android.ext.koin.androidContext

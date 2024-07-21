@@ -1,6 +1,6 @@
-package com.example.composeprotject.domain.usecase.user
+package com.example.domain.usecase.user
 
-import com.example.composeprotject.domain.repository.UserRepository
+import com.example.domain.repository.UserRepository
 
 class GetShortInfoUserUseCase(private val repository: UserRepository) {
 

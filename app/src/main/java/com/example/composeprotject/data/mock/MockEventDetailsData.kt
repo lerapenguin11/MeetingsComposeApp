@@ -1,13 +1,13 @@
 package com.example.composeprotject.data.mock
 
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
-import com.example.composeprotject.domain.model.EventDetails
+import com.example.domain.model.EventDetails
 
 
 class MockEventDetailsData {
 
-    fun eventList() = listOf<EventDetails>(
-        EventDetails(
+    fun eventList() = listOf<com.example.domain.model.EventDetails>(
+        com.example.domain.model.EventDetails(
             eventId = 0,
             meetingName = "Developer meeting 1",
             dateLocation = "13.09.2024 — Москва",
@@ -18,7 +18,7 @@ class MockEventDetailsData {
             address = "ул. Громова, 4",
             avatarList = avatarList()
         ),
-        EventDetails(
+        com.example.domain.model.EventDetails(
             eventId = 1,
             meetingName = "Developer meeting 1",
             dateLocation = "13.09.2024 — Москва",
@@ -29,7 +29,7 @@ class MockEventDetailsData {
             address = "ул. Громова, 4",
             avatarList = avatarList()
         ),
-        EventDetails(
+        com.example.domain.model.EventDetails(
             eventId = 2,
             meetingName = "Developer meeting 1",
             dateLocation = "13.09.2024 — Москва",
@@ -40,7 +40,7 @@ class MockEventDetailsData {
             address = "ул. Громова, 4",
             avatarList = avatarList()
         ),
-        EventDetails(
+        com.example.domain.model.EventDetails(
             eventId = 3,
             meetingName = "Developer meeting 1",
             dateLocation = "13.09.2024 — Москва",
@@ -51,7 +51,7 @@ class MockEventDetailsData {
             address = "ул. Громова, 4",
             avatarList = avatarList()
         ),
-        EventDetails(
+        com.example.domain.model.EventDetails(
             eventId = 4,
             meetingName = "Developer meeting 1",
             dateLocation = "13.09.2024 — Москва",
@@ -62,7 +62,7 @@ class MockEventDetailsData {
             address = "ул. Громова, 4",
             avatarList = avatarList()
         ),
-        EventDetails(
+        com.example.domain.model.EventDetails(
             eventId = 5,
             meetingName = "Developer meeting 1",
             dateLocation = "13.09.2024 — Москва",
@@ -73,7 +73,7 @@ class MockEventDetailsData {
             address = "ул. Громова, 4",
             avatarList = avatarList()
         ),
-        EventDetails(
+        com.example.domain.model.EventDetails(
             eventId = 6,
             meetingName = "Developer meeting 1",
             dateLocation = "13.09.2024 — Москва",

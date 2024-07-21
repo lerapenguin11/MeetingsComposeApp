@@ -1,4 +1,4 @@
-package com.example.composeprotject.domain.model.nav
+package com.example.domain.model
 
 data class Community(
     val id: Int,

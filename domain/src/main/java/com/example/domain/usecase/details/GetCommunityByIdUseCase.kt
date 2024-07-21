@@ -1,6 +1,6 @@
-package com.example.composeprotject.domain.usecase.details
+package com.example.domain.usecase.details
 
-import com.example.composeprotject.domain.repository.CommunityDetailsRepository
+import com.example.domain.repository.CommunityDetailsRepository
 
 class GetCommunityByIdUseCase(private val repository: CommunityDetailsRepository) {
 
