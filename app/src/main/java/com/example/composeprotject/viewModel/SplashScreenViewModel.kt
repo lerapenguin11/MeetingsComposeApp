@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SplashScreenViewModel : ViewModel() {
@@ -25,12 +26,12 @@ class SplashScreenViewModel : ViewModel() {
     private fun loadData() {
         viewModelScope.launch {
             delay(SPLASH_SCREEN_DURATION)
-            _isLoading.value = false
+            _isLoading.update { _ -> false }
         }
     }
 
     private fun handleDeeplinks() {
-        _isUserLoggedIn.value = true
+        _isUserLoggedIn.update { _ -> true }
     }
 }
 

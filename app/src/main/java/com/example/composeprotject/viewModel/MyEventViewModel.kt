@@ -17,9 +17,8 @@ class MyEventViewModel(private val getMyEventsUseCase: GetMyEventsUseCase) : Vie
     fun getMyEventsFlow() = myEvents
 
     fun getMyEvents(variant: String) = viewModelScope.launch {
-        _myEvents.emit(value = getMyEventsUseCase.execute(variantMyEvent = variant))
-        _myEvents.update {
-            it //TODO
+        _myEvents.update { _ ->
+            getMyEventsUseCase.execute(variantMyEvent = variant)
         }
     }
 }

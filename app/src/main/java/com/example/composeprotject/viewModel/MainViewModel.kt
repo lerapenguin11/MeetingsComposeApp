@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.example.composeprotject.navigation.NavItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 
 class MainViewModel : ViewModel() {
 
@@ -25,12 +26,12 @@ class MainViewModel : ViewModel() {
     fun getShowBottomBarFlow(): StateFlow<Boolean> = showBottomBar
 
     fun setCurrentScreen(screen: NavItem, showTopBar: Boolean, showBottomBar: Boolean) {
-        _currentScreen.value = screen
-        _showTopBar.value = showTopBar
-        _showBottomBar.value = showBottomBar
+        _currentScreen.update { _ -> screen }
+        _showTopBar.update { _ -> showTopBar }
+        _showBottomBar.update { _ -> showBottomBar }
     }
 
     fun setTitleDetailedScreen(title: String) {
-        _titleDetailedScreen.value = title
+        _titleDetailedScreen.update { _ -> title }
     }
 }
