@@ -27,8 +27,6 @@ class EventDetailsViewModel(private val getEventByIdUseCase: GetEventByIdUseCase
     }
 
     fun getEventDetails(eventId: Int) {
-        _eventDetails.update { _ ->
-            getEventByIdUseCase.execute(eventId = eventId)
-        }
+        _eventDetails.update { getEventByIdUseCase.execute(eventId = eventId) }
     }
 }

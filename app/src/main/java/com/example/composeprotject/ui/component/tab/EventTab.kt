@@ -28,10 +28,10 @@ import com.example.composeprotject.ui.theme.MeetTheme
 @Composable
 fun EventTab(
     tabs: List<Int>,
-    eventScreenVariant: com.example.common.utils_ui.EventScreenVariant,
+    eventScreenVariant: EventScreenVariant,
     navController: NavHostController
 ) {
-    var tabIndex by remember { mutableIntStateOf(THE_FIRST_TAB) }
+    var tabIndex by remember { mutableIntStateOf(FIRST) }
 
     Column(modifier = Modifier.fillMaxWidth()) {
         TabRow(
@@ -63,24 +63,24 @@ fun EventTab(
             }
         }
         when (tabIndex) {
-            THE_FIRST_TAB -> {
-                if (eventScreenVariant == com.example.common.utils_ui.EventScreenVariant.EVENT_SCREEN) {
-                    MeetingsScreen(com.example.common.utils_ui.EventVariant.ALL_EVENT, navController = navController)
+            FIRST -> {
+                if (eventScreenVariant == EventScreenVariant.EVENT_SCREEN) {
+                    MeetingsScreen(EventVariant.ALL_EVENT, navController = navController)
                 } else {
-                    MyMeetingsScreen(com.example.common.utils_ui.MyEventVariant.ACTIVE_EVENT, navController = navController)
+                    MyMeetingsScreen(MyEventVariant.ACTIVE_EVENT, navController = navController)
                 }
             }
 
-            THE_SECOND_TAB -> {
-                if (eventScreenVariant == com.example.common.utils_ui.EventScreenVariant.EVENT_SCREEN) {
-                    MeetingsScreen(com.example.common.utils_ui.EventVariant.ACTIVE_EVENT, navController = navController)
+            SECOND -> {
+                if (eventScreenVariant == EventScreenVariant.EVENT_SCREEN) {
+                    MeetingsScreen(EventVariant.ACTIVE_EVENT, navController = navController)
                 } else {
-                    MyMeetingsScreen(com.example.common.utils_ui.MyEventVariant.INACTIVE_EVENT, navController = navController)
+                    MyMeetingsScreen(MyEventVariant.INACTIVE_EVENT, navController = navController)
                 }
             }
         }
     }
 }
 
-private const val THE_FIRST_TAB = 0
-private const val THE_SECOND_TAB = 1
+private const val FIRST = 0
+private const val SECOND = 1

@@ -13,8 +13,6 @@ class AuthCodeViewModel : ViewModel() {
     fun getCodeFlow(): StateFlow<String> = code
 
     fun setCode(code: String) {
-        _code.update { _ ->
-            code
-        }
+        _code.update { code }
     }
 }

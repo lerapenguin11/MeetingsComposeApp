@@ -19,8 +19,6 @@ class CommunityDetailsViewModel(private val getCommunityByIdUseCase: GetCommunit
     fun getCommunityDetailsFlow() = communityDetails
 
     fun getCommunityById(communityId: Int) {
-        _communityDetails.update { _ ->
-            getCommunityByIdUseCase.execute(communityId = communityId)
-        }
+        _communityDetails.update { getCommunityByIdUseCase.execute(communityId = communityId) }
     }
 }

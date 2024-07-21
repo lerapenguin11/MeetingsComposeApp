@@ -23,6 +23,6 @@ class ProfileViewModel(
     }
 
     private fun getInfoUserProfile() {
-        _infoUserProfile.update { _ -> getInfoUserProfileUseCase.execute() }
+        _infoUserProfile.update { getInfoUserProfileUseCase.execute() }
     }
 }

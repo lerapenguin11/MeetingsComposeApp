@@ -7,7 +7,6 @@ import com.example.domain.repository.UserRepository
 
 internal class UserRepositoryImpl(private val mock : MockUserData) :
     UserRepository {
-
     override fun getShortInfoUser(): ShortInfoUser {
         return mock.mockShortInfoUser()
     }

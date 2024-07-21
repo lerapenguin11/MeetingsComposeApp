@@ -23,20 +23,14 @@ class AuthPhoneNumberViewModel : ViewModel() {
     fun getActiveAuthButton(): StateFlow<Boolean> = activeAuthButton
 
     fun phoneNumber(phoneNumber: String) {
-        _phoneNumber.update { _ ->
-            phoneNumber
-        }
+        _phoneNumber.update { phoneNumber }
     }
 
     fun activeAuthButton(isEnabled: Boolean) {
-        _activeAuthButton.update { _ ->
-            isEnabled
-        }
+        _activeAuthButton.update { isEnabled }
     }
 
     fun validationPhoneNumber(isValidation: Boolean) {
-        _validationPhoneNumber.update { _ ->
-            isValidation
-        }
+        _validationPhoneNumber.update { isValidation }
     }
 }

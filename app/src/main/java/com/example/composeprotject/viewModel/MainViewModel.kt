@@ -26,9 +26,9 @@ class MainViewModel : ViewModel() {
     fun getShowBottomBarFlow(): StateFlow<Boolean> = showBottomBar
 
     fun setCurrentScreen(screen: NavItem, showTopBar: Boolean, showBottomBar: Boolean) {
-        _currentScreen.update { _ -> screen }
-        _showTopBar.update { _ -> showTopBar }
-        _showBottomBar.update { _ -> showBottomBar }
+        _currentScreen.update { screen }
+        _showTopBar.update { showTopBar }
+        _showBottomBar.update { showBottomBar }
     }
 
     fun setTitleDetailedScreen(title: String) {

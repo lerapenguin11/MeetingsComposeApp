@@ -21,8 +21,6 @@ class CommunityViewModel(private val getCommunitiesUseCase: GetCommunitiesUseCas
     fun getCommunitiesFlow() = communities
 
     private fun getCommunityList() {
-        _communities.update { _ ->
-            getCommunitiesUseCase.execute()
-        }
+        _communities.update { getCommunitiesUseCase.execute() }
     }
 }

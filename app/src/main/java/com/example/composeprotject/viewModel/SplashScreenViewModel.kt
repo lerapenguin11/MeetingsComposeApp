@@ -26,12 +26,12 @@ class SplashScreenViewModel : ViewModel() {
     private fun loadData() {
         viewModelScope.launch {
             delay(SPLASH_SCREEN_DURATION)
-            _isLoading.update { _ -> false }
+            _isLoading.update { false }
         }
     }
 
     private fun handleDeeplinks() {
-        _isUserLoggedIn.update { _ -> true }
+        _isUserLoggedIn.update { true }
     }
 }
 
