@@ -2,10 +2,11 @@ package com.example.composeprotject.viewModel.nav
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.composeprotject.domain.model.nav.ShortInfoUser
-import com.example.composeprotject.domain.usecase.user.GetShortInfoUserUseCase
+import com.example.domain.model.ShortInfoUser
+import com.example.domain.usecase.user.GetShortInfoUserUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class StillViewModel(private val getShortInfoUserUseCase: GetShortInfoUserUseCase) : ViewModel() {
@@ -19,6 +20,6 @@ class StillViewModel(private val getShortInfoUserUseCase: GetShortInfoUserUseCas
         getShortInfoUser()
     }
     private fun getShortInfoUser() = viewModelScope.launch {
-        _shortInfoUser.emit(value = getShortInfoUserUseCase())
+        _shortInfoUser.update { getShortInfoUserUseCase.execute() }
     }
 }

@@ -7,8 +7,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import com.example.composeprotject.R
-import com.example.composeprotject.common.EventVariant
-import com.example.composeprotject.domain.model.nav.Event
+import com.example.common.utils_ui.EventVariant
 import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.card.EventCard
 import com.example.composeprotject.viewModel.nav.EventViewModel
@@ -18,7 +17,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MeetingsScreen(
-    eventVariant: EventVariant,
+    eventVariant: com.example.common.utils_ui.EventVariant,
     navController: NavHostController,
     eventViewModel: EventViewModel = koinViewModel() ) {
 

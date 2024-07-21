@@ -2,10 +2,11 @@ package com.example.composeprotject.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.composeprotject.domain.model.Profile
-import com.example.composeprotject.domain.usecase.user.GetInfoUserProfileUseCase
+import com.example.domain.model.Profile
+import com.example.domain.usecase.user.GetInfoUserProfileUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(
@@ -13,7 +14,7 @@ class ProfileViewModel(
 ) : ViewModel() {
 
     private val _infoUserProfile = MutableStateFlow<Profile?>(null)
-    private val infoUserProfile : StateFlow<Profile?> = _infoUserProfile
+    private val infoUserProfile: StateFlow<Profile?> = _infoUserProfile
 
     fun getInfoUserProfileFlow() = infoUserProfile
 
@@ -21,7 +22,7 @@ class ProfileViewModel(
         getInfoUserProfile()
     }
 
-    private fun getInfoUserProfile() = viewModelScope.launch {
-        _infoUserProfile.emit(value = getInfoUserProfileUseCase())
+    private fun getInfoUserProfile() {
+        _infoUserProfile.update { getInfoUserProfileUseCase.execute() }
     }
 }
