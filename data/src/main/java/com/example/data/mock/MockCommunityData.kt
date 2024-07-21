@@ -1,29 +1,29 @@
-package com.example.composeprotject.data.mock
+package com.example.data.mock
 
 import com.example.domain.model.Community
 
 class MockCommunityData {
 
-    fun communityListMock() = listOf<com.example.domain.model.Community>(
-        com.example.domain.model.Community(
+    fun communityListMock() = listOf(
+        Community(
             id = 0,
             avatarUrl = "https://dm-centre.ru/wp-content/uploads/2023/09/kub33.jpg",
             nameGroup = "Designa",
             numberPeople = 1000000
         ),
-        com.example.domain.model.Community(
+        Community(
             id = 1,
             avatarUrl = "https://dm-centre.ru/wp-content/uploads/2023/09/kub33.jpg",
             nameGroup = "Designa",
             numberPeople = 1000000
         ),
-        com.example.domain.model.Community(
+        Community(
             id = 2,
             avatarUrl = "https://dm-centre.ru/wp-content/uploads/2023/09/kub33.jpg",
             nameGroup = "Designa",
             numberPeople = 1000000
         ),
-        com.example.domain.model.Community(
+        Community(
             id = 3,
             avatarUrl = "https://dm-centre.ru/wp-content/uploads/2023/09/kub33.jpg",
             nameGroup = "Designa",

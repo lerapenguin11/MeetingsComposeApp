@@ -1,10 +1,10 @@
-package com.example.composeprotject.data.mock
+package com.example.data.mock
 
 import com.example.domain.model.Profile
 import com.example.domain.model.ShortInfoUser
 
 class MockUserData {
-    fun mockInfoUserProfile() = com.example.domain.model.Profile(
+    fun mockInfoUserProfile() = Profile(
         userName = "Ivan",
         userSurname = "Ivanov",
         avatarUrl = null,
@@ -15,7 +15,7 @@ class MockUserData {
         linkedinId = ""
     )
 
-    fun mockShortInfoUser() = com.example.domain.model.ShortInfoUser(
+    fun mockShortInfoUser() = ShortInfoUser(
         userName = "Ivan",
         userSurname = "Ivanov",
         avatarUrl = null,
