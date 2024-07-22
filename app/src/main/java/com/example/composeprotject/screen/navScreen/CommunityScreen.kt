@@ -13,7 +13,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.composeprotject.R
-import com.example.domain.model.Community
 import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.card.CommunitiesCard
 import com.example.composeprotject.ui.component.input.CustomSearchOutlinedTextFieldIcon
@@ -41,7 +40,7 @@ fun CommunityScreen(
             .padding(contentPadding)
             .padding(horizontal = MeetTheme.sizes.sizeX24)
     ) {
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX16))
         CustomSearchOutlinedTextFieldIcon(
             textPlaceholder = stringResource(id = R.string.text_placeholder_input_search),
             isEnabled = true

@@ -34,10 +34,10 @@ fun MyEventScreen(
             .padding(contentPadding)
             .padding(horizontal = MeetTheme.sizes.sizeX24),
     ) {
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX16))
         EventTab(
             tabs = tabs,
-            eventScreenVariant = com.example.common.utils_ui.EventScreenVariant.MY_EVENT_SCREEN,
+            eventScreenVariant = EventScreenVariant.MY_EVENT_SCREEN,
             navController = navController
         )
     }

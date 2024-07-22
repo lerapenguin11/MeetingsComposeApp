@@ -85,21 +85,21 @@ fun EventDetailsScreen(
     ) {
         event?.let {
             item {
-                Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
+                Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX16))
                 BaseText(
                     text = "${it.dateLocation}, ${it.address}", //TODO
                     textStyle = MeetTheme.typography.bodyText1,
                     textColor = MeetTheme.colors.neutralWeak
                 )
-                Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX2))
+                Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX2))
                 Row(horizontalArrangement = Arrangement.spacedBy(MeetTheme.sizes.sizeX4)) {
                     it.tags.forEach { textChip ->
                         Chip(text = textChip)
                     }
                 }
-                Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX12))
+                Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX12))
                 Image(
-                    modifier = modifier
+                    modifier = Modifier
                         .fillMaxSize()
                         .height(height = 175.dp)
                         .clip(RoundedCornerShape(MeetTheme.sizes.sizeX24))
@@ -108,16 +108,16 @@ fun EventDetailsScreen(
                     painter = painterResource(id = R.drawable.ic_map),
                     contentDescription = "Map"
                 )
-                Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX20))
+                Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX20))
                 ExpandableText(
                     maxLines = MAX_LINE_DESC,
                     text = it.eventDescription
                 )
-                Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX20))
+                Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX20))
                 AttendeesRow(
                     avatarList = it.avatarList
                 )
-                Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX13))
+                Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX13))
                 ToggleMeetingButton(
                     onClick = {
                         showMeeting = !showMeeting

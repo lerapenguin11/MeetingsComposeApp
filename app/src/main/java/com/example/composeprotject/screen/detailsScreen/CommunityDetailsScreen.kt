@@ -53,12 +53,12 @@ fun CommunityDetailsScreen(
     ) {
         community?.let {
             item {
-                Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
+                Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX16))
                 ExpandableText(
                     maxLines = MAX_LINE_DESC,
                     text = it.communityDescription
                 )
-                Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX30))
+                Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX30))
                 BaseText(
                     text = stringResource(id = R.string.text_event_community),
                     textStyle = MeetTheme.typography.bodyText1,

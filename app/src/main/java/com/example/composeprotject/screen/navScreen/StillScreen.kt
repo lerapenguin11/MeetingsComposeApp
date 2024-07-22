@@ -33,10 +33,10 @@ fun StillScreen(
     val userInfo by stillViewModel.shortInfoUserFlow().collectAsState()
 
     Column(
-        modifier = modifier
+        modifier = Modifier
             .padding(contentPadding)
     ) {
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX8))
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX8))
         userInfo?.let { user ->
             ProfileMenuItem(
                 name = getUserFullName(user.userName, user.userSurname),
@@ -45,13 +45,13 @@ fun StillScreen(
                 onClick = { onStillClickToProfileScreen(/*TODO*/) }
             )
         }
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX8))
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX8))
         MyEventMenuItem(
             onClick = { onStillClickToMyMeetingsScreen(/*TODO*/) },
             menuIcon = R.drawable.ic_still_nav_menu_my_event,
             menuName = R.string.text_my_event
         )
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX8))
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX8))
         MyEventMenuItem(
             onClick = {  /*TODO*/ },
             menuIcon = R.drawable.ic_still_nav_menu_theme,

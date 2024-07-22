@@ -52,7 +52,7 @@ fun VerificationCodeScreen(
             textColor = MeetTheme.colors.neutralActive,
             textStyle = MeetTheme.typography.heading2
         )
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX8))
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX8))
         BaseText(
             text = stringResource(id = R.string.text_valid_code_header),
             textColor = MeetTheme.colors.neutralActive,
@@ -63,13 +63,13 @@ fun VerificationCodeScreen(
             textColor = MeetTheme.colors.neutralActive,
             textStyle = MeetTheme.typography.bodyText2
         )
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX49))
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX49))
         CodeInput(viewModel = codeViewModel)
         val inputValue = codeViewModel.getCodeFlow().collectAsState()
         if (inputValue.value.length == VERIFICATION_CODE_LENGTH) {
             onCreateProfile()
         }
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX69))
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX69))
         TextButton(onClick = { /*TODO*/}, buttonText = R.string.text_request_code_again)
     }
 }

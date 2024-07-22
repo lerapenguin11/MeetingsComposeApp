@@ -60,7 +60,7 @@ fun CreateProfileScreen(
             contentDescription = R.string.text_content_description,
             state = AvatarState.EDITING
         )
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX31))
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX31))
         CustomOutlinedTextField(
             textPlaceholder = stringResource(id = R.string.text_name),
             isEnabled = true,
@@ -68,7 +68,7 @@ fun CreateProfileScreen(
                 userName = newValue
             }
         )
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX12))
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX12))
         CustomOutlinedTextField(
             textPlaceholder = stringResource(id = R.string.text_surname),
             isEnabled = true,
@@ -76,7 +76,7 @@ fun CreateProfileScreen(
                 userSurname = newValue
             }
         )
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX58))
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX58))
         FilledButton(
             onClick = {
                 createProfileViewModel.createProfile(

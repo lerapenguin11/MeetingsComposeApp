@@ -37,7 +37,7 @@ fun SplashScreen(
     val isUserLoggedIn by splashScreenViewModel.getIsUserLoggedIn().collectAsState()
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.splash_animation))
     Box(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .padding(contentPadding),
         contentAlignment = Alignment.Center

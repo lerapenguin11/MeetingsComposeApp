@@ -59,20 +59,20 @@ fun VerifInputPhoneNumberScreen(
             textColor = MeetTheme.colors.neutralActive,
             textStyle = MeetTheme.typography.heading2
         )
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX8))
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX8))
         BaseText(
             text = stringResource(id = R.string.text_desc_code),
             textColor = MeetTheme.colors.neutralActive,
             textStyle = MeetTheme.typography.bodyText2,
             textAlign = TextAlign.Center
         )
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX49))
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX49))
         PhoneNumberInput(
             authPhoneNumberViewModel = authPhoneNumberViewModel,
             onValueChange = { newValue ->
                 phoneNumber = newValue
             })
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX69))
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX69))
         FilledButton(
             onClick = {
 

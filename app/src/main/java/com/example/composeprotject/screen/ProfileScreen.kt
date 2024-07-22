@@ -50,7 +50,7 @@ fun ProfileScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         userInfo?.let { user ->
-            Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX46))
+            Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX46))
             ProfileAvatarContainer(
                 variant = ProfileAvatarVariant.LARGE,
                 colorContainer = MeetTheme.colors.neutralOffWhite,
@@ -58,19 +58,19 @@ fun ProfileScreen(
                 contentDescription = R.string.text_content_description,
                 state = AvatarState.DISPLAY
             )
-            Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX20))
+            Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX20))
             BaseText(
                 text = getUserFullName(user.userName, user.userSurname),
                 textColor = MeetTheme.colors.neutralActive,
                 textStyle = MeetTheme.typography.sfProDisplaySemibold24
             )
-            Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX4))
+            Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX4))
             BaseText(
                 text = user.phoneNumber,
                 textColor = MeetTheme.colors.neutralDisabled,
                 textStyle = MeetTheme.typography.sfProDisplayRegular16
             )
-            Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX40))
+            Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX40))
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 ImageOutlinedButton(
                     icon = R.drawable.ic_twitter,

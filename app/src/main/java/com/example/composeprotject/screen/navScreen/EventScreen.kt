@@ -11,7 +11,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import com.example.composeprotject.R
 import com.example.composeprotject.navigation.NavItem
-import com.example.common.utils_ui.EventScreenVariant
 import com.example.composeprotject.ui.component.input.CustomSearchOutlinedTextFieldIcon
 import com.example.composeprotject.ui.component.tab.EventTab
 import com.example.composeprotject.ui.theme.MeetTheme
@@ -32,12 +31,12 @@ fun EventScreen(
             .padding(contentPadding)
             .padding(horizontal = MeetTheme.sizes.sizeX24)
     ) {
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX16))
         CustomSearchOutlinedTextFieldIcon(
             textPlaceholder = stringResource(id = R.string.text_placeholder_input_search),
             isEnabled = true
         )
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX16))
         EventTab(
             tabs = tabs,
             eventScreenVariant = com.example.common.utils_ui.EventScreenVariant.EVENT_SCREEN,
