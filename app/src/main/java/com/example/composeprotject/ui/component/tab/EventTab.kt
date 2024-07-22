@@ -31,7 +31,8 @@ fun EventTab(
     eventScreenVariant: EventScreenVariant,
     navController: NavHostController
 ) {
-    var tabIndex by remember { mutableIntStateOf(FIRST) }
+    val tabList = remember { listOf(Tab.FIRST, Tab.SECOND) }
+    var tabIndex by remember { mutableIntStateOf(tabList.indexOf(Tab.FIRST)) }
 
     Column(modifier = Modifier.fillMaxWidth()) {
         TabRow(
@@ -62,8 +63,9 @@ fun EventTab(
                 )
             }
         }
-        when (tabIndex) {
-            FIRST -> {
+
+        when (tabList[tabIndex]) {
+            Tab.FIRST -> {
                 if (eventScreenVariant == EventScreenVariant.EVENT_SCREEN) {
                     MeetingsScreen(EventVariant.ALL_EVENT, navController = navController)
                 } else {
@@ -71,7 +73,7 @@ fun EventTab(
                 }
             }
 
-            SECOND -> {
+            Tab.SECOND -> {
                 if (eventScreenVariant == EventScreenVariant.EVENT_SCREEN) {
                     MeetingsScreen(EventVariant.ACTIVE_EVENT, navController = navController)
                 } else {
@@ -82,5 +84,7 @@ fun EventTab(
     }
 }
 
-private const val FIRST = 0
-private const val SECOND = 1
+private enum class Tab{
+    FIRST,
+    SECOND
+}
