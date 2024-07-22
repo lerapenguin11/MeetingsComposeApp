@@ -6,8 +6,9 @@ import com.example.domain.model.Community
 import com.example.domain.usecase.community.GetCommunitiesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 class CommunityViewModel(private val getCommunitiesUseCase: GetCommunitiesUseCase) : ViewModel() {
 
@@ -21,6 +22,10 @@ class CommunityViewModel(private val getCommunitiesUseCase: GetCommunitiesUseCas
     fun getCommunitiesFlow() = communities
 
     private fun getCommunityList() {
-        _communities.update { getCommunitiesUseCase.execute() }
+        getCommunitiesUseCase.execute()
+            .onEach {
+                _communities.update { it }
+            }
+            .launchIn(viewModelScope)
     }
 }

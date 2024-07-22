@@ -6,8 +6,9 @@ import com.example.domain.model.ShortInfoUser
 import com.example.domain.usecase.user.GetShortInfoUserUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 class StillViewModel(private val getShortInfoUserUseCase: GetShortInfoUserUseCase) : ViewModel() {
 
@@ -19,7 +20,11 @@ class StillViewModel(private val getShortInfoUserUseCase: GetShortInfoUserUseCas
     init {
         getShortInfoUser()
     }
-    private fun getShortInfoUser() = viewModelScope.launch {
-        _shortInfoUser.update { getShortInfoUserUseCase.execute() }
+    private fun getShortInfoUser() {
+        getShortInfoUserUseCase.execute()
+            .onEach {
+                _shortInfoUser.update { it }
+            }
+            .launchIn(viewModelScope)
     }
 }

@@ -5,8 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.usecase.details.GetCommunityByIdUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 class CommunityDetailsViewModel(private val getCommunityByIdUseCase: GetCommunityByIdUseCase) :
     ViewModel() {
@@ -19,6 +20,10 @@ class CommunityDetailsViewModel(private val getCommunityByIdUseCase: GetCommunit
     fun getCommunityDetailsFlow() = communityDetails
 
     fun getCommunityById(communityId: Int) {
-        _communityDetails.update { getCommunityByIdUseCase.execute(communityId = communityId) }
+        getCommunityByIdUseCase.execute(communityId = communityId)
+            .onEach {
+                _communityDetails.update { it }
+            }
+            .launchIn(viewModelScope)
     }
 }

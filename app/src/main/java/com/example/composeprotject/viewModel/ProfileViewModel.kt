@@ -6,8 +6,9 @@ import com.example.domain.model.Profile
 import com.example.domain.usecase.user.GetInfoUserProfileUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 class ProfileViewModel(
     private val getInfoUserProfileUseCase: GetInfoUserProfileUseCase
@@ -23,6 +24,10 @@ class ProfileViewModel(
     }
 
     private fun getInfoUserProfile() {
-        _infoUserProfile.update { getInfoUserProfileUseCase.execute() }
+        getInfoUserProfileUseCase.execute()
+            .onEach {
+                _infoUserProfile.update { it }
+            }
+            .launchIn(viewModelScope)
     }
 }

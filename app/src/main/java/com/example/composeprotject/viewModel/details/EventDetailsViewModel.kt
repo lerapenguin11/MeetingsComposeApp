@@ -5,8 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.usecase.details.GetEventByIdUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 class EventDetailsViewModel(private val getEventByIdUseCase: GetEventByIdUseCase) : ViewModel() {
 
@@ -21,12 +22,14 @@ class EventDetailsViewModel(private val getEventByIdUseCase: GetEventByIdUseCase
     fun getIsActionEventDetailsFlow() = isActionEventDetails
 
     fun setActionEventDetails(isAction: Boolean) {
-        _isActionEventDetails.update { _ ->
-            isAction
-        }
+        _isActionEventDetails.update { isAction }
     }
 
     fun getEventDetails(eventId: Int) {
-        _eventDetails.update { getEventByIdUseCase.execute(eventId = eventId) }
+        getEventByIdUseCase.execute(eventId = eventId)
+            .onEach {
+                _eventDetails.update { it }
+            }
+            .launchIn(viewModelScope)
     }
 }

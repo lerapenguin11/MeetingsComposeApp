@@ -32,6 +32,6 @@ class MainViewModel : ViewModel() {
     }
 
     fun setTitleDetailedScreen(title: String) {
-        _titleDetailedScreen.update { _ -> title }
+        _titleDetailedScreen.update { title }
     }
 }

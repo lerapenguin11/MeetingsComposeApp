@@ -6,8 +6,9 @@ import com.example.domain.model.Event
 import com.example.domain.usecase.event.GetMyEventsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 class MyEventViewModel(private val getMyEventsUseCase: GetMyEventsUseCase) : ViewModel() {
 
@@ -16,7 +17,11 @@ class MyEventViewModel(private val getMyEventsUseCase: GetMyEventsUseCase) : Vie
 
     fun getMyEventsFlow() = myEvents
 
-    fun getMyEvents(variant: String) = viewModelScope.launch {
-        _myEvents.update { getMyEventsUseCase.execute(variantMyEvent = variant) }
+    fun getMyEvents(variant: String) {
+        getMyEventsUseCase.execute(variantMyEvent = variant)
+            .onEach {
+                _myEvents.update { it }
+            }
+            .launchIn(viewModelScope)
     }
 }

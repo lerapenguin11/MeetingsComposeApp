@@ -10,7 +10,7 @@ class AuthPhoneNumberViewModel : ViewModel() {
     private val _activeAuthButton = MutableStateFlow(false)
     private val activeAuthButton: StateFlow<Boolean> = _activeAuthButton
 
-    private val _validationPhoneNumber = MutableStateFlow<Boolean>(false)
+    private val _validationPhoneNumber = MutableStateFlow(false)
     private val validationPhoneNumber: StateFlow<Boolean> = _validationPhoneNumber
 
     private val _phoneNumber = MutableStateFlow("")
