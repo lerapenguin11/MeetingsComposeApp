@@ -17,12 +17,13 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MeetTheme {
+                val navController = rememberNavController()
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     containerColor = MeetTheme.colors.neutralWhite,
                 ) { contentPadding ->
                     RootNavigationGraph(
-                        navController = rememberNavController(),
+                        navController = navController,
                         isLoggedIn = false,
                         contentPadding = contentPadding
                     )

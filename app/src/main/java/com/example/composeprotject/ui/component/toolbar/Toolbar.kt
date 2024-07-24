@@ -294,7 +294,7 @@ data class ToolbarTitle(
     }
 }
 
-private val MinCollapsedHeight = 56.dp
+val MinCollapsedHeight = 56.dp
 private val HorizontalPadding = 16.dp
 private val ExpandedTitleBottomPadding = 8.dp
 private val CollapsedTitleLineHeight = 30.sp

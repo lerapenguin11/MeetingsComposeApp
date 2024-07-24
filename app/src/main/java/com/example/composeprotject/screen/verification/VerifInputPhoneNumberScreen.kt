@@ -18,13 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.example.composeprotject.R
-import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.button.FilledButton
 import com.example.composeprotject.ui.component.custom.PhoneNumberInput
 import com.example.composeprotject.ui.component.state.ButtonState
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.MainViewModel
 import com.example.composeprotject.viewModel.auth.AuthPhoneNumberViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -33,14 +31,8 @@ fun VerifInputPhoneNumberScreen(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
     authPhoneNumberViewModel: AuthPhoneNumberViewModel = koinViewModel(),
-    mainViewModel: MainViewModel = koinViewModel(),
     onSendCodePhoneNumberClick: (String) -> Unit
 ) {
-    mainViewModel.setCurrentScreen(
-        screen = NavItem.VerifInputPhoneNumberScreenItem,
-        showBottomBar = false,
-        showTopBar = true
-    )
     val activeAuthButton by authPhoneNumberViewModel.getActiveAuthButton().collectAsState()
     val isValidationPhoneNumber by authPhoneNumberViewModel.getValidationPhoneNumberFlow()
         .collectAsState()

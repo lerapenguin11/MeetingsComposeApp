@@ -22,7 +22,7 @@ fun RootNavigationGraph(
 ) {
 
     NavHost(navController, startDestination = Graph.ROOT) {
-        splash(navController = navController, contentPadding = contentPadding)
+        splash(contentPadding = contentPadding)
         auth(navController = navController, contentPadding = contentPadding)
         composable(route = Graph.EVENT) {
             EventContainer()
@@ -37,11 +37,10 @@ fun RootNavigationGraph(
     }
 }
 
-fun NavGraphBuilder.splash(navController: NavController, contentPadding: PaddingValues) {
+fun NavGraphBuilder.splash(contentPadding: PaddingValues) {
     navigation(startDestination = NavItem.SplashScreenItem.route, route = Graph.ROOT) {
         composable(route = NavItem.SplashScreenItem.route) {
             SplashScreen(
-                navController = navController,
                 contentPadding = contentPadding
             )
         }

@@ -16,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.composeprotject.R
-import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.avatar.ProfileAvatarContainer
 import com.example.composeprotject.ui.component.button.FilledButton
 import com.example.composeprotject.ui.component.input.CustomOutlinedTextField
@@ -24,7 +23,6 @@ import com.example.composeprotject.ui.component.state.ButtonState
 import com.example.composeprotject.ui.component.variant.avatar.AvatarState
 import com.example.composeprotject.ui.component.variant.avatar.ProfileAvatarVariant
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.MainViewModel
 import com.example.composeprotject.viewModel.auth.CreateProfileViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -32,16 +30,9 @@ import org.koin.androidx.compose.koinViewModel
 fun CreateProfileScreen(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
-    /* navController: NavHostController,*/
-    mainViewModel: MainViewModel = koinViewModel(),
     createProfileViewModel: CreateProfileViewModel = koinViewModel(),
     onGoToGraphEvent: () -> Unit
 ) {
-    mainViewModel.setCurrentScreen(
-        screen = NavItem.CreateProfileScreenItem,
-        showBottomBar = false,
-        showTopBar = true
-    )
     var userName by remember { mutableStateOf("") }
     var userSurname by remember { mutableStateOf("") }
 

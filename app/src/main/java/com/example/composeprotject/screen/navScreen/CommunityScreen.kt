@@ -13,28 +13,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.composeprotject.R
-import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.card.CommunitiesCard
 import com.example.composeprotject.ui.component.input.CustomSearchOutlinedTextFieldIcon
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.MainViewModel
 import com.example.composeprotject.viewModel.nav.CommunityViewModel
+import com.example.domain.model.Community
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun CommunityScreen(
     modifier: Modifier = Modifier,
-    viewModel: MainViewModel = koinViewModel(),
     contentPadding: PaddingValues,
-    onCommunityClick: (com.example.domain.model.Community) -> Unit,
+    onCommunityClick: (Community) -> Unit,
     communityViewModel: CommunityViewModel = koinViewModel()
 ) {
     val communityList by communityViewModel.getCommunitiesFlow().collectAsState()
-    viewModel.setCurrentScreen(
-        screen = NavItem.CommunityItem,
-        showTopBar = true,
-        showBottomBar = true
-    )
     Column(
         modifier = modifier
             .padding(contentPadding)

@@ -8,26 +8,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import com.example.composeprotject.R
 import com.example.common.utils_ui.EventScreenVariant
-import com.example.composeprotject.navigation.NavItem
+import com.example.composeprotject.R
 import com.example.composeprotject.ui.component.tab.EventTab
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.MainViewModel
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MyEventScreen(
     modifier: Modifier = Modifier,
-    viewModel: MainViewModel = koinViewModel(),
     contentPadding: PaddingValues,
     navController: NavHostController
 ) {
-    viewModel.setCurrentScreen(
-        screen = NavItem.MyMeetingsScreen,
-        showTopBar = true,
-        showBottomBar = true
-    )
     val tabs = listOf(R.string.text_tab_my_event_plan, R.string.text_tab_my_event_passed)
 
     Column(

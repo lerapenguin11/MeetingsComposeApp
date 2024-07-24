@@ -12,8 +12,10 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,21 +29,20 @@ import com.example.composeprotject.navigation.navItems
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
 
-//TODO: переписать
-
 @Composable
 fun BottomNavigationBar(
+    modifier: Modifier = Modifier,
     navController: NavController,
     items: List<NavItem> = navItems,
-    modifier: Modifier = Modifier
+    defaultItem : NavItem
 ) {
-    val selectedMenuItem = remember { mutableStateOf<NavItem>(NavItem.EventItem) }
+    var selectedMenuItem by remember { mutableStateOf(defaultItem) }
 
     NavigationBar(
         containerColor = MeetTheme.colors.neutralWhite,
     ) {
         items.forEach { navItem ->
-            val isSelected = selectedMenuItem.value == navItem
+            val isSelected = selectedMenuItem == navItem
 
             NavigationBarItem(
                 colors = NavigationBarItemDefaults.colors(unselectedIconColor = MeetTheme.colors.neutralActive),
@@ -72,14 +73,14 @@ fun BottomNavigationBar(
                 },
                 onClick = {
                     navController.navigate(navItem.route) {
-
                         launchSingleTop = true
                         restoreState = true
                         popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
+                            inclusive = true
                         }
                     }
-                    selectedMenuItem.value = navItem
+                    selectedMenuItem = navItem
                 }
             )
         }

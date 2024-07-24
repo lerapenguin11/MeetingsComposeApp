@@ -48,14 +48,15 @@ fun NavGraphBuilder.auth(navController: NavController, contentPadding: PaddingVa
 
         composable(route = NavItem.CreateProfileScreenItem.route) {
             CreateProfileScreen(
-                contentPadding = contentPadding
-            ) {
-                navController.navigate(Graph.EVENT) {
-                    popUpTo(Graph.AUTHENTICATION) {
-                        inclusive = true
+                contentPadding = contentPadding,
+                onGoToGraphEvent = {
+                    navController.navigate(Graph.EVENT) {
+                        popUpTo(Graph.AUTHENTICATION) {
+                            inclusive = true
+                        }
                     }
                 }
-            }
+            )
         }
     }
 }

@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
-import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.avatar.ProfileAvatarContainer
 import com.example.composeprotject.ui.component.button.ImageOutlinedButton
 import com.example.composeprotject.ui.component.text.BaseText
@@ -23,24 +22,17 @@ import com.example.composeprotject.ui.component.variant.avatar.AvatarState
 import com.example.composeprotject.ui.component.variant.avatar.ProfileAvatarVariant
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.utils.getUserFullName
-import com.example.composeprotject.viewModel.MainViewModel
 import com.example.composeprotject.viewModel.ProfileViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
-    viewModel: MainViewModel = koinViewModel(),
     contentPadding: PaddingValues,
     profileViewModel: ProfileViewModel = koinViewModel()
 ) {
     val userInfo by profileViewModel.getInfoUserProfileFlow().collectAsState()
 
-    viewModel.setCurrentScreen(
-        screen = NavItem.ProfileItem,
-        showTopBar = true,
-        showBottomBar = true
-    )
     Column(
         modifier = modifier
             .padding(contentPadding)

@@ -22,11 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
-import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.avatar.AttendeesRow
 import com.example.composeprotject.ui.component.button.ToggleMeetingButton
 import com.example.composeprotject.ui.component.chip.Chip
@@ -34,7 +31,6 @@ import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.component.text.ExpandableText
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.details.EventDetailsViewModel
-import com.example.composeprotject.viewModel.MainViewModel
 import org.koin.androidx.compose.koinViewModel
 
 //TODO: delete text
@@ -45,18 +41,8 @@ fun EventDetailsScreen(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
     eventId: Int?,
-    eventName: String?,
-    mainViewModel: MainViewModel = koinViewModel(),
     eventDetailsViewModel: EventDetailsViewModel = koinViewModel()
 ) {
-    mainViewModel.setCurrentScreen(
-        screen = NavItem.EventDetailsItem,
-        showTopBar = true,
-        showBottomBar = true
-    )
-    mainViewModel.setTitleDetailedScreen(
-        eventName ?: stringResource(id = R.string.text_event_details)
-    )
     eventId?.let {
         eventDetailsViewModel.getEventDetails(eventId = it)
     }
