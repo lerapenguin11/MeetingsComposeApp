@@ -31,7 +31,7 @@ fun EventTab(
     eventScreenVariant: EventScreenVariant,
     navController: NavHostController
 ) {
-    val tabList = remember { listOf(Tab.FIRST, Tab.SECOND) }
+    val tabList = remember { Tab.entries.toTypedArray() }
     var tabIndex by remember { mutableIntStateOf(tabList.indexOf(Tab.FIRST)) }
 
     Column(modifier = Modifier.fillMaxWidth()) {

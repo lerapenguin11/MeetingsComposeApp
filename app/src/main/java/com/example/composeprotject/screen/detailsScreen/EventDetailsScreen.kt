@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
 import com.example.composeprotject.ui.component.avatar.AttendeesRow
@@ -33,7 +34,6 @@ import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.details.EventDetailsViewModel
 import org.koin.androidx.compose.koinViewModel
 
-//TODO: delete text
 private const val MAX_LINE_DESC = 8
 
 @Composable
@@ -59,7 +59,7 @@ fun EventDetailsScreen(
                 .clickable { isMapExpanded = false },
             contentScale = ContentScale.FillBounds,
             painter = painterResource(id = R.drawable.ic_map),
-            contentDescription = "Map"
+            contentDescription = stringResource(R.string.text_map)
         )
         return
     }
@@ -92,7 +92,7 @@ fun EventDetailsScreen(
                         .clickable { isMapExpanded = true },
                     contentScale = ContentScale.FillBounds,
                     painter = painterResource(id = R.drawable.ic_map),
-                    contentDescription = "Map"
+                    contentDescription = stringResource(id = R.string.text_map)
                 )
                 Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX20))
                 ExpandableText(

@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
                         contentPadding = contentPadding
                     )
                 }
-            }
+            } //TODO: добавить topAppBar на AuthGraph
         }
     }
 }
