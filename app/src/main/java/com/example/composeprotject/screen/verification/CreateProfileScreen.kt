@@ -15,9 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavHostController
 import com.example.composeprotject.R
-import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.avatar.ProfileAvatarContainer
 import com.example.composeprotject.ui.component.button.FilledButton
 import com.example.composeprotject.ui.component.input.CustomOutlinedTextField
@@ -25,21 +23,18 @@ import com.example.composeprotject.ui.component.state.ButtonState
 import com.example.composeprotject.ui.component.variant.avatar.AvatarState
 import com.example.composeprotject.ui.component.variant.avatar.ProfileAvatarVariant
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.MainViewModel
+import com.example.composeprotject.viewModel.auth.CreateProfileViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun CreateProfileScreen(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
-    navController: NavHostController,
-    mainViewModel: MainViewModel
+    createProfileViewModel: CreateProfileViewModel = koinViewModel(),
+    onGoToGraphEvent: () -> Unit
 ) {
-    mainViewModel.setCurrentScreen(
-        screen = NavItem.CreateProfileScreenItem,
-        showBottomBar = false,
-        showTopBar = true
-    )
     var userName by remember { mutableStateOf("") }
+    var userSurname by remember { mutableStateOf("") }
 
     Column(
         modifier = modifier
@@ -56,7 +51,7 @@ fun CreateProfileScreen(
             contentDescription = R.string.text_content_description,
             state = AvatarState.EDITING
         )
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX31))
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX31))
         CustomOutlinedTextField(
             textPlaceholder = stringResource(id = R.string.text_name),
             isEnabled = true,
@@ -64,16 +59,22 @@ fun CreateProfileScreen(
                 userName = newValue
             }
         )
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX12))
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX12))
         CustomOutlinedTextField(
             textPlaceholder = stringResource(id = R.string.text_surname),
             isEnabled = true,
-            onValueChange = {/*TODO*/ }
+            onValueChange = { newValue ->
+                userSurname = newValue
+            }
         )
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX58))
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX58))
         FilledButton(
             onClick = {
-                navController.navigate(route = NavItem.EventItem.route) /*TODO: докинуть логики*/
+                createProfileViewModel.createProfile(
+                    userName = userName,
+                    userSurname = userSurname.ifEmpty { null }
+                )
+                onGoToGraphEvent()
             },
             state = if (userName.isNotEmpty()) ButtonState.INITIAL else ButtonState.DISABLED,
             buttonText = R.string.text_save

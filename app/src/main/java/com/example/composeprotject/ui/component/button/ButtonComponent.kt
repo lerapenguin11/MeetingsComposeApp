@@ -40,8 +40,6 @@ import com.example.composeprotject.ui.component.button.buttonState.TextButtonDef
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
 
-//TODO: delete R.string.text_button
-
 @Composable
 fun ToggleMeetingButton(
     showMeeting: Boolean,

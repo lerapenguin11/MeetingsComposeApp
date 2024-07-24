@@ -51,6 +51,9 @@ android {
 }
 
 dependencies {
+    implementation(project(":domain"))
+    implementation(project(":common"))
+    implementation(project(":data"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -67,6 +70,9 @@ dependencies {
     implementation(libs.lottie.compose)
     implementation(libs.com.googlecode.libphonenumber)
     implementation(libs.com.google.code.gson)
+    implementation(libs.koin.android)
+    implementation(libs.koin.compose)
+    implementation(libs.koin.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

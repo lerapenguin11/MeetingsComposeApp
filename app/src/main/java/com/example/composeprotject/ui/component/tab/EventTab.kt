@@ -18,9 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.composeprotject.common.ActiveEventVariant
-import com.example.composeprotject.common.EventScreenVariant
+import com.example.common.utils_ui.EventScreenVariant
+import com.example.common.utils_ui.EventVariant
+import com.example.common.utils_ui.MyEventVariant
 import com.example.composeprotject.screen.tabScreen.MeetingsScreen
+import com.example.composeprotject.screen.tabScreen.MyMeetingsScreen
 import com.example.composeprotject.ui.theme.MeetTheme
 
 @Composable
@@ -29,7 +31,8 @@ fun EventTab(
     eventScreenVariant: EventScreenVariant,
     navController: NavHostController
 ) {
-    var tabIndex by remember { mutableIntStateOf(THE_FIRST_TAB) }
+    val tabList = remember { Tab.entries.toTypedArray() }
+    var tabIndex by remember { mutableIntStateOf(tabList.indexOf(Tab.FIRST)) }
 
     Column(modifier = Modifier.fillMaxWidth()) {
         TabRow(
@@ -60,25 +63,36 @@ fun EventTab(
                 )
             }
         }
-        when (tabIndex) {
-            THE_FIRST_TAB -> {
+
+        when (tabList[tabIndex]) {
+            Tab.FIRST -> {
                 if (eventScreenVariant == EventScreenVariant.EVENT_SCREEN) {
-                    MeetingsScreen(ActiveEventVariant.ALL_EVENT, navController = navController)
+                    MeetingsScreen(
+                        eventVariant = EventVariant.ALL_EVENT,
+                        navController = navController
+                    )
                 } else {
-                    MeetingsScreen(ActiveEventVariant.ACTIVE_EVENT, navController = navController)
+                    MyMeetingsScreen(MyEventVariant.ACTIVE_EVENT,
+                        navController = navController)
                 }
             }
 
-            THE_SECOND_TAB -> {
+            Tab.SECOND -> {
                 if (eventScreenVariant == EventScreenVariant.EVENT_SCREEN) {
-                    MeetingsScreen(ActiveEventVariant.ACTIVE_EVENT, navController = navController)
+                    MeetingsScreen(
+                        eventVariant = EventVariant.ACTIVE_EVENT,
+                        navController = navController
+                    )
                 } else {
-                    MeetingsScreen(ActiveEventVariant.INACTIVE_EVENT, navController = navController)
+                    MyMeetingsScreen(MyEventVariant.INACTIVE_EVENT,
+                        navController = navController)
                 }
             }
         }
     }
 }
 
-private const val THE_FIRST_TAB = 0
-private const val THE_SECOND_TAB = 1
+private enum class Tab {
+    FIRST,
+    SECOND
+}

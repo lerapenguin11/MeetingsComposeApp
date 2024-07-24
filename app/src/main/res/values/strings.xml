@@ -56,4 +56,5 @@
     <string name="text_go_to_another_time">Схожу в другой раз</string>
     <string name="text_button_add_photo_user">Добавить фото</string>
     <string name="text_search">Поиск</string>
+    <string name="text_map">Map</string>
 </resources>

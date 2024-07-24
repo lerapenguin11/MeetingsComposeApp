@@ -5,6 +5,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,12 +23,40 @@ import com.example.composeprotject.ui.theme.MeetTheme
 private const val DURATION_OF_EXPANDABLE_TEXT_ANIMATION = 200
 
 @Composable
+fun TopAppBarText(
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        modifier = modifier.padding(start = MeetTheme.sizes.sizeX8),
+        text = text,
+        color = MeetTheme.colors.neutralActive,
+        style = MeetTheme.typography.subheading1,
+        textAlign = TextAlign.Start
+    )
+}
+
+@Composable
+fun TopAppBarTextWithBackArrow(
+    text: String,
+    modifier: Modifier = Modifier
+){
+    Text(
+        modifier = modifier.offset(x = -(MeetTheme.sizes.sizeX8)),
+        text = text,
+        color = MeetTheme.colors.neutralActive,
+        style = MeetTheme.typography.subheading1,
+        textAlign = TextAlign.Start
+    )
+}
+
+@Composable
 fun BaseText(
+    modifier: Modifier = Modifier,
     textColor: Color = MeetTheme.colors.neutralActive,
     textStyle: TextStyle = MeetTheme.typography.bodyText1,
     text: String,
-    textAlign: TextAlign = TextAlign.Start,
-    modifier: Modifier = Modifier
+    textAlign: TextAlign = TextAlign.Start
 ) {
     Text(
         text = text,
@@ -66,11 +96,3 @@ fun ExpandableText(
         }
     }
 }
-
-data class TypographyStyleText(
-    val title: String,
-    val subtitle: String,
-    val titleTextStyle: TextStyle,
-    val subtitleTextStyle: TextStyle,
-    val textStyle: TextStyle
-)

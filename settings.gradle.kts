@@ -25,3 +25,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Compose Protject"
 include(":app")
+include(":data")
+include(":domain")
+include(":common")

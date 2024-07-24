@@ -1,97 +1,51 @@
 package com.example.composeprotject.screen.tabScreen
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.composeprotject.R
-import com.example.composeprotject.common.ActiveEventVariant
-import com.example.composeprotject.model.Event
+import com.example.common.utils_ui.EventVariant
 import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.card.EventCard
+import com.example.composeprotject.viewModel.nav.EventViewModel
+import org.koin.androidx.compose.koinViewModel
+
+//TODO: расшарить eventViewModel на MeetingsScreen и EventScreen
 
 @Composable
-fun MeetingsScreen(activeEvent: ActiveEventVariant, navController: NavHostController) {
-    LazyColumn {
-        items(
-            when (activeEvent) {
-                ActiveEventVariant.ALL_EVENT -> eventList()
-                ActiveEventVariant.ACTIVE_EVENT -> eventList().filter { it.active }
-                ActiveEventVariant.INACTIVE_EVENT -> eventList().filter { !it.active }
-            }
-        ) { item ->
+fun MeetingsScreen(
+    modifier: Modifier = Modifier,
+    eventVariant: EventVariant,
+    eventViewModel: EventViewModel = koinViewModel(),
+    navController: NavHostController
+) {
+
+    eventViewModel.getEvents(variantEvent = eventVariant.name)
+    val eventList by eventViewModel.getEventsFlow().collectAsState()
+
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize()
+    ) {
+        items(eventList) { event ->
             EventCard(
-                meetingName = item.meetingName,
-                dateLocation = item.dateLocation,
-                tags = item.tags,
-                avatarUrl = item.avatarUrl,
+                meetingName = event.meetingName,
+                dateLocation = event.dateLocation,
+                tags = event.tags,
+                avatarUrl = event.avatarUrl,
                 placeholderImage = R.drawable.ic_avatar_meetings,
-                isActiveMeet = item.active,
+                isActiveMeet = event.active,
                 onClick = {
                     navController.navigate(
-                        route = "${NavItem.EventDetailsItem.route}/${item.eventId}/${item.meetingName}"
+                        route = "${NavItem.EventDetailsItem.route}/${event.eventId}/${event.meetingName}"
                     )
                 }
             )
         }
     }
 }
-
-fun eventList() = arrayListOf<Event>(
-    Event(
-        eventId = 0,
-        meetingName = "Developer meeting 1",
-        dateLocation = "13.09.2024 — Москва",
-        tags = listOf<String>("Python", "Junior", "Moscow"),
-        avatarUrl = "",
-        active = true
-    ),
-    Event(
-        eventId = 1,
-        meetingName = "Developer meeting",
-        dateLocation = "13.09.2024 — Москва",
-        tags = listOf<String>("Python", "Junior", "Moscow"),
-        avatarUrl = "",
-        active = false
-    ),
-    Event(
-        eventId = 2,
-        meetingName = "Developer meeting",
-        dateLocation = "13.09.2024 — Москва",
-        tags = listOf<String>("Python", "Junior", "Moscow"),
-        avatarUrl = "",
-        active = false
-    ),
-    Event(
-        eventId = 3,
-        meetingName = "Developer meeting",
-        dateLocation = "13.09.2024 — Москва",
-        tags = listOf<String>("Python", "Junior", "Moscow"),
-        avatarUrl = "",
-        active = true
-    ),
-    Event(
-        eventId = 4,
-        meetingName = "Developer meeting",
-        dateLocation = "13.09.2024 — Москва",
-        tags = listOf<String>("Python", "Junior", "Moscow"),
-        avatarUrl = "",
-        active = true
-    ),
-    Event(
-        eventId = 5,
-        meetingName = "Developer meeting",
-        dateLocation = "13.09.2024 — Москва",
-        tags = listOf<String>("Python", "Junior", "Moscow"),
-        avatarUrl = "",
-        active = true
-    ),
-    Event(
-        eventId = 6,
-        meetingName = "Developer meeting",
-        dateLocation = "13.09.2024 — Москва",
-        tags = listOf<String>("Python", "Junior", "Moscow"),
-        avatarUrl = "",
-        active = true
-    )
-)

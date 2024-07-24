@@ -9,35 +9,31 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
+import com.example.common.utils_ui.EventScreenVariant
 import com.example.composeprotject.R
-import com.example.composeprotject.navigation.NavItem
-import com.example.composeprotject.common.EventScreenVariant
 import com.example.composeprotject.ui.component.input.CustomSearchOutlinedTextFieldIcon
 import com.example.composeprotject.ui.component.tab.EventTab
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.MainViewModel
 
 @Composable
 fun EventScreen(
     modifier: Modifier = Modifier,
-    viewModel: MainViewModel,
     contentPadding: PaddingValues,
     navController: NavHostController
 ) {
-    viewModel.setCurrentScreen(screen = NavItem.EventItem, showTopBar = true, showBottomBar = true)
     val tabs = listOf(R.string.text_tab_all_events, R.string.text_tab_active_events)
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .padding(contentPadding)
             .padding(horizontal = MeetTheme.sizes.sizeX24)
     ) {
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX16))
         CustomSearchOutlinedTextFieldIcon(
             textPlaceholder = stringResource(id = R.string.text_placeholder_input_search),
             isEnabled = true
         )
-        Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX16))
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX16))
         EventTab(
             tabs = tabs,
             eventScreenVariant = EventScreenVariant.EVENT_SCREEN,

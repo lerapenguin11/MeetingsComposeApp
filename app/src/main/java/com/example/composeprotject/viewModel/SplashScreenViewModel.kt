@@ -5,14 +5,18 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SplashScreenViewModel : ViewModel() {
     private val _isLoading = MutableStateFlow(true)
-    val isLoading: StateFlow<Boolean> = _isLoading
+    private val isLoading: StateFlow<Boolean> = _isLoading
 
     private val _isUserLoggedIn = MutableStateFlow(false)
-    val isUserLoggedIn: StateFlow<Boolean> = _isUserLoggedIn
+    private val isUserLoggedIn: StateFlow<Boolean> = _isUserLoggedIn
+
+    fun getIsLoadingFlow() : StateFlow<Boolean> = isLoading
+    fun getIsUserLoggedIn() : StateFlow<Boolean> = isUserLoggedIn
 
     init {
         loadData()
@@ -22,13 +26,13 @@ class SplashScreenViewModel : ViewModel() {
     private fun loadData() {
         viewModelScope.launch {
             delay(SPLASH_SCREEN_DURATION)
-            _isLoading.value = false
+            _isLoading.update { false }
         }
     }
 
     private fun handleDeeplinks() {
-        _isUserLoggedIn.value = true
+        _isUserLoggedIn.update { true }
     }
 }
 
-private const val SPLASH_SCREEN_DURATION = 2000L
+private const val SPLASH_SCREEN_DURATION = 3000L
