@@ -35,4 +35,4 @@ class SplashScreenViewModel : ViewModel() {
     }
 }
 
-private const val SPLASH_SCREEN_DURATION = 2000L
+private const val SPLASH_SCREEN_DURATION = 3000L
