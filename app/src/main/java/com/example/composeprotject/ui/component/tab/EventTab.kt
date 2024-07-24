@@ -67,24 +67,32 @@ fun EventTab(
         when (tabList[tabIndex]) {
             Tab.FIRST -> {
                 if (eventScreenVariant == EventScreenVariant.EVENT_SCREEN) {
-                    MeetingsScreen(EventVariant.ALL_EVENT, navController = navController)
+                    MeetingsScreen(
+                        eventVariant = EventVariant.ALL_EVENT,
+                        navController = navController
+                    )
                 } else {
-                    MyMeetingsScreen(MyEventVariant.ACTIVE_EVENT, navController = navController)
+                    MyMeetingsScreen(MyEventVariant.ACTIVE_EVENT,
+                        navController = navController)
                 }
             }
 
             Tab.SECOND -> {
                 if (eventScreenVariant == EventScreenVariant.EVENT_SCREEN) {
-                    MeetingsScreen(EventVariant.ACTIVE_EVENT, navController = navController)
+                    MeetingsScreen(
+                        eventVariant = EventVariant.ACTIVE_EVENT,
+                        navController = navController
+                    )
                 } else {
-                    MyMeetingsScreen(MyEventVariant.INACTIVE_EVENT, navController = navController)
+                    MyMeetingsScreen(MyEventVariant.INACTIVE_EVENT,
+                        navController = navController)
                 }
             }
         }
     }
 }
 
-private enum class Tab{
+private enum class Tab {
     FIRST,
     SECOND
 }

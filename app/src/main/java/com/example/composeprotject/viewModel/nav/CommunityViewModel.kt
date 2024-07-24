@@ -23,8 +23,8 @@ class CommunityViewModel(private val getCommunitiesUseCase: GetCommunitiesUseCas
 
     private fun getCommunityList() {
         getCommunitiesUseCase.execute()
-            .onEach {
-                _communities.update { it }
+            .onEach { communities ->
+                _communities.update { communities }
             }
             .launchIn(viewModelScope)
     }

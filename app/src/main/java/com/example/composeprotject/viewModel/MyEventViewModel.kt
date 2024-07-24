@@ -19,8 +19,8 @@ class MyEventViewModel(private val getMyEventsUseCase: GetMyEventsUseCase) : Vie
 
     fun getMyEvents(variant: String) {
         getMyEventsUseCase.execute(variantMyEvent = variant)
-            .onEach {
-                _myEvents.update { it }
+            .onEach { events ->
+                _myEvents.update { events }
             }
             .launchIn(viewModelScope)
     }

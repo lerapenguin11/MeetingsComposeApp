@@ -22,8 +22,8 @@ class StillViewModel(private val getShortInfoUserUseCase: GetShortInfoUserUseCas
     }
     private fun getShortInfoUser() {
         getShortInfoUserUseCase.execute()
-            .onEach {
-                _shortInfoUser.update { it }
+            .onEach { userInfo ->
+                _shortInfoUser.update { userInfo }
             }
             .launchIn(viewModelScope)
     }

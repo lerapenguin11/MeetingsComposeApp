@@ -33,7 +33,7 @@ fun VerifInputPhoneNumberScreen(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
     authPhoneNumberViewModel: AuthPhoneNumberViewModel = koinViewModel(),
-    mainViewModel: MainViewModel,
+    mainViewModel: MainViewModel = koinViewModel(),
     onSendCodePhoneNumberClick: (String) -> Unit
 ) {
     mainViewModel.setCurrentScreen(

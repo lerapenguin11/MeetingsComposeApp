@@ -17,10 +17,10 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MyMeetingsScreen(
-    eventVariant: com.example.common.utils_ui.MyEventVariant,
-    navController: NavHostController,
-    myEventViewModel: MyEventViewModel = koinViewModel()
-){
+    eventVariant: MyEventVariant,
+    myEventViewModel: MyEventViewModel = koinViewModel(),
+    navController: NavHostController
+) {
     myEventViewModel.getMyEvents(variant = eventVariant.name)
     val myEventList by myEventViewModel.getMyEventsFlow().collectAsState()
 

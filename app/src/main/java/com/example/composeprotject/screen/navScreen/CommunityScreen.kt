@@ -24,7 +24,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun CommunityScreen(
     modifier: Modifier = Modifier,
-    viewModel: MainViewModel,
+    viewModel: MainViewModel = koinViewModel(),
     contentPadding: PaddingValues,
     onCommunityClick: (com.example.domain.model.Community) -> Unit,
     communityViewModel: CommunityViewModel = koinViewModel()

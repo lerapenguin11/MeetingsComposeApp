@@ -21,8 +21,8 @@ class CommunityDetailsViewModel(private val getCommunityByIdUseCase: GetCommunit
 
     fun getCommunityById(communityId: Int) {
         getCommunityByIdUseCase.execute(communityId = communityId)
-            .onEach {
-                _communityDetails.update { it }
+            .onEach { details ->
+                _communityDetails.update { details }
             }
             .launchIn(viewModelScope)
     }

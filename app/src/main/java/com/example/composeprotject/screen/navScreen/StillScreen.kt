@@ -23,7 +23,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun StillScreen(
     modifier: Modifier = Modifier,
-    viewModel: MainViewModel,
+    viewModel: MainViewModel = koinViewModel(),
     contentPadding: PaddingValues,
     stillViewModel: StillViewModel = koinViewModel(),
     onStillClickToProfileScreen: (/*TODO*/) -> Unit,

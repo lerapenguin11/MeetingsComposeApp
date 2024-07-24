@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -21,8 +19,8 @@ import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.avatar.ProfileAvatarContainer
 import com.example.composeprotject.ui.component.button.ImageOutlinedButton
 import com.example.composeprotject.ui.component.text.BaseText
-import com.example.composeprotject.ui.component.variant.avatar.ProfileAvatarVariant
 import com.example.composeprotject.ui.component.variant.avatar.AvatarState
+import com.example.composeprotject.ui.component.variant.avatar.ProfileAvatarVariant
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.utils.getUserFullName
 import com.example.composeprotject.viewModel.MainViewModel
@@ -32,7 +30,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
-    viewModel: MainViewModel,
+    viewModel: MainViewModel = koinViewModel(),
     contentPadding: PaddingValues,
     profileViewModel: ProfileViewModel = koinViewModel()
 ) {

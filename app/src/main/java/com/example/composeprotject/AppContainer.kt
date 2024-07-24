@@ -13,9 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.rememberNavController
+import com.example.composeprotject.nav.RootNavigationGraph
 import com.example.composeprotject.navigation.NavItem
-import com.example.composeprotject.navigation.NavigationHost
-import com.example.composeprotject.navigation.navComponent.BottomNavigationBar
 import com.example.composeprotject.ui.component.toolbar.ActionMode
 import com.example.composeprotject.ui.component.toolbar.BackNavigationMode
 import com.example.composeprotject.ui.component.toolbar.CustomToolbar
@@ -56,23 +55,22 @@ fun AppContainer() {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = MeetTheme.colors.neutralWhite,
-        topBar = {
+        /*topBar = {
             if (showTopBar) {
                 topBar()
             }
         },
-        bottomBar = {
-            if (showBottomBar) {
-                BottomNavigationBar(navController)
-            }
-        }
+        */
     ) { contentPadding ->
-        NavigationHost(
+
+        //val navController = rememberNavController()
+        RootNavigationGraph(navController, false, contentPadding)
+        /*NavigationHost(
             navController = navController,
             contentPadding = contentPadding,
             mainViewModel = mainViewModel,
             eventDetailsViewModel = eventDetailsViewModel
-        )
+        )*/
     }
 }
 

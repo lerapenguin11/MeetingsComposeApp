@@ -12,14 +12,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavHostController
 import com.example.composeprotject.R
 import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.button.TextButton
 import com.example.composeprotject.ui.component.custom.CodeInput
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.auth.AuthPhoneNumberViewModel
 import com.example.composeprotject.viewModel.MainViewModel
 import com.example.composeprotject.viewModel.auth.AuthCodeViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -30,8 +28,7 @@ fun VerificationCodeScreen(
     phoneNumber: String,
     contentPadding: PaddingValues,
     codeViewModel: AuthCodeViewModel = koinViewModel(),
-    navController: NavHostController,
-    mainViewModel: MainViewModel,
+    mainViewModel: MainViewModel = koinViewModel(),
     onCreateProfile: () -> Unit
 ) {
     mainViewModel.setCurrentScreen(

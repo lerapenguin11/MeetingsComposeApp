@@ -14,11 +14,12 @@ import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.tab.EventTab
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.MainViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MyEventScreen(
     modifier: Modifier = Modifier,
-    viewModel: MainViewModel,
+    viewModel: MainViewModel = koinViewModel(),
     contentPadding: PaddingValues,
     navController: NavHostController
 ) {

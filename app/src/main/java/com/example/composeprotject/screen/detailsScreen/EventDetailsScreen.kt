@@ -46,8 +46,8 @@ fun EventDetailsScreen(
     contentPadding: PaddingValues,
     eventId: Int?,
     eventName: String?,
-    mainViewModel: MainViewModel,
-    eventDetailsViewModel: EventDetailsViewModel
+    mainViewModel: MainViewModel = koinViewModel(),
+    eventDetailsViewModel: EventDetailsViewModel = koinViewModel()
 ) {
     mainViewModel.setCurrentScreen(
         screen = NavItem.EventDetailsItem,

@@ -15,7 +15,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavHostController
 import com.example.composeprotject.R
 import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component.avatar.ProfileAvatarContainer
@@ -33,9 +32,10 @@ import org.koin.androidx.compose.koinViewModel
 fun CreateProfileScreen(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
-    navController: NavHostController,
-    mainViewModel: MainViewModel,
-    createProfileViewModel: CreateProfileViewModel = koinViewModel()
+    /* navController: NavHostController,*/
+    mainViewModel: MainViewModel = koinViewModel(),
+    createProfileViewModel: CreateProfileViewModel = koinViewModel(),
+    onGoToGraphEvent: () -> Unit
 ) {
     mainViewModel.setCurrentScreen(
         screen = NavItem.CreateProfileScreenItem,
@@ -83,7 +83,7 @@ fun CreateProfileScreen(
                     userName = userName,
                     userSurname = userSurname.ifEmpty { null }
                 )
-                navController.navigate(route = NavItem.EventItem.route) /*TODO: докинуть логики*/
+                onGoToGraphEvent()
             },
             state = if (userName.isNotEmpty()) ButtonState.INITIAL else ButtonState.DISABLED,
             buttonText = R.string.text_save

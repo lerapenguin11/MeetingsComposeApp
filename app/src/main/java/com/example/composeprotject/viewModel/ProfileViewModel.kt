@@ -25,8 +25,8 @@ class ProfileViewModel(
 
     private fun getInfoUserProfile() {
         getInfoUserProfileUseCase.execute()
-            .onEach {
-                _infoUserProfile.update { it }
+            .onEach { userProfile ->
+                _infoUserProfile.update { userProfile }
             }
             .launchIn(viewModelScope)
     }

@@ -1,14 +1,17 @@
 package com.example.composeprotject.screen.splashScreen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -24,7 +27,7 @@ import org.koin.androidx.compose.koinViewModel
 fun SplashScreen(
     modifier: Modifier = Modifier,
     splashScreenViewModel: SplashScreenViewModel = koinViewModel(),
-    mainViewModel: MainViewModel,
+    mainViewModel: MainViewModel = koinViewModel(),
     navController: NavController,
     contentPadding: PaddingValues
 ) {
@@ -54,10 +57,6 @@ fun SplashScreen(
 
             false -> {
                 val condition = false //TODO: isUserLoggedIn
-
-                val route =
-                    if (condition) NavItem.EventItem.route else NavItem.VerifInputPhoneNumberScreenItem.route
-                navController.navigate(route = route)
             }
         }
     }

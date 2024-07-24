@@ -31,7 +31,7 @@ fun CommunityDetailsScreen(
     communityId: Int?,
     contentPadding: PaddingValues,
     communityName: String?,
-    viewModel: MainViewModel,
+    viewModel: MainViewModel = koinViewModel(),
     communityDetailsViewModel: CommunityDetailsViewModel = koinViewModel()
 ) {
     viewModel.setCurrentScreen(
