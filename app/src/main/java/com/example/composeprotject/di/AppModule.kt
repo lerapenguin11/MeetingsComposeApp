@@ -16,7 +16,7 @@ import org.koin.dsl.module
 
 val appModule = module {
     viewModel { SplashScreenViewModel() }
-    viewModel { AuthPhoneNumberViewModel() }
+    viewModel { AuthPhoneNumberViewModel(postPhoneNumberUseCase = get()) }
     viewModel { AuthCodeViewModel() }
     viewModel { CreateProfileViewModel() }
     viewModel { CommunityViewModel(getCommunitiesUseCase = get()) }

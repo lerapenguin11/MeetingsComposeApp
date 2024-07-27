@@ -1,7 +1,7 @@
 package com.example.domain.usecase.event
 
+import com.example.common.utils_ui.MyEventVariant
 import com.example.domain.model.Event
-import com.example.domain.model.MyEventVariant
 import com.example.domain.repository.EventRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
