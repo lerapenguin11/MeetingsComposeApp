@@ -10,11 +10,13 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -29,12 +31,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.example.composeprotject.R
 import com.example.composeprotject.ui.component.state.ButtonState
 import com.example.composeprotject.ui.component.button.buttonState.FilledButtonColors
 import com.example.composeprotject.ui.component.button.buttonState.FilledButtonDefaults
 import com.example.composeprotject.ui.component.button.buttonState.OutlinedButtonColors
 import com.example.composeprotject.ui.component.button.buttonState.OutlinedButtonDefaults
+import com.example.composeprotject.ui.component.state.ProgressButtonState
 import com.example.composeprotject.ui.component.button.buttonState.TextButtonColors
 import com.example.composeprotject.ui.component.button.buttonState.TextButtonDefaults
 import com.example.composeprotject.ui.component.text.BaseText
@@ -102,6 +104,60 @@ fun FilledButton(
                 textStyle = MeetTheme.typography.subheading2,
                 textColor = MeetTheme.colors.neutralWhite
             )
+        }
+    }
+}
+
+@Composable
+fun FilledButtonWithProgressBar(
+    buttonText: Int,
+    state: ButtonState,
+    progressState : ProgressButtonState,
+    modifier: Modifier = Modifier,
+    colors: FilledButtonColors = FilledButtonDefaults.colors(),
+    onClick: () -> Unit
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    var changeableState by remember { mutableStateOf(ButtonState.INITIAL) }
+    val isPressed = interactionSource.collectIsPressedAsState().value ?: false
+    changeableState = state
+    CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
+        Button(
+            modifier = modifier
+                .fillMaxWidth()
+                .height(height = 52.dp),
+            onClick = { onClick() },
+            interactionSource = interactionSource,
+            enabled = changeableState != ButtonState.DISABLED,
+            contentPadding = PaddingValues(vertical = MeetTheme.sizes.sizeX12),
+            colors = ButtonDefaults.buttonColors(
+                disabledContainerColor = colors.backgroundColor(changeableState),
+                containerColor = colors.backgroundColor(changeableState),
+                contentColor = colors.contentColor(changeableState),
+                disabledContentColor = colors.contentColor(changeableState)
+            )
+        ) {
+            AnimatedVisibility(visible = isPressed) {
+                changeableState = if (isPressed) {
+                    ButtonState.PRESSED
+                } else {
+                    ButtonState.INITIAL
+                }
+            }
+            if (ProgressButtonState.LOADING == progressState){
+                CircularProgressIndicator(
+                    modifier = Modifier.width(28.dp),
+                    color = MeetTheme.colors.neutralOffWhite,
+                    trackColor = Color.Transparent,
+                    strokeWidth = 2.dp
+                )
+            }else{
+                BaseText(
+                    text = stringResource(id = buttonText),
+                    textStyle = MeetTheme.typography.subheading2,
+                    textColor = MeetTheme.colors.neutralWhite
+                )
+            }
         }
     }
 }
