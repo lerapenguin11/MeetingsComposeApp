@@ -44,6 +44,19 @@ internal class GetCommunitiesInteractorTest {
     }
 
     @Test
+    fun `execute should return empty list of communities from repository`() = runTest {
+        val expectedCommunities = emptyList<Community>()
+        //val fakeResult = flow { emit(expectedCommunities) }
+        whenever(repository.getCommunities()).thenReturn(expectedCommunities)
+
+        val actualCommunities = getCommunitiesUseCase.execute()
+
+        actualCommunities.collect {
+            assert(it.isEmpty())
+        }
+    }
+
+    @Test
     fun `execute should call getCommunities on repository`() = runTest {
         val fakeResult = flow { emit(emptyList<Community>()) }
         whenever(repository.getCommunities()).thenReturn(fakeResult.single())

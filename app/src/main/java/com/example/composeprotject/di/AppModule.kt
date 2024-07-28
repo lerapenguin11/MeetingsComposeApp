@@ -12,18 +12,19 @@ import com.example.composeprotject.viewModel.nav.CommunityViewModel
 import com.example.composeprotject.viewModel.nav.EventViewModel
 import com.example.composeprotject.viewModel.nav.StillViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
 val appModule = module {
-    viewModel { SplashScreenViewModel() }
-    viewModel { AuthPhoneNumberViewModel(postPhoneNumberUseCase = get()) }
-    viewModel { AuthCodeViewModel() }
-    viewModel { CreateProfileViewModel() }
-    viewModel { CommunityViewModel(getCommunitiesUseCase = get()) }
-    viewModel { StillViewModel(getShortInfoUserUseCase = get()) }
-    viewModel { ProfileViewModel(getInfoUserProfileUseCase = get()) }
-    viewModel { EventViewModel(getEventsUseCase = get()) }
-    viewModel { MyEventViewModel(getMyEventsUseCase = get()) }
-    viewModel { EventDetailsViewModel(getEventByIdUseCase = get()) }
-    viewModel { CommunityDetailsViewModel(getCommunityByIdUseCase = get()) }
+    viewModelOf(::SplashScreenViewModel)
+    viewModelOf(::AuthPhoneNumberViewModel)
+    viewModelOf(::AuthCodeViewModel)
+    viewModelOf(::CreateProfileViewModel)
+    viewModelOf(::CommunityViewModel)
+    viewModelOf(::StillViewModel)
+    viewModelOf(::ProfileViewModel)
+    viewModelOf(::EventViewModel)
+    viewModelOf(::MyEventViewModel)
+    viewModelOf(::EventDetailsViewModel)
+    viewModelOf(::CommunityDetailsViewModel)
 }

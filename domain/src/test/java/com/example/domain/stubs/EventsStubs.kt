@@ -4,7 +4,7 @@ import com.example.domain.model.Event
 
 internal class EventsStubs {
 
-    fun events() = MutableList(10) {
+    fun events() = List(10) {
         Event(
             eventId = 0,
             meetingName = "Developer meeting 1",

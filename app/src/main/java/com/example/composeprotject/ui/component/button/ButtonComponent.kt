@@ -110,11 +110,11 @@ fun FilledButton(
 
 @Composable
 fun FilledButtonWithProgressBar(
-    modifier: Modifier = Modifier,
-    state: ButtonState,
-    colors: FilledButtonColors = FilledButtonDefaults.colors(),
     buttonText: Int,
+    state: ButtonState,
     progressState : ProgressButtonState,
+    modifier: Modifier = Modifier,
+    colors: FilledButtonColors = FilledButtonDefaults.colors(),
     onClick: () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
