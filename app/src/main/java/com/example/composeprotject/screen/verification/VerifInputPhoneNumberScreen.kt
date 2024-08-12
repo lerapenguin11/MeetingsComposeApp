@@ -12,18 +12,22 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.example.composeprotject.R
-import com.example.composeprotject.ui.component.button.FilledButton
+import com.example.composeprotject.ui.component.button.FilledButtonWithProgressBar
+import com.example.composeprotject.ui.component.state.ProgressButtonState
 import com.example.composeprotject.ui.component.custom.PhoneNumberInput
 import com.example.composeprotject.ui.component.state.ButtonState
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.auth.AuthPhoneNumberViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -37,6 +41,9 @@ fun VerifInputPhoneNumberScreen(
     val isValidationPhoneNumber by authPhoneNumberViewModel.getValidationPhoneNumberFlow()
         .collectAsState()
     var phoneNumber by remember { mutableStateOf("") }
+    val isLoadingPhoneNumber by authPhoneNumberViewModel.isLoadingSendPhoneNumberFlow().collectAsState()
+    var progressState by remember { mutableStateOf(ProgressButtonState.INITIAL) }
+    val coroutineScope = rememberCoroutineScope()
 
     Column(
         modifier = modifier
@@ -65,12 +72,19 @@ fun VerifInputPhoneNumberScreen(
                 phoneNumber = newValue
             })
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX69))
-        FilledButton(
+        FilledButtonWithProgressBar(
             onClick = {
-
                 when (isValidationPhoneNumber) {
                     true -> {
-                        onSendCodePhoneNumberClick(authPhoneNumberViewModel.getPhoneNumberFlow().value)
+                        progressState = ProgressButtonState.LOADING
+                        authPhoneNumberViewModel.sendPhoneNumberReceiveCode(authPhoneNumberViewModel.getPhoneNumberFlow().value)
+                        coroutineScope.launch {
+                            delay(DELAY_SEND_PHONE_NUMBER) //TODO
+                            if (isLoadingPhoneNumber){
+                                progressState = ProgressButtonState.INITIAL
+                                onSendCodePhoneNumberClick(authPhoneNumberViewModel.getPhoneNumberFlow().value)
+                            }
+                        }
                     }
 
                     false -> {
@@ -82,7 +96,10 @@ fun VerifInputPhoneNumberScreen(
                 true -> ButtonState.INITIAL
                 false -> ButtonState.DISABLED
             },
-            buttonText = R.string.text_continue
+            buttonText = R.string.text_continue,
+            progressState = progressState
         )
     }
 }
+
+private const val DELAY_SEND_PHONE_NUMBER = 3000L
