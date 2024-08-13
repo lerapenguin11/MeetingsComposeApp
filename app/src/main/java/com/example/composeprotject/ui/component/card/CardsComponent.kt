@@ -20,9 +20,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
-import com.example.domain.model.Community
 import com.example.composeprotject.ui.component.avatar.RoundedAvatarMeetings
-import com.example.composeprotject.ui.component.chip.Chip
+import com.example.composeprotject.ui.component.chip.ChipOld
 import com.example.composeprotject.ui.component.divider.StandardDivider
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
@@ -71,7 +70,7 @@ fun EventCard(
                     Spacer(modifier = modifier.height(MeetTheme.sizes.sizeX2))
                     Row(horizontalArrangement = Arrangement.spacedBy(MeetTheme.sizes.sizeX4)) {
                         tags.forEach { tag ->
-                            Chip(text = tag)
+                            ChipOld(text = tag)
                         }
                     }
                 }

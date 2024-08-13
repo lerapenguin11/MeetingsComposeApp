@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
 import com.example.composeprotject.ui.component.avatar.AttendeesRow
 import com.example.composeprotject.ui.component.button.ToggleMeetingButton
-import com.example.composeprotject.ui.component.chip.Chip
+import com.example.composeprotject.ui.component.chip.ChipOld
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.component.text.ExpandableText
 import com.example.composeprotject.ui.theme.MeetTheme
@@ -80,7 +80,7 @@ fun EventDetailsScreen(
                 Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX2))
                 Row(horizontalArrangement = Arrangement.spacedBy(MeetTheme.sizes.sizeX4)) {
                     it.tags.forEach { textChip ->
-                        Chip(text = textChip)
+                        ChipOld(text = textChip)
                     }
                 }
                 Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX12))

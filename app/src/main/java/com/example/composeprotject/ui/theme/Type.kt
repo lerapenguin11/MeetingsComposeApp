@@ -20,8 +20,17 @@ val RobotoMedium = FontFamily(
     Font(resId = R.font.roboto_medium, weight = FontWeight.Medium)
 )
 
+val Inter = FontFamily(
+    Font(resId = R.font.inter_medium, weight = FontWeight.Medium)
+)
+
 @Immutable
 data class MeetTypography(
+    val interMedium16: TextStyle,
+    val interMedium14: TextStyle,
+    val interMedium22: TextStyle,
+
+
     val heading1: TextStyle,
     val heading2: TextStyle,
     val subheading1: TextStyle,
@@ -37,6 +46,40 @@ data class MeetTypography(
 )
 
 val MeetTypographyValue = MeetTypography(
+    interMedium16 = TextStyle(
+        fontFamily = Inter,
+        fontWeight = FontWeight.Medium,
+        fontSize = 16.sp,
+        lineHeight = 19.sp,
+        lineHeightStyle = LineHeightStyle(
+            alignment = LineHeightStyle.Alignment.Center,
+            trim = LineHeightStyle.Trim.None
+        ),
+        letterSpacing = 0.1.sp
+    ),
+    interMedium14 = TextStyle(
+        fontFamily = Inter,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
+        lineHeight = 17.sp,
+        lineHeightStyle = LineHeightStyle(
+            alignment = LineHeightStyle.Alignment.Center,
+            trim = LineHeightStyle.Trim.None
+        ),
+        letterSpacing = 0.1.sp
+    ),
+    interMedium22 = TextStyle(
+        fontFamily = Inter,
+        fontWeight = FontWeight.Medium,
+        fontSize = 22.sp,
+        lineHeight = 27.sp,
+        lineHeightStyle = LineHeightStyle(
+            alignment = LineHeightStyle.Alignment.Center,
+            trim = LineHeightStyle.Trim.None
+        ),
+        letterSpacing = 0.1.sp
+    ),
+    
     heading1 = TextStyle(
         fontFamily = SFProDisplayFont,
         fontWeight = FontWeight.Bold,

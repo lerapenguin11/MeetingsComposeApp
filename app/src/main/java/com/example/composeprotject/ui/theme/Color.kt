@@ -6,6 +6,10 @@ import androidx.compose.ui.graphics.Color
 
 @Immutable
 data class MeetColorScheme(
+    val primary: Color,
+    val secondary: Color,
+
+
     val disabledButton: Color,
     val brandDark: Color,
     val brandDarkInnerShadow: Color,
@@ -34,6 +38,10 @@ data class MeetColorScheme(
 )
 
 val LightColorScheme = MeetColorScheme(
+    primary = Color(0xff9A10F0),
+    secondary = Color(0xffF6F6FA),
+
+
     disabledButton = Color(0xffCB9FFD),
     brandDark = Color(0xff660EC8),
     brandDarkInnerShadow = Color(0xff530BA2),
