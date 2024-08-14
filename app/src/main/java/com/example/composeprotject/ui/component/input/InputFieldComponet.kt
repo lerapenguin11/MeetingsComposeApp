@@ -205,8 +205,8 @@ fun SimpleInputField(
     textPlaceholder: String,
     isEnabled: Boolean,
     state: InputState,
-    inputColors: InputColors = InputColorsDefaults.colors(),
     modifier: Modifier = Modifier,
+    inputColors: InputColors = InputColorsDefaults.colors(),
     onValueChange: (String) -> Unit
 ) {
     var inputText by remember { mutableStateOf("") }
