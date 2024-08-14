@@ -19,8 +19,8 @@ enum class ChipSize {
     BIG, SMALL, MEDIUM
 }
 
-enum class ChipColor(val selected: Boolean) {
-    TRUE(true),
-    FALSE(false)
+enum class ChipClick {
+    TRUE,
+    FALSE
 }
 
