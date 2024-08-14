@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.composeprotject.R
 import com.example.composeprotject.ui.component.card.CommunitiesCard
-import com.example.composeprotject.ui.component.input.CustomSearchOutlinedTextFieldIcon
+import com.example.composeprotject.ui.component.input.CustomSearchOutlinedTextFieldIconOld
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.nav.CommunityViewModel
 import com.example.domain.model.Community
@@ -34,7 +34,7 @@ fun CommunityScreen(
             .padding(horizontal = MeetTheme.sizes.sizeX24)
     ) {
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX16))
-        CustomSearchOutlinedTextFieldIcon(
+        CustomSearchOutlinedTextFieldIconOld(
             textPlaceholder = stringResource(id = R.string.text_placeholder_input_search),
             isEnabled = true
         )

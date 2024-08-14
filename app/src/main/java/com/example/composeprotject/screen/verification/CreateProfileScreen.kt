@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import com.example.composeprotject.R
 import com.example.composeprotject.ui.component.avatar.ProfileAvatarContainer
 import com.example.composeprotject.ui.component.button.FilledButton
-import com.example.composeprotject.ui.component.input.CustomOutlinedTextField
+import com.example.composeprotject.ui.component.input.CustomOutlinedTextFieldOld
 import com.example.composeprotject.ui.component.state.ButtonState
 import com.example.composeprotject.ui.component.variant.avatar.AvatarState
 import com.example.composeprotject.ui.component.variant.avatar.ProfileAvatarVariant
@@ -52,7 +52,7 @@ fun CreateProfileScreen(
             state = AvatarState.EDITING
         )
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX31))
-        CustomOutlinedTextField(
+        CustomOutlinedTextFieldOld(
             textPlaceholder = stringResource(id = R.string.text_name),
             isEnabled = true,
             onValueChange = { newValue ->
@@ -60,7 +60,7 @@ fun CreateProfileScreen(
             }
         )
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX12))
-        CustomOutlinedTextField(
+        CustomOutlinedTextFieldOld(
             textPlaceholder = stringResource(id = R.string.text_surname),
             isEnabled = true,
             onValueChange = { newValue ->

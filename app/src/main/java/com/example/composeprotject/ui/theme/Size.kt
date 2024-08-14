@@ -33,7 +33,8 @@ data class MeetSizeSystem(
     val sizeX69: Dp,
     val sizeX31: Dp,
     val sizeX58: Dp,
-    val sizeX32: Dp
+    val sizeX32: Dp,
+    val sizeX17: Dp
 )
 
 val EventsLocalSizeSystem = MeetSizeSystem(
@@ -63,7 +64,8 @@ val EventsLocalSizeSystem = MeetSizeSystem(
     sizeX69 = 69.dp,
     sizeX31 = 31.dp,
     sizeX58 = 58.dp,
-    sizeX32 = 32.dp
+    sizeX32 = 32.dp,
+    sizeX17 = 17.dp
 )
 
 val LocalSizeSystem = staticCompositionLocalOf { EventsLocalSizeSystem }

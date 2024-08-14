@@ -8,6 +8,8 @@ import androidx.compose.ui.graphics.Color
 data class MeetColorScheme(
     val primary: Color,
     val secondary: Color,
+    val error: Color,
+    val black: Color,
 
 
     val disabledButton: Color,
@@ -40,6 +42,9 @@ data class MeetColorScheme(
 val LightColorScheme = MeetColorScheme(
     primary = Color(0xff9A10F0),
     secondary = Color(0xffF6F6FA),
+    error = Color(0xffFEE7ED),
+    black = Color(0xff000000),
+    neutralDisabled = Color(0xffADB5BD),
 
 
     disabledButton = Color(0xffCB9FFD),
@@ -53,7 +58,6 @@ val LightColorScheme = MeetColorScheme(
     neutralDark = Color(0xff190E26),
     neutralBody = Color(0xff1D0835),
     neutralWeak = Color(0xffA4A4A4),
-    neutralDisabled = Color(0xffADB5BD),
     neutralDisabled2 = Color(0xffD8DCE0),
     neutralLine = Color(0xffEDEDED),
     neutralOffWhite = Color(0xffF7F7FC),
