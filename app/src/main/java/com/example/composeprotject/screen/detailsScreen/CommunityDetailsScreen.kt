@@ -12,9 +12,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.composeprotject.R
-import com.example.composeprotject.ui.component.card.EventCard
-import com.example.composeprotject.ui.component.text.BaseText
-import com.example.composeprotject.ui.component.text.ExpandableText
+import com.example.composeprotject.ui.component_old.card.EventCard
+import com.example.composeprotject.ui.component_old.text.BaseText
+import com.example.composeprotject.ui.component_old.text.ExpandableText
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.details.CommunityDetailsViewModel
 import org.koin.androidx.compose.koinViewModel

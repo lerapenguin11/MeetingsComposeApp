@@ -13,8 +13,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.composeprotject.R
-import com.example.composeprotject.ui.component.card.CommunitiesCard
-import com.example.composeprotject.ui.component.input.CustomSearchOutlinedTextFieldIconOld
+import com.example.composeprotject.ui.component_old.card.CommunitiesCard
+import com.example.composeprotject.ui.component_old.input.CustomSearchOutlinedTextFieldIconOld
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.nav.CommunityViewModel
 import com.example.domain.model.Community

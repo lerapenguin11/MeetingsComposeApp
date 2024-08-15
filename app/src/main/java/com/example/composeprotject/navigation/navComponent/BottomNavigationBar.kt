@@ -26,7 +26,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.navigation.navItems
-import com.example.composeprotject.ui.component.text.BaseText
+import com.example.composeprotject.ui.component_old.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
 
 @Composable

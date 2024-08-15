@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.common.utils_ui.EventScreenVariant
 import com.example.composeprotject.R
-import com.example.composeprotject.ui.component.tab.EventTab
+import com.example.composeprotject.ui.component_old.tab.EventTab
 import com.example.composeprotject.ui.theme.MeetTheme
 
 @Composable
