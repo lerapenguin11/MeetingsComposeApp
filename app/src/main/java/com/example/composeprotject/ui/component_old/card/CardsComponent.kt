@@ -20,10 +20,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
+import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.component_old.avatar.RoundedAvatarMeetings
 import com.example.composeprotject.ui.component_old.chip.ChipOld
 import com.example.composeprotject.ui.component_old.divider.StandardDivider
-import com.example.composeprotject.ui.component_old.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
 
 //TODO: вынести в модель

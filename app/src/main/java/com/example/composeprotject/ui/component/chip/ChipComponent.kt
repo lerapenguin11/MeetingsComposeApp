@@ -15,7 +15,7 @@ import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipSize
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipStyle
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipStyleDefault
-import com.example.composeprotject.ui.component_old.text.BaseText
+import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
 
 @Composable

@@ -31,15 +31,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.example.composeprotject.ui.component_old.state.ButtonState
+import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.component_old.button.buttonState.FilledButtonColors
 import com.example.composeprotject.ui.component_old.button.buttonState.FilledButtonDefaults
 import com.example.composeprotject.ui.component_old.button.buttonState.OutlinedButtonColors
 import com.example.composeprotject.ui.component_old.button.buttonState.OutlinedButtonDefaults
-import com.example.composeprotject.ui.component_old.state.ProgressButtonState
 import com.example.composeprotject.ui.component_old.button.buttonState.TextButtonColors
 import com.example.composeprotject.ui.component_old.button.buttonState.TextButtonDefaults
-import com.example.composeprotject.ui.component_old.text.BaseText
+import com.example.composeprotject.ui.component_old.state.ButtonState
+import com.example.composeprotject.ui.component_old.state.ProgressButtonState
 import com.example.composeprotject.ui.theme.MeetTheme
 
 @Composable
@@ -68,13 +68,13 @@ fun ToggleMeetingButton(
 fun FilledButton(
     onClick: () -> Unit,
     state: ButtonState,
+    modifier: Modifier = Modifier,
     colors: FilledButtonColors = FilledButtonDefaults.colors(),
-    buttonText: Int,
-    modifier: Modifier = Modifier
+    buttonText: Int
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     var changeableState by remember { mutableStateOf(ButtonState.INITIAL) }
-    val isPressed = interactionSource.collectIsPressedAsState().value ?: false
+    val isPressed = interactionSource.collectIsPressedAsState().value
     changeableState = state
     CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
         Button(
@@ -119,7 +119,7 @@ fun FilledButtonWithProgressBar(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     var changeableState by remember { mutableStateOf(ButtonState.INITIAL) }
-    val isPressed = interactionSource.collectIsPressedAsState().value ?: false
+    val isPressed = interactionSource.collectIsPressedAsState().value
     changeableState = state
     CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
         Button(
@@ -171,7 +171,7 @@ fun OutlinedButton(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val changeableState = remember { mutableStateOf(state) }
-    val isPressed = interactionSource.collectIsPressedAsState().value ?: false
+    val isPressed = interactionSource.collectIsPressedAsState().value
 
     CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
         OutlinedButton(
@@ -210,15 +210,15 @@ fun OutlinedButton(
 @Composable
 fun ImageOutlinedButton(
     icon: Int,
-    onClick: () -> Unit,
+    contentDescription: Int,
+    modifier: Modifier = Modifier,
     state: ButtonState = ButtonState.INITIAL,
     colors: OutlinedButtonColors = OutlinedButtonDefaults.colors(),
-    modifier: Modifier = Modifier,
-    contentDescription: Int
+    onClick: () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val changeableState = remember { mutableStateOf(state) }
-    val isPressed = interactionSource.collectIsPressedAsState().value ?: false
+    val isPressed = interactionSource.collectIsPressedAsState().value
 
     CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
         OutlinedButton(
@@ -263,7 +263,7 @@ fun TextButton(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val changeableState = remember { mutableStateOf(state) }
-    val isPressed = interactionSource.collectIsPressedAsState().value ?: false
+    val isPressed = interactionSource.collectIsPressedAsState().value
 
     CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
         TextButton(

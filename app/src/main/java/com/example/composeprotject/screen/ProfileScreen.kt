@@ -15,9 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
+import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.component_old.avatar.ProfileAvatarContainer
 import com.example.composeprotject.ui.component_old.button.ImageOutlinedButton
-import com.example.composeprotject.ui.component_old.text.BaseText
 import com.example.composeprotject.ui.component_old.variant.avatar.AvatarState
 import com.example.composeprotject.ui.component_old.variant.avatar.ProfileAvatarVariant
 import com.example.composeprotject.ui.theme.MeetTheme

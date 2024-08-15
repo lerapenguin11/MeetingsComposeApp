@@ -1,4 +1,4 @@
-package com.example.composeprotject.ui.component_old.text
+package com.example.composeprotject.ui.component.text
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
@@ -40,7 +40,7 @@ fun TopAppBarText(
 fun TopAppBarTextWithBackArrow(
     text: String,
     modifier: Modifier = Modifier
-){
+) {
     Text(
         modifier = modifier.offset(x = -(MeetTheme.sizes.sizeX8)),
         text = text,

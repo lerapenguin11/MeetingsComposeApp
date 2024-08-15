@@ -18,8 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.example.composeprotject.R
+import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.component_old.avatar.ProfileAvatarContainer
-import com.example.composeprotject.ui.component_old.text.BaseText
 import com.example.composeprotject.ui.component_old.variant.avatar.AvatarState
 import com.example.composeprotject.ui.component_old.variant.avatar.ProfileAvatarVariant
 import com.example.composeprotject.ui.theme.MeetTheme

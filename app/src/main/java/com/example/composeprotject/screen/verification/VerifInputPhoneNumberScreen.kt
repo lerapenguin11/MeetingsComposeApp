@@ -19,11 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.example.composeprotject.R
+import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.component_old.button.FilledButtonWithProgressBar
-import com.example.composeprotject.ui.component_old.state.ProgressButtonState
 import com.example.composeprotject.ui.component_old.custom.PhoneNumberInput
 import com.example.composeprotject.ui.component_old.state.ButtonState
-import com.example.composeprotject.ui.component_old.text.BaseText
+import com.example.composeprotject.ui.component_old.state.ProgressButtonState
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.auth.AuthPhoneNumberViewModel
 import kotlinx.coroutines.delay

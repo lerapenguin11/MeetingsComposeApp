@@ -25,11 +25,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
+import com.example.composeprotject.ui.component.text.BaseText
+import com.example.composeprotject.ui.component.text.ExpandableText
 import com.example.composeprotject.ui.component_old.avatar.AttendeesRow
 import com.example.composeprotject.ui.component_old.button.ToggleMeetingButton
 import com.example.composeprotject.ui.component_old.chip.ChipOld
-import com.example.composeprotject.ui.component_old.text.BaseText
-import com.example.composeprotject.ui.component_old.text.ExpandableText
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.details.EventDetailsViewModel
 import org.koin.androidx.compose.koinViewModel

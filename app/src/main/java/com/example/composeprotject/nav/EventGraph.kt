@@ -20,8 +20,8 @@ import com.example.composeprotject.screen.detailsScreen.EventDetailsScreen
 import com.example.composeprotject.screen.navScreen.CommunityScreen
 import com.example.composeprotject.screen.navScreen.EventScreen
 import com.example.composeprotject.screen.navScreen.StillScreen
-import com.example.composeprotject.ui.component_old.text.TopAppBarText
-import com.example.composeprotject.ui.component_old.text.TopAppBarTextWithBackArrow
+import com.example.composeprotject.ui.component.text.TopAppBarText
+import com.example.composeprotject.ui.component.text.TopAppBarTextWithBackArrow
 import com.example.composeprotject.ui.component_old.toolbar.newTopBar.ProvideAppBarAction
 import com.example.composeprotject.ui.component_old.toolbar.newTopBar.ProvideAppBarTitle
 

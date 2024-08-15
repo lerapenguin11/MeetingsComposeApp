@@ -2,6 +2,7 @@ package com.example.composeprotject.ui.theme
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 @Immutable
@@ -10,6 +11,9 @@ data class MeetColorScheme(
     val secondary: Color,
     val error: Color,
     val black: Color,
+    val gray: Color,
+    val backgroundColorPrimary: Brush,
+    val backgroundColorSecondary: Brush,
 
 
     val disabledButton: Color,
@@ -45,6 +49,24 @@ val LightColorScheme = MeetColorScheme(
     error = Color(0xffFEE7ED),
     black = Color(0xff000000),
     neutralDisabled = Color(0xffADB5BD),
+    gray = Color(0xff9797AF),
+    backgroundColorPrimary = Brush.horizontalGradient(
+        listOf(
+            Color(0xFFED3CCA), Color(0xFFDF34D2),
+            Color(0xFFD02BD9), Color(0xFFBF22E1),
+            Color(0xFFAE1AE8), Color(0xFF9A10F0),
+            Color(0xFF8306F7), Color(0xFF6600FF)
+        )
+    ),
+    backgroundColorSecondary = Brush.horizontalGradient(
+        listOf(
+            Color(0xFFFEF1FB), Color(0xFFFDF1FC),
+            Color(0xFFFCF0FC), Color(0xFFFBF0FD),
+            Color(0xFFF9EFFD), Color(0xFFF8EEFE),
+            Color(0xFFF6EEFE), Color(0xFFF4EDFF)
+        )
+    ),
+
 
 
     disabledButton = Color(0xffCB9FFD),

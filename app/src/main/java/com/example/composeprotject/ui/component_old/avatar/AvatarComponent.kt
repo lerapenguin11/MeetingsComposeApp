@@ -28,11 +28,11 @@ import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.composeprotject.R
-import com.example.composeprotject.ui.component_old.text.BaseText
+import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.component_old.variant.avatar.AvatarProfileImage
 import com.example.composeprotject.ui.component_old.variant.avatar.AvatarProfileImageDefault
-import com.example.composeprotject.ui.component_old.variant.avatar.ProfileAvatarVariant
 import com.example.composeprotject.ui.component_old.variant.avatar.AvatarState
+import com.example.composeprotject.ui.component_old.variant.avatar.ProfileAvatarVariant
 import com.example.composeprotject.ui.theme.MeetTheme
 
 private const val MAX_SHOW_AVATARS = 5

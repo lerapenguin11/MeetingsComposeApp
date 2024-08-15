@@ -32,7 +32,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
 import com.example.composeprotject.app.BaseApplication
-import com.example.composeprotject.ui.component_old.text.BaseText
+import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.auth.AuthPhoneNumberViewModel
 import com.google.i18n.phonenumbers.PhoneNumberUtil

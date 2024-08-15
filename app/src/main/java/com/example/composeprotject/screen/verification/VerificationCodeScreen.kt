@@ -13,9 +13,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.composeprotject.R
+import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.component_old.button.TextButton
 import com.example.composeprotject.ui.component_old.custom.CodeInput
-import com.example.composeprotject.ui.component_old.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.auth.AuthCodeViewModel
 import org.koin.androidx.compose.koinViewModel
