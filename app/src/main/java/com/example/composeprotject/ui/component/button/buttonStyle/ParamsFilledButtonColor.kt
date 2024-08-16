@@ -3,7 +3,7 @@ package com.example.composeprotject.ui.component.button.buttonStyle
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
-data class ParamsButtonColor(
+data class ParamsFilledButtonColor(
     val backgroundColorPrimary: Brush,
     val backgroundColorSecondary: Brush,
     val backgroundColorDisabled: Brush,

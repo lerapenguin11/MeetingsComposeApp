@@ -1,11 +1,13 @@
 package com.example.composeprotject.ui.component.button
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -18,19 +20,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.composeprotject.ui.component.button.buttonStyle.ButtonColorsDefault
-import com.example.composeprotject.ui.component.button.buttonStyle.ButtonStyle
-import com.example.composeprotject.ui.component.state.ButtonState
+import com.example.composeprotject.ui.component.button.buttonStyle.FilledButtonColorsDefault
+import com.example.composeprotject.ui.component.button.buttonStyle.FilledButtonStateStyle
+import com.example.composeprotject.ui.component.button.buttonStyle.SubscribeButtonStateStyle
+import com.example.composeprotject.ui.component.button.buttonStyle.SubscribeButtonStyleDefault
+import com.example.composeprotject.ui.component.state.FilledButtonState
+import com.example.composeprotject.ui.component.state.SubscribeButtonState
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
 
 @Composable
 fun FilledButton(
-    state: ButtonState,
+    state: FilledButtonState,
     buttonText: String,
     modifier: Modifier = Modifier,
-    colors: ButtonStyle = ButtonColorsDefault.colors(),
+    colors: FilledButtonStateStyle = FilledButtonColorsDefault.colors(),
     onClick: () -> Unit
 ) {
     val changeableState by remember { mutableStateOf(state) }
@@ -39,7 +45,7 @@ fun FilledButton(
         modifier = modifier
             .fillMaxWidth(),
         onClick = { onClick() },
-        enabled = !(changeableState == ButtonState.DISABLED || changeableState == ButtonState.LOADING),
+        enabled = !(changeableState == FilledButtonState.DISABLED || changeableState == FilledButtonState.LOADING),
         contentPadding = PaddingValues(),
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Transparent,
@@ -61,7 +67,7 @@ fun FilledButton(
                 ),
             contentAlignment = Alignment.Center
         ) {
-            if (ButtonState.LOADING == state) {
+            if (FilledButtonState.LOADING == state) {
                 CircularProgressIndicator(
                     modifier = Modifier
                         .width(20.dp)
@@ -77,6 +83,42 @@ fun FilledButton(
                     textStyle = MeetTheme.typography.interSemiBold18
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun SubscribeButton(
+    state: SubscribeButtonState,
+    modifier: Modifier = Modifier,
+    style: SubscribeButtonStateStyle = SubscribeButtonStyleDefault.style(),
+    onClick: () -> Unit
+) {
+    Button(
+        modifier = modifier
+            .height(37.dp),
+        onClick = { onClick() },
+        contentPadding = PaddingValues(),
+        colors = ButtonDefaults.buttonColors(Color.Transparent),
+        shape = RoundedCornerShape(MeetTheme.sizes.sizeX12)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    brush = style.background(state = state),
+                )
+                .padding(
+                    vertical = MeetTheme.sizes.sizeX8,
+                    horizontal = (8.5).dp
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            Image(
+                modifier = Modifier.size(21.dp),
+                painter = painterResource(id = style.content(state = state)),
+                contentDescription = null
+            )
         }
     }
 }

@@ -3,30 +3,31 @@ package com.example.composeprotject.ui.component.button.buttonStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import com.example.composeprotject.ui.component.state.ButtonState
+import com.example.composeprotject.ui.component.state.FilledButtonState
 import com.example.composeprotject.ui.theme.MeetTheme
 
-class ButtonStyle(private val paramsButtonColor: ParamsButtonColor) : ButtonStateStyle {
-    override fun backgroundColor(state: ButtonState): Brush {
+class FilledButtonStateStyle(private val paramsFilledButtonColor: ParamsFilledButtonColor) :
+    FilledButtonStyle {
+    override fun backgroundColor(state: FilledButtonState): Brush {
         return when (state) {
-            ButtonState.ACTIVE_PRIMARY -> paramsButtonColor.backgroundColorPrimary
-            ButtonState.ACTIVE_SECONDARY -> paramsButtonColor.backgroundColorSecondary
-            ButtonState.LOADING -> paramsButtonColor.backgroundColorPrimary
-            ButtonState.DISABLED -> paramsButtonColor.backgroundColorDisabled
+            FilledButtonState.ACTIVE_PRIMARY -> paramsFilledButtonColor.backgroundColorPrimary
+            FilledButtonState.ACTIVE_SECONDARY -> paramsFilledButtonColor.backgroundColorSecondary
+            FilledButtonState.LOADING -> paramsFilledButtonColor.backgroundColorPrimary
+            FilledButtonState.DISABLED -> paramsFilledButtonColor.backgroundColorDisabled
         }
     }
 
-    override fun contentColor(state: ButtonState): Color {
+    override fun contentColor(state: FilledButtonState): Color {
         return when (state) {
-            ButtonState.ACTIVE_PRIMARY -> paramsButtonColor.contentColorPrimary
-            ButtonState.ACTIVE_SECONDARY -> paramsButtonColor.contentColorSecondary
-            ButtonState.LOADING -> paramsButtonColor.contentColorPrimary
-            ButtonState.DISABLED -> paramsButtonColor.contentColorDisabled
+            FilledButtonState.ACTIVE_PRIMARY -> paramsFilledButtonColor.contentColorPrimary
+            FilledButtonState.ACTIVE_SECONDARY -> paramsFilledButtonColor.contentColorSecondary
+            FilledButtonState.LOADING -> paramsFilledButtonColor.contentColorPrimary
+            FilledButtonState.DISABLED -> paramsFilledButtonColor.contentColorDisabled
         }
     }
 }
 
-object ButtonColorsDefault {
+object FilledButtonColorsDefault {
     @Composable
     fun colors(
         contentColorPrimary: Color = MeetTheme.colors.neutralWhite,
@@ -42,9 +43,9 @@ object ButtonColorsDefault {
                 Color(0xffF6F6FA), Color(0xffF6F6FA)
             )
         )
-    ): ButtonStyle {
-        return ButtonStyle(
-            paramsButtonColor = ParamsButtonColor(
+    ): FilledButtonStateStyle {
+        return FilledButtonStateStyle(
+            paramsFilledButtonColor = ParamsFilledButtonColor(
                 contentColorSecondary = contentColorSecondary,
                 contentColorDisabled = contentColorDisabled,
                 contentColorPrimary = contentColorPrimary,
@@ -56,7 +57,7 @@ object ButtonColorsDefault {
     }
 }
 
-private interface ButtonStateStyle {
-    fun backgroundColor(state: ButtonState): Brush
-    fun contentColor(state: ButtonState): Color
+private interface FilledButtonStyle {
+    fun backgroundColor(state: FilledButtonState): Brush
+    fun contentColor(state: FilledButtonState): Color
 }

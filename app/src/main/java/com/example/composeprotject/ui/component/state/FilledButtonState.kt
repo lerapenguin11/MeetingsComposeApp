@@ -1,6 +1,6 @@
 package com.example.composeprotject.ui.component.state
 
-enum class ButtonState {
+enum class FilledButtonState {
     ACTIVE_PRIMARY,
     DISABLED,
     LOADING,
