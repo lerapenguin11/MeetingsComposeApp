@@ -175,7 +175,7 @@ fun AttendeesRow(
 @Composable
 fun RoundedAvatarMeetings(
     placeholderImage: Int,
-    avatarUrl: String,
+    avatarUrl: String?,
     modifier: Modifier = Modifier
 ) {
     Box(

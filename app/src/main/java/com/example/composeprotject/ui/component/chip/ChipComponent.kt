@@ -24,7 +24,8 @@ fun Chip(
     chipSize: ChipSize,
     chipColors: ChipClick,
     modifier: Modifier = Modifier,
-    style: ChipStyle = ChipStyleDefault.chipStyle()
+    style: ChipStyle = ChipStyleDefault.chipStyle(),
+    onClick: () -> Unit
 ) {
     val padding = style.chipSize(variant = chipSize)
     val color = style.chipSelectedColor(variant = chipColors)
@@ -35,8 +36,37 @@ fun Chip(
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = rememberRipple(bounded = true),
-                onClick = {}
+                onClick = {
+                    onClick()
+                }
             )
+            .padding(
+                horizontal = padding[HORIZONTAL_PADDING_KEY] ?: MeetTheme.sizes.sizeX6,
+                vertical = padding[VERTICAL_PADDING_KEY] ?: MeetTheme.sizes.sizeX3
+            )
+    ) {
+        BaseText(
+            text = text,
+            textStyle = style.chipTextStyle(chipSize),
+            textColor = color[SELECTED_TEXT_COLOR] ?: MeetTheme.colors.primary
+        )
+    }
+}
+
+@Composable
+fun Tag(
+    text: String,
+    chipColors: ChipClick,
+    modifier: Modifier = Modifier,
+    chipSize: ChipSize = ChipSize.SMALL,
+    style: ChipStyle = ChipStyleDefault.chipStyle()
+) {
+    val padding = style.chipSize(variant = chipSize)
+    val color = style.chipSelectedColor(variant = chipColors)
+    Box(
+        modifier = modifier
+            .clip(shape = RoundedCornerShape(MeetTheme.sizes.sizeX8))
+            .background(color = color[SELECTED_BOX_COLOR] ?: MeetTheme.colors.secondary)
             .padding(
                 horizontal = padding[HORIZONTAL_PADDING_KEY] ?: MeetTheme.sizes.sizeX6,
                 vertical = padding[VERTICAL_PADDING_KEY] ?: MeetTheme.sizes.sizeX3

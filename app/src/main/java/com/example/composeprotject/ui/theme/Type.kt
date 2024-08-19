@@ -2,6 +2,7 @@ package com.example.composeprotject.ui.theme
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -23,7 +24,8 @@ val RobotoMedium = FontFamily(
 val Inter = FontFamily(
     Font(resId = R.font.inter_medium, weight = FontWeight.Medium),
     Font(resId = R.font.inter_regular, weight = FontWeight.Normal),
-    Font(resId = R.font.inter_semi_bold, weight = FontWeight.SemiBold)
+    Font(resId = R.font.inter_semi_bold, weight = FontWeight.SemiBold),
+    Font(resId = R.font.inter_bold, weight = FontWeight.Bold)
 )
 
 @Immutable
@@ -33,6 +35,7 @@ data class MeetTypography(
     val interMedium22: TextStyle,
     val interRegular19: TextStyle,
     val interSemiBold18: TextStyle,
+    val interBold34: TextStyle,
 
 
     val heading1: TextStyle,
@@ -103,7 +106,21 @@ val MeetTypographyValue = MeetTypography(
             alignment = LineHeightStyle.Alignment.Center,
             trim = LineHeightStyle.Trim.None
         ),
-        letterSpacing = (-0.1).sp
+        letterSpacing = (0.1).sp
+    ),
+    interBold34 = TextStyle(
+        fontFamily = Inter,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 34.sp,
+        lineHeight = 32.sp,
+        lineHeightStyle = LineHeightStyle(
+            alignment = LineHeightStyle.Alignment.Center,
+            trim = LineHeightStyle.Trim.None
+        ),
+        letterSpacing = (0.1).sp,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false,
+        ),
     ),
 
 

@@ -36,7 +36,7 @@ fun EventCard(
     meetingName: String,
     dateLocation: String,
     tags: List<String>,
-    avatarUrl: String,
+    avatarUrl: String?,
     isActiveMeet: Boolean = true
 ) {
     Column(

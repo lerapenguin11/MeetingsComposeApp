@@ -5,6 +5,6 @@ data class Event(
     val meetingName: String,
     val dateLocation: String,
     val tags: List<String>,
-    val avatarUrl: String,
+    val avatarUrl: String?,
     val active: Boolean
 )
