@@ -70,10 +70,10 @@ val MeetTypographyValue = MeetTypography(
         fontSize = 14.sp,
         lineHeight = 17.sp,
         lineHeightStyle = LineHeightStyle(
-            alignment = LineHeightStyle.Alignment.Center,
+            alignment = LineHeightStyle.Alignment.Top,
             trim = LineHeightStyle.Trim.None
         ),
-        letterSpacing = 0.1.sp
+        letterSpacing = 0.sp
     ),
     interMedium22 = TextStyle(
         fontFamily = Inter,

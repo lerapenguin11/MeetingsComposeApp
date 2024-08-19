@@ -1,6 +1,5 @@
 package com.example.composeprotject.ui.component.card
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -39,8 +38,9 @@ fun EventCard(
     onClick: () -> Unit,
 ) {
     Card(
+        onClick = onClick,
         colors = CardDefaults.cardColors(
-            containerColor = Color.White,
+            containerColor = Color.Transparent,
         ),
         shape = RoundedCornerShape(
             topStart = MeetTheme.sizes.sizeX16,
@@ -49,7 +49,6 @@ fun EventCard(
             bottomStart = 0.dp
         ),
         modifier = modifier
-            .clickable(onClick = onClick)
             .width(width = style.widthImage(variant = variant))
     ) {
         EventImage(
@@ -95,20 +94,7 @@ private const val EVENT_NAME_MAX_LINE = 2
 private const val MAX_ROW = 2
 
 @Composable
-@Preview(showBackground = true, backgroundColor = 348444L)
+@Preview(showBackground = true)
 fun CardTest() {
-    EventCard(
-        variant = EventCardVariant.BIG,
-        eventId = "dkfbdkjfd-dfdfdjf9dfdf-fdfd",
-        eventName = "Python days kcnvkdnvdn kvdndk",
-        locationEvent = "Кожевенная линия, 40",
-        dateEvent = "10 августа",
-        tags = listOf(
-            "Web", "Mobile", "Бизнес",
-            "Продажи", "Девопс", "Тестирование",
-            "Web", "Mobile", "Бизнес",
-            "Продажи", "Девопс", "Тестирование"
-        ),
-        avatarUrl = null
-    ) {}
+
 }
