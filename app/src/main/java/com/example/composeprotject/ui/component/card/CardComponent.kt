@@ -13,13 +13,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
+import com.example.composeprotject.ui.component.button.SubscribeButton
 import com.example.composeprotject.ui.component.card.cardStyle.EventCardStyle
 import com.example.composeprotject.ui.component.card.cardStyle.EventCardStyleDefault
 import com.example.composeprotject.ui.component.card.variant.EventCardVariant
 import com.example.composeprotject.ui.component.chip.Tag
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipSize
+import com.example.composeprotject.ui.component.image.CommunityImage
 import com.example.composeprotject.ui.component.image.EventImage
+import com.example.composeprotject.ui.component.state.SubscribeButtonState
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.theme.MeetTheme
@@ -89,12 +92,59 @@ fun EventCard(
     }
 }
 
+@Composable
+fun CommunityCard(
+    communityName: String,
+    avatarUrl: String?,
+    buttonState: SubscribeButtonState,
+    modifier: Modifier = Modifier,
+    onClickCard: () -> Unit
+) {
+    Card(
+        modifier = modifier.width(104.dp),
+        onClick = { onClickCard() },
+        colors = CardDefaults.cardColors(
+            containerColor = Color.Transparent,
+        ),
+        shape = RoundedCornerShape(
+            topStart = MeetTheme.sizes.sizeX16,
+            topEnd = MeetTheme.sizes.sizeX16,
+            bottomEnd = 0.dp,
+            bottomStart = 0.dp
+        ),
+    ) {
+        CommunityImage(
+            placeholderImage = R.drawable.ic_community_placeholder,
+            avatarUrl = avatarUrl
+        )
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX4))
+        BaseText(
+            text = communityName,
+            maxLines = COMMUNITY_NAME_MAX_LINE,
+            textColor = MeetTheme.colors.black,
+            textStyle = MeetTheme.typography.interSemiBold14
+        )
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX4))
+        SubscribeButton(
+            state = buttonState,
+        ) {
+            //TODO
+        }
+    }
+}
+
 private const val DATE_LOCATION_EVENT_MAX_LINE = 2
 private const val EVENT_NAME_MAX_LINE = 2
 private const val MAX_ROW = 2
+private const val COMMUNITY_NAME_MAX_LINE = 1
 
 @Composable
 @Preview(showBackground = true)
 fun CardTest() {
+    CommunityCard(
+        avatarUrl = null, communityName = "Супер тестировщики",
+        buttonState = SubscribeButtonState.NOT_SUBSCRIBED_COMMUNITY
+    ) {
 
+    }
 }

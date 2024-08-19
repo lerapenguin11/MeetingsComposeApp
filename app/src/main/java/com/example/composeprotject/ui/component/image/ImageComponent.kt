@@ -56,7 +56,7 @@ fun CommunityImage(
 ) {
     Box(
         modifier = modifier
-            .size(104.dp)
+            .size(width = 104.dp, height = 104.dp)
             .clip(RoundedCornerShape(MeetTheme.sizes.sizeX16))
             .background(color = Color.Transparent)
     ) {
