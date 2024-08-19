@@ -1,14 +1,9 @@
 package com.example.composeprotject.ui.component.utils
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Placeable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -80,30 +75,3 @@ private class Row(
         placeables.maxOfOrNull { it.height } ?: 0
     }
 }
-
-@Composable
-private fun Preview(alignment: Alignment.Horizontal) {
-    Box(Modifier.width(50.dp)) {
-        FlexRow(
-            horizontalGap = 8.dp,
-            verticalGap = 8.dp,
-            alignment = alignment,
-        ) {
-            repeat(17) { index ->
-                Text(text = index.toString())
-            }
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewAlignStart() = Preview(alignment = Alignment.Start)
-
-@Preview
-@Composable
-private fun PreviewAlignCenter() = Preview(alignment = Alignment.CenterHorizontally)
-
-@Preview
-@Composable
-private fun PreviewAlignEnd() = Preview(alignment = Alignment.End)
