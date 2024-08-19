@@ -62,7 +62,8 @@ fun EventCard(
         BaseText(
             text = eventName,
             textStyle = style.titleTextStyle(variant = variant),
-            textColor = MeetTheme.colors.black
+            textColor = MeetTheme.colors.black,
+            maxLines = EVENT_NAME_MAX_LINE
         )
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX2))
         BaseText(
@@ -90,6 +91,7 @@ fun EventCard(
 }
 
 private const val DATE_LOCATION_EVENT_MAX_LINE = 2
+private const val EVENT_NAME_MAX_LINE = 2
 private const val MAX_ROW = 2
 
 @Composable
@@ -98,7 +100,7 @@ fun CardTest() {
     EventCard(
         variant = EventCardVariant.BIG,
         eventId = "dkfbdkjfd-dfdfdjf9dfdf-fdfd",
-        eventName = "Python days",
+        eventName = "Python days kcnvkdnvdn kvdndk",
         locationEvent = "Кожевенная линия, 40",
         dateEvent = "10 августа",
         tags = listOf(
