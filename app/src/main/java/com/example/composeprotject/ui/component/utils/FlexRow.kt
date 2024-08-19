@@ -51,7 +51,7 @@ fun FlexRow(
 
     layout(width, if (maxRow == 0) maxHeight else minHeight + verticalGapPx) {
         var y = 0
-        rows.forEachIndexed { index, row ->
+        rows.forEach { row ->
             val offset = alignment.align(row.width, width, layoutDirection)
             var x = offset
             row.placeables.forEach { placeable ->
