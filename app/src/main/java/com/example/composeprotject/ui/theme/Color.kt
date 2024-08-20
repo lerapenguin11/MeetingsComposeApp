@@ -15,6 +15,7 @@ data class MeetColorScheme(
     val backgroundColorPrimary: Brush,
     val backgroundColorSecondary: Brush,
     val darkGray: Color,
+    val inactiveSwitch: Color,
 
 
     val disabledButton: Color,
@@ -68,6 +69,7 @@ val LightColorScheme = MeetColorScheme(
         )
     ),
     darkGray = Color(0xff76778E),
+    inactiveSwitch = Color(0xffEFEFEF),
 
 
 

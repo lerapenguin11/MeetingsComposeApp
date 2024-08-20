@@ -57,4 +57,6 @@
     <string name="text_button_add_photo_user">Добавить фото</string>
     <string name="text_search">Поиск</string>
     <string name="text_map">Map</string>
+    <string name="animated_switch_color">Animated Switch Color</string>
+    <string name="offset">offset</string>
 </resources>
