@@ -37,6 +37,7 @@ data class MeetTypography(
     val interSemiBold18: TextStyle,
     val interBold34: TextStyle,
     val interSemiBold14: TextStyle,
+    val interMedium18: TextStyle,
 
 
     val heading1: TextStyle,
@@ -133,6 +134,20 @@ val MeetTypographyValue = MeetTypography(
             trim = LineHeightStyle.Trim.None
         ),
         letterSpacing = (0.1).sp,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false,
+        ),
+    ),
+    interMedium18 = TextStyle(
+        fontFamily = Inter,
+        fontWeight = FontWeight.Medium,
+        fontSize = 18.sp,
+        lineHeight = 22.sp,
+        lineHeightStyle = LineHeightStyle(
+            alignment = LineHeightStyle.Alignment.Center,
+            trim = LineHeightStyle.Trim.None
+        ),
+        letterSpacing = (-0.1).sp,
         platformStyle = PlatformTextStyle(
             includeFontPadding = false,
         ),
