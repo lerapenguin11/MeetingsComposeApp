@@ -22,10 +22,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
 import com.example.composeprotject.ui.theme.MeetTheme
 
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun CustomSwitch() {
     var isSwitchOn by remember { mutableStateOf(false) }
@@ -41,7 +43,7 @@ fun CustomSwitch() {
     )
     val offset by animateDpAsState(
         targetValue = if (isSwitchOn) {
-            25.8.dp
+            26.dp
         } else {
             1.71.dp
         }, animationSpec = tween(

@@ -10,10 +10,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.composeprotject.R
 import com.example.composeprotject.ui.component.avatar.avatarStyle.AvatarSizeDefault
 import com.example.composeprotject.ui.component.avatar.avatarStyle.AvatarSizeVariant
 import com.example.composeprotject.ui.component.avatar.variant.AvatarVariant
@@ -40,16 +38,5 @@ fun Avatar(
         placeholder = painterResource(placeholderImage),
         contentDescription = stringResource(id = contentDescription),
         contentScale = ContentScale.Crop
-    )
-}
-
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-fun AvatarTest() {
-    Avatar(
-        contentDescription = R.string.text_avatars_people,
-        placeholderImage = R.drawable.ic_avatar_placeholder,
-        avatarUrl = null,
-        variant = AvatarVariant.BIG
     )
 }

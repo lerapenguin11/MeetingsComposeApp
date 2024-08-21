@@ -96,7 +96,7 @@ fun SimpleInputField(
             contentPadding =
             OutlinedTextFieldDefaults.contentPadding(
                 top = MeetTheme.sizes.sizeX16,
-                bottom = MeetTheme.sizes.sizeX17,
+                bottom = MeetTheme.sizes.sizeX16,
                 start = MeetTheme.sizes.sizeX20,
                 end = MeetTheme.sizes.sizeX20
             ),
