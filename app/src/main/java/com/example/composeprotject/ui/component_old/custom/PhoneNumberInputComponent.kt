@@ -34,12 +34,13 @@ import com.example.composeprotject.R
 import com.example.composeprotject.app.BaseApplication
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.composeprotject.utils.CountryData
 import com.example.composeprotject.viewModel.auth.AuthPhoneNumberViewModel
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PhoneNumberInput(
+fun PhoneNumberInputOld(
     modifier: Modifier = Modifier,
     authPhoneNumberViewModel: AuthPhoneNumberViewModel,
     onValueChange: (String) -> Unit
@@ -152,7 +153,10 @@ fun PhoneNumberInput(
                 enabled = true,
                 placeholder = {
                     Text(
-                        text = formatPlaceholderPhoneNumber(region = region),
+                        text = formatPlaceholderPhoneNumber(
+                            region = region,
+                            countryDataRegion = countryDataRegion
+                        ),
                         style = MeetTheme.typography.bodyText1,
                         color = MeetTheme.colors.neutralDisabled
                     )
@@ -230,11 +234,11 @@ fun formatPhoneNumber(value: String, pattern: String): String {
 }
 
 @Composable
-fun formatPlaceholderPhoneNumber(region: String): String {
+fun formatPlaceholderPhoneNumber(region: String, countryDataRegion: CountryData?): String {
     return if (region.isEmpty()) {
         stringResource(id = R.string.text_ph_phone_number_with_code)
     } else {
-        stringResource(id = R.string.text_ph_phone_number)
+        countryDataRegion?.placeholder ?: stringResource(id = R.string.text_ph_phone_number)
     }
 }
 

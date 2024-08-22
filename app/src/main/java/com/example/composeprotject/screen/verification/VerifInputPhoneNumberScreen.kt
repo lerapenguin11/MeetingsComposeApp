@@ -21,7 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import com.example.composeprotject.R
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.component_old.button.FilledButtonWithProgressBar
-import com.example.composeprotject.ui.component_old.custom.PhoneNumberInput
+import com.example.composeprotject.ui.component_old.custom.PhoneNumberInputOld
 import com.example.composeprotject.ui.component_old.state.ButtonState
 import com.example.composeprotject.ui.component_old.state.ProgressButtonState
 import com.example.composeprotject.ui.theme.MeetTheme
@@ -66,7 +66,7 @@ fun VerifInputPhoneNumberScreen(
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX49))
-        PhoneNumberInput(
+        PhoneNumberInputOld(
             authPhoneNumberViewModel = authPhoneNumberViewModel,
             onValueChange = { newValue ->
                 phoneNumber = newValue
