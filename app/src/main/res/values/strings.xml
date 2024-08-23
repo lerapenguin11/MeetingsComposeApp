@@ -45,8 +45,8 @@
     <string name="text_continue">Продолжить</string>
     <string name="text_input_phone_number">Ввод телефона</string>
     <string name="text_default_phone_code">+7</string>
-    <string name="text_ph_phone_number_with_code">+7 XXX XXX-XX-XX</string>
-    <string name="text_ph_phone_number">XXX XXX-XX-XX</string>
+    <string name="text_ph_phone_number_with_code">+7 XXX-XXX-XX-XX</string>
+    <string name="text_ph_phone_number">XXX-XXX-XX-XX</string>
     <string name="text_theme">Тема</string>
     <string name="text_notifications">Уведомления</string>
     <string name="text_safety">Безопасность</string>

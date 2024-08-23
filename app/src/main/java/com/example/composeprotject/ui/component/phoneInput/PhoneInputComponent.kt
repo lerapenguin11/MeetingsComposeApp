@@ -1,6 +1,5 @@
 package com.example.composeprotject.ui.component.phoneInput
 
-import android.telephony.PhoneNumberUtils
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
@@ -53,6 +52,10 @@ fun PhoneNumberContainer() {
     var phoneNumberValue by remember { mutableStateOf(EMPTY_LINE) }
     var region by remember { mutableStateOf(EMPTY_LINE) }
     val countryDataRegion = countryData?.get(region)
+    val mask = countryDataRegion?.placeholder
+        ?: stringResource(id = R.string.text_ph_phone_number)
+    val colorBorder =
+        if (phoneNumberValue.isNotEmpty()) MeetTheme.colors.secondary else MeetTheme.colors.primary
 
     Row {
         countryDataRegion?.let { country ->
@@ -61,6 +64,9 @@ fun PhoneNumberContainer() {
             )
         }
         PhoneNumber(
+            colorBorder = colorBorder,
+            mask = mask,
+            maskNumber = MASK_NUMBER,
             countryDataRegion = countryDataRegion,
             region = region,
             state = InputState.SUCCESS,
@@ -73,14 +79,8 @@ fun PhoneNumberContainer() {
                 phoneNumberValue = newValue
 
                 var countryISO2 = EMPTY_LINE
-                cleanPhoneNumber(newValue)
-                cleanPhoneNumber(countryDataRegion?.placeholder.orEmpty())
-
                 if (region.isEmpty()) {
                     countryISO2 = getCountryNameByPhoneCode(phoneNumberValue)
-                }
-                if (region.isNotEmpty() && newValue.length > MIN_PHONE_NUMBER_LENGTH) {
-                    phoneNumberValue = formatPhoneNumber(newValue, region)
                 }
                 if (countryISO2.isNotEmpty() && countryISO2 != UNSPECIFIED_COUNTRY) {
                     region = countryISO2
@@ -99,17 +99,19 @@ fun PhoneNumber(
     region: String,
     value: String,
     state: InputState,
+    mask: String,
+    maskNumber: Char,
     modifier: Modifier = Modifier,
     inputColors: InputColors = InputColorsDefaults.colors(),
     onValueChange: (String) -> Unit,
-    countryDataRegion: CountryData?
+    countryDataRegion: CountryData?,
+    colorBorder: Color
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     val interactionSource = remember { MutableInteractionSource() }
     val singleLine = true
-    val colorBorder =
-        if (value.isNotEmpty()) inputColors.background(state) else MeetTheme.colors.primary
+
     val colors =
         OutlinedTextFieldDefaults.colors(
             errorContainerColor = inputColors.background(state),
@@ -127,7 +129,9 @@ fun PhoneNumber(
     BasicTextField(
         modifier = modifier.fillMaxWidth(),
         value = value,
-        onValueChange = onValueChange,
+        onValueChange = { it ->
+            onValueChange(it.take(mask.count { it == maskNumber }))
+        },
         interactionSource = interactionSource,
         enabled = true,
         singleLine = singleLine,
@@ -141,6 +145,10 @@ fun PhoneNumber(
                 keyboardController?.hide()
                 focusManager.clearFocus()
             }
+        ),
+        visualTransformation = PhoneVisualTransformation(
+            maskNumber = maskNumber,
+            mask = mask
         )
     ) {
         TextFieldDefaults.DecorationBox(
@@ -252,14 +260,6 @@ fun isValidNumber(phoneNumber: String, country: String, countryCode: String): Bo
     }
 }
 
-fun formatPhoneNumber(value: String, pattern: String): String {
-    return if (pattern.isEmpty() || UNSPECIFIED_CALLING_CODE == pattern) {
-        return value
-    } else {
-        PhoneNumberUtils.formatNumber(value, pattern)
-    }
-}
-
 @Composable
 fun formatPlaceholderPhoneNumber(region: String, countryDataRegion: CountryData?): String {
     return if (region.isEmpty()) {
@@ -284,6 +284,7 @@ fun getPhoneNumber(callingCode: String, phone: String): String {
 }
 
 private const val UNSPECIFIED_COUNTRY = "ZZ"
+private const val MASK_NUMBER = 'X'
 private const val EMPTY_LINE = ""
 private const val UNSPECIFIED_CALLING_CODE = "001"
 private const val PLUS = "+"
