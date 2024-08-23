@@ -1,4 +1,4 @@
-package com.example.composeprotject.screen.verification
+package com.example.composeprotject.screen_old.verification
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

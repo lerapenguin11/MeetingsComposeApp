@@ -1,4 +1,4 @@
-package com.example.composeprotject.screen.detailsScreen
+package com.example.composeprotject.screen_old.detailsScreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

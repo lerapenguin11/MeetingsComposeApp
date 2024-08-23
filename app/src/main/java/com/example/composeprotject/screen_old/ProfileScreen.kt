@@ -1,4 +1,4 @@
-package com.example.composeprotject.screen
+package com.example.composeprotject.screen_old
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

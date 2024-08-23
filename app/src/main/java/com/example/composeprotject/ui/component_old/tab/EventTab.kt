@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,8 +22,8 @@ import androidx.navigation.NavHostController
 import com.example.common.utils_ui.EventScreenVariant
 import com.example.common.utils_ui.EventVariant
 import com.example.common.utils_ui.MyEventVariant
-import com.example.composeprotject.screen.tabScreen.MeetingsScreen
-import com.example.composeprotject.screen.tabScreen.MyMeetingsScreen
+import com.example.composeprotject.screen_old.tabScreen.MeetingsScreen
+import com.example.composeprotject.screen_old.tabScreen.MyMeetingsScreen
 import com.example.composeprotject.ui.theme.MeetTheme
 
 @Composable
@@ -39,7 +40,7 @@ fun EventTab(
             selectedTabIndex = tabIndex,
             containerColor = MeetTheme.colors.neutralWhite,
             indicator = { tabPositions ->
-                TabRowDefaults.Indicator(
+                SecondaryIndicator(
                     modifier = Modifier.tabIndicatorOffset(tabPositions[tabIndex]),
                     height = MeetTheme.sizes.sizeX2,
                     color = MeetTheme.colors.brandDefault

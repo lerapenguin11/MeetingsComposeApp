@@ -12,7 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.composeprotject.EventContainer
 import com.example.composeprotject.navigation.NavItem
-import com.example.composeprotject.screen.splashScreen.SplashScreen
+import com.example.composeprotject.screen_old.splashScreen.SplashScreen
 
 @Composable
 fun RootNavigationGraph(

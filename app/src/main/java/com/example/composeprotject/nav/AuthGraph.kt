@@ -8,9 +8,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.example.composeprotject.navigation.NavItem
-import com.example.composeprotject.screen.verification.CreateProfileScreen
-import com.example.composeprotject.screen.verification.VerifInputPhoneNumberScreen
-import com.example.composeprotject.screen.verification.VerificationCodeScreen
+import com.example.composeprotject.screen_old.verification.CreateProfileScreen
+import com.example.composeprotject.screen_old.verification.VerifInputPhoneNumberScreen
+import com.example.composeprotject.screen_old.verification.VerificationCodeScreen
 
 fun NavGraphBuilder.auth(navController: NavController, contentPadding: PaddingValues) {
     navigation(

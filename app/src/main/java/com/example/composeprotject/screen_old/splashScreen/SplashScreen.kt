@@ -1,4 +1,4 @@
-package com.example.composeprotject.screen.splashScreen
+package com.example.composeprotject.screen_old.splashScreen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues

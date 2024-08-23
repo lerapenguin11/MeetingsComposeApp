@@ -1,4 +1,4 @@
-package com.example.composeprotject.screen.navScreen
+package com.example.composeprotject.screen_old.navScreen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues

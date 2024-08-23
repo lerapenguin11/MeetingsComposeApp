@@ -1,31 +1,38 @@
-package com.example.composeprotject.screen.tabScreen
+package com.example.composeprotject.screen_old.tabScreen
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import com.example.common.utils_ui.EventVariant
 import com.example.composeprotject.R
-import com.example.common.utils_ui.MyEventVariant
 import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component_old.card.EventCard
-import com.example.composeprotject.viewModel.MyEventViewModel
+import com.example.composeprotject.viewModel.nav.EventViewModel
 import org.koin.androidx.compose.koinViewModel
 
-//TODO: расшарить eventViewModel на MyMeetingsScreen и MyEventScreen
+//TODO: расшарить eventViewModel на MeetingsScreen и EventScreen
 
 @Composable
-fun MyMeetingsScreen(
-    eventVariant: MyEventVariant,
-    myEventViewModel: MyEventViewModel = koinViewModel(),
+fun MeetingsScreen(
+    modifier: Modifier = Modifier,
+    eventVariant: EventVariant,
+    eventViewModel: EventViewModel = koinViewModel(),
     navController: NavHostController
 ) {
-    myEventViewModel.getMyEvents(variant = eventVariant.name)
-    val myEventList by myEventViewModel.getMyEventsFlow().collectAsState()
 
-    LazyColumn {
-        items(myEventList) { event ->
+    eventViewModel.getEvents(variantEvent = eventVariant.name)
+    val eventList by eventViewModel.getEventsFlow().collectAsState()
+
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize()
+    ) {
+        items(eventList) { event ->
             EventCard(
                 meetingName = event.meetingName,
                 dateLocation = event.dateLocation,
