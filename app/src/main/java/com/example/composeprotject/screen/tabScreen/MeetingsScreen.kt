@@ -11,7 +11,7 @@ import androidx.navigation.NavHostController
 import com.example.composeprotject.R
 import com.example.common.utils_ui.EventVariant
 import com.example.composeprotject.navigation.NavItem
-import com.example.composeprotject.ui.component.card.EventCard
+import com.example.composeprotject.ui.component_old.card.EventCard
 import com.example.composeprotject.viewModel.nav.EventViewModel
 import org.koin.androidx.compose.koinViewModel
 

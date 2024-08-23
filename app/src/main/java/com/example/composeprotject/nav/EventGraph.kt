@@ -22,8 +22,8 @@ import com.example.composeprotject.screen.navScreen.EventScreen
 import com.example.composeprotject.screen.navScreen.StillScreen
 import com.example.composeprotject.ui.component.text.TopAppBarText
 import com.example.composeprotject.ui.component.text.TopAppBarTextWithBackArrow
-import com.example.composeprotject.ui.component.toolbar.newTopBar.ProvideAppBarAction
-import com.example.composeprotject.ui.component.toolbar.newTopBar.ProvideAppBarTitle
+import com.example.composeprotject.ui.component_old.toolbar.newTopBar.ProvideAppBarAction
+import com.example.composeprotject.ui.component_old.toolbar.newTopBar.ProvideAppBarTitle
 
 @Composable
 fun EventGraph(navController: NavHostController, contentPadding: PaddingValues) {

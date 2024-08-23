@@ -40,7 +40,7 @@ fun TopAppBarText(
 fun TopAppBarTextWithBackArrow(
     text: String,
     modifier: Modifier = Modifier
-){
+) {
     Text(
         modifier = modifier.offset(x = -(MeetTheme.sizes.sizeX8)),
         text = text,
@@ -52,13 +52,16 @@ fun TopAppBarTextWithBackArrow(
 
 @Composable
 fun BaseText(
+    text: String,
     modifier: Modifier = Modifier,
+    maxLines: Int = 1,
     textColor: Color = MeetTheme.colors.neutralActive,
     textStyle: TextStyle = MeetTheme.typography.bodyText1,
-    text: String,
     textAlign: TextAlign = TextAlign.Start
 ) {
     Text(
+        overflow = TextOverflow.Ellipsis,
+        maxLines = maxLines,
         text = text,
         color = textColor,
         style = textStyle,

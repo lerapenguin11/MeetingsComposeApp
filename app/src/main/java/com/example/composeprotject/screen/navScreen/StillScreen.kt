@@ -10,9 +10,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.example.composeprotject.R
-import com.example.composeprotject.ui.component.divider.StandardDivider
-import com.example.composeprotject.ui.component.menuItem.MyEventMenuItem
-import com.example.composeprotject.ui.component.menuItem.ProfileMenuItem
+import com.example.composeprotject.ui.component_old.divider.StandardDivider
+import com.example.composeprotject.ui.component_old.menuItem.MyEventMenuItem
+import com.example.composeprotject.ui.component_old.menuItem.ProfileMenuItem
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.utils.getUserFullName
 import com.example.composeprotject.viewModel.nav.StillViewModel
