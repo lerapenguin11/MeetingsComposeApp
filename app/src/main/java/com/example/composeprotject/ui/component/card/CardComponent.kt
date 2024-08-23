@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
 import com.example.composeprotject.ui.component.button.SubscribeButton
@@ -137,14 +136,3 @@ private const val DATE_LOCATION_EVENT_MAX_LINE = 2
 private const val EVENT_NAME_MAX_LINE = 2
 private const val MAX_ROW = 2
 private const val COMMUNITY_NAME_MAX_LINE = 1
-
-@Composable
-@Preview(showBackground = true)
-fun CardTest() {
-    CommunityCard(
-        avatarUrl = null, communityName = "Супер тестировщики",
-        buttonState = SubscribeButtonState.NOT_SUBSCRIBED_COMMUNITY
-    ) {
-
-    }
-}
