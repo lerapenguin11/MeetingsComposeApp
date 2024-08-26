@@ -60,4 +60,5 @@
     <string name="animated_switch_color">Animated Switch Color</string>
     <string name="offset">offset</string>
     <string name="text_social_network">Социальные сети</string>
+    <string name="text_cancel">Отмена</string>
 </resources>
