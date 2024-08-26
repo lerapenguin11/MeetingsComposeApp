@@ -55,10 +55,11 @@
     <string name="text_invite_friend">Пригласи друга</string>
     <string name="text_go_to_another_time">Схожу в другой раз</string>
     <string name="text_button_add_photo_user">Добавить фото</string>
-    <string name="text_search">Поиск</string>
+    <string name="text_search">Найти встречи и сообщества</string>
     <string name="text_map">Map</string>
     <string name="animated_switch_color">Animated Switch Color</string>
     <string name="offset">offset</string>
     <string name="text_social_network">Социальные сети</string>
     <string name="text_cancel">Отмена</string>
+    <string name="text_view_all">Посмотреть все</string>
 </resources>
