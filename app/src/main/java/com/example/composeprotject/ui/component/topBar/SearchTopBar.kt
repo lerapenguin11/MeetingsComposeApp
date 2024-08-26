@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -49,7 +50,6 @@ import com.example.composeprotject.ui.theme.MeetTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBar(
-    textPlaceholder: String,
     isEnabled: Boolean,
     state: InputState,
     modifier: Modifier = Modifier,
@@ -79,7 +79,12 @@ fun SearchBar(
         )
     Row(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(
+                top = 12.dp,
+                start = 16.dp,
+                end = 16.dp
+            ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         BasicTextField(
@@ -127,7 +132,7 @@ fun SearchBar(
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
-                            text = textPlaceholder,
+                            text = stringResource(id = R.string.text_search),
                             style = MeetTheme.typography.interMedium14,
                             color = MeetTheme.colors.darkGray
                         )
