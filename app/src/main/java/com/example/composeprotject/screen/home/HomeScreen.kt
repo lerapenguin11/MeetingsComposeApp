@@ -15,11 +15,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import com.example.composeprotject.R
+import com.example.composeprotject.model.community.Community
 import com.example.composeprotject.model.meeting.Category
 import com.example.composeprotject.model.meeting.Meeting
+import com.example.composeprotject.ui.component.card.CommunityCard
+import com.example.composeprotject.ui.component.card.CommunityViewAllCard
 import com.example.composeprotject.ui.component.card.EventCard
-import com.example.composeprotject.ui.component.card.ViewAllCard
+import com.example.composeprotject.ui.component.card.EventViewAllCard
 import com.example.composeprotject.ui.component.card.variant.EventCardVariant
+import com.example.composeprotject.ui.component.state.SubscribeButtonState
 import com.example.composeprotject.ui.theme.MeetTheme
 import kotlin.random.Random
 import kotlin.random.nextUInt
@@ -29,34 +35,41 @@ fun HomeScreen(
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier
 ) {
+    val textSpecialist = "тестировщиков"
     Column(
         modifier = modifier
             .padding(contentPadding)
             .verticalScroll(rememberScrollState())
     ) {
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX20))
-        BigEventsRow()
+        BigEventsRow(events = events())
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX32))
         Text(
             modifier = Modifier.padding(start = MeetTheme.sizes.sizeX16),
-            text = "Ближайшие встречи",
+            text = stringResource(R.string.text_upcoming_meetings),
             color = Color.Black,
             style = MeetTheme.typography.interSemiBold24
         )
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX16))
-        SmallEventsRow()
+        SmallEventsRow(events = events())
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX32))
+        Text(
+            modifier = Modifier.padding(
+                start = MeetTheme.sizes.sizeX16,
+                end = MeetTheme.sizes.sizeX16
+            ),
+            text = "${stringResource(R.string.text_communities_for)} ${textSpecialist}",
+            color = Color.Black,
+            style = MeetTheme.typography.interSemiBold24
+        )
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX16))
+        CommunityRow(communities = communities())
     }
 }
 
 @Composable
-fun SmallEventsRow(
-    modifier: Modifier = Modifier
-) {
-
-}
-
-@Composable
-fun BigEventsRow(
+fun CommunityRow(
+    communities: List<Community>,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -65,7 +78,65 @@ fun BigEventsRow(
             .padding(start = MeetTheme.sizes.sizeX16),
         horizontalArrangement = Arrangement.spacedBy(MeetTheme.sizes.sizeX10)
     ) {
-        events().forEachIndexed { index, meeting ->
+        communities.forEachIndexed { index, community ->
+            if (index < MAX_NUMBER_CARDS_DISPLAYED) {
+                CommunityCard(
+                    community = community,
+                    buttonState = SubscribeButtonState.NOT_SUBSCRIBED_COMMUNITY
+                ) {
+                    //TODO
+                }
+            }
+        }
+        if (communities.size > MAX_NUMBER_CARDS_DISPLAYED) {
+            CommunityViewAllCard {/*TODO*/ }
+            Spacer(modifier = Modifier.width(MeetTheme.sizes.sizeX4))
+        }
+    }
+}
+
+@Composable
+fun SmallEventsRow(
+    events: List<Meeting>,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .horizontalScroll(rememberScrollState())
+            .padding(start = MeetTheme.sizes.sizeX16),
+        horizontalArrangement = Arrangement.spacedBy(MeetTheme.sizes.sizeX10)
+    ) {
+        events.forEachIndexed { index, meeting ->
+            if (index < MAX_NUMBER_CARDS_DISPLAYED) {
+                EventCard(
+                    meeting = meeting,
+                    variant = EventCardVariant.SMALL
+                ) {
+                    /*TODO*/
+                }
+            }
+        }
+        if (events().size > MAX_NUMBER_CARDS_DISPLAYED) {
+            EventViewAllCard(
+                variant = EventCardVariant.SMALL
+            ) {/*TODO*/ }
+            Spacer(modifier = Modifier.width(MeetTheme.sizes.sizeX4))
+        }
+    }
+}
+
+@Composable
+fun BigEventsRow(
+    events: List<Meeting>,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .horizontalScroll(rememberScrollState())
+            .padding(start = MeetTheme.sizes.sizeX16),
+        horizontalArrangement = Arrangement.spacedBy(MeetTheme.sizes.sizeX10)
+    ) {
+        events.forEachIndexed { index, meeting ->
             if (index < MAX_NUMBER_CARDS_DISPLAYED) {
                 EventCard(
                     meeting = meeting,
@@ -76,7 +147,7 @@ fun BigEventsRow(
             }
         }
         if (events().size > MAX_NUMBER_CARDS_DISPLAYED) {
-            ViewAllCard(
+            EventViewAllCard(
                 variant = EventCardVariant.BIG
             ) {/*TODO*/ }
             Spacer(modifier = Modifier.width(MeetTheme.sizes.sizeX4))
@@ -85,6 +156,17 @@ fun BigEventsRow(
 }
 
 private const val MAX_NUMBER_CARDS_DISPLAYED = 5
+
+private fun communities(): List<Community> {
+    val communityList = List((10..15).random()) {
+        Community(
+            id = Random.nextUInt().toInt(),
+            title = "Супер тестировщики",
+            avatarUrl = null
+        )
+    }
+    return communityList
+}
 
 private fun events(): List<Meeting> {
     val eventList = List((10..15).random()) {
