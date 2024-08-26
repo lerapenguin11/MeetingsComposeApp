@@ -62,4 +62,7 @@
     <string name="text_social_network">Социальные сети</string>
     <string name="text_cancel">Отмена</string>
     <string name="text_view_all">Посмотреть все</string>
+    <string name="text_upcoming_meetings">Ближайшие встречи</string>
+    <string name="text_communities_for">Сообщества для</string>
+    <string name="text_all">Все</string>
 </resources>

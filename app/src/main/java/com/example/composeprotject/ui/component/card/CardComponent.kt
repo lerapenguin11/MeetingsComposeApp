@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -17,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
+import com.example.composeprotject.model.community.Community
 import com.example.composeprotject.model.meeting.Meeting
 import com.example.composeprotject.ui.component.button.SubscribeButton
 import com.example.composeprotject.ui.component.card.cardStyle.EventCardStyle
@@ -95,8 +97,7 @@ fun EventCard(
 
 @Composable
 fun CommunityCard(
-    communityName: String,
-    avatarUrl: String?,
+    community: Community,
     buttonState: SubscribeButtonState,
     modifier: Modifier = Modifier,
     onClickCard: () -> Unit
@@ -116,11 +117,11 @@ fun CommunityCard(
     ) {
         CommunityImage(
             placeholderImage = R.drawable.ic_community_placeholder,
-            avatarUrl = avatarUrl
+            avatarUrl = community.avatarUrl
         )
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX4))
         BaseText(
-            text = communityName,
+            text = community.title,
             maxLines = COMMUNITY_NAME_MAX_LINE,
             textColor = MeetTheme.colors.black,
             textStyle = MeetTheme.typography.interSemiBold14
@@ -135,7 +136,7 @@ fun CommunityCard(
 }
 
 @Composable
-fun ViewAllCard(
+fun EventViewAllCard(
     variant: EventCardVariant,
     modifier: Modifier = Modifier,
     style: EventCardStyle = EventCardStyleDefault.eventCardStyle(),
@@ -155,13 +156,50 @@ fun ViewAllCard(
         modifier = modifier
             .width(width = 156.dp)
             .height(height = style.heightImage(variant = variant))
+            .padding(10.dp)
     ) {
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             Text(
+                modifier = Modifier.padding(all = 10.dp),
                 text = stringResource(R.string.text_view_all),
+                color = MeetTheme.colors.primary,
+                style = MeetTheme.typography.interMedium18,
+                textAlign = TextAlign.Center
+            )
+        }
+    }
+}
+
+@Composable
+fun CommunityViewAllCard(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    Card(
+        onClick = onClick,
+        colors = CardDefaults.cardColors(
+            containerColor = MeetTheme.colors.secondary,
+        ),
+        shape = RoundedCornerShape(
+            topStart = MeetTheme.sizes.sizeX16,
+            topEnd = MeetTheme.sizes.sizeX16,
+            bottomEnd = MeetTheme.sizes.sizeX16,
+            bottomStart = MeetTheme.sizes.sizeX16
+        ),
+        modifier = modifier
+            .width(width = 104.dp)
+            .height(height = 104.dp)
+            .padding(10.dp)
+    ) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = stringResource(R.string.text_all),
                 color = MeetTheme.colors.primary,
                 style = MeetTheme.typography.interMedium18,
                 textAlign = TextAlign.Center
