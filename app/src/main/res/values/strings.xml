@@ -66,4 +66,7 @@
     <string name="text_communities_for">Сообщества для</string>
     <string name="text_all">Все</string>
     <string name="text_other_meetings">Другие встречи</string>
+    <string name="text_interests">Интересы</string>
+    <string name="text_interests_desc">Выберите интересы, чтобы мы\nрекомендовали полезные встречи</string>
+    <string name="text_tell_later">Расскажу позже</string>
 </resources>

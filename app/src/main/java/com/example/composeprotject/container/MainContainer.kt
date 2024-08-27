@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.composeprotject.screen.splash.SplashScreen
+import com.example.composeprotject.screen.onboarding.OnboardingScreen
 import com.example.composeprotject.ui.component.state.InputState
 import com.example.composeprotject.ui.component.topBar.SearchBar
 
@@ -31,7 +31,7 @@ fun MainContainer(function: () -> Unit) {
             }
         }
     ) { contentPadding ->
-        SplashScreen(contentPadding = contentPadding)
+        OnboardingScreen(contentPadding = contentPadding)
     }
 }
 
