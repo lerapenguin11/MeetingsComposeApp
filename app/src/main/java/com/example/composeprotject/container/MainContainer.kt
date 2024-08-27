@@ -6,27 +6,32 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.composeprotject.screen.home.MainScreen
+import com.example.composeprotject.screen.splash.SplashScreen
 import com.example.composeprotject.ui.component.state.InputState
 import com.example.composeprotject.ui.component.topBar.SearchBar
 
 @Composable
 fun MainContainer(function: () -> Unit) {
+
+    val test = false
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
         containerColor = Color.White,
         topBar = {
-            SearchBar(
-                isEnabled = true,
-                state = InputState.SUCCESS,
-                onValueChange = {
-                    /*TODO*/
-                }
-            )
+            if (test) {
+                SearchBar(
+                    isEnabled = true,
+                    state = InputState.SUCCESS,
+                    onValueChange = {
+                        /*TODO*/
+                    }
+                )
+            }
         }
     ) { contentPadding ->
-        MainScreen(contentPadding = contentPadding)
+        SplashScreen(contentPadding = contentPadding)
     }
 }
 

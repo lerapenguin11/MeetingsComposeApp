@@ -1,4 +1,4 @@
-package com.example.composeprotject.screen.home
+package com.example.composeprotject.screen.main
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
