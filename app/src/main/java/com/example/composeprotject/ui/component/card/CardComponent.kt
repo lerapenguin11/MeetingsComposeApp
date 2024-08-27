@@ -82,7 +82,7 @@ fun EventCard(
             maxRow = MAX_ROW,
             horizontalGap = 6.dp,
             verticalGap = 6.dp,
-            alignment = Alignment.Start,
+            alignment = Alignment.Start
         ) {
             repeat(meeting.categories.size) { index ->
                 Tag(
@@ -156,10 +156,11 @@ fun EventViewAllCard(
         modifier = modifier
             .width(width = 156.dp)
             .height(height = style.heightImage(variant = variant))
-            .padding(10.dp)
     ) {
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(10.dp),
             contentAlignment = Alignment.Center
         ) {
             Text(
@@ -192,10 +193,11 @@ fun CommunityViewAllCard(
         modifier = modifier
             .width(width = 104.dp)
             .height(height = 104.dp)
-            .padding(10.dp)
     ) {
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(10.dp),
             contentAlignment = Alignment.Center
         ) {
             Text(

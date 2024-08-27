@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.composeprotject.screen.home.HomeScreen
+import com.example.composeprotject.screen.home.MainScreen
 import com.example.composeprotject.ui.component.state.InputState
 import com.example.composeprotject.ui.component.topBar.SearchBar
 
@@ -26,7 +26,7 @@ fun MainContainer(function: () -> Unit) {
             )
         }
     ) { contentPadding ->
-        HomeScreen(contentPadding = contentPadding)
+        MainScreen(contentPadding = contentPadding)
     }
 }
 
