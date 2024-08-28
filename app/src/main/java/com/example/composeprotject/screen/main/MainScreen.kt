@@ -20,8 +20,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
 import com.example.composeprotject.model.community.Community
+import com.example.composeprotject.model.interest.Category
 import com.example.composeprotject.model.interest.Interest
-import com.example.composeprotject.model.meeting.Category
 import com.example.composeprotject.model.meeting.Meeting
 import com.example.composeprotject.ui.component.card.CommunityCard
 import com.example.composeprotject.ui.component.card.CommunityViewAllCard

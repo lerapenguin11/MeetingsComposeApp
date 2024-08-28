@@ -7,6 +7,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.sp
 import com.example.composeprotject.R
@@ -77,7 +78,8 @@ val MeetTypographyValue = MeetTypography(
             alignment = LineHeightStyle.Alignment.Top,
             trim = LineHeightStyle.Trim.None
         ),
-        letterSpacing = 0.sp
+        letterSpacing = 0.1.sp,
+        lineBreak = LineBreak.Paragraph
     ),
     interMedium22 = TextStyle(
         fontFamily = Inter,

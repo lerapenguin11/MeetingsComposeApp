@@ -69,4 +69,9 @@
     <string name="text_interests">Интересы</string>
     <string name="text_interests_desc">Выберите интересы, чтобы мы\nрекомендовали полезные встречи</string>
     <string name="text_tell_later">Расскажу позже</string>
+    <string name="text_meeting_over">Встреча завершена</string>
+    <string name="text_leader">Ведущий</string>
+    <string name="text_will_meet_halfway">Пойдут на встречу</string>
+    <string name="text_organizer">Организатор</string>
+    <string name="text_other_community_Meetings">Другие встречи\nсообщества</string>
 </resources>

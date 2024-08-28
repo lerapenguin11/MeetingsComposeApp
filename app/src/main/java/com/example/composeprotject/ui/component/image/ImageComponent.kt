@@ -3,6 +3,8 @@ package com.example.composeprotject.ui.component.image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -19,6 +21,34 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.composeprotject.R
 import com.example.composeprotject.ui.theme.MeetTheme
+
+@Composable
+fun EventDetailsImage(
+    height: Dp,
+    avatarUrl: String?,
+    placeholderImage: Int,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(height = height)
+            .clip(RoundedCornerShape(MeetTheme.sizes.sizeX16))
+            .background(color = Color.Transparent)
+    ) {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(avatarUrl)
+                .crossfade(true)
+                .build(),
+            placeholder = painterResource(placeholderImage),
+            error = painterResource(placeholderImage),
+            contentDescription = stringResource(R.string.text_avatar_meetings),
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
+        )
+    }
+}
 
 @Composable
 fun EventImage(

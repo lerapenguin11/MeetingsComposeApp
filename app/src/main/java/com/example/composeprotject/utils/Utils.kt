@@ -1,6 +1,7 @@
 package com.example.composeprotject.utils
 
 import android.content.Context
+import androidx.compose.ui.text.buildAnnotatedString
 import com.example.composeprotject.R
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -13,9 +14,19 @@ fun readCountryDataFromJson(context: Context): Map<String, CountryData> {
 }
 
 fun getUserFullName(userName: String, userSurname: String?): String {
-    return if (userSurname.isNullOrEmpty()){
+    return if (userSurname.isNullOrEmpty()) {
         userName
-    }else{
+    } else {
         "$userName $userSurname"
     }
+}
+
+fun lineBreakInAddress(short: String, full: String): String {
+    val cropAddress = full.replace(short, "")
+    val address = buildAnnotatedString {
+        append(cropAddress)
+        append("\n")
+        append(short)
+    }
+    return address.text
 }
