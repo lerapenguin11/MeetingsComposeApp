@@ -116,13 +116,13 @@ val MeetTypographyValue = MeetTypography(
     ),
     interBold34 = TextStyle(
         fontFamily = Inter,
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight.Bold,
         fontSize = 34.sp,
-        lineHeight = 32.sp,
+        /*lineHeight = 20.sp,
         lineHeightStyle = LineHeightStyle(
             alignment = LineHeightStyle.Alignment.Center,
-            trim = LineHeightStyle.Trim.None
-        ),
+            trim = LineHeightStyle.Trim.FirstLineTop
+        ),*/
         letterSpacing = (0.1).sp,
         platformStyle = PlatformTextStyle(
             includeFontPadding = false,

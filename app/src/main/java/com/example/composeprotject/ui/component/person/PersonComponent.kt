@@ -22,6 +22,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
@@ -36,13 +37,14 @@ import com.example.composeprotject.ui.theme.MeetTheme
 
 @Composable
 fun PersonImage(
+    size: Dp,
     placeholderImage: Int,
     avatarUrl: String?,
     modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
-            .size(width = 104.dp, height = 104.dp)
+            .size(size = size)
             .clip(RoundedCornerShape(MeetTheme.sizes.sizeX16))
             .background(color = Color.Transparent)
     ) {
@@ -90,7 +92,7 @@ fun Person(
 
 @Composable
 fun PersonRow(
-    avatarList: List<String>,
+    avatarList: List<String?>,
     modifier: Modifier = Modifier
 ) {
     Row(

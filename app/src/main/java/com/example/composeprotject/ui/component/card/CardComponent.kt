@@ -28,6 +28,7 @@ import com.example.composeprotject.ui.component.chip.Tag
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipSize
 import com.example.composeprotject.ui.component.image.CommunityImage
+import com.example.composeprotject.ui.component.image.EventDetailsImage
 import com.example.composeprotject.ui.component.image.EventImage
 import com.example.composeprotject.ui.component.state.SubscribeButtonState
 import com.example.composeprotject.ui.component.text.BaseText
@@ -78,6 +79,61 @@ fun EventCard(
             maxLines = DATE_LOCATION_EVENT_MAX_LINE
         )
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX8))
+        FlexRow(
+            maxRow = MAX_ROW,
+            horizontalGap = 6.dp,
+            verticalGap = 6.dp,
+            alignment = Alignment.Start
+        ) {
+            repeat(meeting.categories.size) { index ->
+                Tag(
+                    text = meeting.categories[index].title,
+                    chipSize = ChipSize.SMALL,
+                    chipColors = ChipClick.FALSE
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun EventCardFillMaxWidth(
+    meeting: Meeting,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    Card(
+        onClick = onClick,
+        colors = CardDefaults.cardColors(
+            containerColor = Color.Transparent,
+        ),
+        shape = RoundedCornerShape(
+            topStart = MeetTheme.sizes.sizeX16,
+            topEnd = MeetTheme.sizes.sizeX16,
+            bottomEnd = 4.dp,
+            bottomStart = 4.dp
+        ),
+    ) {
+        EventDetailsImage(
+            height = 180.dp,
+            avatarUrl = meeting.avatarUrl,
+            placeholderImage = R.drawable.ic_event_placeholder
+        )
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX8))
+        BaseText(
+            text = meeting.title,
+            textStyle = MeetTheme.typography.interSemiBold24,
+            textColor = MeetTheme.colors.black,
+            maxLines = EVENT_NAME_MAX_LINE
+        )
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX2))
+        BaseText(
+            text = "${eventDate(timestamp = meeting.startDate)} · ${meeting.shortAddress}",
+            textColor = MeetTheme.colors.darkGray,
+            textStyle = MeetTheme.typography.interMedium14,
+            maxLines = DATE_LOCATION_EVENT_MAX_LINE
+        )
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX2))
         FlexRow(
             maxRow = MAX_ROW,
             horizontalGap = 6.dp,

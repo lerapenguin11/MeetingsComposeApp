@@ -75,4 +75,9 @@
     <string name="text_organizer">Организатор</string>
     <string name="text_other_community_Meetings">Другие встречи\nсообщества</string>
     <string name="text_were_at_meeting">Были на встрече</string>
+    <string name="text_desc_under_subscribe_bt">Будем приглашать на встречи сообщества\nи рекомендовать похожие</string>
+    <string name="text_subscribe">Подписаться</string>
+    <string name="text_signed">Подписаны</string>
+    <string name="text_meeting">Встречи</string>
+    <string name="text_past_meetings">Прошлые встречи</string>
 </resources>

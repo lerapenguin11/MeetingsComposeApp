@@ -22,7 +22,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.model.details.MeetingStatus
@@ -43,12 +42,6 @@ import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.component.utils.eventDetailsDate
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.utils.lineBreakInAddress
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun EventDetailsPreview() {
-    EventDetailsScreen(contentPadding = PaddingValues())
-}
 
 @Composable
 fun EventDetailsScreen(
@@ -288,7 +281,8 @@ private fun MeetingOrganizerBlock(
         SpacerWidth(width = MeetTheme.sizes.sizeX10)
         PersonImage(
             placeholderImage = placeholder,
-            avatarUrl = avatarUrl
+            avatarUrl = avatarUrl,
+            size = 104.dp
         )
     }
 }
