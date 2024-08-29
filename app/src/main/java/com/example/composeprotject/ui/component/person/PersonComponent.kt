@@ -28,6 +28,7 @@ import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.composeprotject.R
+import com.example.composeprotject.model.interest.Interest
 import com.example.composeprotject.ui.component.avatar.Avatar
 import com.example.composeprotject.ui.component.avatar.variant.AvatarVariant
 import com.example.composeprotject.ui.component.chip.Tag
@@ -66,7 +67,7 @@ fun PersonImage(
 fun Person(
     namePerson: String,
     avatarUrl: String?,
-    tags: List<String>
+    tags: List<Interest>
 ) {
     Column(
         modifier = Modifier
@@ -86,7 +87,7 @@ fun Person(
             textStyle = MeetTheme.typography.interMedium18
         )
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX4))
-        Tag(text = tags[0], chipColors = ChipClick.FALSE)
+        Tag(text = tags[0].title, chipColors = ChipClick.FALSE)
     }
 }
 
