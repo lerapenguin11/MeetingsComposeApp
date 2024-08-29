@@ -6,11 +6,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -27,6 +25,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
+import com.example.composeprotject.model.details.MeetingStatus
 import com.example.composeprotject.model.interest.Category
 import com.example.composeprotject.ui.component.button.BottomActionBar
 import com.example.composeprotject.ui.component.chip.Chip
@@ -53,9 +52,11 @@ fun EventDetailsPreview() {
 
 @Composable
 fun EventDetailsScreen(
-    modifier: Modifier = Modifier,
-    contentPadding: PaddingValues
+    contentPadding: PaddingValues,
+    modifier: Modifier = Modifier
 ) {
+    val status = MeetingStatus.INACTIVE
+
     Column(verticalArrangement = Arrangement.Bottom) {
         Column(
             modifier = modifier
@@ -76,77 +77,26 @@ fun EventDetailsScreen(
                 startDate = 1722489166,
                 shortMeetingAddress = "Кожевенная линия, 40",
                 categories = tags,
-                description = LoremIpsum(words = 30).values.first()
+                description = LoremIpsum(words = 30).values.first(),
+                status = status
             )
             SpacerHeight(height = MeetTheme.sizes.sizeX32)
-
-            Text(
-                text = stringResource(CommonString.text_leader),
-                color = Color.Black,
-                style = MeetTheme.typography.interSemiBold24
-            )
-
-            SpacerHeight(height = MeetTheme.sizes.sizeX16)
-
-            MeetingOrganizerBlock(
+            LeaderInfo(
                 name = "Павел Хориков",
                 bio = "Ведущий специалист по подбору персонала в одной из крупнейших IT-компаний в ЕС.",
                 avatarUrl = null,
                 placeholder = CommonDrawables.ic_community_placeholder
             )
-
             SpacerHeight(height = MeetTheme.sizes.sizeX32)
+            LocationInfo(
+                short = "Кожевенная линия, 40",
+                full = "Севкабель Порт, Кожевенная линия, 40",
+                metro = "Приморская",
 
-            Text(
-                text = lineBreakInAddress(
-                    short = "Кожевенная линия, 40",
-                    full = "Севкабель Порт, Кожевенная линия, 40"
-                ),
-                color = Color.Black,
-                style = MeetTheme.typography.interSemiBold24
-            )
-
-            SpacerHeight(height = MeetTheme.sizes.sizeX2)
-
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(
-                    painter = painterResource(id = CommonDrawables.ic_metro),
-                    contentDescription = null
                 )
-                Spacer(modifier = Modifier.width(MeetTheme.sizes.sizeX4))
-                Text(
-                    text = "Приморская",
-                    color = Color.Black,
-                    style = MeetTheme.typography.interMedium14
-                )
-            }
-
-            SpacerHeight(height = MeetTheme.sizes.sizeX10)
-
-            Box(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(24.dp))
-                    .height(180.dp)
-                    .fillMaxWidth()
-            ) {
-                Image(
-                    contentScale = ContentScale.Crop,
-                    painter = painterResource(id = CommonDrawables.ic_map),
-                    contentDescription = null
-                )
-            }
-
             SpacerHeight(height = MeetTheme.sizes.sizeX32)
-
-            Text(
-                text = stringResource(CommonString.text_will_meet_halfway),
-                color = Color.Black,
-                style = MeetTheme.typography.interSemiBold24
-            )
-
-            SpacerHeight(height = MeetTheme.sizes.sizeX16)
-
-            PersonRow(
+            PeopleAtMeetings(
+                meetingStatus = status,
                 avatarList = listOf(
                     "https://get.pxhere.com/photo/person-people-portrait-facial-expression-hairstyle-smile-emotion-portrait-photography-134689.jpg",
                     "https://get.pxhere.com/photo/person-people-portrait-facial-expression-hairstyle-smile-emotion-portrait-photography-134689.jpg",
@@ -160,41 +110,153 @@ fun EventDetailsScreen(
                     "https://get.pxhere.com/photo/person-people-portrait-facial-expression-hairstyle-smile-emotion-portrait-photography-134689.jpg",
                 )
             )
-
             SpacerHeight(height = MeetTheme.sizes.sizeX32)
-
-            Text(
-                text = stringResource(CommonString.text_organizer),
-                color = Color.Black,
-                style = MeetTheme.typography.interSemiBold24
-            )
-
-            SpacerHeight(height = MeetTheme.sizes.sizeX16)
-
-            MeetingOrganizerBlock(
+            OrganizerInfo(
                 name = "The IT-Crowd",
                 bio = "Сообщество профессионалов в сфере IT. Объединяем специалистов разных направлений для обмена опытом, знаниями и идеями.",
                 placeholder = CommonDrawables.ic_community_placeholder,
                 avatarUrl = null
             )
-
             SpacerHeight(height = MeetTheme.sizes.sizeX32)
+            OtherCommunityMeetings()
+        }
+        if (status == MeetingStatus.ACTIVE) {
+            BottomActionBar(
+                buttonText = "Записаться на встречу",
+                descText = "Всего 30 мест. Если передумаете — отпишитесь",
+                state = FilledButtonState.ACTIVE_PRIMARY
+            ) {
+                //TODO
+            }
+        }
+    }
+}
 
+@Composable
+private fun OtherCommunityMeetings(
+
+) {
+    Text(
+        text = stringResource(CommonString.text_other_community_Meetings),
+        color = Color.Black,
+        style = MeetTheme.typography.interSemiBold24
+    )
+    SpacerHeight(height = MeetTheme.sizes.sizeX16)
+}
+
+@Composable
+private fun OrganizerInfo(
+    placeholder: Int,
+    name: String,
+    bio: String,
+    avatarUrl: String?
+) {
+    Text(
+        text = stringResource(CommonString.text_organizer),
+        color = Color.Black,
+        style = MeetTheme.typography.interSemiBold24
+    )
+
+    SpacerHeight(height = MeetTheme.sizes.sizeX16)
+
+    MeetingOrganizerBlock(
+        name = name,
+        bio = bio,
+        placeholder = placeholder,
+        avatarUrl = avatarUrl
+    )
+}
+
+@Composable
+private fun PeopleAtMeetings(
+    meetingStatus: MeetingStatus,
+    avatarList: List<String>
+) {
+    when (meetingStatus) {
+        MeetingStatus.ACTIVE -> {
             Text(
-                text = stringResource(CommonString.text_other_community_Meetings),
+                text = stringResource(CommonString.text_will_meet_halfway),
                 color = Color.Black,
                 style = MeetTheme.typography.interSemiBold24
             )
-            SpacerHeight(height = MeetTheme.sizes.sizeX16)
         }
-        BottomActionBar(
-            buttonText = "Записаться на встречу",
-            descText = "Всего 30 мест. Если передумаете — отпишитесь",
-            state = FilledButtonState.ACTIVE_PRIMARY
-        ) {
-            //TODO
+
+        MeetingStatus.INACTIVE -> {
+            Text(
+                text = stringResource(CommonString.text_were_at_meeting),
+                color = Color.Black,
+                style = MeetTheme.typography.interSemiBold24
+            )
         }
     }
+    SpacerHeight(height = MeetTheme.sizes.sizeX16)
+    PersonRow(
+        avatarList = avatarList
+    )
+}
+
+@Composable
+private fun LocationInfo(
+    short: String,
+    full: String,
+    metro: String,
+) {
+    Text(
+        text = lineBreakInAddress(
+            short = short,
+            full = full
+        ),
+        color = Color.Black,
+        style = MeetTheme.typography.interSemiBold24
+    )
+    SpacerHeight(height = MeetTheme.sizes.sizeX2)
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Image(
+            painter = painterResource(id = CommonDrawables.ic_metro),
+            contentDescription = null
+        )
+        SpacerWidth(width = MeetTheme.sizes.sizeX4)
+        Text(
+            text = metro,
+            color = Color.Black,
+            style = MeetTheme.typography.interMedium14
+        )
+    }
+    SpacerHeight(height = MeetTheme.sizes.sizeX10)
+    Box(
+        modifier = Modifier
+            .clip(RoundedCornerShape(24.dp))
+            .height(180.dp)
+            .fillMaxWidth()
+    ) {
+        Image(
+            contentScale = ContentScale.Crop,
+            painter = painterResource(id = CommonDrawables.ic_map),
+            contentDescription = null
+        )
+    }
+}
+
+@Composable
+private fun LeaderInfo(
+    name: String,
+    bio: String,
+    avatarUrl: String?,
+    placeholder: Int
+) {
+    Text(
+        text = stringResource(CommonString.text_leader),
+        color = Color.Black,
+        style = MeetTheme.typography.interSemiBold24
+    )
+
+    SpacerHeight(height = MeetTheme.sizes.sizeX16)
+    MeetingOrganizerBlock(
+        name = name,
+        bio = bio,
+        avatarUrl = avatarUrl,
+        placeholder = placeholder
+    )
 }
 
 @Composable
@@ -258,7 +320,8 @@ private fun CommonInfo(
     startDate: Long,
     shortMeetingAddress: String,
     description: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    status: MeetingStatus
 ) {
     Column(modifier = modifier) {
         EventDetailsImage(
@@ -272,13 +335,13 @@ private fun CommonInfo(
             color = Color.Black,
             style = MeetTheme.typography.interBold34
         )
-        //---TODO добавить условие---
-        Text(
-            text = stringResource(CommonString.text_meeting_over),
-            color = MeetTheme.colors.darkGray,
-            style = MeetTheme.typography.interMedium14
-        )
-        //---TODO добавить условие---
+        if (status == MeetingStatus.INACTIVE) {
+            Text(
+                text = stringResource(CommonString.text_meeting_over),
+                color = MeetTheme.colors.darkGray,
+                style = MeetTheme.typography.interMedium14
+            )
+        }
         SpacerHeight(height = MeetTheme.sizes.sizeX2)
         Text(
             text = "${eventDetailsDate(timestamp = startDate)} · $shortMeetingAddress",
@@ -293,7 +356,7 @@ private fun CommonInfo(
 }
 
 @Composable
-fun ParagraphSplit(description: String) {
+private fun ParagraphSplit(description: String) {
     description.split("\n").forEach { paragraph ->
         Text(
             text = paragraph,
