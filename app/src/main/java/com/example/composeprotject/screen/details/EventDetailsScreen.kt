@@ -27,7 +27,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
-import com.example.composeprotject.R
 import com.example.composeprotject.model.interest.Category
 import com.example.composeprotject.ui.component.button.BottomActionBar
 import com.example.composeprotject.ui.component.chip.Chip
@@ -39,6 +38,8 @@ import com.example.composeprotject.ui.component.person.PersonRow
 import com.example.composeprotject.ui.component.spacer.SpacerHeight
 import com.example.composeprotject.ui.component.spacer.SpacerWidth
 import com.example.composeprotject.ui.component.state.FilledButtonState
+import com.example.composeprotject.ui.component.utils.CommonDrawables
+import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.component.utils.eventDetailsDate
 import com.example.composeprotject.ui.theme.MeetTheme
@@ -80,7 +81,7 @@ fun EventDetailsScreen(
             SpacerHeight(height = MeetTheme.sizes.sizeX32)
 
             Text(
-                text = stringResource(R.string.text_leader),
+                text = stringResource(CommonString.text_leader),
                 color = Color.Black,
                 style = MeetTheme.typography.interSemiBold24
             )
@@ -91,7 +92,7 @@ fun EventDetailsScreen(
                 name = "Павел Хориков",
                 bio = "Ведущий специалист по подбору персонала в одной из крупнейших IT-компаний в ЕС.",
                 avatarUrl = null,
-                placeholder = R.drawable.ic_community_placeholder
+                placeholder = CommonDrawables.ic_community_placeholder
             )
 
             SpacerHeight(height = MeetTheme.sizes.sizeX32)
@@ -109,7 +110,7 @@ fun EventDetailsScreen(
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_metro),
+                    painter = painterResource(id = CommonDrawables.ic_metro),
                     contentDescription = null
                 )
                 Spacer(modifier = Modifier.width(MeetTheme.sizes.sizeX4))
@@ -130,7 +131,7 @@ fun EventDetailsScreen(
             ) {
                 Image(
                     contentScale = ContentScale.Crop,
-                    painter = painterResource(id = R.drawable.ic_map),
+                    painter = painterResource(id = CommonDrawables.ic_map),
                     contentDescription = null
                 )
             }
@@ -138,7 +139,7 @@ fun EventDetailsScreen(
             SpacerHeight(height = MeetTheme.sizes.sizeX32)
 
             Text(
-                text = stringResource(R.string.text_will_meet_halfway),
+                text = stringResource(CommonString.text_will_meet_halfway),
                 color = Color.Black,
                 style = MeetTheme.typography.interSemiBold24
             )
@@ -163,7 +164,7 @@ fun EventDetailsScreen(
             SpacerHeight(height = MeetTheme.sizes.sizeX32)
 
             Text(
-                text = stringResource(R.string.text_organizer),
+                text = stringResource(CommonString.text_organizer),
                 color = Color.Black,
                 style = MeetTheme.typography.interSemiBold24
             )
@@ -173,14 +174,14 @@ fun EventDetailsScreen(
             MeetingOrganizerBlock(
                 name = "The IT-Crowd",
                 bio = "Сообщество профессионалов в сфере IT. Объединяем специалистов разных направлений для обмена опытом, знаниями и идеями.",
-                placeholder = R.drawable.ic_community_placeholder,
+                placeholder = CommonDrawables.ic_community_placeholder,
                 avatarUrl = null
             )
 
             SpacerHeight(height = MeetTheme.sizes.sizeX32)
 
             Text(
-                text = stringResource(R.string.text_other_community_Meetings),
+                text = stringResource(CommonString.text_other_community_Meetings),
                 color = Color.Black,
                 style = MeetTheme.typography.interSemiBold24
             )
@@ -263,7 +264,7 @@ private fun CommonInfo(
         EventDetailsImage(
             height = 267.dp,
             avatarUrl = avatarUrl,
-            placeholderImage = R.drawable.ic_placeholder_details
+            placeholderImage = CommonDrawables.ic_placeholder_details
         )
         SpacerHeight(height = MeetTheme.sizes.sizeX8)
         Text(
@@ -273,7 +274,7 @@ private fun CommonInfo(
         )
         //---TODO добавить условие---
         Text(
-            text = stringResource(R.string.text_meeting_over),
+            text = stringResource(CommonString.text_meeting_over),
             color = MeetTheme.colors.darkGray,
             style = MeetTheme.typography.interMedium14
         )
