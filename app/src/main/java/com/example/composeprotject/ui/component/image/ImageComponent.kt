@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.composeprotject.R
+import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.imageCash
 import com.example.composeprotject.ui.theme.MeetTheme
 
@@ -43,7 +43,7 @@ fun EventDetailsImage(
             ),
             placeholder = painterResource(placeholderImage),
             error = painterResource(placeholderImage),
-            contentDescription = stringResource(R.string.text_avatar_meetings),
+            contentDescription = stringResource(CommonString.text_avatar_meetings),
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
@@ -71,7 +71,7 @@ fun EventImage(
             ),
             placeholder = painterResource(placeholderImage),
             error = painterResource(placeholderImage),
-            contentDescription = stringResource(R.string.text_avatar_meetings),
+            contentDescription = stringResource(CommonString.text_avatar_meetings),
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
@@ -97,7 +97,7 @@ fun CommunityImage(
             ),
             placeholder = painterResource(placeholderImage),
             error = painterResource(placeholderImage),
-            contentDescription = stringResource(R.string.text_avatar_meetings),
+            contentDescription = stringResource(CommonString.text_avatar_meetings),
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )

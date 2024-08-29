@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.example.composeprotject.R
 import com.example.composeprotject.model.community.Community
 import com.example.composeprotject.model.interest.Category
 import com.example.composeprotject.model.interest.Interest
@@ -32,6 +31,7 @@ import com.example.composeprotject.ui.component.chip.Chip
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipSize
 import com.example.composeprotject.ui.component.state.SubscribeButtonState
+import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.theme.MeetTheme
 import kotlin.random.Random
@@ -53,7 +53,7 @@ fun MainScreen(
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX32))
         Text(
             modifier = Modifier.padding(start = MeetTheme.sizes.sizeX16),
-            text = stringResource(R.string.text_upcoming_meetings),
+            text = stringResource(CommonString.text_upcoming_meetings),
             color = Color.Black,
             style = MeetTheme.typography.interSemiBold24
         )
@@ -65,7 +65,7 @@ fun MainScreen(
                 start = MeetTheme.sizes.sizeX16,
                 end = MeetTheme.sizes.sizeX16
             ),
-            text = "${stringResource(R.string.text_communities_for)} ${textSpecialist}",
+            text = "${stringResource(CommonString.text_communities_for)} ${textSpecialist}",
             color = Color.Black,
             style = MeetTheme.typography.interSemiBold24
         )
@@ -77,7 +77,7 @@ fun MainScreen(
                 start = MeetTheme.sizes.sizeX16,
                 end = MeetTheme.sizes.sizeX16
             ),
-            text = stringResource(R.string.text_other_meetings),
+            text = stringResource(CommonString.text_other_meetings),
             color = Color.Black,
             style = MeetTheme.typography.interSemiBold24
         )

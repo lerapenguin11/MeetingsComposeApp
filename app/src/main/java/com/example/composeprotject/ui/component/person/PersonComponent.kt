@@ -26,13 +26,14 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
-import com.example.composeprotject.R
 import com.example.composeprotject.model.interest.Interest
 import com.example.composeprotject.ui.component.avatar.Avatar
 import com.example.composeprotject.ui.component.avatar.variant.AvatarVariant
 import com.example.composeprotject.ui.component.chip.Tag
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
 import com.example.composeprotject.ui.component.text.BaseText
+import com.example.composeprotject.ui.component.utils.CommonDrawables
+import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.imageCash
 import com.example.composeprotject.ui.theme.MeetTheme
 
@@ -56,7 +57,7 @@ fun PersonImage(
             ),
             placeholder = painterResource(placeholderImage),
             error = painterResource(placeholderImage),
-            contentDescription = stringResource(R.string.text_avatar_meetings),
+            contentDescription = stringResource(CommonString.text_avatar_meetings),
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
@@ -75,8 +76,8 @@ fun Person(
     ) {
         Avatar(
             variant = AvatarVariant.BIG,
-            contentDescription = R.string.text_avatars_people,
-            placeholderImage = R.drawable.ic_avatar_placeholder,
+            contentDescription = CommonString.text_avatars_people,
+            placeholderImage = CommonDrawables.ic_avatar_placeholder,
             avatarUrl = avatarUrl
         )
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX4))
@@ -104,7 +105,7 @@ fun PersonRow(
         if (avatarList.isEmpty()) {
             BaseText(
                 text = stringResource(
-                    id = R.string.text_attendees_row
+                    id = CommonString.text_attendees_row
                 ),
                 textStyle = MeetTheme.typography.bodyText1,
                 textColor = MeetTheme.colors.neutralActive
@@ -115,8 +116,8 @@ fun PersonRow(
                 Avatar(
                     modifier = Modifier.zIndex(zIndex = (-zIndex).toFloat()),
                     variant = AvatarVariant.SMALL,
-                    contentDescription = R.string.text_avatars_people,
-                    placeholderImage = R.drawable.ic_avatar_placeholder,
+                    contentDescription = CommonString.text_avatars_people,
+                    placeholderImage = CommonDrawables.ic_avatar_placeholder,
                     avatarUrl = element
                 )
             }

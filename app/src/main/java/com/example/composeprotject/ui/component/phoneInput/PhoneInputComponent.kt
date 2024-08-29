@@ -40,6 +40,7 @@ import com.example.composeprotject.ui.component.input.inputState.InputColors
 import com.example.composeprotject.ui.component.input.inputState.InputColorsDefaults
 import com.example.composeprotject.ui.component.state.InputState
 import com.example.composeprotject.ui.component.text.BaseText
+import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.utils.CountryData
 import com.google.i18n.phonenumbers.PhoneNumberUtil
@@ -53,7 +54,7 @@ fun PhoneNumberContainer() {
     var region by remember { mutableStateOf(EMPTY_LINE) }
     val countryDataRegion = countryData?.get(region)
     val mask = countryDataRegion?.placeholder
-        ?: stringResource(id = R.string.text_ph_phone_number)
+        ?: stringResource(id = CommonString.text_ph_phone_number)
     val colorBorder =
         if (phoneNumberValue.isNotEmpty()) MeetTheme.colors.secondary else MeetTheme.colors.primary
 

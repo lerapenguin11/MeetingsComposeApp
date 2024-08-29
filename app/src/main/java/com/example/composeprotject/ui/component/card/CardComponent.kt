@@ -17,7 +17,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.composeprotject.R
 import com.example.composeprotject.model.community.Community
 import com.example.composeprotject.model.meeting.Meeting
 import com.example.composeprotject.ui.component.button.SubscribeButton
@@ -32,6 +31,8 @@ import com.example.composeprotject.ui.component.image.EventDetailsImage
 import com.example.composeprotject.ui.component.image.EventImage
 import com.example.composeprotject.ui.component.state.SubscribeButtonState
 import com.example.composeprotject.ui.component.text.BaseText
+import com.example.composeprotject.ui.component.utils.CommonDrawables
+import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.component.utils.eventDate
 import com.example.composeprotject.ui.theme.MeetTheme
@@ -62,7 +63,7 @@ fun EventCard(
             width = style.widthImage(variant = variant),
             height = style.heightImage(variant = variant),
             avatarUrl = meeting.avatarUrl,
-            placeholderImage = R.drawable.ic_event_placeholder
+            placeholderImage = CommonDrawables.ic_event_placeholder
         )
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX8))
         BaseText(
@@ -117,7 +118,7 @@ fun EventCardFillMaxWidth(
         EventDetailsImage(
             height = 180.dp,
             avatarUrl = meeting.avatarUrl,
-            placeholderImage = R.drawable.ic_event_placeholder
+            placeholderImage = CommonDrawables.ic_event_placeholder
         )
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX8))
         BaseText(
@@ -172,7 +173,7 @@ fun CommunityCard(
         ),
     ) {
         CommunityImage(
-            placeholderImage = R.drawable.ic_community_placeholder,
+            placeholderImage = CommonDrawables.ic_community_placeholder,
             avatarUrl = community.avatarUrl
         )
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX4))
@@ -221,7 +222,7 @@ fun EventViewAllCard(
         ) {
             Text(
                 modifier = Modifier.padding(all = 10.dp),
-                text = stringResource(R.string.text_view_all),
+                text = stringResource(CommonString.text_view_all),
                 color = MeetTheme.colors.primary,
                 style = MeetTheme.typography.interMedium18,
                 textAlign = TextAlign.Center
@@ -257,7 +258,7 @@ fun CommunityViewAllCard(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = stringResource(R.string.text_all),
+                text = stringResource(CommonString.text_all),
                 color = MeetTheme.colors.primary,
                 style = MeetTheme.typography.interMedium18,
                 textAlign = TextAlign.Center

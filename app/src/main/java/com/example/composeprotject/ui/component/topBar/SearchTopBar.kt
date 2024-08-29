@@ -40,12 +40,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import com.example.composeprotject.R
 import com.example.composeprotject.ui.component.input.inputState.InputColors
 import com.example.composeprotject.ui.component.input.inputState.InputColorsDefaults
 import com.example.composeprotject.ui.component.state.InputState
+import com.example.composeprotject.ui.component.utils.CommonDrawables
+import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.theme.MeetTheme
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -127,12 +127,12 @@ fun SearchBar(
                             modifier = Modifier
                                 .size(size = 22.dp),
                             tint = MeetTheme.colors.darkGray,
-                            painter = painterResource(id = R.drawable.ic_event_community_search),
-                            contentDescription = stringResource(id = R.string.text_search)
+                            painter = painterResource(id = CommonDrawables.ic_event_community_search),
+                            contentDescription = stringResource(id = CommonString.text_search)
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
-                            text = stringResource(id = R.string.text_search),
+                            text = stringResource(id = CommonString.text_search),
                             style = MeetTheme.typography.interMedium14,
                             color = MeetTheme.colors.darkGray
                         )
@@ -164,8 +164,8 @@ fun SearchBar(
                                     searchText = ""
                                 },
                             tint = MeetTheme.colors.darkGray,
-                            painter = painterResource(id = R.drawable.ic_event_text_clear),
-                            contentDescription = stringResource(id = R.string.text_search)
+                            painter = painterResource(id = CommonDrawables.ic_event_text_clear),
+                            contentDescription = stringResource(id = CommonString.text_search)
                         )
                     }
                 }
@@ -195,13 +195,13 @@ fun SearchBar(
                 ) {
                     Image(
                         modifier = Modifier.size(width = 32.dp, height = 44.dp),
-                        painter = painterResource(id = R.drawable.ic_user_profile),
+                        painter = painterResource(id = CommonDrawables.ic_user_profile),
                         contentDescription = null
                     )
                 }
             } else {
                 Text(
-                    text = stringResource(R.string.text_cancel),
+                    text = stringResource(CommonString.text_cancel),
                     color = MeetTheme.colors.primary,
                     style = MeetTheme.typography.interSemiBold14
                 )

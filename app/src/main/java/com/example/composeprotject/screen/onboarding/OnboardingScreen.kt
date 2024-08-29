@@ -15,13 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.example.composeprotject.R
 import com.example.composeprotject.model.interest.Interest
 import com.example.composeprotject.ui.component.button.FilledButton
 import com.example.composeprotject.ui.component.chip.Chip
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipSize
 import com.example.composeprotject.ui.component.state.FilledButtonState
+import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.theme.MeetTheme
 
@@ -37,13 +37,13 @@ fun OnboardingScreen(
     ) {
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX20))
         Text(
-            text = stringResource(R.string.text_interests),
+            text = stringResource(CommonString.text_interests),
             color = Color.Black,
             style = MeetTheme.typography.interSemiBold49
         )
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX12))
         Text(
-            text = stringResource(R.string.text_interests_desc),
+            text = stringResource(CommonString.text_interests_desc),
             color = Color.Black,
             style = MeetTheme.typography.interRegular19
         )
@@ -71,14 +71,14 @@ fun OnboardingScreen(
         ) {
             FilledButton(
                 state = FilledButtonState.DISABLED,
-                buttonText = stringResource(id = R.string.text_save)
+                buttonText = stringResource(id = CommonString.text_save)
             ) {
                 /*TODO*/
             }
             Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX16))
             Text(
                 modifier = Modifier.clickable { /*TODO*/ },
-                text = stringResource(R.string.text_tell_later),
+                text = stringResource(CommonString.text_tell_later),
                 color = MeetTheme.colors.darkGray,
                 style = MeetTheme.typography.interMedium18
             )

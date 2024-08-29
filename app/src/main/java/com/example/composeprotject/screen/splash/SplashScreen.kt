@@ -12,7 +12,7 @@ import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.composeprotject.R
+import com.example.composeprotject.ui.component.utils.CommonDrawables
 
 @Composable
 fun SplashScreen(
@@ -23,7 +23,7 @@ fun SplashScreen(
         modifier = with(modifier) {
             fillMaxSize()
                 .paint(
-                    painterResource(id = R.drawable.ic_splash_fon),
+                    painterResource(id = CommonDrawables.ic_splash_fon),
                     contentScale = ContentScale.FillBounds
                 )
                 .padding(contentPadding)
@@ -32,7 +32,7 @@ fun SplashScreen(
         contentAlignment = Alignment.Center
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_logo),
+            painter = painterResource(id = CommonDrawables.ic_logo),
             contentDescription = null
         )
     }
