@@ -13,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
 import com.example.composeprotject.model.interest.Category
@@ -36,14 +35,6 @@ import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.theme.MeetTheme
 import kotlin.random.Random
 import kotlin.random.nextUInt
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun CommunityDetailsScreenPreview() {
-    CommunityDetailsScreen(
-        contentPadding = PaddingValues()
-    )
-}
 
 @Composable
 fun CommunityDetailsScreen(
