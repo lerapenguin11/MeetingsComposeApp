@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.example.composeprotject.R
 import com.example.composeprotject.model.interest.Interest
 import com.example.composeprotject.ui.component.avatar.Avatar
@@ -34,6 +33,7 @@ import com.example.composeprotject.ui.component.avatar.variant.AvatarVariant
 import com.example.composeprotject.ui.component.chip.Tag
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
 import com.example.composeprotject.ui.component.text.BaseText
+import com.example.composeprotject.ui.component.utils.imageCash
 import com.example.composeprotject.ui.theme.MeetTheme
 
 @Composable
@@ -50,10 +50,10 @@ fun PersonImage(
             .background(color = Color.Transparent)
     ) {
         AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(avatarUrl)
-                .crossfade(true)
-                .build(),
+            model = imageCash(
+                context = LocalContext.current,
+                imageUrl = avatarUrl
+            ),
             placeholder = painterResource(placeholderImage),
             error = painterResource(placeholderImage),
             contentDescription = stringResource(R.string.text_avatar_meetings),

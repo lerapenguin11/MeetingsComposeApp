@@ -18,8 +18,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.example.composeprotject.R
+import com.example.composeprotject.ui.component.utils.imageCash
 import com.example.composeprotject.ui.theme.MeetTheme
 
 @Composable
@@ -37,10 +37,10 @@ fun EventDetailsImage(
             .background(color = Color.Transparent)
     ) {
         AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(avatarUrl)
-                .crossfade(true)
-                .build(),
+            model = imageCash(
+                context = LocalContext.current,
+                imageUrl = avatarUrl
+            ),
             placeholder = painterResource(placeholderImage),
             error = painterResource(placeholderImage),
             contentDescription = stringResource(R.string.text_avatar_meetings),
@@ -65,10 +65,10 @@ fun EventImage(
             .background(color = Color.Transparent)
     ) {
         AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(avatarUrl)
-                .crossfade(true)
-                .build(),
+            model = imageCash(
+                context = LocalContext.current,
+                imageUrl = avatarUrl
+            ),
             placeholder = painterResource(placeholderImage),
             error = painterResource(placeholderImage),
             contentDescription = stringResource(R.string.text_avatar_meetings),
@@ -91,10 +91,10 @@ fun CommunityImage(
             .background(color = Color.Transparent)
     ) {
         AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(avatarUrl)
-                .crossfade(true)
-                .build(),
+            model = imageCash(
+                context = LocalContext.current,
+                imageUrl = avatarUrl
+            ),
             placeholder = painterResource(placeholderImage),
             error = painterResource(placeholderImage),
             contentDescription = stringResource(R.string.text_avatar_meetings),
