@@ -174,6 +174,11 @@ val MeetTypographyValue = MeetTypography(
         fontFamily = Inter,
         fontWeight = FontWeight.SemiBold,
         fontSize = 49.sp,
+        lineHeight = 44.sp,
+        lineHeightStyle = LineHeightStyle(
+            alignment = LineHeightStyle.Alignment.Center,
+            trim = LineHeightStyle.Trim.None
+        ),
         letterSpacing = (-0.5).sp,
         platformStyle = PlatformTextStyle(
             includeFontPadding = false,

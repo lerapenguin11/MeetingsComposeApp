@@ -80,4 +80,9 @@
     <string name="text_signed">Подписаны</string>
     <string name="text_meeting">Встречи</string>
     <string name="text_past_meetings">Прошлые встречи</string>
+    <string name="text_log_in_and_make_appointment">Вход\nи запись\nна встречу</string>
+    <string name="text_name_and_surname">Имя и фамилия</string>
+    <string name="text_placeholder_code">0000</string>
+    <string name="text_send_and_confirm_an_entry">Отправить и подтвердить запись</string>
+    <string name="text_get_code">Получить код</string>
 </resources>
