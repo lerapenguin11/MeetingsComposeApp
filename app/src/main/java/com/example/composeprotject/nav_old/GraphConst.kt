@@ -1,4 +1,4 @@
-package com.example.composeprotject.nav
+package com.example.composeprotject.nav_old
 
 object Graph {
     const val ROOT = "root_graph"
