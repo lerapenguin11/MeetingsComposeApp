@@ -10,10 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.composeprotject.nav.EventGraph
+import com.example.composeprotject.nav_old.EventGraph
 import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.navigation.navComponent.BottomNavigationBar
-import com.example.composeprotject.ui.component.toolbar.newTopBar.MyTopAppBar
+import com.example.composeprotject.ui.component_old.toolbar.newTopBar.MyTopAppBar
 import com.example.composeprotject.ui.theme.MeetTheme
 
 @Composable

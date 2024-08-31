@@ -2,10 +2,22 @@ package com.example.composeprotject.ui.theme
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 @Immutable
 data class MeetColorScheme(
+    val primary: Color,
+    val secondary: Color,
+    val error: Color,
+    val black: Color,
+    val gray: Color,
+    val backgroundColorPrimary: Brush,
+    val backgroundColorSecondary: Brush,
+    val darkGray: Color,
+    val inactiveSwitch: Color,
+
+
     val disabledButton: Color,
     val brandDark: Color,
     val brandDarkInnerShadow: Color,
@@ -34,6 +46,33 @@ data class MeetColorScheme(
 )
 
 val LightColorScheme = MeetColorScheme(
+    primary = Color(0xff9A10F0),
+    secondary = Color(0xffF6F6FA),
+    error = Color(0xffFEE7ED),
+    black = Color(0xff000000),
+    neutralDisabled = Color(0xffADB5BD),
+    gray = Color(0xff9797AF),
+    backgroundColorPrimary = Brush.horizontalGradient(
+        listOf(
+            Color(0xFFED3CCA), Color(0xFFDF34D2),
+            Color(0xFFD02BD9), Color(0xFFBF22E1),
+            Color(0xFFAE1AE8), Color(0xFF9A10F0),
+            Color(0xFF8306F7), Color(0xFF6600FF)
+        )
+    ),
+    backgroundColorSecondary = Brush.horizontalGradient(
+        listOf(
+            Color(0xFFFEF1FB), Color(0xFFFDF1FC),
+            Color(0xFFFCF0FC), Color(0xFFFBF0FD),
+            Color(0xFFF9EFFD), Color(0xFFF8EEFE),
+            Color(0xFFF6EEFE), Color(0xFFF4EDFF)
+        )
+    ),
+    darkGray = Color(0xff76778E),
+    inactiveSwitch = Color(0xffEFEFEF),
+
+
+
     disabledButton = Color(0xffCB9FFD),
     brandDark = Color(0xff660EC8),
     brandDarkInnerShadow = Color(0xff530BA2),
@@ -45,7 +84,6 @@ val LightColorScheme = MeetColorScheme(
     neutralDark = Color(0xff190E26),
     neutralBody = Color(0xff1D0835),
     neutralWeak = Color(0xffA4A4A4),
-    neutralDisabled = Color(0xffADB5BD),
     neutralDisabled2 = Color(0xffD8DCE0),
     neutralLine = Color(0xffEDEDED),
     neutralOffWhite = Color(0xffF7F7FC),
