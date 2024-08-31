@@ -26,7 +26,7 @@ import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.theme.MeetTheme
 
 @Composable
-fun OnboardingScreen(
+fun InterestsScreen(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues
 ) {
