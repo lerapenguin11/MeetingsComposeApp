@@ -15,7 +15,7 @@ import com.example.composeprotject.ui.component_old.menuItem.MyEventMenuItem
 import com.example.composeprotject.ui.component_old.menuItem.ProfileMenuItem
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.utils.getUserFullName
-import com.example.composeprotject.viewModel.nav.StillViewModel
+import com.example.composeprotject.viewModel_old.nav.StillViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

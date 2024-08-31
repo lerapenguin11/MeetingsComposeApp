@@ -16,7 +16,7 @@ import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.component.text.ExpandableText
 import com.example.composeprotject.ui.component_old.card.EventCard
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.details.CommunityDetailsViewModel
+import com.example.composeprotject.viewModel_old.details.CommunityDetailsViewModel
 import org.koin.androidx.compose.koinViewModel
 
 private const val MAX_LINE_DESC = 13

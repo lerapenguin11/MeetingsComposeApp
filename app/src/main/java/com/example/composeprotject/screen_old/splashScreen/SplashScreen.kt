@@ -14,7 +14,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.composeprotject.R
-import com.example.composeprotject.viewModel.SplashScreenViewModel
+import com.example.composeprotject.viewModel_old.SplashScreenViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

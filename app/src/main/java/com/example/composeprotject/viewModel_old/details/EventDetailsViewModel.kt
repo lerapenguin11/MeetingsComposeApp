@@ -1,4 +1,4 @@
-package com.example.composeprotject.viewModel.details
+package com.example.composeprotject.viewModel_old.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

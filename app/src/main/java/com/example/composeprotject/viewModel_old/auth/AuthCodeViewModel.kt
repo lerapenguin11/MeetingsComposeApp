@@ -1,4 +1,4 @@
-package com.example.composeprotject.viewModel.auth
+package com.example.composeprotject.viewModel_old.auth
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

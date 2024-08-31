@@ -23,7 +23,7 @@ import com.example.composeprotject.ui.component_old.state.ButtonState
 import com.example.composeprotject.ui.component_old.variant.avatar.AvatarState
 import com.example.composeprotject.ui.component_old.variant.avatar.ProfileAvatarVariant
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.auth.CreateProfileViewModel
+import com.example.composeprotject.viewModel_old.auth.CreateProfileViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

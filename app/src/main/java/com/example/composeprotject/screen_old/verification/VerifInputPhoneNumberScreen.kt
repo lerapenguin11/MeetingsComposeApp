@@ -25,7 +25,7 @@ import com.example.composeprotject.ui.component_old.custom.PhoneNumberInputOld
 import com.example.composeprotject.ui.component_old.state.ButtonState
 import com.example.composeprotject.ui.component_old.state.ProgressButtonState
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.auth.AuthPhoneNumberViewModel
+import com.example.composeprotject.viewModel_old.auth.AuthPhoneNumberViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel

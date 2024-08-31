@@ -17,7 +17,7 @@ import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.component_old.button.TextButton
 import com.example.composeprotject.ui.component_old.custom.CodeInput
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.auth.AuthCodeViewModel
+import com.example.composeprotject.viewModel_old.auth.AuthCodeViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

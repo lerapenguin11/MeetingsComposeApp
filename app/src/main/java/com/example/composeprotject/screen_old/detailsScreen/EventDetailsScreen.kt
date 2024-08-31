@@ -31,7 +31,7 @@ import com.example.composeprotject.ui.component_old.avatar.AttendeesRow
 import com.example.composeprotject.ui.component_old.button.ToggleMeetingButton
 import com.example.composeprotject.ui.component_old.chip.ChipOld
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.details.EventDetailsViewModel
+import com.example.composeprotject.viewModel_old.details.EventDetailsViewModel
 import org.koin.androidx.compose.koinViewModel
 
 private const val MAX_LINE_DESC = 8

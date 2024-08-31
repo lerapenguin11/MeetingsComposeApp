@@ -10,7 +10,7 @@ import com.example.common.utils_ui.MyEventVariant
 import com.example.composeprotject.R
 import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.component_old.card.EventCard
-import com.example.composeprotject.viewModel.MyEventViewModel
+import com.example.composeprotject.viewModel_old.MyEventViewModel
 import org.koin.androidx.compose.koinViewModel
 
 //TODO: расшарить eventViewModel на MyMeetingsScreen и MyEventScreen

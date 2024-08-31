@@ -1,4 +1,4 @@
-package com.example.composeprotject.viewModel.nav
+package com.example.composeprotject.viewModel_old.nav
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
