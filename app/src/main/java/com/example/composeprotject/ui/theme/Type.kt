@@ -54,7 +54,8 @@ data class MeetTypography(
     val metadata3: TextStyle,
     val robotoMedium: TextStyle,
     val sfProDisplaySemibold24: TextStyle,
-    val sfProDisplayRegular16: TextStyle
+    val sfProDisplayRegular16: TextStyle,
+    val interMedium20: TextStyle
 )
 
 val MeetTypographyValue = MeetTypography(
@@ -156,6 +157,20 @@ val MeetTypographyValue = MeetTypography(
             includeFontPadding = false,
         ),
     ),
+    interMedium20 = TextStyle(
+        fontFamily = Inter,
+        fontWeight = FontWeight.Medium,
+        fontSize = 20.sp,
+        lineHeight = 24.sp,
+        lineHeightStyle = LineHeightStyle(
+            alignment = LineHeightStyle.Alignment.Center,
+            trim = LineHeightStyle.Trim.None
+        ),
+        letterSpacing = (0.1).sp,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false,
+        ),
+    ),
     interSemiBold24 = TextStyle(
         fontFamily = Inter,
         fontWeight = FontWeight.SemiBold,
@@ -186,8 +201,6 @@ val MeetTypographyValue = MeetTypography(
     ),
 
 
-
-    
     heading1 = TextStyle(
         fontFamily = SFProDisplayFont,
         fontWeight = FontWeight.Bold,
@@ -307,7 +320,7 @@ val MeetTypographyValue = MeetTypography(
             alignment = LineHeightStyle.Alignment.Center,
             trim = LineHeightStyle.Trim.None
         )
-    )
+    ),
 )
 
 val LocalTypography = staticCompositionLocalOf {

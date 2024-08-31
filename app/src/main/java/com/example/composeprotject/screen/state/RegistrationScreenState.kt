@@ -1,4 +1,4 @@
-package com.example.composeprotject.ui.component.state
+package com.example.composeprotject.screen.state
 
 enum class RegistrationScreenState {
     INPUT_NAME,

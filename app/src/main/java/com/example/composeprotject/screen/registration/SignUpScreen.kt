@@ -24,13 +24,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
+import com.example.composeprotject.screen.state.RegistrationScreenState
 import com.example.composeprotject.ui.component.button.FilledButton
 import com.example.composeprotject.ui.component.input.SimpleInputField
 import com.example.composeprotject.ui.component.phoneInput.PhoneNumberContainer
 import com.example.composeprotject.ui.component.spacer.SpacerHeight
 import com.example.composeprotject.ui.component.state.FilledButtonState
 import com.example.composeprotject.ui.component.state.InputState
-import com.example.composeprotject.ui.component.state.RegistrationScreenState
 import com.example.composeprotject.ui.component.utils.CommonDrawables
 import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.eventDate
