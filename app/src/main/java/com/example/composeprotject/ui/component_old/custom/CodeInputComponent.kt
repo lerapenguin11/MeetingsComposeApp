@@ -30,7 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.composeprotject.viewModel.auth.AuthCodeViewModel
+import com.example.composeprotject.viewModel_old.auth.AuthCodeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

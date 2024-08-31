@@ -33,11 +33,17 @@ fun Chip(
         modifier = modifier
             .clip(shape = RoundedCornerShape(MeetTheme.sizes.sizeX8))
             .background(color = color[SELECTED_BOX_COLOR] ?: MeetTheme.colors.secondary)
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = rememberRipple(bounded = true),
-                onClick = {
-                    onClick()
+            .then(
+                if (chipColors == ChipClick.TRUE) {
+                    modifier.clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = rememberRipple(bounded = false),
+                        onClick = {
+                            onClick()
+                        }
+                    )
+                } else {
+                    modifier
                 }
             )
             .padding(

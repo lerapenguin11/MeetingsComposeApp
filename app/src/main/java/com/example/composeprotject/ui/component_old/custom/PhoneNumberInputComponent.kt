@@ -35,7 +35,7 @@ import com.example.composeprotject.app.BaseApplication
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.utils.CountryData
-import com.example.composeprotject.viewModel.auth.AuthPhoneNumberViewModel
+import com.example.composeprotject.viewModel_old.auth.AuthPhoneNumberViewModel
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 
 @OptIn(ExperimentalMaterial3Api::class)

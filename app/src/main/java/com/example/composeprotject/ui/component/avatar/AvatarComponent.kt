@@ -11,10 +11,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.example.composeprotject.ui.component.avatar.avatarStyle.AvatarSizeDefault
 import com.example.composeprotject.ui.component.avatar.avatarStyle.AvatarSizeVariant
 import com.example.composeprotject.ui.component.avatar.variant.AvatarVariant
+import com.example.composeprotject.ui.component.utils.imageCash
 
 @Composable
 fun Avatar(
@@ -30,10 +30,10 @@ fun Avatar(
             .size(avatarSize.size(variant = variant))
             .clip(CircleShape)
             .fillMaxSize(),
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(avatarUrl)
-            .crossfade(true)
-            .build(),
+        model = imageCash(
+            context = LocalContext.current,
+            imageUrl = avatarUrl
+        ),
         error = painterResource(placeholderImage),
         placeholder = painterResource(placeholderImage),
         contentDescription = stringResource(id = contentDescription),

@@ -7,6 +7,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.sp
 import com.example.composeprotject.R
@@ -38,6 +39,8 @@ data class MeetTypography(
     val interBold34: TextStyle,
     val interSemiBold14: TextStyle,
     val interMedium18: TextStyle,
+    val interSemiBold24: TextStyle,
+    val interSemiBold49: TextStyle,
 
 
     val heading1: TextStyle,
@@ -51,7 +54,8 @@ data class MeetTypography(
     val metadata3: TextStyle,
     val robotoMedium: TextStyle,
     val sfProDisplaySemibold24: TextStyle,
-    val sfProDisplayRegular16: TextStyle
+    val sfProDisplayRegular16: TextStyle,
+    val interMedium20: TextStyle
 )
 
 val MeetTypographyValue = MeetTypography(
@@ -75,7 +79,8 @@ val MeetTypographyValue = MeetTypography(
             alignment = LineHeightStyle.Alignment.Top,
             trim = LineHeightStyle.Trim.None
         ),
-        letterSpacing = 0.sp
+        letterSpacing = 0.1.sp,
+        lineBreak = LineBreak.Paragraph
     ),
     interMedium22 = TextStyle(
         fontFamily = Inter,
@@ -112,13 +117,13 @@ val MeetTypographyValue = MeetTypography(
     ),
     interBold34 = TextStyle(
         fontFamily = Inter,
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight.Bold,
         fontSize = 34.sp,
-        lineHeight = 32.sp,
+        /*lineHeight = 20.sp,
         lineHeightStyle = LineHeightStyle(
             alignment = LineHeightStyle.Alignment.Center,
-            trim = LineHeightStyle.Trim.None
-        ),
+            trim = LineHeightStyle.Trim.FirstLineTop
+        ),*/
         letterSpacing = (0.1).sp,
         platformStyle = PlatformTextStyle(
             includeFontPadding = false,
@@ -152,11 +157,50 @@ val MeetTypographyValue = MeetTypography(
             includeFontPadding = false,
         ),
     ),
+    interMedium20 = TextStyle(
+        fontFamily = Inter,
+        fontWeight = FontWeight.Medium,
+        fontSize = 20.sp,
+        lineHeight = 24.sp,
+        lineHeightStyle = LineHeightStyle(
+            alignment = LineHeightStyle.Alignment.Center,
+            trim = LineHeightStyle.Trim.None
+        ),
+        letterSpacing = (0.1).sp,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false,
+        ),
+    ),
+    interSemiBold24 = TextStyle(
+        fontFamily = Inter,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 24.sp,
+        lineHeight = 26.sp,
+        lineHeightStyle = LineHeightStyle(
+            alignment = LineHeightStyle.Alignment.Center,
+            trim = LineHeightStyle.Trim.None
+        ),
+        letterSpacing = (0.1).sp,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false,
+        )
+    ),
+    interSemiBold49 = TextStyle(
+        fontFamily = Inter,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 49.sp,
+        lineHeight = 44.sp,
+        lineHeightStyle = LineHeightStyle(
+            alignment = LineHeightStyle.Alignment.Center,
+            trim = LineHeightStyle.Trim.None
+        ),
+        letterSpacing = (-0.5).sp,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false,
+        )
+    ),
 
 
-
-
-    
     heading1 = TextStyle(
         fontFamily = SFProDisplayFont,
         fontWeight = FontWeight.Bold,
@@ -276,7 +320,7 @@ val MeetTypographyValue = MeetTypography(
             alignment = LineHeightStyle.Alignment.Center,
             trim = LineHeightStyle.Trim.None
         )
-    )
+    ),
 )
 
 val LocalTypography = staticCompositionLocalOf {

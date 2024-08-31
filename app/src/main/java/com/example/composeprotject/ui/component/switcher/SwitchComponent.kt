@@ -22,24 +22,22 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.composeprotject.R
+import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.theme.MeetTheme
 
-@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun CustomSwitch() {
     var isSwitchOn by remember { mutableStateOf(false) }
     val bgColor: Color by animateColorAsState(
         if (isSwitchOn) MeetTheme.colors.primary else MeetTheme.colors.inactiveSwitch,
         animationSpec = tween(ANIMATION_DURATION_MILLIS, easing = LinearEasing),
-        label = stringResource(R.string.animated_switch_color)
+        label = stringResource(CommonString.animated_switch_color)
     )
     val thumbColor: Color by animateColorAsState(
         targetValue = MeetTheme.colors.neutralWhite,
         animationSpec = tween(ANIMATION_DURATION_MILLIS, easing = LinearEasing),
-        label = stringResource(R.string.animated_switch_color)
+        label = stringResource(CommonString.animated_switch_color)
     )
     val offset by animateDpAsState(
         targetValue = if (isSwitchOn) {
@@ -48,7 +46,7 @@ fun CustomSwitch() {
             1.71.dp
         }, animationSpec = tween(
             ANIMATION_DURATION_MILLIS, easing = LinearEasing
-        ), label = stringResource(R.string.offset)
+        ), label = stringResource(CommonString.offset)
     )
     Box(
         modifier = Modifier

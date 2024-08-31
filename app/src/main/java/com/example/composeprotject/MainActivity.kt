@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.example.composeprotject.nav.RootNavigationGraph
+import com.example.composeprotject.nav_old.RootNavigationGraph
 import com.example.composeprotject.ui.theme.MeetTheme
 
 class MainActivity : ComponentActivity() {

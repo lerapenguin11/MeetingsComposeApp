@@ -1,7 +1,9 @@
 package com.example.composeprotject.ui.component.utils
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.unit.Constraints
@@ -12,12 +14,18 @@ import kotlin.math.roundToInt
 
 @Composable
 fun FlexRow(
+    modifier: Modifier = Modifier,
+    horizontalPadding: Dp = 0.dp,
     maxRow: Int = 0,
     horizontalGap: Dp = 0.dp,
     verticalGap: Dp = 0.dp,
     alignment: Alignment.Horizontal = Alignment.Start,
     content: @Composable () -> Unit,
-) = Layout(content = content) { measurables, constraints ->
+) = Layout(
+    modifier = modifier
+        .padding(horizontal = horizontalPadding),
+    content = content
+) { measurables, constraints ->
     val horizontalGapPx = horizontalGap.toPx().roundToInt()
     val verticalGapPx = verticalGap.toPx().roundToInt()
 
