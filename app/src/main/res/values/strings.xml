@@ -86,4 +86,5 @@
     <string name="text_send_and_confirm_an_entry">Отправить и подтвердить запись</string>
     <string name="text_get_code">Получить код</string>
     <string name="text_have_you_made_appointment">Вы записались\nна встречу</string>
+    <string name="text_subscribers">Подписчики</string>
 </resources>

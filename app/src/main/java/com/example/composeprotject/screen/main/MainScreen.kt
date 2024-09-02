@@ -278,7 +278,7 @@ private fun events(): List<Meeting> {
     val eventList = List((10..15).random()) {
         Meeting(
             id = Random.nextUInt().toInt(),
-            title = "QA Talks — Global tech forum",
+            title = "Как повышать грейд. Лекция Павла Хорикова",
             categories = listOf(
                 Category(id = 0, "Маркетинг"),
                 Category(id = 1, "Бизнес")

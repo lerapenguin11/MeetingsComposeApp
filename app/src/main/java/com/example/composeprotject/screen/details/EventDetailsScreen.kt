@@ -28,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
+import com.example.composeprotject.model.details.MeetingOrganizer
 import com.example.composeprotject.model.details.MeetingStatus
 import com.example.composeprotject.model.interest.Category
 import com.example.composeprotject.ui.component.button.BottomActionBar
@@ -54,7 +55,7 @@ fun EventDetailsScreen(
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
     onClickMorePeople: (Int) -> Unit,
-    onClickOrganizer: (Int) -> Unit
+    onClickOrganizer: (MeetingOrganizer) -> Unit
 ) {
     val status = MeetingStatus.INACTIVE
 
@@ -121,7 +122,14 @@ fun EventDetailsScreen(
                 placeholder = CommonDrawables.ic_community_placeholder,
                 avatarUrl = null,
                 onClickOrganizer = {
-                    onClickOrganizer(0) //TODO id ообщества
+                    onClickOrganizer(
+                        MeetingOrganizer(
+                            id = 0,
+                            name = "The IT-Crowd",
+                            bio = "Сообщество профессионалов в сфере IT. Объединяем специалистов разных направлений для обмена опытом, знаниями и идеями.",
+                            image = null
+                        )
+                    ) //TODO id ообщества
                 }
             )
             SpacerHeight(height = MeetTheme.sizes.sizeX32)

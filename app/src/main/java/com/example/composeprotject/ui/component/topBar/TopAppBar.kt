@@ -1,15 +1,23 @@
 package com.example.composeprotject.ui.component.topBar
 
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.FloatingWindow
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
@@ -20,7 +28,7 @@ import kotlinx.coroutines.flow.filterNot
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTopAppBar(
+fun TopAppBar(
     navController: NavController
 ) {
     val currentContentBackStackEntry by produceState(
@@ -32,6 +40,8 @@ fun MyTopAppBar(
         }
     )
     TopAppBar(
+        modifier = Modifier
+            .height(40.dp),
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MeetTheme.colors.neutralWhite),
         navigationIcon = {
             val backPressDispatcher = LocalOnBackPressedDispatcherOwner.current
@@ -46,19 +56,30 @@ fun MyTopAppBar(
                 )
 
             if (isBackPress) {
-                IconButton(
-                    onClick = { backPressDispatcher?.onBackPressedDispatcher?.onBackPressed() },
-                    content = {
-                        Icon(painterResource(id = R.drawable.ic_arrow_back), null)
-                    }
-                )
+                Box(Modifier.fillMaxHeight(), contentAlignment = Alignment.Center) {
+                    IconButton(
+                        onClick = {
+                            backPressDispatcher?.onBackPressedDispatcher?.onBackPressed()
+                        },
+                        colors = IconButtonDefaults.iconButtonColors(
+                            contentColor = MeetTheme.colors.primary
+                        ),
+                        content = {
+                            Icon(painterResource(id = R.drawable.ic_arrow_back), null)
+                        }
+                    )
+                }
             }
         },
         title = {
-            AppBarTitle(currentContentBackStackEntry)
+            Box(Modifier.fillMaxHeight(), contentAlignment = Alignment.Center) {
+                AppBarTitle(currentContentBackStackEntry)
+            }
         },
         actions = {
-            AppBarAction(currentContentBackStackEntry)
+            Row(Modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically) {
+                AppBarAction(currentContentBackStackEntry)
+            }
         }
     )
 }
