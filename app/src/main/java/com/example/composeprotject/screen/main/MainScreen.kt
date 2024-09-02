@@ -41,7 +41,8 @@ import kotlin.random.nextUInt
 fun MainScreen(
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
-    onClickEvent: (Meeting) -> Unit
+    onClickEvent: (Meeting) -> Unit,
+    onClickCommunity: (Community) -> Unit
 ) {
     val textSpecialist = "тестировщиков"
     Column(
@@ -49,8 +50,8 @@ fun MainScreen(
             .padding(contentPadding)
             .verticalScroll(rememberScrollState())
     ) {
-        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX8))
-        BigEventsRow(events = events(), onClickEvent)
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX20))
+        BigEventsRow(events = events(), onClickEvent = onClickEvent)
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX32))
         Text(
             modifier = Modifier.padding(start = MeetTheme.sizes.sizeX16),
@@ -59,7 +60,7 @@ fun MainScreen(
             style = MeetTheme.typography.interSemiBold24
         )
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX16))
-        SmallEventsRow(events = events())
+        SmallEventsRow(events = events(), onClickEvent = onClickEvent)
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX32))
         Text(
             modifier = Modifier.padding(
@@ -71,7 +72,7 @@ fun MainScreen(
             style = MeetTheme.typography.interSemiBold24
         )
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX16))
-        CommunityRow(communities = communities())
+        CommunityRow(communities = communities(), onClickCommunity = onClickCommunity)
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX40))
         Text(
             modifier = Modifier.padding(
@@ -118,7 +119,8 @@ private fun InterestsChipFlex(
 @Composable
 private fun CommunityRow(
     communities: List<Community>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickCommunity: (Community) -> Unit
 ) {
     Row(
         modifier = modifier
@@ -132,7 +134,7 @@ private fun CommunityRow(
                     community = community,
                     buttonState = SubscribeButtonState.NOT_SUBSCRIBED_COMMUNITY
                 ) {
-                    //TODO
+                    onClickCommunity(community)
                 }
             }
         }
@@ -146,7 +148,8 @@ private fun CommunityRow(
 @Composable
 private fun SmallEventsRow(
     events: List<Meeting>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickEvent: (Meeting) -> Unit
 ) {
     Row(
         modifier = modifier
@@ -160,7 +163,7 @@ private fun SmallEventsRow(
                     meeting = meeting,
                     variant = EventCardVariant.SMALL
                 ) {
-                    /*TODO*/
+                    onClickEvent(meeting)
                 }
             }
         }
@@ -176,8 +179,8 @@ private fun SmallEventsRow(
 @Composable
 private fun BigEventsRow(
     events: List<Meeting>,
-    onClickEvent: (Meeting) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickEvent: (Meeting) -> Unit
 ) {
     Row(
         modifier = modifier

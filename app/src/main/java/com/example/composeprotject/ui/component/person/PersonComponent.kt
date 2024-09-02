@@ -144,6 +144,7 @@ fun MorePeople(
             .size(size = 47.dp)
             .border(width = MeetTheme.sizes.sizeX2, color = Color.White, shape = CircleShape)
             .background(color = MeetTheme.colors.secondary, shape = CircleShape)
+            .clip(shape = CircleShape)
             .clickable { onClickMorePeople() },
         contentAlignment = Alignment.Center
     ) {

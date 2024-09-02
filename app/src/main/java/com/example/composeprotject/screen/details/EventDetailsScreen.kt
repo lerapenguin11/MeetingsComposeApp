@@ -12,8 +12,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ripple.LocalRippleTheme
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,6 +43,7 @@ import com.example.composeprotject.ui.component.state.FilledButtonState
 import com.example.composeprotject.ui.component.utils.CommonDrawables
 import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.FlexRow
+import com.example.composeprotject.ui.component.utils.NoRippleTheme
 import com.example.composeprotject.ui.component.utils.eventDetailsDate
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.utils.lineBreakInAddress
@@ -48,7 +53,8 @@ fun EventDetailsScreen(
     eventId: Int,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
-    onClickMorePeople: (Int) -> Unit
+    onClickMorePeople: (Int) -> Unit,
+    onClickOrganizer: (Int) -> Unit
 ) {
     val status = MeetingStatus.INACTIVE
 
@@ -113,7 +119,10 @@ fun EventDetailsScreen(
                 name = "The IT-Crowd",
                 bio = "Сообщество профессионалов в сфере IT. Объединяем специалистов разных направлений для обмена опытом, знаниями и идеями.",
                 placeholder = CommonDrawables.ic_community_placeholder,
-                avatarUrl = null
+                avatarUrl = null,
+                onClickOrganizer = {
+                    onClickOrganizer(0) //TODO id ообщества
+                }
             )
             SpacerHeight(height = MeetTheme.sizes.sizeX32)
             OtherCommunityMeetings()
@@ -147,22 +156,30 @@ private fun OrganizerInfo(
     placeholder: Int,
     name: String,
     bio: String,
-    avatarUrl: String?
+    avatarUrl: String?,
+    onClickOrganizer: () -> Unit
 ) {
-    Text(
-        text = stringResource(CommonString.text_organizer),
-        color = Color.Black,
-        style = MeetTheme.typography.interSemiBold24
-    )
-
-    SpacerHeight(height = MeetTheme.sizes.sizeX16)
-
-    MeetingOrganizerBlock(
-        name = name,
-        bio = bio,
-        placeholder = placeholder,
-        avatarUrl = avatarUrl
-    )
+    CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
+        Card(
+            onClick = { onClickOrganizer() },
+            colors = CardDefaults.cardColors(
+                containerColor = Color.White
+            )
+        ) {
+            Text(
+                text = stringResource(CommonString.text_organizer),
+                color = Color.Black,
+                style = MeetTheme.typography.interSemiBold24
+            )
+            SpacerHeight(height = MeetTheme.sizes.sizeX16)
+            MeetingOrganizerBlock(
+                name = name,
+                bio = bio,
+                placeholder = placeholder,
+                avatarUrl = avatarUrl
+            )
+        }
+    }
 }
 
 @Composable

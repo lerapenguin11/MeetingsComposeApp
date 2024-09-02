@@ -38,9 +38,11 @@ import kotlin.random.nextUInt
 
 @Composable
 fun CommunityDetailsScreen(
+    communityId: Int,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
-    onClickMorePeople: (Int) -> Unit
+    onClickMorePeople: (Int) -> Unit,
+    onClickEvent: (Meeting) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -83,7 +85,7 @@ fun CommunityDetailsScreen(
                 )
                 SpacerHeight(height = MeetTheme.sizes.sizeX32)
                 SubscribersBlock(
-                    avatarUrl = listOf(null, null, null),
+                    avatarUrl = listOf(null, null, null, null, null, null, null, null, null),
                     onClickMorePeople = {
                         onClickMorePeople(0)
                     } //TODO передать id сообщества
@@ -104,7 +106,10 @@ fun CommunityDetailsScreen(
                     .padding(horizontal = MeetTheme.sizes.sizeX16)
             ) {
                 ActiveEventBlock(
-                    event = event
+                    event = event,
+                    onClickEvent = {
+                        onClickEvent(event)
+                    }
                 )
             }
         }
@@ -130,7 +135,10 @@ fun CommunityDetailsScreen(
                     PastMeetingsBlock(
                         index = index,
                         event = event,
-                        eventSize = events().size
+                        eventSize = events().size,
+                        onClickEvent = {
+                            onClickEvent(event)
+                        }
                     )
                 }
             }
@@ -141,17 +149,25 @@ fun CommunityDetailsScreen(
 }
 
 @Composable
-private fun ActiveEventBlock(event: Meeting) {
+private fun ActiveEventBlock(
+    event: Meeting,
+    onClickEvent: () -> Unit
+) {
     EventCardFillMaxWidth(
         meeting = event
     ) {
-        //TODO
+        onClickEvent()
     }
     SpacerHeight(height = MeetTheme.sizes.sizeX10)
 }
 
 @Composable
-private fun PastMeetingsBlock(index: Int, event: Meeting, eventSize: Int) {
+private fun PastMeetingsBlock(
+    index: Int,
+    event: Meeting,
+    eventSize: Int,
+    onClickEvent: () -> Unit
+) {
     if (index == 0) {
         SpacerWidth(width = MeetTheme.sizes.sizeX16)
     }
@@ -159,7 +175,7 @@ private fun PastMeetingsBlock(index: Int, event: Meeting, eventSize: Int) {
         meeting = event,
         variant = EventCardVariant.SMALL
     ) {
-        //TODO
+        onClickEvent()
     }
     SpacerWidth(width = MeetTheme.sizes.sizeX10)
     if (index == eventSize - 1) {
