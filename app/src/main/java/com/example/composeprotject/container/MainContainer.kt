@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
 import com.example.composeprotject.nav.MainGraph
 import com.example.composeprotject.ui.component.state.InputState
-import com.example.composeprotject.ui.component.topBar.SearchBar
+import com.example.composeprotject.ui.component.topBar.searchTopBar.SearchBar
 
 @Composable
 fun MainContainer() {

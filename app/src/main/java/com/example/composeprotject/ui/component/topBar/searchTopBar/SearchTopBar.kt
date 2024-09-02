@@ -1,4 +1,4 @@
-package com.example.composeprotject.ui.component.topBar
+package com.example.composeprotject.ui.component.topBar.searchTopBar
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
