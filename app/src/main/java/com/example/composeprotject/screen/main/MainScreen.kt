@@ -40,7 +40,8 @@ import kotlin.random.nextUInt
 @Composable
 fun MainScreen(
     contentPadding: PaddingValues,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickEvent: (Meeting) -> Unit
 ) {
     val textSpecialist = "тестировщиков"
     Column(
@@ -48,8 +49,8 @@ fun MainScreen(
             .padding(contentPadding)
             .verticalScroll(rememberScrollState())
     ) {
-        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX20))
-        BigEventsRow(events = events())
+        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX8))
+        BigEventsRow(events = events(), onClickEvent)
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX32))
         Text(
             modifier = Modifier.padding(start = MeetTheme.sizes.sizeX16),
@@ -175,6 +176,7 @@ private fun SmallEventsRow(
 @Composable
 private fun BigEventsRow(
     events: List<Meeting>,
+    onClickEvent: (Meeting) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -189,7 +191,7 @@ private fun BigEventsRow(
                     meeting = meeting,
                     variant = EventCardVariant.BIG
                 ) {
-                    /*TODO*/
+                    onClickEvent(meeting)
                 }
             }
         }

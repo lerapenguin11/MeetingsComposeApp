@@ -45,8 +45,10 @@ import com.example.composeprotject.utils.lineBreakInAddress
 
 @Composable
 fun EventDetailsScreen(
+    eventId: Int,
     contentPadding: PaddingValues,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickMorePeople: (Int) -> Unit
 ) {
     val status = MeetingStatus.INACTIVE
 
@@ -101,7 +103,10 @@ fun EventDetailsScreen(
                     "https://get.pxhere.com/photo/person-people-portrait-facial-expression-hairstyle-smile-emotion-portrait-photography-134689.jpg",
                     "https://get.pxhere.com/photo/person-people-portrait-facial-expression-hairstyle-smile-emotion-portrait-photography-134689.jpg",
                     "https://get.pxhere.com/photo/person-people-portrait-facial-expression-hairstyle-smile-emotion-portrait-photography-134689.jpg",
-                )
+                ),
+                onClickMorePeople = {
+                    onClickMorePeople(eventId)
+                }
             )
             SpacerHeight(height = MeetTheme.sizes.sizeX32)
             OrganizerInfo(
@@ -163,7 +168,8 @@ private fun OrganizerInfo(
 @Composable
 private fun PeopleAtMeetings(
     meetingStatus: MeetingStatus,
-    avatarList: List<String>
+    avatarList: List<String>,
+    onClickMorePeople: () -> Unit,
 ) {
     when (meetingStatus) {
         MeetingStatus.ACTIVE -> {
@@ -184,7 +190,8 @@ private fun PeopleAtMeetings(
     }
     SpacerHeight(height = MeetTheme.sizes.sizeX16)
     PersonRow(
-        avatarList = avatarList
+        avatarList = avatarList,
+        onClickMorePeople = onClickMorePeople
     )
 }
 

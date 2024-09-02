@@ -28,7 +28,8 @@ import com.example.composeprotject.ui.theme.MeetTheme
 @Composable
 fun InterestsScreen(
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues
+    contentPadding: PaddingValues,
+    onClickTellLater: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -77,7 +78,9 @@ fun InterestsScreen(
             }
             Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX16))
             Text(
-                modifier = Modifier.clickable { /*TODO*/ },
+                modifier = Modifier.clickable {
+                    onClickTellLater()
+                },
                 text = stringResource(CommonString.text_tell_later),
                 color = MeetTheme.colors.darkGray,
                 style = MeetTheme.typography.interMedium18

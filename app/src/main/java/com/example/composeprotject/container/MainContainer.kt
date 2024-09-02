@@ -1,44 +1,40 @@
 package com.example.composeprotject.container
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.composeprotject.screen.details.EventDetailsScreen
+import androidx.navigation.compose.rememberNavController
+import com.example.composeprotject.nav.MainGraph
 import com.example.composeprotject.ui.component.state.InputState
 import com.example.composeprotject.ui.component.topBar.SearchBar
 
 @Composable
-fun MainContainer(function: () -> Unit) {
-
-    val test = false
+fun MainContainer() {
 
     Scaffold(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .statusBarsPadding(),
         containerColor = Color.White,
+        contentWindowInsets = WindowInsets.statusBars,
         topBar = {
-            if (test) {
-                SearchBar(
-                    isEnabled = true,
-                    state = InputState.SUCCESS,
-                    onValueChange = {
-                        /*TODO*/
-                    }
-                )
-            }
+            SearchBar(
+                isEnabled = true,
+                state = InputState.SUCCESS,
+                onValueChange = {
+                    /*TODO*/
+                }
+            )
         }
     ) { contentPadding ->
-        EventDetailsScreen(contentPadding = contentPadding)
-    }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun MainContainerTest() {
-    MainContainer {
-
+        MainGraph(
+            navController = rememberNavController(),
+            contentPadding = contentPadding
+        )
     }
 }

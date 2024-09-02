@@ -2,6 +2,7 @@ package com.example.composeprotject.ui.component.person
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -95,7 +96,8 @@ fun Person(
 @Composable
 fun PersonRow(
     avatarList: List<String?>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickMorePeople: () -> Unit
 ) {
     Row(
         modifier = modifier,
@@ -122,7 +124,10 @@ fun PersonRow(
                 )
             }
             if (avatarList.size > MAX_SHOW_AVATARS) {
-                MorePeople(avatarsSize = avatarList.size)
+                MorePeople(
+                    avatarsSize = avatarList.size,
+                    onClickMorePeople = onClickMorePeople
+                )
             }
         }
     }
@@ -131,13 +136,15 @@ fun PersonRow(
 @Composable
 fun MorePeople(
     avatarsSize: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickMorePeople: () -> Unit
 ) {
     Box(
         modifier = modifier
             .size(size = 47.dp)
             .border(width = MeetTheme.sizes.sizeX2, color = Color.White, shape = CircleShape)
-            .background(color = MeetTheme.colors.secondary, shape = CircleShape),
+            .background(color = MeetTheme.colors.secondary, shape = CircleShape)
+            .clickable { onClickMorePeople() },
         contentAlignment = Alignment.Center
     ) {
         BaseText(

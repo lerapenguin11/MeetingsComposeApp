@@ -39,7 +39,8 @@ import kotlin.random.nextUInt
 @Composable
 fun CommunityDetailsScreen(
     contentPadding: PaddingValues,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickMorePeople: (Int) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -82,7 +83,10 @@ fun CommunityDetailsScreen(
                 )
                 SpacerHeight(height = MeetTheme.sizes.sizeX32)
                 SubscribersBlock(
-                    avatarUrl = listOf(null, null, null)
+                    avatarUrl = listOf(null, null, null),
+                    onClickMorePeople = {
+                        onClickMorePeople(0)
+                    } //TODO передать id сообщества
                 )
                 SpacerHeight(height = MeetTheme.sizes.sizeX32)
                 Text(
@@ -165,7 +169,8 @@ private fun PastMeetingsBlock(index: Int, event: Meeting, eventSize: Int) {
 
 @Composable
 private fun SubscribersBlock(
-    avatarUrl: List<String?>
+    avatarUrl: List<String?>,
+    onClickMorePeople: () -> Unit
 ) {
     Text(
         text = stringResource(CommonString.text_signed),
@@ -174,7 +179,8 @@ private fun SubscribersBlock(
     )
     SpacerHeight(height = MeetTheme.sizes.sizeX16)
     PersonRow(
-        avatarList = avatarUrl
+        avatarList = avatarUrl,
+        onClickMorePeople = onClickMorePeople
     )
 }
 
