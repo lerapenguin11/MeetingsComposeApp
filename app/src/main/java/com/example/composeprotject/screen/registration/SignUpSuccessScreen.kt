@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ripple.LocalRippleTheme
-import androidx.compose.material.ripple.RippleAlpha
-import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -26,6 +24,7 @@ import com.example.composeprotject.ui.component.spacer.SpacerHeight
 import com.example.composeprotject.ui.component.state.FilledButtonState
 import com.example.composeprotject.ui.component.utils.CommonDrawables
 import com.example.composeprotject.ui.component.utils.CommonString
+import com.example.composeprotject.ui.component.utils.NoRippleTheme
 import com.example.composeprotject.ui.component.utils.eventDetailsDat
 import com.example.composeprotject.ui.theme.MeetTheme
 
@@ -122,19 +121,5 @@ private fun DescriptionBlock(
         text = shortAddress,
         color = Color.White,
         style = MeetTheme.typography.interMedium20
-    )
-}
-
-private object NoRippleTheme : RippleTheme {
-
-    @Composable
-    override fun defaultColor() = Color.Red
-
-    @Composable
-    override fun rippleAlpha(): RippleAlpha = RippleAlpha(
-        0.0f,
-        0.0f,
-        0.0f,
-        0.0f
     )
 }

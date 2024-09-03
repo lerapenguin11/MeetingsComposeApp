@@ -12,8 +12,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ripple.LocalRippleTheme
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
+import com.example.composeprotject.model.details.MeetingOrganizer
 import com.example.composeprotject.model.details.MeetingStatus
 import com.example.composeprotject.model.interest.Category
 import com.example.composeprotject.ui.component.button.BottomActionBar
@@ -39,14 +44,18 @@ import com.example.composeprotject.ui.component.state.FilledButtonState
 import com.example.composeprotject.ui.component.utils.CommonDrawables
 import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.FlexRow
+import com.example.composeprotject.ui.component.utils.NoRippleTheme
 import com.example.composeprotject.ui.component.utils.eventDetailsDate
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.utils.lineBreakInAddress
 
 @Composable
 fun EventDetailsScreen(
+    eventId: Int,
     contentPadding: PaddingValues,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickMorePeople: (Int) -> Unit,
+    onClickOrganizer: (MeetingOrganizer) -> Unit
 ) {
     val status = MeetingStatus.INACTIVE
 
@@ -101,14 +110,27 @@ fun EventDetailsScreen(
                     "https://get.pxhere.com/photo/person-people-portrait-facial-expression-hairstyle-smile-emotion-portrait-photography-134689.jpg",
                     "https://get.pxhere.com/photo/person-people-portrait-facial-expression-hairstyle-smile-emotion-portrait-photography-134689.jpg",
                     "https://get.pxhere.com/photo/person-people-portrait-facial-expression-hairstyle-smile-emotion-portrait-photography-134689.jpg",
-                )
+                ),
+                onClickMorePeople = {
+                    onClickMorePeople(eventId)
+                }
             )
             SpacerHeight(height = MeetTheme.sizes.sizeX32)
             OrganizerInfo(
                 name = "The IT-Crowd",
                 bio = "Сообщество профессионалов в сфере IT. Объединяем специалистов разных направлений для обмена опытом, знаниями и идеями.",
                 placeholder = CommonDrawables.ic_community_placeholder,
-                avatarUrl = null
+                avatarUrl = null,
+                onClickOrganizer = {
+                    onClickOrganizer(
+                        MeetingOrganizer(
+                            id = 0,
+                            name = "The IT-Crowd",
+                            bio = "Сообщество профессионалов в сфере IT. Объединяем специалистов разных направлений для обмена опытом, знаниями и идеями.",
+                            image = null
+                        )
+                    ) //TODO id ообщества
+                }
             )
             SpacerHeight(height = MeetTheme.sizes.sizeX32)
             OtherCommunityMeetings()
@@ -142,28 +164,37 @@ private fun OrganizerInfo(
     placeholder: Int,
     name: String,
     bio: String,
-    avatarUrl: String?
+    avatarUrl: String?,
+    onClickOrganizer: () -> Unit
 ) {
-    Text(
-        text = stringResource(CommonString.text_organizer),
-        color = Color.Black,
-        style = MeetTheme.typography.interSemiBold24
-    )
-
-    SpacerHeight(height = MeetTheme.sizes.sizeX16)
-
-    MeetingOrganizerBlock(
-        name = name,
-        bio = bio,
-        placeholder = placeholder,
-        avatarUrl = avatarUrl
-    )
+    CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
+        Card(
+            onClick = { onClickOrganizer() },
+            colors = CardDefaults.cardColors(
+                containerColor = Color.White
+            )
+        ) {
+            Text(
+                text = stringResource(CommonString.text_organizer),
+                color = Color.Black,
+                style = MeetTheme.typography.interSemiBold24
+            )
+            SpacerHeight(height = MeetTheme.sizes.sizeX16)
+            MeetingOrganizerBlock(
+                name = name,
+                bio = bio,
+                placeholder = placeholder,
+                avatarUrl = avatarUrl
+            )
+        }
+    }
 }
 
 @Composable
 private fun PeopleAtMeetings(
     meetingStatus: MeetingStatus,
-    avatarList: List<String>
+    avatarList: List<String>,
+    onClickMorePeople: () -> Unit,
 ) {
     when (meetingStatus) {
         MeetingStatus.ACTIVE -> {
@@ -184,7 +215,8 @@ private fun PeopleAtMeetings(
     }
     SpacerHeight(height = MeetTheme.sizes.sizeX16)
     PersonRow(
-        avatarList = avatarList
+        avatarList = avatarList,
+        onClickMorePeople = onClickMorePeople
     )
 }
 

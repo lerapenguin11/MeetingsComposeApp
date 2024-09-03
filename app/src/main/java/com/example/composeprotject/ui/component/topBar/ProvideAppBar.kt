@@ -1,4 +1,4 @@
-package com.example.composeprotject.ui.component_old.toolbar.newTopBar
+package com.example.composeprotject.ui.component.topBar
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.runtime.Composable
@@ -57,5 +57,8 @@ fun AppBarTitle(navBackStackEntry: NavBackStackEntry?) {
 private class TopAppBarViewModel : ViewModel() {
 
     var titleState by mutableStateOf(null as (@Composable () -> Unit)?, referentialEqualityPolicy())
-    var actionState by mutableStateOf(null as (@Composable RowScope.() -> Unit)?, referentialEqualityPolicy())
+    var actionState by mutableStateOf(
+        null as (@Composable RowScope.() -> Unit)?,
+        referentialEqualityPolicy()
+    )
 }

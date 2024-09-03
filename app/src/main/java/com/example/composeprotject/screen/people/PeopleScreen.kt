@@ -7,22 +7,14 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.model.interest.Interest
 import com.example.composeprotject.ui.component.person.Person
 import com.example.composeprotject.ui.theme.MeetTheme
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun PeopleScreenPreview() {
-    PeopleScreen(
-        contentPadding = PaddingValues()
-    )
-}
-
 @Composable
 fun PeopleScreen(
+    eventId: Int,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier
 ) {

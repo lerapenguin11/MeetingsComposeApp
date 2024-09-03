@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,12 +25,14 @@ import com.example.composeprotject.ui.component.chip.chipStyle.ChipSize
 import com.example.composeprotject.ui.component.state.FilledButtonState
 import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.FlexRow
+import com.example.composeprotject.ui.component.utils.NoRippleTheme
 import com.example.composeprotject.ui.theme.MeetTheme
 
 @Composable
 fun InterestsScreen(
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues
+    contentPadding: PaddingValues,
+    onClickTellLater: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -76,12 +80,16 @@ fun InterestsScreen(
                 /*TODO*/
             }
             Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX16))
-            Text(
-                modifier = Modifier.clickable { /*TODO*/ },
-                text = stringResource(CommonString.text_tell_later),
-                color = MeetTheme.colors.darkGray,
-                style = MeetTheme.typography.interMedium18
-            )
+            CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
+                Text(
+                    modifier = Modifier.clickable {
+                        onClickTellLater()
+                    },
+                    text = stringResource(CommonString.text_tell_later),
+                    color = MeetTheme.colors.darkGray,
+                    style = MeetTheme.typography.interMedium18
+                )
+            }
             Spacer(modifier = Modifier.height(28.dp))
         }
     }
