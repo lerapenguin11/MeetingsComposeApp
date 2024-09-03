@@ -2,8 +2,8 @@ package com.example.composeprotject.viewModel_old.nav
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.model.ShortInfoUser
-import com.example.domain.usecase.user.GetShortInfoUserUseCase
+import com.example.domain.old.model.ShortInfoUser
+import com.example.domain.old.usecase.user.GetShortInfoUserUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn

@@ -2,8 +2,8 @@ package com.example.composeprotject.viewModel_old
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.model.Event
-import com.example.domain.usecase.event.GetMyEventsUseCase
+import com.example.domain.old.model.Event
+import com.example.domain.old.usecase.event.GetMyEventsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn

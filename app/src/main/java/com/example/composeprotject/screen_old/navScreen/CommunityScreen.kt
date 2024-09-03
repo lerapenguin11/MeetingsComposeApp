@@ -17,7 +17,7 @@ import com.example.composeprotject.ui.component_old.card.CommunitiesCard
 import com.example.composeprotject.ui.component_old.input.CustomSearchOutlinedTextFieldIconOld
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel_old.nav.CommunityViewModel
-import com.example.domain.model.Community
+import com.example.domain.old.model.Community
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

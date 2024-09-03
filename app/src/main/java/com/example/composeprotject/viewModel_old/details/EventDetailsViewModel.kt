@@ -2,7 +2,8 @@ package com.example.composeprotject.viewModel_old.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.usecase.details.GetEventByIdUseCase
+import com.example.domain.old.model.EventDetails
+import com.example.domain.old.usecase.details.GetEventByIdUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -14,10 +15,10 @@ class EventDetailsViewModel(private val getEventByIdUseCase: GetEventByIdUseCase
     private val _isActionEventDetails = MutableStateFlow(false)
     private val isActionEventDetails: StateFlow<Boolean> = _isActionEventDetails
 
-    private val _eventDetails = MutableStateFlow<com.example.domain.model.EventDetails?>(null)
-    private val eventDetails: StateFlow<com.example.domain.model.EventDetails?> = _eventDetails
+    private val _eventDetails = MutableStateFlow<EventDetails?>(null)
+    private val eventDetails: StateFlow<EventDetails?> = _eventDetails
 
-    fun getEventDetailsFlow(): StateFlow<com.example.domain.model.EventDetails?> = eventDetails
+    fun getEventDetailsFlow(): StateFlow<EventDetails?> = eventDetails
 
     fun getIsActionEventDetailsFlow() = isActionEventDetails
 

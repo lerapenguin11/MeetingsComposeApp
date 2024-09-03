@@ -2,8 +2,8 @@ package com.example.composeprotject.viewModel_old
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.model.Profile
-import com.example.domain.usecase.user.GetInfoUserProfileUseCase
+import com.example.domain.old.model.Profile
+import com.example.domain.old.usecase.user.GetInfoUserProfileUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn

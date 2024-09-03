@@ -2,7 +2,8 @@ package com.example.composeprotject.viewModel_old.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.usecase.details.GetCommunityByIdUseCase
+import com.example.domain.old.model.CommunityDetails
+import com.example.domain.old.usecase.details.GetCommunityByIdUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -13,8 +14,8 @@ class CommunityDetailsViewModel(private val getCommunityByIdUseCase: GetCommunit
     ViewModel() {
 
     private val _communityDetails =
-        MutableStateFlow<com.example.domain.model.CommunityDetails?>(null)
-    private val communityDetails: StateFlow<com.example.domain.model.CommunityDetails?> =
+        MutableStateFlow<CommunityDetails?>(null)
+    private val communityDetails: StateFlow<CommunityDetails?> =
         _communityDetails
 
     fun getCommunityDetailsFlow() = communityDetails

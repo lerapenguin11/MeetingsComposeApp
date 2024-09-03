@@ -2,7 +2,7 @@ package com.example.composeprotject.viewModel_old.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.usecase.verfication.PostPhoneNumberUseCase
+import com.example.domain.old.usecase.verfication.PostPhoneNumberUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update

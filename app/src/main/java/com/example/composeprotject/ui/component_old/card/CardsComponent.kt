@@ -25,6 +25,7 @@ import com.example.composeprotject.ui.component_old.avatar.RoundedAvatarMeetings
 import com.example.composeprotject.ui.component_old.chip.ChipOld
 import com.example.composeprotject.ui.component_old.divider.StandardDivider
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.domain.old.model.Community
 
 //TODO: вынести в модель
 
@@ -98,7 +99,7 @@ fun EventCard(
 fun CommunitiesCard(
     placeholderImage: Int,
     modifier: Modifier = Modifier,
-    community: com.example.domain.model.Community,
+    community: Community,
     onClick: () -> Unit
 ) {
     val textNumberPeople =
