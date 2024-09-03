@@ -5,7 +5,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,17 +37,12 @@ fun TopAppBarText(
 
 @Composable
 fun TopAppBarTextWithBackArrow(
-    text: String,
-    modifier: Modifier = Modifier,
-    textAlign: TextAlign = TextAlign.Start
+    text: String
 ) {
     Text(
-        modifier = modifier
-            .fillMaxWidth(),
         text = text,
         color = Color.Black,
         style = MeetTheme.typography.interMedium18,
-        textAlign = textAlign,
         maxLines = TOP_BAR_MAX_LINE,
         overflow = TextOverflow.Ellipsis
     )

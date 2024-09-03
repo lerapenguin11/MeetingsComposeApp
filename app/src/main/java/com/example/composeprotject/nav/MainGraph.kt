@@ -3,7 +3,6 @@ package com.example.composeprotject.nav
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -107,8 +106,7 @@ fun MainGraph(navController: NavHostController, contentPadding: PaddingValues) {
             backStackEntry.arguments?.getString(COMMUNITY_TITLE)?.let { title ->
                 ProvideAppBarTitle(title = {
                     TopAppBarTextWithBackArrow(
-                        text = title,
-                        textAlign = TextAlign.Center
+                        text = title
                     )
                 })
             }
@@ -134,8 +132,7 @@ fun MainGraph(navController: NavHostController, contentPadding: PaddingValues) {
                 )
                 ProvideAppBarTitle(title = {
                     TopAppBarTextWithBackArrow(
-                        text = stringResource(id = CommonString.text_will_meet_halfway),
-                        textAlign = TextAlign.Center
+                        text = stringResource(id = CommonString.text_will_meet_halfway)
                     )
                 })
             }
@@ -153,8 +150,7 @@ fun MainGraph(navController: NavHostController, contentPadding: PaddingValues) {
                 )
                 ProvideAppBarTitle(title = {
                     TopAppBarTextWithBackArrow(
-                        text = stringResource(CommonString.text_subscribers),
-                        textAlign = TextAlign.Center
+                        text = stringResource(CommonString.text_subscribers)
                     )
                 })
             }
