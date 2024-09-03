@@ -23,6 +23,7 @@ import com.example.composeprotject.ui.component.card.EventCardFillMaxWidth
 import com.example.composeprotject.ui.component.card.variant.EventCardVariant
 import com.example.composeprotject.ui.component.chip.Chip
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
+import com.example.composeprotject.ui.component.chip.chipStyle.ChipSelect
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipSize
 import com.example.composeprotject.ui.component.person.PersonImage
 import com.example.composeprotject.ui.component.person.PersonRow
@@ -260,7 +261,8 @@ private fun CommonInfo(
             Chip(
                 text = categories[index].title,
                 chipSize = ChipSize.MEDIUM,
-                chipColors = ChipClick.FALSE
+                chipColors = ChipSelect.FALSE,
+                chipClick = ChipClick.NOT_ON_CLICK
             ) {
                 //TODO
             }

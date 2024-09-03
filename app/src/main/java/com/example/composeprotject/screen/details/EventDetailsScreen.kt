@@ -34,6 +34,7 @@ import com.example.composeprotject.model.interest.Category
 import com.example.composeprotject.ui.component.button.BottomActionBar
 import com.example.composeprotject.ui.component.chip.Chip
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
+import com.example.composeprotject.ui.component.chip.chipStyle.ChipSelect
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipSize
 import com.example.composeprotject.ui.component.image.EventDetailsImage
 import com.example.composeprotject.ui.component.person.PersonImage
@@ -330,7 +331,8 @@ private fun EventChipBlock(categories: List<Category>) {
             Chip(
                 text = categories[index].title,
                 chipSize = ChipSize.MEDIUM,
-                chipColors = ChipClick.FALSE
+                chipColors = ChipSelect.FALSE,
+                chipClick = ChipClick.NOT_ON_CLICK
             ) {
                 //TODO
             }

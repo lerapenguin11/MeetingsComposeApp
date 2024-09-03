@@ -29,6 +29,7 @@ import com.example.composeprotject.ui.component.card.EventViewAllCard
 import com.example.composeprotject.ui.component.card.variant.EventCardVariant
 import com.example.composeprotject.ui.component.chip.Chip
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
+import com.example.composeprotject.ui.component.chip.chipStyle.ChipSelect
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipSize
 import com.example.composeprotject.ui.component.state.SubscribeButtonState
 import com.example.composeprotject.ui.component.utils.CommonString
@@ -108,7 +109,8 @@ private fun InterestsChipFlex(
             Chip(
                 text = interests[index].title,
                 chipSize = ChipSize.MEDIUM,
-                chipColors = ChipClick.FALSE
+                chipColors = ChipSelect.FALSE,
+                chipClick = ChipClick.ON_CLICK
             ) {
                 //TODO
             }

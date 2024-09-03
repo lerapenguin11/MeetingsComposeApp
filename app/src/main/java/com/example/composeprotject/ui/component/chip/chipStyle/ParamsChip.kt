@@ -19,8 +19,15 @@ enum class ChipSize {
     BIG, SMALL, MEDIUM
 }
 
-enum class ChipClick {
+enum class ChipSelect {
     TRUE,
     FALSE
 }
+
+enum class ChipClick {
+    ON_CLICK,
+    NOT_ON_CLICK
+}
+
+
 

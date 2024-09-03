@@ -21,6 +21,7 @@ import com.example.composeprotject.model.interest.Interest
 import com.example.composeprotject.ui.component.button.FilledButton
 import com.example.composeprotject.ui.component.chip.Chip
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
+import com.example.composeprotject.ui.component.chip.chipStyle.ChipSelect
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipSize
 import com.example.composeprotject.ui.component.state.FilledButtonState
 import com.example.composeprotject.ui.component.utils.CommonString
@@ -61,7 +62,8 @@ fun InterestsScreen(
                 Chip(
                     text = interests()[index].title,
                     chipSize = ChipSize.BIG,
-                    chipColors = ChipClick.FALSE
+                    chipColors = ChipSelect.FALSE,
+                    chipClick = ChipClick.ON_CLICK
                 ) {
                     //TODO
                 }
