@@ -12,12 +12,13 @@ import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.example.composeprotject.model.interest.Interest
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.composeprotject.ui.component.button.FilledButton
 import com.example.composeprotject.ui.component.chip.Chip
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
@@ -28,13 +29,20 @@ import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.component.utils.NoRippleTheme
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.composeprotject.viewModel.InterestsViewModel
+import com.example.domain.model.interest.Interest
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun InterestsScreen(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
+    interestsViewModel: InterestsViewModel = koinViewModel(),
     onClickTellLater: () -> Unit
 ) {
+    val interests by interestsViewModel.getInterestsFlow().collectAsStateWithLifecycle()
+    val uiState by interestsViewModel.getUIStateFlow().collectAsStateWithLifecycle()
+
     Column(
         modifier = modifier
             .padding(contentPadding)
@@ -58,9 +66,9 @@ fun InterestsScreen(
             verticalGap = MeetTheme.sizes.sizeX8,
             alignment = Alignment.Start
         ) {
-            repeat(interests().size) { index ->
+            repeat(interests.size) { index ->
                 Chip(
-                    text = interests()[index].title,
+                    text = interests[index].title,
                     chipSize = ChipSize.BIG,
                     chipColors = ChipSelect.FALSE,
                     chipClick = ChipClick.ON_CLICK

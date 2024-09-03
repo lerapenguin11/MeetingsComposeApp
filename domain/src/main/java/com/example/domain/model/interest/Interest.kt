@@ -1,4 +1,4 @@
-package com.example.composeprotject.model.interest
+package com.example.domain.model.interest
 
 data class Interest(
     val id: Int,

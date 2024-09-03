@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
-import com.example.composeprotject.model.interest.Interest
 import com.example.composeprotject.ui.component.avatar.Avatar
 import com.example.composeprotject.ui.component.avatar.variant.AvatarVariant
 import com.example.composeprotject.ui.component.chip.Chip
@@ -39,6 +38,7 @@ import com.example.composeprotject.ui.component.utils.CommonDrawables
 import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.imageCash
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.domain.model.interest.Interest
 
 @Composable
 fun PersonImage(

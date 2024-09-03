@@ -8,9 +8,9 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.composeprotject.model.interest.Interest
 import com.example.composeprotject.ui.component.person.Person
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.domain.model.interest.Interest
 
 @Composable
 fun PeopleScreen(

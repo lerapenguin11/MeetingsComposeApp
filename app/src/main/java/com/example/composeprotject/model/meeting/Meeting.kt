@@ -1,6 +1,6 @@
 package com.example.composeprotject.model.meeting
 
-import com.example.composeprotject.model.interest.Category
+import com.example.domain.model.interest.Category
 
 data class Meeting(
     val id: Int,

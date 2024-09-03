@@ -19,8 +19,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.model.community.Community
-import com.example.composeprotject.model.interest.Category
-import com.example.composeprotject.model.interest.Interest
 import com.example.composeprotject.model.meeting.Meeting
 import com.example.composeprotject.ui.component.card.CommunityCard
 import com.example.composeprotject.ui.component.card.CommunityViewAllCard
@@ -35,6 +33,8 @@ import com.example.composeprotject.ui.component.state.SubscribeButtonState
 import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.domain.model.interest.Category
+import com.example.domain.model.interest.Interest
 import kotlin.random.Random
 import kotlin.random.nextUInt
 
