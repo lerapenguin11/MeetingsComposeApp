@@ -42,6 +42,7 @@ fun InterestsScreen(
 ) {
     val interests by interestsViewModel.getInterestsFlow().collectAsStateWithLifecycle()
     val uiState by interestsViewModel.getUIStateFlow().collectAsStateWithLifecycle()
+    val userInterests by interestsViewModel.getUserInterests().collectAsStateWithLifecycle()
 
     Column(
         modifier = modifier
@@ -70,10 +71,14 @@ fun InterestsScreen(
                 Chip(
                     text = interests[index].title,
                     chipSize = ChipSize.BIG,
-                    chipColors = ChipSelect.FALSE,
+                    chipColors = if (checkingUserNoSuchInterest(
+                            userInterests,
+                            interests[index].id
+                        )
+                    ) ChipSelect.FALSE else ChipSelect.TRUE,
                     chipClick = ChipClick.ON_CLICK
                 ) {
-                    //TODO
+                    interestsViewModel.toggleUserInterest(interests[index])
                 }
             }
         }
@@ -84,7 +89,7 @@ fun InterestsScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             FilledButton(
-                state = FilledButtonState.DISABLED,
+                state = if (userInterests.isNotEmpty()) FilledButtonState.ACTIVE_PRIMARY else FilledButtonState.DISABLED,
                 buttonText = stringResource(id = CommonString.text_save)
             ) {
                 /*TODO*/
@@ -105,53 +110,6 @@ fun InterestsScreen(
     }
 }
 
-private fun interests(): List<Interest> {
-    val interestList = listOf(
-        Interest(
-            id = 0, title = "Дизайн"
-        ),
-        Interest(
-            id = 1, title = "Разработка"
-        ),
-        Interest(
-            id = 2, title = "Продакт менеджмент"
-        ),
-        Interest(
-            id = 3, title = "Проджект менеджмент"
-        ),
-        Interest(
-            id = 4, title = "Backend"
-        ),
-        Interest(
-            id = 5, title = "Frontend"
-        ),
-        Interest(
-            id = 6, title = "Mobile"
-        ),
-        Interest(
-            id = 7, title = "Web"
-        ),
-        Interest(
-            id = 8, title = "Тестирование"
-        ),
-        Interest(
-            id = 9, title = "Продажи"
-        ),
-        Interest(
-            id = 10, title = "Бизнес"
-        ),
-        Interest(
-            id = 11, title = "Маркетинг"
-        ),
-        Interest(
-            id = 12, title = "Безопасность"
-        ),
-        Interest(
-            id = 13, title = "Девопс"
-        ),
-        Interest(
-            id = 14, title = "Аналитика"
-        )
-    )
-    return interestList
+private fun checkingUserNoSuchInterest(userInterests: List<Interest>, id: Int): Boolean {
+    return userInterests.none { it.id == id }
 }

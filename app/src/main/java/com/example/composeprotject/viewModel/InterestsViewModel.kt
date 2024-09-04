@@ -29,9 +29,38 @@ class InterestsViewModel(private val getInterestsUseCase: GetInterestsUseCase) :
         )
     private val interests: StateFlow<List<Interest>> = _interests
 
+    private val _userInterests = MutableStateFlow<List<Interest>>(emptyList())
+    private val userInterests: StateFlow<List<Interest>> = _userInterests
+
     fun getInterestsFlow() = interests
 
     fun getUIStateFlow() = uiState
+
+    fun getUserInterests() = userInterests
+
+    fun toggleUserInterest(interest: Interest) {
+        if (hasUserInterest(interest.id)) {
+            updateUserInterests(interest)
+        } else {
+            deleteUserInterest(interest)
+        }
+    }
+
+    private fun hasUserInterest(id: Int): Boolean {
+        return _userInterests.value.none { it.id == id }
+    }
+
+    private fun updateUserInterests(interest: Interest) {
+        _userInterests.update { currentInterests ->
+            currentInterests + interest
+        }
+    }
+
+    private fun deleteUserInterest(interest: Interest) {
+        _userInterests.update { currentInterests ->
+            currentInterests.filterNot { it.id == interest.id }
+        }
+    }
 
     private fun updateUIStateFlow(state: InterestsUiState) {
         _uiState.update { state }
