@@ -40,9 +40,8 @@ fun InterestsScreen(
     interestsViewModel: InterestsViewModel = koinViewModel(),
     onClickTellLater: () -> Unit
 ) {
-    val interests by interestsViewModel.getInterestsFlow().collectAsStateWithLifecycle()
     val uiState by interestsViewModel.getUIStateFlow().collectAsStateWithLifecycle()
-    val userInterests by interestsViewModel.getUserInterests().collectAsStateWithLifecycle()
+    val combinedInterests by interestsViewModel.getCombinedInterests().collectAsStateWithLifecycle()
 
     Column(
         modifier = modifier
@@ -67,18 +66,18 @@ fun InterestsScreen(
             verticalGap = MeetTheme.sizes.sizeX8,
             alignment = Alignment.Start
         ) {
-            repeat(interests.size) { index ->
+            repeat(combinedInterests.first.size) { index ->
                 Chip(
-                    text = interests[index].title,
+                    text = combinedInterests.first[index].title,
                     chipSize = ChipSize.BIG,
                     chipColors = if (checkingUserNoSuchInterest(
-                            userInterests,
-                            interests[index].id
+                            combinedInterests.second,
+                            combinedInterests.first[index].id
                         )
                     ) ChipSelect.FALSE else ChipSelect.TRUE,
                     chipClick = ChipClick.ON_CLICK
                 ) {
-                    interestsViewModel.toggleUserInterest(interests[index])
+                    interestsViewModel.toggleUserInterest(combinedInterests.first[index])
                 }
             }
         }
@@ -89,7 +88,7 @@ fun InterestsScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             FilledButton(
-                state = if (userInterests.isNotEmpty()) FilledButtonState.ACTIVE_PRIMARY else FilledButtonState.DISABLED,
+                state = if (combinedInterests.second.isNotEmpty()) FilledButtonState.ACTIVE_PRIMARY else FilledButtonState.DISABLED,
                 buttonText = stringResource(id = CommonString.text_save)
             ) {
                 /*TODO*/

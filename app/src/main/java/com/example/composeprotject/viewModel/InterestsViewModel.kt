@@ -8,6 +8,7 @@ import com.example.domain.usecase.interest.GetInterestsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
@@ -17,7 +18,7 @@ class InterestsViewModel(private val getInterestsUseCase: GetInterestsUseCase) :
     private val _uiState = MutableStateFlow<InterestsUiState>(InterestsUiState.Loading)
     private val uiState: StateFlow<InterestsUiState> = _uiState
 
-    private val _interests = getInterestsUseCase.execute()
+    private val _allInterests = getInterestsUseCase.execute()
         .flatMapLatest { interests ->
             updateUIStateFlow(state = InterestsUiState.Idle)
             flow { emit(interests) }
@@ -27,16 +28,25 @@ class InterestsViewModel(private val getInterestsUseCase: GetInterestsUseCase) :
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = emptyList()
         )
-    private val interests: StateFlow<List<Interest>> = _interests
+    private val allInterests: StateFlow<List<Interest>> = _allInterests
 
     private val _userInterests = MutableStateFlow<List<Interest>>(emptyList())
     private val userInterests: StateFlow<List<Interest>> = _userInterests
 
-    fun getInterestsFlow() = interests
+    private val combinedInterests = combine(
+        getInterestsFlow(),
+        getUserInterests()
+    ) { allInterests, userInterests ->
+        Pair(allInterests, userInterests)
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = Pair(emptyList(), emptyList())
+    )
+
+    fun getCombinedInterests() = combinedInterests
 
     fun getUIStateFlow() = uiState
-
-    fun getUserInterests() = userInterests
 
     fun toggleUserInterest(interest: Interest) {
         if (hasUserInterest(interest.id)) {
@@ -45,6 +55,10 @@ class InterestsViewModel(private val getInterestsUseCase: GetInterestsUseCase) :
             deleteUserInterest(interest)
         }
     }
+
+    private fun getInterestsFlow() = allInterests
+
+    private fun getUserInterests() = userInterests
 
     private fun hasUserInterest(id: Int): Boolean {
         return _userInterests.value.none { it.id == id }
