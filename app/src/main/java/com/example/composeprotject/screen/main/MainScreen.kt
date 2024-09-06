@@ -1,14 +1,13 @@
 package com.example.composeprotject.screen.main
 
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
@@ -29,6 +28,7 @@ import com.example.composeprotject.ui.component.chip.Chip
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipSelect
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipSize
+import com.example.composeprotject.ui.component.spacer.SpacerWidth
 import com.example.composeprotject.ui.component.state.SubscribeButtonState
 import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.FlexRow
@@ -121,16 +121,11 @@ private fun InterestsChipFlex(
 @Composable
 private fun CommunityRow(
     communities: List<Community>,
-    modifier: Modifier = Modifier,
     onClickCommunity: (Community) -> Unit
 ) {
-    Row(
-        modifier = modifier
-            .horizontalScroll(rememberScrollState())
-            .padding(start = MeetTheme.sizes.sizeX16),
-        horizontalArrangement = Arrangement.spacedBy(MeetTheme.sizes.sizeX10)
-    ) {
-        communities.forEachIndexed { index, community ->
+    LazyRow {
+        item { SpacerWidth(width = MeetTheme.sizes.sizeX16) }
+        itemsIndexed(communities) { index, community ->
             if (index < MAX_NUMBER_CARDS_DISPLAYED) {
                 CommunityCard(
                     community = community,
@@ -138,11 +133,14 @@ private fun CommunityRow(
                 ) {
                     onClickCommunity(community)
                 }
+                SpacerWidth(width = MeetTheme.sizes.sizeX10)
             }
         }
-        if (communities.size > MAX_NUMBER_CARDS_DISPLAYED) {
-            CommunityViewAllCard {/*TODO*/ }
-            Spacer(modifier = Modifier.width(MeetTheme.sizes.sizeX4))
+        item {
+            if (communities.size > MAX_NUMBER_CARDS_DISPLAYED) {
+                CommunityViewAllCard {/*TODO*/ }
+                SpacerWidth(width = MeetTheme.sizes.sizeX16)
+            }
         }
     }
 }
@@ -150,16 +148,11 @@ private fun CommunityRow(
 @Composable
 private fun SmallEventsRow(
     events: List<Meeting>,
-    modifier: Modifier = Modifier,
     onClickEvent: (Meeting) -> Unit
 ) {
-    Row(
-        modifier = modifier
-            .horizontalScroll(rememberScrollState())
-            .padding(start = MeetTheme.sizes.sizeX16),
-        horizontalArrangement = Arrangement.spacedBy(MeetTheme.sizes.sizeX10)
-    ) {
-        events.forEachIndexed { index, meeting ->
+    LazyRow {
+        item { SpacerWidth(width = MeetTheme.sizes.sizeX16) }
+        itemsIndexed(events) { index, meeting ->
             if (index < MAX_NUMBER_CARDS_DISPLAYED) {
                 EventCard(
                     meeting = meeting,
@@ -167,13 +160,16 @@ private fun SmallEventsRow(
                 ) {
                     onClickEvent(meeting)
                 }
+                SpacerWidth(width = MeetTheme.sizes.sizeX10)
             }
         }
-        if (events().size > MAX_NUMBER_CARDS_DISPLAYED) {
-            EventViewAllCard(
-                variant = EventCardVariant.SMALL
-            ) {/*TODO*/ }
-            Spacer(modifier = Modifier.width(MeetTheme.sizes.sizeX4))
+        item {
+            if (events().size > MAX_NUMBER_CARDS_DISPLAYED) {
+                EventViewAllCard(
+                    variant = EventCardVariant.SMALL
+                ) {/*TODO*/ }
+                SpacerWidth(width = MeetTheme.sizes.sizeX16)
+            }
         }
     }
 }
@@ -181,16 +177,11 @@ private fun SmallEventsRow(
 @Composable
 private fun BigEventsRow(
     events: List<Meeting>,
-    modifier: Modifier = Modifier,
     onClickEvent: (Meeting) -> Unit
 ) {
-    Row(
-        modifier = modifier
-            .horizontalScroll(rememberScrollState())
-            .padding(start = MeetTheme.sizes.sizeX16),
-        horizontalArrangement = Arrangement.spacedBy(MeetTheme.sizes.sizeX10)
-    ) {
-        events.forEachIndexed { index, meeting ->
+    LazyRow {
+        item { SpacerWidth(width = MeetTheme.sizes.sizeX16) }
+        itemsIndexed(events) { index, meeting ->
             if (index < MAX_NUMBER_CARDS_DISPLAYED) {
                 EventCard(
                     meeting = meeting,
@@ -198,13 +189,16 @@ private fun BigEventsRow(
                 ) {
                     onClickEvent(meeting)
                 }
+                SpacerWidth(width = MeetTheme.sizes.sizeX10)
             }
         }
-        if (events().size > MAX_NUMBER_CARDS_DISPLAYED) {
-            EventViewAllCard(
-                variant = EventCardVariant.BIG
-            ) {/*TODO*/ }
-            Spacer(modifier = Modifier.width(MeetTheme.sizes.sizeX4))
+        item {
+            if (events().size > MAX_NUMBER_CARDS_DISPLAYED) {
+                EventViewAllCard(
+                    variant = EventCardVariant.BIG
+                ) { /*TODO*/ }
+                Spacer(modifier = Modifier.width(MeetTheme.sizes.sizeX16))
+            }
         }
     }
 }
