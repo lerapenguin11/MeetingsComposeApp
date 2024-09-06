@@ -54,6 +54,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":common"))
     implementation(project(":data"))
+    implementation(project(":core:database"))
 
     implementation(libs.androidx.lifecycle.runtime.compose)
 

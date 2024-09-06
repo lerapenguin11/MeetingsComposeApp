@@ -1,10 +1,11 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("kotlin-kapt")
 }
 
 android {
-    namespace = "com.example.data"
+    namespace = "com.example.database"
     compileSdk = 34
 
     defaultConfig {
@@ -33,13 +34,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain"))
-    implementation(project(":common"))
-    implementation(project(":core:database"))
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
+    implementation(libs.android.room)
+    implementation(libs.android.room.runtime)
+    //noinspection KaptUsageInsteadOfKsp
+    kapt(libs.android.room.compiler)
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
     testImplementation(libs.junit)

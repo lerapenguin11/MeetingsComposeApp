@@ -5,5 +5,5 @@ import com.example.domain.repository.interest.InterestRepository
 import org.koin.dsl.module
 
 internal val repositoryModule = module {
-    single<InterestRepository> { InterestRepositoryImpl(mapper = get()) }
+    single<InterestRepository> { InterestRepositoryImpl(mapper = get(), dao = get()) }
 }

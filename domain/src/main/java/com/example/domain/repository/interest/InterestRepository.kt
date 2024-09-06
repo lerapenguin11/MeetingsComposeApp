@@ -8,4 +8,15 @@ interface InterestRepository {
 
     @WorkerThread
     fun getInterests(): Flow<List<Interest>>
+
+    suspend fun addInterestsLocal(
+        userInterests: List<Interest>,
+        onStart: () -> Unit,
+        onComplete: () -> Unit,
+        onError: (String?) -> Unit
+    )
+
+    /*
+
+    fun addInterestsRemote(userInterests: List<Interest>)*/
 }

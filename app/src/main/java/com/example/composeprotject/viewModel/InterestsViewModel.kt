@@ -3,7 +3,12 @@ package com.example.composeprotject.viewModel
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.composeprotject.screen.state.InterestState
+import com.example.composeprotject.ui.component.state.FilledButtonState
+import com.example.domain.model.interest.AddVariantInterests
 import com.example.domain.model.interest.Interest
+import com.example.domain.model.interest.UserInterestDomain
+import com.example.domain.usecase.interest.AddUserInterestsUseCase
 import com.example.domain.usecase.interest.GetInterestsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -13,10 +18,17 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
-class InterestsViewModel(private val getInterestsUseCase: GetInterestsUseCase) : ViewModel() {
+class InterestsViewModel(
+    private val getInterestsUseCase: GetInterestsUseCase,
+    private val addUserInterestsUseCase: AddUserInterestsUseCase
+) : ViewModel() {
     private val _uiState = MutableStateFlow<InterestsUiState>(InterestsUiState.Loading)
     private val uiState: StateFlow<InterestsUiState> = _uiState
+
+    private val _buttonState = MutableStateFlow(FilledButtonState.ACTIVE_PRIMARY)
+    private val buttonState: StateFlow<FilledButtonState> = _buttonState
 
     private val _allInterests = getInterestsUseCase.execute()
         .flatMapLatest { interests ->
@@ -48,11 +60,33 @@ class InterestsViewModel(private val getInterestsUseCase: GetInterestsUseCase) :
 
     fun getUIStateFlow() = uiState
 
+    fun getButtonState() = buttonState
+
     fun toggleUserInterest(interest: Interest) {
         if (hasUserInterest(interest.id)) {
             updateUserInterests(interest)
         } else {
             deleteUserInterest(interest)
+        }
+    }
+
+    fun addUserInterests(userInterests: List<Interest>, stateScreen: InterestState) =
+        viewModelScope.launch {
+            addUserInterestsUseCase.execute(
+                userInterests = UserInterestDomain(
+                    userInterest = userInterests,
+                    addVariantInterests = determineOptionAddingInterests(stateScreen)
+                ),
+                onStart = { _buttonState.tryEmit(FilledButtonState.LOADING) },
+                onComplete = { _buttonState.tryEmit(FilledButtonState.ACTIVE_SECONDARY) },
+                onError = { /*TODO*/ }
+            )
+        }
+
+    private fun determineOptionAddingInterests(stateScreen: InterestState): AddVariantInterests {
+        return when (stateScreen) {
+            InterestState.ONBOARDING -> AddVariantInterests.LOCAL
+            InterestState.EDIT_INTERESTS -> AddVariantInterests.REMOTE_AND_LOCAL
         }
     }
 

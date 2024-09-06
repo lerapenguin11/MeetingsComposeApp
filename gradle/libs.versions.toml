@@ -27,6 +27,7 @@ junit-jupiter = "5.8.2"
 mockito = "4.0.0"
 kotlinx-coroutines-test = "1.8.1"
 annotationJvm = "1.8.2"
+roomVersion = "2.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -64,6 +65,9 @@ mockito-kotlin = {module = "org.mockito.kotlin:mockito-kotlin", version.ref = "m
 kotlinx-coroutines-test = {module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test"}
 mockito-junit-jupiter = {module = "org.mockito:mockito-junit-jupiter", version.ref = "mockito"}
 androidx-annotation-jvm = { group = "androidx.annotation", name = "annotation-jvm", version.ref = "annotationJvm" }
+android-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomVersion" }
+android-room = { module = "androidx.room:room-ktx", version.ref = "roomVersion" }
+android-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

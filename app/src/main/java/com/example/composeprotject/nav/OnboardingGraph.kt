@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.composeprotject.nav.route.Graph
 import com.example.composeprotject.screen.onboarding.InterestsScreen
+import com.example.composeprotject.screen.state.InterestState
 
 fun NavGraphBuilder.onBoardingNavGraph(
     navController: NavController,
@@ -17,13 +18,24 @@ fun NavGraphBuilder.onBoardingNavGraph(
         startDestination = OnBoardingScreen.Interests.route
     ) {
         composable(route = OnBoardingScreen.Interests.route) {
-            InterestsScreen(contentPadding = contentPadding) {
-                navController.navigate(Graph.MAIN) {
-                    popUpTo(Graph.ON_BOARDING) {
-                        inclusive = true
+            InterestsScreen(
+                contentPadding = contentPadding,
+                screenState = InterestState.ONBOARDING,
+                onClickSkip = {
+                    navController.navigate(Graph.MAIN) {
+                        popUpTo(Graph.ON_BOARDING) {
+                            inclusive = true
+                        }
+                    }
+                },
+                onClockGoMainGraph = {
+                    navController.navigate(Graph.MAIN) {
+                        popUpTo(Graph.ON_BOARDING) {
+                            inclusive = true
+                        }
                     }
                 }
-            }
+            )
         }
     }
 }
