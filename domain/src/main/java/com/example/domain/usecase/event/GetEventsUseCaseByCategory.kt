@@ -32,7 +32,7 @@ internal class GetEventsUseCaseByCategory {
         lastValue?.run { streamEventsWithEventQueryParam.tryEmit(this) }
     }
 
-    fun observe(): SharedFlow<Triple<EventListType, List<Int>?, String?>?> =
+    fun trigger(): SharedFlow<Triple<EventListType, List<Int>?, String?>?> =
         streamEventsWithEventQueryParam
 
 }
@@ -64,7 +64,7 @@ class GetEventsByCategory : KoinComponent {
     private val innerEvents: GetEventsUseCaseByCategory by inject()
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val eventsPrepared: Flow<List<Meeting>> = innerEvents.observe().mapLatest { it ->
+    private val eventsPrepared: Flow<List<Meeting>> = innerEvents.trigger().mapLatest { it ->
         it?.let {
             repository.getEvents(
                 eventType = it.first,
