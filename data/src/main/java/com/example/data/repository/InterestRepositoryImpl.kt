@@ -9,6 +9,7 @@ import com.example.domain.repository.interest.InterestRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 
 internal class InterestRepositoryImpl(
@@ -23,7 +24,7 @@ internal class InterestRepositoryImpl(
             emit(value = interestsFake().map {
                 mapper.responseInterestToInterest(it)
             })
-        }
+        }.flowOn(Dispatchers.IO)
     }
 
     override suspend fun addInterestsLocal(
@@ -32,7 +33,7 @@ internal class InterestRepositoryImpl(
         onComplete: () -> Unit,
         onError: (String?) -> Unit
     ): Unit = withContext(Dispatchers.IO) {
-        val listAddedId = dao.insertAllInterest(
+        val listAddedId = dao.insertAllUserInterests(
             interest = userInterests.map {
                 mapper.interestToEntity(
                     interest = it

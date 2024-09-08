@@ -3,6 +3,8 @@ package com.example.composeprotject.nav
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -10,7 +12,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.composeprotject.container.MainContainer
 import com.example.composeprotject.nav.route.Graph
-import com.example.composeprotject.nav_old.navigateToSingleTop
 import com.example.composeprotject.screen.splash.SplashScreen
 
 @Composable
@@ -51,4 +52,15 @@ fun NavGraphBuilder.splash(contentPadding: PaddingValues) {
 
 sealed class SplashScreen(val route: String) {
     object Splash : SplashScreen(route = "splash_screen")
+}
+
+fun NavController.navigateToSingleTop(route: String) {
+    navigate(route) {
+        popUpTo(graph.findStartDestination().id) {
+            saveState = true
+            inclusive = true
+        }
+        launchSingleTop = true
+        restoreState = true
+    }
 }

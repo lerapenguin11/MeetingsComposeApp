@@ -1,8 +1,8 @@
 package com.example.data.fakeData
 
-import com.example.data.responseModel.interest.RequestInterests
+import com.example.data.responseModel.interest.InterestsResponse
 
-fun interestsFake(): RequestInterests {
-    val interests = RequestInterests()
+fun interestsFake(): InterestsResponse {
+    val interests = InterestsResponse()
     return interests
 }

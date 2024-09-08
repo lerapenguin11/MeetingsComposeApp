@@ -18,7 +18,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.model.community.Community
-import com.example.composeprotject.model.meeting.Meeting
 import com.example.composeprotject.ui.component.button.SubscribeButton
 import com.example.composeprotject.ui.component.card.cardStyle.EventCardStyle
 import com.example.composeprotject.ui.component.card.cardStyle.EventCardStyleDefault
@@ -37,6 +36,7 @@ import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.component.utils.eventDate
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.domain.model.event.Meeting
 
 @Composable
 fun EventCard(

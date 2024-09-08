@@ -1,4 +1,4 @@
-package com.example.composeprotject.model.meeting
+package com.example.domain.model.event
 
 import com.example.domain.model.interest.Category
 

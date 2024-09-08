@@ -15,7 +15,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
-import com.example.composeprotject.model.meeting.Meeting
 import com.example.composeprotject.ui.component.button.FilledButton
 import com.example.composeprotject.ui.component.card.EventCard
 import com.example.composeprotject.ui.component.card.EventCardFillMaxWidth
@@ -33,6 +32,7 @@ import com.example.composeprotject.ui.component.utils.CommonDrawables
 import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.domain.model.event.Meeting
 import com.example.domain.model.interest.Category
 import kotlin.random.Random
 import kotlin.random.nextUInt

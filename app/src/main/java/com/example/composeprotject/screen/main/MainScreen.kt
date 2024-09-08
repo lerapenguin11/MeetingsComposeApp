@@ -12,13 +12,14 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.model.community.Community
-import com.example.composeprotject.model.meeting.Meeting
 import com.example.composeprotject.ui.component.card.CommunityCard
 import com.example.composeprotject.ui.component.card.CommunityViewAllCard
 import com.example.composeprotject.ui.component.card.EventCard
@@ -33,8 +34,11 @@ import com.example.composeprotject.ui.component.state.SubscribeButtonState
 import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.composeprotject.viewModel.MainViewModel
+import com.example.domain.model.event.Meeting
 import com.example.domain.model.interest.Category
 import com.example.domain.model.interest.Interest
+import org.koin.androidx.compose.koinViewModel
 import kotlin.random.Random
 import kotlin.random.nextUInt
 
@@ -42,17 +46,22 @@ import kotlin.random.nextUInt
 fun MainScreen(
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
+    mainViewModel: MainViewModel = koinViewModel(),
     onClickEvent: (Meeting) -> Unit,
     onClickCommunity: (Community) -> Unit
 ) {
+    val fullInfoMainScreen by mainViewModel.getFullInfoMainScreen().collectAsState()
+
     val textSpecialist = "тестировщиков"
+
     Column(
         modifier = modifier
             .padding(contentPadding)
             .verticalScroll(rememberScrollState())
     ) {
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX20))
-        BigEventsRow(events = events(), onClickEvent = onClickEvent)
+        BigEventsRow(events = fullInfoMainScreen.eventList, onClickEvent = onClickEvent)
+
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX32))
         Text(
             modifier = Modifier.padding(start = MeetTheme.sizes.sizeX16),
