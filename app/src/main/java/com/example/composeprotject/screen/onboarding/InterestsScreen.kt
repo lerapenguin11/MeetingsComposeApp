@@ -34,8 +34,8 @@ import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.component.utils.NoRippleTheme
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.composeprotject.utils.checkingUserNoSuchInterest
 import com.example.composeprotject.viewModel.InterestsViewModel
-import com.example.domain.model.interest.Interest
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -127,8 +127,4 @@ fun InterestsScreen(
             onClockGoMainGraph()
         }
     }
-}
-
-private fun checkingUserNoSuchInterest(userInterests: List<Interest>, id: Int): Boolean {
-    return userInterests.none { it.id == id }
 }

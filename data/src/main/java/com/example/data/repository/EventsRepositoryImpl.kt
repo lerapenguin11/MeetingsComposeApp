@@ -52,6 +52,13 @@ class EventsRepositoryImpl(
             .flowOn(Dispatchers.IO)
     }
 
+    override fun getFilteredEventsByCategory(filterParam: List<Int>): Flow<List<Meeting>> {
+        println("TAGS: $filterParam")
+        return flow {
+            emit(value = eventsFake().map { mapper.eventResponseToMeeting(it) })
+        }
+    }
+
     private fun filterEvents(
         eventType: EventListType,
         events: EventResponse

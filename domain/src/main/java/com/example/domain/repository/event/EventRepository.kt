@@ -18,4 +18,8 @@ interface EventRepository {
         city: String?,
         authToken: String?
     ): Flow<List<Meeting>>
+
+    fun getFilteredEventsByCategory(
+        filterParam: List<Int>
+    ): Flow<List<Meeting>>
 }

@@ -1,11 +1,14 @@
 package com.example.domain.di
 
 import com.example.domain.usecase.combineUseCase.InteractorFullInfoMainScreen
+import com.example.domain.usecase.event.GetFilteredEventsByCategoryUseCase
 import com.example.domain.usecase.event.GetMainInfoUseCase
+import com.example.domain.usecase.event.InteractorLoadFilteredEventsByCategory
 import com.example.domain.usecase.event.InteractorLoadMainInfo
 import com.example.domain.usecase.getData.GetCommunity
 import com.example.domain.usecase.getData.GetEventsByCategory
 import com.example.domain.usecase.getData.GetEventsClosest
+import com.example.domain.usecase.getData.GetFilteredEventsByCategory
 import com.example.domain.usecase.interest.AddUserInterestsUseCase
 import com.example.domain.usecase.interest.AddUserInterestsUseCaseInteractor
 import com.example.domain.usecase.interest.GetInterestInteractor
@@ -24,4 +27,7 @@ internal val useCaseModule = module {
     single { InteractorFullInfoMainScreen() }
     single { GetEventsClosest() }
     single { GetCommunity() }
+    single { GetFilteredEventsByCategory() }
+    single { GetFilteredEventsByCategoryUseCase() }
+    single { InteractorLoadFilteredEventsByCategory() }
 }

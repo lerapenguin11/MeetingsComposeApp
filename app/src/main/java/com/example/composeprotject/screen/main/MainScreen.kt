@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
@@ -21,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.composeprotject.R
 import com.example.composeprotject.ui.component.card.CommunityCard
 import com.example.composeprotject.ui.component.card.CommunityViewAllCard
 import com.example.composeprotject.ui.component.card.EventCard
@@ -31,16 +31,17 @@ import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipSelect
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipSize
 import com.example.composeprotject.ui.component.progressBar.CustomProgressBar
+import com.example.composeprotject.ui.component.spacer.SpacerHeight
 import com.example.composeprotject.ui.component.spacer.SpacerWidth
 import com.example.composeprotject.ui.component.state.SubscribeButtonState
 import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.composeprotject.utils.checkingUserNoSuchInterest
 import com.example.composeprotject.viewModel.MainViewModel
 import com.example.domain.model.community.Community
 import com.example.domain.model.event.Meeting
 import com.example.domain.model.interest.Interest
-import com.example.domain.usecase.combineUseCase.CombineMainDataScreen
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -53,6 +54,8 @@ fun MainScreen(
 ) {
     val fullInfoMainScreen by mainViewModel.getFullInfoMainScreen().collectAsStateWithLifecycle()
     val mainStateUI by mainViewModel.getMainStateUI().collectAsStateWithLifecycle()
+    val userCategories by mainViewModel.getUserSelectedCategories().collectAsStateWithLifecycle()
+    mainViewModel.loadFilteredEventsByCategory(filterParam = userCategories.map { it.id })
 
     val textSpecialist = "тестировщиков"
 
@@ -68,24 +71,24 @@ fun MainScreen(
                     .padding(contentPadding)
                     .verticalScroll(rememberScrollState())
             ) {
-                Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX20))
+                SpacerHeight(height = MeetTheme.sizes.sizeX20)
                 BigEventsRow(
                     events = fullInfoMainScreen.eventsByCategory,
                     onClickEvent = onClickEvent
                 )
-                Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX32))
+                SpacerHeight(height = MeetTheme.sizes.sizeX32)
                 Text(
                     modifier = Modifier.padding(start = MeetTheme.sizes.sizeX16),
                     text = stringResource(CommonString.text_upcoming_meetings),
                     color = Color.Black,
                     style = MeetTheme.typography.interSemiBold24
                 )
-                Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX16))
+                SpacerHeight(height = MeetTheme.sizes.sizeX16)
                 SmallEventsRow(
                     events = fullInfoMainScreen.eventsClosest,
                     onClickEvent = onClickEvent
                 )
-                Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX32))
+                SpacerHeight(height = MeetTheme.sizes.sizeX32)
                 Text(
                     modifier = Modifier.padding(
                         start = MeetTheme.sizes.sizeX16,
@@ -95,12 +98,12 @@ fun MainScreen(
                     color = Color.Black,
                     style = MeetTheme.typography.interSemiBold24
                 )
-                Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX16))
+                SpacerHeight(height = MeetTheme.sizes.sizeX16)
                 CommunityRow(
                     communities = fullInfoMainScreen.communities,
                     onClickCommunity = onClickCommunity
                 )
-                Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX40))
+                SpacerHeight(height = MeetTheme.sizes.sizeX40)
                 Text(
                     modifier = Modifier.padding(
                         start = MeetTheme.sizes.sizeX16,
@@ -110,10 +113,21 @@ fun MainScreen(
                     color = Color.Black,
                     style = MeetTheme.typography.interSemiBold24
                 )
-                Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX16))
-                InterestsChipFlex(interests = interests())
+                SpacerHeight(height = MeetTheme.sizes.sizeX16)
+                InterestsChipFlex(
+                    interests = fullInfoMainScreen.categoryList,
+                    userCategories = userCategories,
+                    onFilteringByAllCategories = {
+                        //TODO
+                        mainViewModel.test()
+                    }
+                ) {
+                    mainViewModel.toggleUserCategory(fullInfoMainScreen.categoryList[it])
+                }
 
-                Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX24))
+
+
+                SpacerHeight(height = MeetTheme.sizes.sizeX24)
             }
         }
     }
@@ -121,8 +135,12 @@ fun MainScreen(
 
 @Composable
 private fun InterestsChipFlex(
-    interests: List<Interest>
+    interests: List<Interest>,
+    userCategories: List<Interest>,
+    onFilteringByAllCategories: () -> Unit,
+    onFilteringByCategory: (Int) -> Unit
 ) {
+
     FlexRow(
         horizontalPadding = 16.dp,
         horizontalGap = MeetTheme.sizes.sizeX10,
@@ -133,10 +151,24 @@ private fun InterestsChipFlex(
             Chip(
                 text = interests[index].title,
                 chipSize = ChipSize.MEDIUM,
-                chipColors = ChipSelect.FALSE,
+                chipColors = if (checkingUserNoSuchInterest(
+                        userInterests = userCategories,
+                        id = interests[index].id
+                    )
+                ) ChipSelect.FALSE else ChipSelect.TRUE,
                 chipClick = ChipClick.ON_CLICK
             ) {
-                //TODO
+                onFilteringByCategory(index)
+            }
+            if (interests.isNotEmpty() && interests.size - 1 == index) {
+                Chip(
+                    text = stringResource(R.string.text_all_caterories),
+                    chipSize = ChipSize.MEDIUM,
+                    chipColors = if (userCategories.isEmpty()) ChipSelect.TRUE else ChipSelect.FALSE,
+                    chipClick = ChipClick.ON_CLICK
+                ) {
+                    onFilteringByAllCategories()
+                }
             }
         }
     }
@@ -227,64 +259,4 @@ private fun BigEventsRow(
     }
 }
 
-fun isCombineMainDataScreenEmpty(combineMainDataScreen: CombineMainDataScreen): Boolean {
-    return combineMainDataScreen.eventsByCategory.isEmpty() &&
-            combineMainDataScreen.eventsClosest.isEmpty() &&
-            combineMainDataScreen.communities.isEmpty()
-}
-
 private const val MAX_NUMBER_CARDS_DISPLAYED = 5
-
-private fun interests(): List<Interest> {
-    val interestList = listOf(
-        Interest(
-            id = 0, title = "Дизайн"
-        ),
-        Interest(
-            id = 1, title = "Разработка"
-        ),
-        Interest(
-            id = 2, title = "Продакт менеджмент"
-        ),
-        Interest(
-            id = 3, title = "Проджект менеджмент"
-        ),
-        Interest(
-            id = 4, title = "Backend"
-        ),
-        Interest(
-            id = 5, title = "Frontend"
-        ),
-        Interest(
-            id = 6, title = "Mobile"
-        ),
-        Interest(
-            id = 7, title = "Web"
-        ),
-        Interest(
-            id = 8, title = "Тестирование"
-        ),
-        Interest(
-            id = 9, title = "Продажи"
-        ),
-        Interest(
-            id = 10, title = "Бизнес"
-        ),
-        Interest(
-            id = 11, title = "Маркетинг"
-        ),
-        Interest(
-            id = 12, title = "Безопасность"
-        ),
-        Interest(
-            id = 13, title = "Девопс"
-        ),
-        Interest(
-            id = 14, title = "Аналитика"
-        ),
-        Interest(
-            id = 15, title = "Все категории"
-        ),
-    )
-    return interestList
-}

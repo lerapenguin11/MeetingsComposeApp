@@ -3,6 +3,7 @@ package com.example.composeprotject.utils
 import android.content.Context
 import androidx.compose.ui.text.buildAnnotatedString
 import com.example.composeprotject.R
+import com.example.domain.model.interest.Interest
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -29,4 +30,8 @@ fun lineBreakInAddress(short: String, full: String): String {
         append(short)
     }
     return address.text
+}
+
+fun checkingUserNoSuchInterest(userInterests: List<Interest>, id: Int): Boolean {
+    return userInterests.none { it.id == id }
 }

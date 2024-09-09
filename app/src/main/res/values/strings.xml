@@ -87,4 +87,5 @@
     <string name="text_get_code">Получить код</string>
     <string name="text_have_you_made_appointment">Вы записались\nна встречу</string>
     <string name="text_subscribers">Подписчики</string>
+    <string name="text_all_caterories">Все категории</string>
 </resources>

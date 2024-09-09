@@ -33,7 +33,8 @@ fun Chip(
     onClick: () -> Unit
 ) {
     val padding = style.chipSize(variant = chipSize)
-    var selected by remember { mutableStateOf(chipColors) }
+    var selected by remember { mutableStateOf(ChipSelect.FALSE) }
+    selected = chipColors
     val color = style.chipSelectedColor(variant = selected)
     Box(
         modifier = modifier
