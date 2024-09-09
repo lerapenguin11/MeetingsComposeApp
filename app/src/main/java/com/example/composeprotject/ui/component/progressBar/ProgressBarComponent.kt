@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.example.composeprotject.ui.theme.MeetTheme
 
 @Composable
-fun ProgressBar(
+fun CustomProgressBar(
     modifier: Modifier = Modifier
 ) {
     Box(

@@ -6,9 +6,16 @@ import kotlinx.coroutines.flow.Flow
 
 interface EventRepository {
 
-    fun getEvents(
+    fun getEventsByUserInterest(
         eventType: EventListType,
         userInterests: List<Int>?,
+        authToken: String?
+    ): Flow<List<Meeting>>
+
+    fun getEventsClosest(
+        eventType: EventListType,
+        userInterests: List<Int>?,
+        city: String?,
         authToken: String?
     ): Flow<List<Meeting>>
 }

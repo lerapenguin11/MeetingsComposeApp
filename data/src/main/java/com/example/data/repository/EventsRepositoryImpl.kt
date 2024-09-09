@@ -15,19 +15,37 @@ class EventsRepositoryImpl(
     private val mapper: EventsMapper
 ) : EventRepository {
 
-    override fun getEvents(
+    override fun getEventsByUserInterest(
         eventType: EventListType,
         userInterests: List<Int>?,
-        authToken: String?,
+        authToken: String?
     ): Flow<List<Meeting>> {
         return flow {
             val filteredEvents = filterEvents(
                 eventType = eventType,
                 events = EventResponse()
             ).map { mapper.eventResponseToMeeting(it) }
-
             emit(
-                value = filteredEvents.take(5)
+                value = filteredEvents.take(6)
+            )
+            //TODO: response = ...{...}.onFailure{ onError(message())
+        }
+            .flowOn(Dispatchers.IO)
+    }
+
+    override fun getEventsClosest(
+        eventType: EventListType,
+        userInterests: List<Int>?,
+        city: String?,
+        authToken: String?
+    ): Flow<List<Meeting>> {
+        return flow {
+            val filteredEvents = filterEvents(
+                eventType = eventType,
+                events = EventResponse()
+            ).map { mapper.eventResponseToMeeting(it) }
+            emit(
+                value = filteredEvents.filter { it.id % 2 == 0 }.take(6)
             )
             //TODO: response = ...{...}.onFailure{ onError(message())
         }
