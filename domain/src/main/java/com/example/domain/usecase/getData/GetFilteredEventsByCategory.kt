@@ -2,7 +2,7 @@ package com.example.domain.usecase.getData
 
 import com.example.domain.model.event.Meeting
 import com.example.domain.repository.event.EventRepository
-import com.example.domain.usecase.event.GetFilteredEventsByCategoryUseCase
+import com.example.domain.usecase.event.GetMainInfoUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapMerge
@@ -13,14 +13,14 @@ import org.koin.core.component.inject
 
 class GetFilteredEventsByCategory : KoinComponent {
     private val repository: EventRepository by inject()
-    private val innerEvents: GetFilteredEventsByCategoryUseCase by inject()
+    private val innerEvents: GetMainInfoUseCase by inject()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val eventsPrepared: Flow<List<Meeting>> =
         innerEvents.trigger().mapLatest { categories ->
             categories?.let {
                 repository.getFilteredEventsByCategory(
-                    filterParam = it
+                    filterParam = it.test
                 )
             }
         }.flatMapMerge { it ?: flow { emptyList<Meeting>() } }

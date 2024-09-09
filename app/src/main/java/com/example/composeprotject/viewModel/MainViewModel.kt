@@ -6,7 +6,6 @@ import com.example.domain.model.event.QueryParam
 import com.example.domain.model.interest.Interest
 import com.example.domain.usecase.combineUseCase.CombineMainDataScreen
 import com.example.domain.usecase.combineUseCase.InteractorFullInfoMainScreen
-import com.example.domain.usecase.event.InteractorLoadFilteredEventsByCategory
 import com.example.domain.usecase.event.InteractorLoadMainInfo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -15,11 +14,11 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val interactorLoadMainInfo: InteractorLoadMainInfo,
-    private val interactorFullInfoMainScreen: InteractorFullInfoMainScreen,
-    private val interactorLoadFilteredEventsByCategory: InteractorLoadFilteredEventsByCategory
+    private val interactorFullInfoMainScreen: InteractorFullInfoMainScreen
 ) : ViewModel() {
 
     private val fullInfoMainScreen: StateFlow<CombineMainDataScreen> =
@@ -41,20 +40,28 @@ class MainViewModel(
                     isLoadingFullData = true
                 )
             )
+
     private val _mainStateUI = MutableStateFlow(true)
     private val mainStateUI: StateFlow<Boolean> = _mainStateUI
 
     private val _userSelectedCategories = MutableStateFlow<List<Interest>>(emptyList())
     private val userSelectedCategories: StateFlow<List<Interest>> = _userSelectedCategories
 
-    init {
-        loadEventsByCategory()
-    }
-
     fun getUserSelectedCategories() = userSelectedCategories
     fun getMainStateUI() = mainStateUI
 
     fun getFullInfoMainScreen() = fullInfoMainScreen
+
+    fun loadEventsByCategory(selectedCategory: List<Int>) {
+        interactorLoadMainInfo.execute(
+            QueryParam(
+                authToken = null,
+                userInterests = null,
+                city = null,
+                test = selectedCategory
+            )
+        )
+    }
 
     fun toggleUserCategory(id: Interest) {
         if (hasUserCategories(id)) {
@@ -64,42 +71,23 @@ class MainViewModel(
         }
     }
 
-    fun loadFilteredEventsByCategory(filterParam: List<Int>) {
-        interactorLoadFilteredEventsByCategory.execute(categories = filterParam)
-    }
-
     private fun hasUserCategories(interest: Interest): Boolean {
         return _userSelectedCategories.value.none { it.id == interest.id }
     }
 
-    private fun updateUserCategory(interest: Interest) {
+    private fun updateUserCategory(interest: Interest) = viewModelScope.launch {
         _userSelectedCategories.update { currentInterests ->
             currentInterests + interest
         }
     }
 
-    fun test() {
+    fun clearUserSelectedCategories() = viewModelScope.launch {
         _userSelectedCategories.update { emptyList() }
     }
 
-    private fun deleteUserCategory(interest: Interest) {
+    private fun deleteUserCategory(interest: Interest) = viewModelScope.launch {
         _userSelectedCategories.update { currentInterests ->
             currentInterests.filterNot { it.id == interest.id }
         }
-    }
-
-    private fun test1() {
-
-    }
-
-    private fun loadEventsByCategory() {
-        interactorLoadMainInfo.execute(
-            QueryParam(
-                authToken = null,
-                userInterests = null,
-                city = null
-            )
-        )
-
     }
 }

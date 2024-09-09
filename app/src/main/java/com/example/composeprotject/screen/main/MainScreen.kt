@@ -7,10 +7,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,6 +24,7 @@ import com.example.composeprotject.R
 import com.example.composeprotject.ui.component.card.CommunityCard
 import com.example.composeprotject.ui.component.card.CommunityViewAllCard
 import com.example.composeprotject.ui.component.card.EventCard
+import com.example.composeprotject.ui.component.card.EventCardFillMaxWidth
 import com.example.composeprotject.ui.component.card.EventViewAllCard
 import com.example.composeprotject.ui.component.card.variant.EventCardVariant
 import com.example.composeprotject.ui.component.chip.Chip
@@ -55,7 +56,7 @@ fun MainScreen(
     val fullInfoMainScreen by mainViewModel.getFullInfoMainScreen().collectAsStateWithLifecycle()
     val mainStateUI by mainViewModel.getMainStateUI().collectAsStateWithLifecycle()
     val userCategories by mainViewModel.getUserSelectedCategories().collectAsStateWithLifecycle()
-    mainViewModel.loadFilteredEventsByCategory(filterParam = userCategories.map { it.id })
+    mainViewModel.loadEventsByCategory(selectedCategory = userCategories.map { it.id })
 
     val textSpecialist = "тестировщиков"
 
@@ -66,70 +67,91 @@ fun MainScreen(
         if (mainStateUI) {
             CustomProgressBar()
         } else {
-            Column(
+            LazyColumn(
                 modifier = modifier
                     .padding(contentPadding)
-                    .verticalScroll(rememberScrollState())
             ) {
-                SpacerHeight(height = MeetTheme.sizes.sizeX20)
-                BigEventsRow(
-                    events = fullInfoMainScreen.eventsByCategory,
-                    onClickEvent = onClickEvent
-                )
-                SpacerHeight(height = MeetTheme.sizes.sizeX32)
-                Text(
-                    modifier = Modifier.padding(start = MeetTheme.sizes.sizeX16),
-                    text = stringResource(CommonString.text_upcoming_meetings),
-                    color = Color.Black,
-                    style = MeetTheme.typography.interSemiBold24
-                )
-                SpacerHeight(height = MeetTheme.sizes.sizeX16)
-                SmallEventsRow(
-                    events = fullInfoMainScreen.eventsClosest,
-                    onClickEvent = onClickEvent
-                )
-                SpacerHeight(height = MeetTheme.sizes.sizeX32)
-                Text(
-                    modifier = Modifier.padding(
-                        start = MeetTheme.sizes.sizeX16,
-                        end = MeetTheme.sizes.sizeX16
-                    ),
-                    text = "${stringResource(CommonString.text_communities_for)} ${textSpecialist}",
-                    color = Color.Black,
-                    style = MeetTheme.typography.interSemiBold24
-                )
-                SpacerHeight(height = MeetTheme.sizes.sizeX16)
-                CommunityRow(
-                    communities = fullInfoMainScreen.communities,
-                    onClickCommunity = onClickCommunity
-                )
-                SpacerHeight(height = MeetTheme.sizes.sizeX40)
-                Text(
-                    modifier = Modifier.padding(
-                        start = MeetTheme.sizes.sizeX16,
-                        end = MeetTheme.sizes.sizeX16
-                    ),
-                    text = stringResource(CommonString.text_other_meetings),
-                    color = Color.Black,
-                    style = MeetTheme.typography.interSemiBold24
-                )
-                SpacerHeight(height = MeetTheme.sizes.sizeX16)
-                InterestsChipFlex(
-                    interests = fullInfoMainScreen.categoryList,
-                    userCategories = userCategories,
-                    onFilteringByAllCategories = {
-                        //TODO
-                        mainViewModel.test()
+                item {
+                    SpacerHeight(height = MeetTheme.sizes.sizeX20)
+                    BigEventsRow(
+                        events = fullInfoMainScreen.eventsByCategory,
+                        onClickEvent = onClickEvent
+                    )
+                    SpacerHeight(height = MeetTheme.sizes.sizeX32)
+                    Text(
+                        modifier = Modifier.padding(start = MeetTheme.sizes.sizeX16),
+                        text = stringResource(CommonString.text_upcoming_meetings),
+                        color = Color.Black,
+                        style = MeetTheme.typography.interSemiBold24
+                    )
+                    SpacerHeight(height = MeetTheme.sizes.sizeX16)
+                    SmallEventsRow(
+                        events = fullInfoMainScreen.eventsClosest,
+                        onClickEvent = onClickEvent
+                    )
+                    SpacerHeight(height = MeetTheme.sizes.sizeX32)
+                    Text(
+                        modifier = Modifier.padding(
+                            start = MeetTheme.sizes.sizeX16,
+                            end = MeetTheme.sizes.sizeX16
+                        ),
+                        text = "${stringResource(CommonString.text_communities_for)} ${textSpecialist}",
+                        color = Color.Black,
+                        style = MeetTheme.typography.interSemiBold24
+                    )
+                    SpacerHeight(height = MeetTheme.sizes.sizeX16)
+                    CommunityRow(
+                        communities = fullInfoMainScreen.communities,
+                        onClickCommunity = onClickCommunity
+                    )
+                    SpacerHeight(height = MeetTheme.sizes.sizeX40)
+                    Text(
+                        modifier = Modifier.padding(
+                            start = MeetTheme.sizes.sizeX16,
+                            end = MeetTheme.sizes.sizeX16
+                        ),
+                        text = stringResource(CommonString.text_other_meetings),
+                        color = Color.Black,
+                        style = MeetTheme.typography.interSemiBold24
+                    )
+                    SpacerHeight(height = MeetTheme.sizes.sizeX16)
+                    InterestsChipFlex(
+                        interests = fullInfoMainScreen.categoryList,
+                        userCategories = userCategories,
+                        onFilteringByAllCategories = {
+                            //TODO
+                            mainViewModel.clearUserSelectedCategories()
+                        }
+                    ) {
+                        mainViewModel.toggleUserCategory(fullInfoMainScreen.categoryList[it])
                     }
-                ) {
-                    mainViewModel.toggleUserCategory(fullInfoMainScreen.categoryList[it])
+                    SpacerHeight(height = MeetTheme.sizes.sizeX40)
                 }
-
-
-
-                SpacerHeight(height = MeetTheme.sizes.sizeX24)
+                items(items = fullInfoMainScreen.filteredEventsByCategory) { event ->
+                    Column(modifier = Modifier.padding(horizontal = MeetTheme.sizes.sizeX16)) {
+                        FilteredEventByCategoryBlock(event = event) {
+                            onClickEvent(event)
+                        }
+                        SpacerHeight(height = 38.dp)
+                    }
+                }
+                item {
+                    SpacerHeight(height = MeetTheme.sizes.sizeX24)
+                }
             }
         }
+    }
+}
+
+@Composable
+private fun FilteredEventByCategoryBlock(
+    event: Meeting,
+    onClickEvent: (Int) -> Unit
+) {
+    EventCardFillMaxWidth(
+        meeting = event
+    ) {
+        onClickEvent(event.id)
     }
 }
 
