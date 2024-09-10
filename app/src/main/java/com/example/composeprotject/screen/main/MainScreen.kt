@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -61,7 +62,8 @@ fun MainScreen(
 
     LazyColumn(
         modifier = modifier
-            .padding(contentPadding),
+            .padding(contentPadding)
+            .fillMaxSize(),
         verticalArrangement = Arrangement.Center
     ) {
         item {

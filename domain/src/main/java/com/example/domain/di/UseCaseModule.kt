@@ -11,6 +11,10 @@ import com.example.domain.usecase.interest.AddUserInterestsUseCase
 import com.example.domain.usecase.interest.AddUserInterestsUseCaseInteractor
 import com.example.domain.usecase.interest.GetInterestInteractor
 import com.example.domain.usecase.interest.GetInterestsUseCase
+import com.example.domain.usecase.store.ReadOnBoardingInterestStateUseCase
+import com.example.domain.usecase.store.ReadOnBoardingInterestStateUseCaseImpl
+import com.example.domain.usecase.store.SaveOnBoardingInterestStateUseCase
+import com.example.domain.usecase.store.SaveOnBoardingInterestStateUseCaseImpl
 import org.koin.dsl.module
 
 internal val useCaseModule = module {
@@ -26,4 +30,6 @@ internal val useCaseModule = module {
     single { GetEventsClosest() }
     single { GetCommunity() }
     single { GetFilteredEventsByCategory() }
+    single<ReadOnBoardingInterestStateUseCase> { ReadOnBoardingInterestStateUseCaseImpl(repository = get()) }
+    single<SaveOnBoardingInterestStateUseCase> { SaveOnBoardingInterestStateUseCaseImpl(repository = get()) }
 }

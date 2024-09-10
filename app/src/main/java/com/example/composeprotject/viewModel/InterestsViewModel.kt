@@ -10,6 +10,7 @@ import com.example.domain.model.interest.Interest
 import com.example.domain.model.interest.UserInterestDomain
 import com.example.domain.usecase.interest.AddUserInterestsUseCase
 import com.example.domain.usecase.interest.GetInterestsUseCase
+import com.example.domain.usecase.store.SaveOnBoardingInterestStateUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -21,6 +22,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class InterestsViewModel(
+    private val saveOnBoardingInterestState: SaveOnBoardingInterestStateUseCase,
     private val getInterestsUseCase: GetInterestsUseCase,
     private val addUserInterestsUseCase: AddUserInterestsUseCase
 ) : ViewModel() {
@@ -55,6 +57,10 @@ class InterestsViewModel(
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = Pair(emptyList(), emptyList())
     )
+
+    fun saveOnBoardingInterestState() = viewModelScope.launch {
+        saveOnBoardingInterestState.execute(completed = true)
+    }
 
     fun getCombinedInterests() = combinedInterests
 
