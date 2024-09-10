@@ -1,6 +1,7 @@
 package com.example.data.mappers
 
 import com.example.data.responseModel.event.EventResponseItem
+import com.example.database.entity.UserInterestEntity
 import com.example.domain.model.event.Meeting
 import com.example.domain.model.interest.Category
 
@@ -15,5 +16,9 @@ class EventsMapper {
             shortAddress = item.location.address.plain.short,
             startDate = item.startDate
         )
+    }
+
+    fun userInterestEntityToIdInterest(entity: UserInterestEntity): Int {
+        return entity.id
     }
 }

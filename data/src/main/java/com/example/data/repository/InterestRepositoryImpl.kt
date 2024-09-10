@@ -19,7 +19,6 @@ internal class InterestRepositoryImpl(
 
     @WorkerThread
     override fun getInterests(): Flow<List<Interest>> {
-
         return flow {
             emit(value = interestsFake().map {
                 mapper.responseInterestToInterest(it)

@@ -47,6 +47,17 @@ class MainViewModel(
     private val _userSelectedCategories = MutableStateFlow<List<Interest>>(emptyList())
     private val userSelectedCategories: StateFlow<List<Interest>> = _userSelectedCategories
 
+    private val _authToken = MutableStateFlow<String?>(null)
+    private val authToken: StateFlow<String?> = _authToken
+
+    init {
+        getAuthToken()
+    }
+
+    private fun getAuthToken() {
+        _authToken.update { null } //TODO
+    }
+
     fun getUserSelectedCategories() = userSelectedCategories
     fun getMainStateUI() = mainStateUI
 

@@ -14,5 +14,5 @@ interface UserInterestDao {
     suspend fun insertAllUserInterests(vararg interest: UserInterestEntity): List<Long>
 
     @Query("SELECT * FROM user_interests")
-    fun getUserInterests(): Flow<UserInterestEntity>
+    fun getUserInterests(): Flow<List<UserInterestEntity>>
 }
