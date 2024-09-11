@@ -28,8 +28,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
-import com.example.composeprotject.model.details.MeetingOrganizer
-import com.example.composeprotject.model.details.MeetingStatus
 import com.example.composeprotject.ui.component.button.BottomActionBar
 import com.example.composeprotject.ui.component.chip.Chip
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
@@ -48,6 +46,8 @@ import com.example.composeprotject.ui.component.utils.NoRippleTheme
 import com.example.composeprotject.ui.component.utils.eventDetailsDate
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.utils.lineBreakInAddress
+import com.example.domain.model.eventDetails.MeetingOrganizer
+import com.example.domain.model.eventDetails.MeetingStatus
 import com.example.domain.model.interest.Category
 
 @Composable

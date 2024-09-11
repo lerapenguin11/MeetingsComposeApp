@@ -68,82 +68,85 @@ fun MainScreen(
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center
     ) {
-        item {
-            if (mainStateUI) {
+        if (mainStateUI) {
+            item {
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+
+                    contentAlignment = Alignment.Center
                 ) {
                     CustomProgressBar()
                 }
             }
-        }
-        item {
-            SpacerHeight(height = MeetTheme.sizes.sizeX20)
-            BigEventsRow(
-                events = fullInfoMainScreen.eventsByCategory,
-                onClickEvent = onClickEvent
-            )
-            SpacerHeight(height = MeetTheme.sizes.sizeX32)
-            Text(
-                modifier = Modifier.padding(start = MeetTheme.sizes.sizeX16),
-                text = stringResource(CommonString.text_upcoming_meetings),
-                color = Color.Black,
-                style = MeetTheme.typography.interSemiBold24
-            )
-            SpacerHeight(height = MeetTheme.sizes.sizeX16)
-            SmallEventsRow(
-                events = fullInfoMainScreen.eventsClosest,
-                onClickEvent = onClickEvent
-            )
-            SpacerHeight(height = MeetTheme.sizes.sizeX32)
-            Text(
-                modifier = Modifier.padding(
-                    start = MeetTheme.sizes.sizeX16,
-                    end = MeetTheme.sizes.sizeX16
-                ),
-                text = "${stringResource(CommonString.text_communities_for)} ${textSpecialist}",
-                color = Color.Black,
-                style = MeetTheme.typography.interSemiBold24
-            )
-            SpacerHeight(height = MeetTheme.sizes.sizeX16)
-            CommunityRow(
-                communities = fullInfoMainScreen.communities,
-                onClickCommunity = onClickCommunity
-            )
-            SpacerHeight(height = MeetTheme.sizes.sizeX40)
-            Text(
-                modifier = Modifier.padding(
-                    start = MeetTheme.sizes.sizeX16,
-                    end = MeetTheme.sizes.sizeX16
-                ),
-                text = stringResource(CommonString.text_other_meetings),
-                color = Color.Black,
-                style = MeetTheme.typography.interSemiBold24
-            )
-            SpacerHeight(height = MeetTheme.sizes.sizeX16)
-            InterestsChipFlex(
-                interests = fullInfoMainScreen.categoryList,
-                userCategories = userCategories,
-                onFilteringByAllCategories = {
-                    //TODO
-                    mainViewModel.clearUserSelectedCategories()
+        } else {
+            item {
+                SpacerHeight(height = MeetTheme.sizes.sizeX20)
+                BigEventsRow(
+                    events = fullInfoMainScreen.eventsByCategory,
+                    onClickEvent = onClickEvent
+                )
+                SpacerHeight(height = MeetTheme.sizes.sizeX32)
+                Text(
+                    modifier = Modifier.padding(start = MeetTheme.sizes.sizeX16),
+                    text = stringResource(CommonString.text_upcoming_meetings),
+                    color = Color.Black,
+                    style = MeetTheme.typography.interSemiBold24
+                )
+                SpacerHeight(height = MeetTheme.sizes.sizeX16)
+                SmallEventsRow(
+                    events = fullInfoMainScreen.eventsClosest,
+                    onClickEvent = onClickEvent
+                )
+                SpacerHeight(height = MeetTheme.sizes.sizeX32)
+                Text(
+                    modifier = Modifier.padding(
+                        start = MeetTheme.sizes.sizeX16,
+                        end = MeetTheme.sizes.sizeX16
+                    ),
+                    text = "${stringResource(CommonString.text_communities_for)} ${textSpecialist}",
+                    color = Color.Black,
+                    style = MeetTheme.typography.interSemiBold24
+                )
+                SpacerHeight(height = MeetTheme.sizes.sizeX16)
+                CommunityRow(
+                    communities = fullInfoMainScreen.communities,
+                    onClickCommunity = onClickCommunity
+                )
+                SpacerHeight(height = MeetTheme.sizes.sizeX40)
+                Text(
+                    modifier = Modifier.padding(
+                        start = MeetTheme.sizes.sizeX16,
+                        end = MeetTheme.sizes.sizeX16
+                    ),
+                    text = stringResource(CommonString.text_other_meetings),
+                    color = Color.Black,
+                    style = MeetTheme.typography.interSemiBold24
+                )
+                SpacerHeight(height = MeetTheme.sizes.sizeX16)
+                InterestsChipFlex(
+                    interests = fullInfoMainScreen.categoryList,
+                    userCategories = userCategories,
+                    onFilteringByAllCategories = {
+                        //TODO
+                        mainViewModel.clearUserSelectedCategories()
+                    }
+                ) {
+                    mainViewModel.toggleUserCategory(fullInfoMainScreen.categoryList[it])
                 }
-            ) {
-                mainViewModel.toggleUserCategory(fullInfoMainScreen.categoryList[it])
+                SpacerHeight(height = MeetTheme.sizes.sizeX40)
             }
-            SpacerHeight(height = MeetTheme.sizes.sizeX40)
-        }
-        items(items = fullInfoMainScreen.filteredEventsByCategory) { event ->
-            Column(modifier = Modifier.padding(horizontal = MeetTheme.sizes.sizeX16)) {
-                FilteredEventByCategoryBlock(event = event) {
-                    onClickEvent(event)
+            items(items = fullInfoMainScreen.filteredEventsByCategory) { event ->
+                Column(modifier = Modifier.padding(horizontal = MeetTheme.sizes.sizeX16)) {
+                    FilteredEventByCategoryBlock(event = event) {
+                        onClickEvent(event)
+                    }
+                    SpacerHeight(height = 38.dp)
                 }
-                SpacerHeight(height = 38.dp)
             }
-        }
-        item {
-            SpacerHeight(height = MeetTheme.sizes.sizeX24)
+            item {
+                SpacerHeight(height = MeetTheme.sizes.sizeX24)
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.composeprotject.model.details
+package com.example.domain.model.eventDetails
 
 import com.example.domain.model.interest.Interest
 

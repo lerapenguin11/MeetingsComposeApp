@@ -1,9 +1,8 @@
-package com.example.composeprotject.model.details
+package com.example.domain.model.eventDetails
 
 import com.example.domain.model.interest.Category
 
 data class MeetingDetails(
-    val id: Int,
     val status: MeetingStatus,
     val title: String,
     val description: String,
