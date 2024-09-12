@@ -15,13 +15,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
 import com.example.composeprotject.screen.state.RegistrationScreenState
@@ -36,20 +36,19 @@ import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.eventDate
 import com.example.composeprotject.ui.theme.MeetTheme
 
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-fun SignUpScreenPreview() {
-    SignUpScreen(
-        contentPadding = PaddingValues()
-    )
-}
-
 @Composable
 fun SignUpScreen(
+    title: String,
+    eventId: Int,
+    startDate: Long,
+    shortAddress: String,
     contentPadding: PaddingValues,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onCancelScreen: () -> Unit
 ) {
-    val screenState by remember { mutableStateOf(RegistrationScreenState.INPUT_NAME) }
+    var screenState by remember { mutableStateOf(RegistrationScreenState.INPUT_NAME) }
+    var buttonState by remember { mutableStateOf(FilledButtonState.DISABLED) }
+
     Column(
         modifier = modifier
             .padding(contentPadding)
@@ -61,12 +60,12 @@ fun SignUpScreen(
                 .weight(5f)
         ) {
             SpacerHeight(height = MeetTheme.sizes.sizeX20)
-            SignTopBar()
+            SignTopBar(onCancel = { onCancelScreen() })
             SpacerHeight(height = MeetTheme.sizes.sizeX12)
             DescriptionBlock(
-                eventName = "Супертестировщики",
-                startDate = 1725021117,
-                shortAddress = "Невский проспект, 11"
+                eventName = title,
+                startDate = startDate,
+                shortAddress = shortAddress
             )
             SpacerHeight(height = MeetTheme.sizes.sizeX24)
             InputBlock(
@@ -176,7 +175,9 @@ private fun DescriptionBlock(
 }
 
 @Composable
-private fun SignTopBar() {
+private fun SignTopBar(
+    onCancel: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -192,7 +193,7 @@ private fun SignTopBar() {
             modifier = Modifier
                 .clip(RoundedCornerShape(size = MeetTheme.sizes.sizeX10))
                 .clickable {
-                    //TODO
+                    onCancel()
                 }
         ) {
             Image(

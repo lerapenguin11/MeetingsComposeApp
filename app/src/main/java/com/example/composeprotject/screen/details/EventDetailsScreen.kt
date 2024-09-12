@@ -32,6 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.composeprotject.model.EventInfoShort
 import com.example.composeprotject.ui.component.button.BottomActionBar
 import com.example.composeprotject.ui.component.card.EventCard
 import com.example.composeprotject.ui.component.card.EventViewAllCard
@@ -69,7 +70,8 @@ fun EventDetailsScreen(
     eventDetailsViewModel: EventDetailsViewModel = koinViewModel(),
     onClickMorePeople: (Int) -> Unit,
     onClickOrganizer: (MeetingOrganizer) -> Unit,
-    onClickEvent: (Meeting) -> Unit
+    onClickEvent: (Meeting) -> Unit,
+    onMeetingRegistrationCheckIn: (EventInfoShort) -> Unit
 ) {
     LaunchedEffect(Unit) {
         eventDetailsViewModel.loadEventDetailsInfo(eventId = eventId)
@@ -156,7 +158,14 @@ fun EventDetailsScreen(
                     descText = "Всего ${it.participantsCapacity} мест. Если передумаете — отпишитесь",
                     state = FilledButtonState.ACTIVE_PRIMARY
                 ) {
-                    //TODO
+                    onMeetingRegistrationCheckIn(
+                        EventInfoShort(
+                            id = eventId,
+                            title = it.title,
+                            shortAddress = it.location.meetingAddress.short,
+                            startDate = it.startDate
+                        )
+                    ) //TODO запись на встечу и регистрация
                 }
             }
         }
