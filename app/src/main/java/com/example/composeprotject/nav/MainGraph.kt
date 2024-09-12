@@ -63,6 +63,11 @@ fun MainGraph(navController: NavHostController, contentPadding: PaddingValues) {
                         navController.navigate(
                             route = "${Main.CommunityDetails.route}/${community.id}/${community.name}"
                         )
+                    },
+                    onClickEvent = { event ->
+                        navController.navigate(
+                            route = "${Main.EventDetails.route}/${event.id}/${event.title}"
+                        )
                     }
                 )
             }

@@ -1,9 +1,11 @@
 package com.example.domain.model.eventDetails
 
-import com.example.domain.model.interest.Interest
-
 data class MeetingParticipants(
-    val name: String,
-    val interests: List<Interest>,
+    val data: List<MeetingsData>,
+    val total: Int
+)
+
+data class MeetingsData(
+    val id: Int,
     val avatarUrl: String?
 )

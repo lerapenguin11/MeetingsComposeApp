@@ -10,8 +10,8 @@ data class MeetingDetails(
     val startDate: Long,
     val categories: List<Category>,
     val presenters: List<MeetingPresenter>,
-    val organizers: List<MeetingOrganizer>,
-    val participants: List<MeetingParticipants>,
+    val organizers: MeetingOrganizer,
+    val participants: MeetingParticipants,
     val participantsCapacity: Int,
     val location: MeetingLocation
 )

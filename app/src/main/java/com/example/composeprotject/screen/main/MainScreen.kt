@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,7 +59,10 @@ fun MainScreen(
     val mainStateUI by mainViewModel.getMainStateUI().collectAsStateWithLifecycle()
     val userCategories by mainViewModel.getUserSelectedCategories().collectAsStateWithLifecycle()
     val fullInfoMainScreen by mainViewModel.getFullInfoMainScreen().collectAsStateWithLifecycle()
-    mainViewModel.loadEventsByCategory(selectedCategory = userCategories.map { it.id })
+
+    LaunchedEffect(Unit) {
+        mainViewModel.loadEventsByCategory(selectedCategory = userCategories.map { it.id })
+    }
 
     val textSpecialist = "тестировщиков"
 

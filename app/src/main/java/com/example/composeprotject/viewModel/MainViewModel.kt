@@ -24,7 +24,6 @@ class MainViewModel(
     private val fullInfoMainScreen: StateFlow<CombineMainDataScreen> =
         interactorFullInfoMainScreen.execute().flatMapLatest { fullInfo ->
             flow {
-                kotlinx.coroutines.delay(500) //TODO
                 _mainStateUI.update { (fullInfo.isLoadingFullData) }
                 emit(value = fullInfo)
             }
@@ -64,7 +63,7 @@ class MainViewModel(
 
     fun getFullInfoMainScreen() = fullInfoMainScreen
 
-    fun loadEventsByCategory(selectedCategory: List<Int>) {
+    fun loadEventsByCategory(selectedCategory: List<Int>) = viewModelScope.launch {
         interactorLoadMainInfo.execute(
             QueryParam(
                 authToken = null,

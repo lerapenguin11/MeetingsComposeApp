@@ -1,10 +1,16 @@
 package com.example.domain.di
 
+import com.example.domain.usecase.combineUseCase.InteractorFullEventDetailsInfo
 import com.example.domain.usecase.combineUseCase.InteractorFullInfoMainScreen
+import com.example.domain.usecase.details.GetEventDetailsInfoUseCase
+import com.example.domain.usecase.details.InteractorLoadEventDetailsInfo
+import com.example.domain.usecase.details.InteractorLoadEventsByCommunityId
 import com.example.domain.usecase.event.GetMainInfoUseCase
 import com.example.domain.usecase.event.InteractorLoadMainInfo
 import com.example.domain.usecase.getData.GetCommunity
+import com.example.domain.usecase.getData.GetEventDetails
 import com.example.domain.usecase.getData.GetEventsByCategory
+import com.example.domain.usecase.getData.GetEventsByCommunityId
 import com.example.domain.usecase.getData.GetEventsClosest
 import com.example.domain.usecase.getData.GetFilteredEventsByCategory
 import com.example.domain.usecase.interest.AddUserInterestsUseCase
@@ -32,4 +38,10 @@ internal val useCaseModule = module {
     single { GetFilteredEventsByCategory() }
     single<ReadOnBoardingInterestStateUseCase> { ReadOnBoardingInterestStateUseCaseImpl(repository = get()) }
     single<SaveOnBoardingInterestStateUseCase> { SaveOnBoardingInterestStateUseCaseImpl(repository = get()) }
+    single { GetEventDetailsInfoUseCase() }
+    single { InteractorFullEventDetailsInfo() }
+    single { InteractorLoadEventDetailsInfo() }
+    single { InteractorLoadEventsByCommunityId() }
+    single { GetEventDetails() }
+    single { GetEventsByCommunityId() }
 }

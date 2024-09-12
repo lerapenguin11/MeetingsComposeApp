@@ -1,11 +1,13 @@
 package com.example.data.repository
 
+import com.example.data.fakeData.eventDetailsFake
 import com.example.data.fakeData.eventsFake
 import com.example.data.mappers.EventsMapper
 import com.example.data.responseModel.event.EventResponse
 import com.example.database.dao.UserInterestDao
 import com.example.domain.model.event.EventListType
 import com.example.domain.model.event.Meeting
+import com.example.domain.model.eventDetails.MeetingDetails
 import com.example.domain.repository.event.EventRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -68,7 +70,19 @@ class EventsRepositoryImpl(
     override fun getFilteredEventsByCategory(filterParam: List<Int>): Flow<List<Meeting>> {
         return flow {
             emit(value = eventsFake().map { mapper.eventResponseToMeeting(it) })
-        }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override fun getEventDetails(eventId: Int): Flow<MeetingDetails> {
+        return flow {
+            emit(
+                value = mapper.eventDetailsResponseToEventDetails(
+                    item = eventDetailsFake().elementAt(
+                        eventId
+                    )
+                )
+            )
+        }.flowOn(context = Dispatchers.IO)
     }
 
     private fun getUserInterest() {
