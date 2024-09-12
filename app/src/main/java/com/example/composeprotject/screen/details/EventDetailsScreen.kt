@@ -9,11 +9,19 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ripple.LocalRippleTheme
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,13 +30,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
-import com.example.composeprotject.model.details.MeetingStatus
-import com.example.composeprotject.model.interest.Category
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.composeprotject.ui.component.button.BottomActionBar
+import com.example.composeprotject.ui.component.card.EventCard
+import com.example.composeprotject.ui.component.card.EventViewAllCard
+import com.example.composeprotject.ui.component.card.variant.EventCardVariant
 import com.example.composeprotject.ui.component.chip.Chip
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
+import com.example.composeprotject.ui.component.chip.chipStyle.ChipSelect
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipSize
 import com.example.composeprotject.ui.component.image.EventDetailsImage
 import com.example.composeprotject.ui.component.person.PersonImage
@@ -39,16 +49,35 @@ import com.example.composeprotject.ui.component.state.FilledButtonState
 import com.example.composeprotject.ui.component.utils.CommonDrawables
 import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.FlexRow
+import com.example.composeprotject.ui.component.utils.NoRippleTheme
 import com.example.composeprotject.ui.component.utils.eventDetailsDate
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.utils.lineBreakInAddress
+import com.example.composeprotject.viewModel.EventDetailsViewModel
+import com.example.domain.model.event.Meeting
+import com.example.domain.model.eventDetails.MeetingOrganizer
+import com.example.domain.model.eventDetails.MeetingStatus
+import com.example.domain.model.eventDetails.MeetingsData
+import com.example.domain.model.interest.Category
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun EventDetailsScreen(
+    eventId: Int,
     contentPadding: PaddingValues,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    eventDetailsViewModel: EventDetailsViewModel = koinViewModel(),
+    onClickMorePeople: (Int) -> Unit,
+    onClickOrganizer: (MeetingOrganizer) -> Unit,
+    onClickEvent: (Meeting) -> Unit
 ) {
-    val status = MeetingStatus.INACTIVE
+    LaunchedEffect(Unit) {
+        eventDetailsViewModel.loadEventDetailsInfo(eventId = eventId)
+    }
+
+    val fullInfoEvent by eventDetailsViewModel.getEventDetailsInfo().collectAsStateWithLifecycle()
+
+    val status = MeetingStatus.ACTIVE
 
     Column(verticalArrangement = Arrangement.Bottom) {
         Column(
@@ -60,66 +89,75 @@ fun EventDetailsScreen(
                 )
                 .weight(5f)
         ) {
-            SpacerHeight(height = MeetTheme.sizes.sizeX8)
-
-            val tags =
-                listOf(Category(0, "Продажи"), Category(1, "Бизнес")) //TODO: удалить
-            CommonInfo(
-                avatarUrl = "https://avatars.mds.yandex.net/i?id=4ebda8904a6a5267c88ac41a32bd5a7451db3218-4827934-images-thumbs&n=13",
-                title = "Как повышать грейд. Лекция Павла Хорикова",
-                startDate = 1722489166,
-                shortMeetingAddress = "Кожевенная линия, 40",
-                categories = tags,
-                description = LoremIpsum(words = 30).values.first(),
-                status = status
-            )
-            SpacerHeight(height = MeetTheme.sizes.sizeX32)
-            LeaderInfo(
-                name = "Павел Хориков",
-                bio = "Ведущий специалист по подбору персонала в одной из крупнейших IT-компаний в ЕС.",
-                avatarUrl = null,
-                placeholder = CommonDrawables.ic_community_placeholder
-            )
-            SpacerHeight(height = MeetTheme.sizes.sizeX32)
-            LocationInfo(
-                short = "Кожевенная линия, 40",
-                full = "Севкабель Порт, Кожевенная линия, 40",
-                metro = "Приморская",
-
+            fullInfoEvent?.eventDetails?.let { item ->
+                SpacerHeight(height = MeetTheme.sizes.sizeX8)
+                CommonInfo(
+                    avatarUrl = item.image,
+                    title = item.title,
+                    startDate = item.startDate,
+                    shortMeetingAddress = item.location.meetingAddress.short,
+                    categories = item.categories,
+                    description = item.description,
+                    status = item.status
                 )
-            SpacerHeight(height = MeetTheme.sizes.sizeX32)
-            PeopleAtMeetings(
-                meetingStatus = status,
-                avatarList = listOf(
-                    "https://get.pxhere.com/photo/person-people-portrait-facial-expression-hairstyle-smile-emotion-portrait-photography-134689.jpg",
-                    "https://get.pxhere.com/photo/person-people-portrait-facial-expression-hairstyle-smile-emotion-portrait-photography-134689.jpg",
-                    "https://get.pxhere.com/photo/person-people-portrait-facial-expression-hairstyle-smile-emotion-portrait-photography-134689.jpg",
-                    "https://get.pxhere.com/photo/person-people-portrait-facial-expression-hairstyle-smile-emotion-portrait-photography-134689.jpg",
-                    "https://get.pxhere.com/photo/person-people-portrait-facial-expression-hairstyle-smile-emotion-portrait-photography-134689.jpg",
-                    "https://get.pxhere.com/photo/person-people-portrait-facial-expression-hairstyle-smile-emotion-portrait-photography-134689.jpg",
-                    "https://get.pxhere.com/photo/person-people-portrait-facial-expression-hairstyle-smile-emotion-portrait-photography-134689.jpg",
-                    "https://get.pxhere.com/photo/person-people-portrait-facial-expression-hairstyle-smile-emotion-portrait-photography-134689.jpg",
-                    "https://get.pxhere.com/photo/person-people-portrait-facial-expression-hairstyle-smile-emotion-portrait-photography-134689.jpg",
-                    "https://get.pxhere.com/photo/person-people-portrait-facial-expression-hairstyle-smile-emotion-portrait-photography-134689.jpg",
+                SpacerHeight(height = MeetTheme.sizes.sizeX32)
+                LeaderInfo(
+                    name = item.presenters.get(0).name,
+                    bio = item.presenters.get(0).bio,
+                    avatarUrl = item.presenters.get(0).avatar,
+                    placeholder = CommonDrawables.ic_community_placeholder
                 )
-            )
-            SpacerHeight(height = MeetTheme.sizes.sizeX32)
-            OrganizerInfo(
-                name = "The IT-Crowd",
-                bio = "Сообщество профессионалов в сфере IT. Объединяем специалистов разных направлений для обмена опытом, знаниями и идеями.",
-                placeholder = CommonDrawables.ic_community_placeholder,
-                avatarUrl = null
-            )
-            SpacerHeight(height = MeetTheme.sizes.sizeX32)
-            OtherCommunityMeetings()
+                SpacerHeight(height = MeetTheme.sizes.sizeX32)
+                LocationInfo(
+                    short = item.location.meetingAddress.short,
+                    full = item.location.meetingAddress.full,
+                    metro = item.location.meetingAddress.metro
+                )
+                SpacerHeight(height = MeetTheme.sizes.sizeX32)
+                PeopleAtMeetings(
+                    meetingStatus = status,
+                    avatarList = item.participants.data,
+                    onClickMorePeople = {
+                        onClickMorePeople(eventId)
+                    }
+                )
+                SpacerHeight(height = MeetTheme.sizes.sizeX32)
+                OrganizerInfo(
+                    name = item.organizers.name,
+                    bio = item.organizers.bio,
+                    placeholder = CommonDrawables.ic_community_placeholder,
+                    avatarUrl = item.organizers.image,
+                    onClickOrganizer = {
+                        onClickOrganizer(
+                            MeetingOrganizer(
+                                id = item.organizers.id,
+                                name = item.organizers.name,
+                                bio = item.organizers.bio,
+                                image = item.organizers.image
+                            )
+                        )
+                    }
+                )
+                SpacerHeight(height = MeetTheme.sizes.sizeX32)
+                if (!fullInfoEvent?.eventsByCommunityId.isNullOrEmpty()) {
+                    OtherCommunityMeetings(
+                        eventsCommunity = fullInfoEvent!!.eventsByCommunityId,
+                        onClickEvent = {
+                            onClickEvent(it)
+                        }
+                    )
+                }
+            }
         }
-        if (status == MeetingStatus.ACTIVE) {
-            BottomActionBar(
-                buttonText = "Записаться на встречу",
-                descText = "Всего 30 мест. Если передумаете — отпишитесь",
-                state = FilledButtonState.ACTIVE_PRIMARY
-            ) {
-                //TODO
+        if (fullInfoEvent?.eventDetails?.status == MeetingStatus.ACTIVE) {
+            fullInfoEvent?.eventDetails?.let {
+                BottomActionBar(
+                    buttonText = "Записаться на встречу",
+                    descText = "Всего ${it.participantsCapacity} мест. Если передумаете — отпишитесь",
+                    state = FilledButtonState.ACTIVE_PRIMARY
+                ) {
+                    //TODO
+                }
             }
         }
     }
@@ -127,7 +165,8 @@ fun EventDetailsScreen(
 
 @Composable
 private fun OtherCommunityMeetings(
-
+    eventsCommunity: List<Meeting>,
+    onClickEvent: (Meeting) -> Unit
 ) {
     Text(
         text = stringResource(CommonString.text_other_community_Meetings),
@@ -135,6 +174,28 @@ private fun OtherCommunityMeetings(
         style = MeetTheme.typography.interSemiBold24
     )
     SpacerHeight(height = MeetTheme.sizes.sizeX16)
+    LazyRow {
+        itemsIndexed(eventsCommunity) { index, meeting ->
+            if (index < MAX_NUMBER_CARDS_DISPLAYED) {
+                EventCard(
+                    meeting = meeting,
+                    variant = EventCardVariant.SMALL
+                ) {
+                    onClickEvent(meeting)
+                }
+                SpacerWidth(width = MeetTheme.sizes.sizeX10)
+            }
+        }
+        item {
+            if (eventsCommunity.size > MAX_NUMBER_CARDS_DISPLAYED) {
+                EventViewAllCard(
+                    variant = EventCardVariant.SMALL
+                ) {/*TODO*/ }
+                SpacerWidth(width = MeetTheme.sizes.sizeX16)
+            }
+        }
+    }
+    SpacerHeight(height = 28.dp)
 }
 
 @Composable
@@ -142,28 +203,37 @@ private fun OrganizerInfo(
     placeholder: Int,
     name: String,
     bio: String,
-    avatarUrl: String?
+    avatarUrl: String?,
+    onClickOrganizer: () -> Unit
 ) {
-    Text(
-        text = stringResource(CommonString.text_organizer),
-        color = Color.Black,
-        style = MeetTheme.typography.interSemiBold24
-    )
-
-    SpacerHeight(height = MeetTheme.sizes.sizeX16)
-
-    MeetingOrganizerBlock(
-        name = name,
-        bio = bio,
-        placeholder = placeholder,
-        avatarUrl = avatarUrl
-    )
+    CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
+        Card(
+            onClick = { onClickOrganizer() },
+            colors = CardDefaults.cardColors(
+                containerColor = Color.White
+            )
+        ) {
+            Text(
+                text = stringResource(CommonString.text_organizer),
+                color = Color.Black,
+                style = MeetTheme.typography.interSemiBold24
+            )
+            SpacerHeight(height = MeetTheme.sizes.sizeX16)
+            MeetingOrganizerBlock(
+                name = name,
+                bio = bio,
+                placeholder = placeholder,
+                avatarUrl = avatarUrl
+            )
+        }
+    }
 }
 
 @Composable
 private fun PeopleAtMeetings(
     meetingStatus: MeetingStatus,
-    avatarList: List<String>
+    avatarList: List<MeetingsData>,
+    onClickMorePeople: () -> Unit,
 ) {
     when (meetingStatus) {
         MeetingStatus.ACTIVE -> {
@@ -181,10 +251,19 @@ private fun PeopleAtMeetings(
                 style = MeetTheme.typography.interSemiBold24
             )
         }
+
+        MeetingStatus.CANCELLATION -> {
+            Text(
+                text = stringResource(CommonString.text_could_have_gone),
+                color = Color.Black,
+                style = MeetTheme.typography.interSemiBold24
+            )
+        }
     }
     SpacerHeight(height = MeetTheme.sizes.sizeX16)
     PersonRow(
-        avatarList = avatarList
+        avatarList = avatarList.map { it.avatarUrl },
+        onClickMorePeople = onClickMorePeople
     )
 }
 
@@ -298,7 +377,8 @@ private fun EventChipBlock(categories: List<Category>) {
             Chip(
                 text = categories[index].title,
                 chipSize = ChipSize.MEDIUM,
-                chipColors = ChipClick.FALSE
+                chipColors = ChipSelect.FALSE,
+                chipClick = ChipClick.NOT_ON_CLICK
             ) {
                 //TODO
             }
@@ -362,3 +442,4 @@ private fun ParagraphSplit(description: String) {
 }
 
 private const val DESCRIPTION_MAX_LINE = 5
+private const val MAX_NUMBER_CARDS_DISPLAYED = 5

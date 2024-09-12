@@ -2,6 +2,7 @@ package com.example.composeprotject.ui.component.person
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,16 +27,18 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
-import com.example.composeprotject.model.interest.Interest
 import com.example.composeprotject.ui.component.avatar.Avatar
 import com.example.composeprotject.ui.component.avatar.variant.AvatarVariant
-import com.example.composeprotject.ui.component.chip.Tag
+import com.example.composeprotject.ui.component.chip.Chip
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
+import com.example.composeprotject.ui.component.chip.chipStyle.ChipSelect
+import com.example.composeprotject.ui.component.chip.chipStyle.ChipSize
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.component.utils.CommonDrawables
 import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.imageCash
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.domain.model.interest.Interest
 
 @Composable
 fun PersonImage(
@@ -88,14 +91,21 @@ fun Person(
             textStyle = MeetTheme.typography.interMedium18
         )
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX4))
-        Tag(text = tags[0].title, chipColors = ChipClick.FALSE)
+        Chip(
+            text = tags[0].title,
+            chipColors = ChipSelect.FALSE,
+            chipClick = ChipClick.NOT_ON_CLICK,
+            chipSize = ChipSize.SMALL,
+            onClick = {}
+        )
     }
 }
 
 @Composable
 fun PersonRow(
     avatarList: List<String?>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickMorePeople: () -> Unit
 ) {
     Row(
         modifier = modifier,
@@ -122,7 +132,10 @@ fun PersonRow(
                 )
             }
             if (avatarList.size > MAX_SHOW_AVATARS) {
-                MorePeople(avatarsSize = avatarList.size)
+                MorePeople(
+                    avatarsSize = avatarList.size,
+                    onClickMorePeople = onClickMorePeople
+                )
             }
         }
     }
@@ -131,13 +144,16 @@ fun PersonRow(
 @Composable
 fun MorePeople(
     avatarsSize: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickMorePeople: () -> Unit
 ) {
     Box(
         modifier = modifier
             .size(size = 47.dp)
             .border(width = MeetTheme.sizes.sizeX2, color = Color.White, shape = CircleShape)
-            .background(color = MeetTheme.colors.secondary, shape = CircleShape),
+            .background(color = MeetTheme.colors.secondary, shape = CircleShape)
+            .clip(shape = CircleShape)
+            .clickable { onClickMorePeople() },
         contentAlignment = Alignment.Center
     ) {
         BaseText(

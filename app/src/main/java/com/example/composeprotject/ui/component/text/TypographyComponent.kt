@@ -5,7 +5,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,15 +37,14 @@ fun TopAppBarText(
 
 @Composable
 fun TopAppBarTextWithBackArrow(
-    text: String,
-    modifier: Modifier = Modifier
+    text: String
 ) {
     Text(
-        modifier = modifier.offset(x = -(MeetTheme.sizes.sizeX8)),
         text = text,
-        color = MeetTheme.colors.neutralActive,
-        style = MeetTheme.typography.subheading1,
-        textAlign = TextAlign.Start
+        color = Color.Black,
+        style = MeetTheme.typography.interMedium18,
+        maxLines = TOP_BAR_MAX_LINE,
+        overflow = TextOverflow.Ellipsis
     )
 }
 
@@ -99,3 +97,6 @@ fun ExpandableText(
         }
     }
 }
+
+private const val TOP_BAR_OFFSET = -11
+private const val TOP_BAR_MAX_LINE = 1

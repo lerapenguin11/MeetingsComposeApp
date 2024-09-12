@@ -19,6 +19,7 @@ dependencies {
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.androidx.annotation.jvm)
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.kotlin)

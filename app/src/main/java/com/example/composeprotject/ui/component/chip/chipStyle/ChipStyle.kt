@@ -17,10 +17,10 @@ class ChipStyle(
         }
     }
 
-    override fun chipSelectedColor(variant: ChipClick): Map<String, Color> {
+    override fun chipSelectedColor(variant: ChipSelect): Map<String, Color> {
         return when (variant) {
-            ChipClick.TRUE -> paramsChip.selectedColor
-            ChipClick.FALSE -> paramsChip.notSelectedColor
+            ChipSelect.TRUE -> paramsChip.selectedColor
+            ChipSelect.FALSE -> paramsChip.notSelectedColor
         }
     }
 
@@ -77,7 +77,7 @@ object ChipStyleDefault {
 
 private interface ChipStyleVariant {
     fun chipSize(variant: ChipSize): Map<String, Dp>
-    fun chipSelectedColor(variant: ChipClick): Map<String, Color>
+    fun chipSelectedColor(variant: ChipSelect): Map<String, Color>
     fun chipTextStyle(variant: ChipSize): TextStyle
 }
 
