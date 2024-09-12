@@ -22,7 +22,6 @@ import androidx.navigation.FloatingWindow
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import com.example.composeprotject.R
-import com.example.composeprotject.navigation.NavItem
 import com.example.composeprotject.ui.theme.MeetTheme
 import kotlinx.coroutines.flow.filterNot
 
@@ -45,15 +44,8 @@ fun TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MeetTheme.colors.neutralWhite),
         navigationIcon = {
             val backPressDispatcher = LocalOnBackPressedDispatcherOwner.current
-            val excludedRoutes = listOf(
-                NavItem.StillItem.route,
-                NavItem.EventItem.route,
-                NavItem.CommunityItem.route
-            )
             val isBackPress =
-                navController.previousBackStackEntry != null && !excludedRoutes.contains(
-                    navController.currentDestination?.route
-                )
+                navController.previousBackStackEntry != null
 
             if (isBackPress) {
                 Box(Modifier.fillMaxHeight(), contentAlignment = Alignment.Center) {

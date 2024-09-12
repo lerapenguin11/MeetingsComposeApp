@@ -1,30 +1,63 @@
 package com.example.domain.di
 
-import com.example.domain.usecase.community.GetCommunitiesInteractor
-import com.example.domain.usecase.community.GetCommunitiesUseCase
-import com.example.domain.usecase.details.GetCommunityByIdInteractor
-import com.example.domain.usecase.details.GetCommunityByIdUseCase
-import com.example.domain.usecase.details.GetEventByIdInteractor
-import com.example.domain.usecase.details.GetEventByIdUseCase
-import com.example.domain.usecase.event.GetEventsUseCase
-import com.example.domain.usecase.event.GetEventsInteractor
-import com.example.domain.usecase.event.GetMyEventsInteractor
-import com.example.domain.usecase.event.GetMyEventsUseCase
-import com.example.domain.usecase.user.GetInfoUserProfileInteractor
-import com.example.domain.usecase.user.GetInfoUserProfileUseCase
-import com.example.domain.usecase.user.GetShortInfoUserInteractor
-import com.example.domain.usecase.user.GetShortInfoUserUseCase
-import com.example.domain.usecase.verfication.PostPhoneNumberInteractor
-import com.example.domain.usecase.verfication.PostPhoneNumberUseCase
+import com.example.domain.usecase.GetPeopleUseCase
+import com.example.domain.usecase.InteractorLoadPeopleByCategoryId
+import com.example.domain.usecase.InteractorLoadPeopleByEventId
+import com.example.domain.usecase.combineUseCase.InteractorFullEventDetailsInfo
+import com.example.domain.usecase.combineUseCase.InteractorFullInfoCommunityDetails
+import com.example.domain.usecase.combineUseCase.InteractorFullInfoMainScreen
+import com.example.domain.usecase.details.GetCommunityDetailsUseCase
+import com.example.domain.usecase.details.GetEventDetailsInfoUseCase
+import com.example.domain.usecase.details.InteractorLoadCommunityDetails
+import com.example.domain.usecase.details.InteractorLoadEventDetailsInfo
+import com.example.domain.usecase.details.InteractorLoadEventsByCommunityId
+import com.example.domain.usecase.event.GetMainInfoUseCase
+import com.example.domain.usecase.event.InteractorLoadMainInfo
+import com.example.domain.usecase.getData.GetCommunity
+import com.example.domain.usecase.getData.GetCommunityDetails
+import com.example.domain.usecase.getData.GetEventDetails
+import com.example.domain.usecase.getData.GetEventsByCategory
+import com.example.domain.usecase.getData.GetEventsByCommunityId
+import com.example.domain.usecase.getData.GetEventsClosest
+import com.example.domain.usecase.getData.GetFilteredEventsByCategory
+import com.example.domain.usecase.getData.GetPeople
+import com.example.domain.usecase.interest.AddUserInterestsUseCase
+import com.example.domain.usecase.interest.AddUserInterestsUseCaseInteractor
+import com.example.domain.usecase.interest.GetInterestInteractor
+import com.example.domain.usecase.interest.GetInterestsUseCase
+import com.example.domain.usecase.store.ReadOnBoardingInterestStateUseCase
+import com.example.domain.usecase.store.ReadOnBoardingInterestStateUseCaseImpl
+import com.example.domain.usecase.store.SaveOnBoardingInterestStateUseCase
+import com.example.domain.usecase.store.SaveOnBoardingInterestStateUseCaseImpl
 import org.koin.dsl.module
 
 internal val useCaseModule = module {
-    single<GetCommunitiesUseCase> { GetCommunitiesInteractor(repository = get()) }
-    single<GetEventByIdUseCase> { GetEventByIdInteractor(repository = get()) }
-    single<GetCommunityByIdUseCase> { GetCommunityByIdInteractor(repository = get()) }
-    single<GetEventsUseCase> { GetEventsInteractor(repository = get()) }
-    single<GetMyEventsUseCase> { GetMyEventsInteractor(repository = get()) }
-    single<GetInfoUserProfileUseCase> { GetInfoUserProfileInteractor(repository = get()) }
-    single<GetShortInfoUserUseCase> { GetShortInfoUserInteractor(repository = get()) }
-    single<PostPhoneNumberUseCase> { PostPhoneNumberInteractor(repository = get()) }
+    single<GetInterestsUseCase> { GetInterestInteractor(repository = get()) }
+    single<AddUserInterestsUseCase> { AddUserInterestsUseCaseInteractor(repository = get()) }
+
+    single { GetMainInfoUseCase() }
+    single { InteractorLoadMainInfo() }
+    single {
+        GetEventsByCategory()
+    }
+    single { InteractorFullInfoMainScreen() }
+    single { GetEventsClosest() }
+    single { GetCommunity() }
+    single { GetFilteredEventsByCategory() }
+    single<ReadOnBoardingInterestStateUseCase> { ReadOnBoardingInterestStateUseCaseImpl(repository = get()) }
+    single<SaveOnBoardingInterestStateUseCase> { SaveOnBoardingInterestStateUseCaseImpl(repository = get()) }
+    single { GetEventDetailsInfoUseCase() }
+    single { InteractorFullEventDetailsInfo() }
+    single { InteractorLoadEventDetailsInfo() }
+    single { InteractorLoadEventsByCommunityId() }
+    single { GetEventDetails() }
+    single { GetEventsByCommunityId() }
+    single { GetCommunityDetailsUseCase() }
+    single { InteractorLoadCommunityDetails() }
+    single { GetCommunityDetails() }
+    single { InteractorFullInfoCommunityDetails() }
+    single { GetPeopleUseCase() }
+    single { InteractorLoadPeopleByEventId() }
+    single { InteractorLoadPeopleByCategoryId() }
+    single { GetPeople() }
 }

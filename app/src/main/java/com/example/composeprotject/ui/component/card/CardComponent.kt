@@ -17,14 +17,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.composeprotject.model.community.Community
-import com.example.composeprotject.model.meeting.Meeting
 import com.example.composeprotject.ui.component.button.SubscribeButton
 import com.example.composeprotject.ui.component.card.cardStyle.EventCardStyle
 import com.example.composeprotject.ui.component.card.cardStyle.EventCardStyleDefault
 import com.example.composeprotject.ui.component.card.variant.EventCardVariant
-import com.example.composeprotject.ui.component.chip.Tag
+import com.example.composeprotject.ui.component.chip.Chip
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
+import com.example.composeprotject.ui.component.chip.chipStyle.ChipSelect
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipSize
 import com.example.composeprotject.ui.component.image.CommunityImage
 import com.example.composeprotject.ui.component.image.EventDetailsImage
@@ -36,6 +35,8 @@ import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.component.utils.eventDate
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.domain.model.community.Community
+import com.example.domain.model.event.Meeting
 
 @Composable
 fun EventCard(
@@ -87,11 +88,12 @@ fun EventCard(
             alignment = Alignment.Start
         ) {
             repeat(meeting.categories.size) { index ->
-                Tag(
+                Chip(
                     text = meeting.categories[index].title,
                     chipSize = ChipSize.SMALL,
-                    chipColors = ChipClick.FALSE
-                )
+                    chipColors = ChipSelect.FALSE,
+                    chipClick = ChipClick.NOT_ON_CLICK
+                ) { }
             }
         }
     }
@@ -142,11 +144,12 @@ fun EventCardFillMaxWidth(
             alignment = Alignment.Start
         ) {
             repeat(meeting.categories.size) { index ->
-                Tag(
+                Chip(
                     text = meeting.categories[index].title,
                     chipSize = ChipSize.SMALL,
-                    chipColors = ChipClick.FALSE
-                )
+                    chipColors = ChipSelect.FALSE,
+                    chipClick = ChipClick.NOT_ON_CLICK
+                ) {}
             }
         }
     }

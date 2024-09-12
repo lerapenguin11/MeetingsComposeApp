@@ -8,10 +8,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
+import com.example.composeprotject.ui.component.chip.chipStyle.ChipSelect
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipSize
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipStyle
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipStyleDefault
@@ -22,23 +26,28 @@ import com.example.composeprotject.ui.theme.MeetTheme
 fun Chip(
     text: String,
     chipSize: ChipSize,
-    chipColors: ChipClick,
+    chipColors: ChipSelect,
+    chipClick: ChipClick,
     modifier: Modifier = Modifier,
     style: ChipStyle = ChipStyleDefault.chipStyle(),
     onClick: () -> Unit
 ) {
     val padding = style.chipSize(variant = chipSize)
-    val color = style.chipSelectedColor(variant = chipColors)
+    var selected by remember { mutableStateOf(ChipSelect.FALSE) }
+    selected = chipColors
+    val color = style.chipSelectedColor(variant = selected)
     Box(
         modifier = modifier
             .clip(shape = RoundedCornerShape(MeetTheme.sizes.sizeX8))
             .background(color = color[SELECTED_BOX_COLOR] ?: MeetTheme.colors.secondary)
             .then(
-                if (chipColors == ChipClick.TRUE) {
+                if (chipClick == ChipClick.ON_CLICK) {
                     modifier.clickable(
                         interactionSource = remember { MutableInteractionSource() },
                         indication = rememberRipple(bounded = false),
                         onClick = {
+                            selected =
+                                if (chipColors == ChipSelect.TRUE) ChipSelect.FALSE else ChipSelect.TRUE
                             onClick()
                         }
                     )
@@ -46,33 +55,6 @@ fun Chip(
                     modifier
                 }
             )
-            .padding(
-                horizontal = padding[HORIZONTAL_PADDING_KEY] ?: MeetTheme.sizes.sizeX6,
-                vertical = padding[VERTICAL_PADDING_KEY] ?: MeetTheme.sizes.sizeX3
-            )
-    ) {
-        BaseText(
-            text = text,
-            textStyle = style.chipTextStyle(chipSize),
-            textColor = color[SELECTED_TEXT_COLOR] ?: MeetTheme.colors.primary
-        )
-    }
-}
-
-@Composable
-fun Tag(
-    text: String,
-    chipColors: ChipClick,
-    modifier: Modifier = Modifier,
-    chipSize: ChipSize = ChipSize.SMALL,
-    style: ChipStyle = ChipStyleDefault.chipStyle()
-) {
-    val padding = style.chipSize(variant = chipSize)
-    val color = style.chipSelectedColor(variant = chipColors)
-    Box(
-        modifier = modifier
-            .clip(shape = RoundedCornerShape(MeetTheme.sizes.sizeX8))
-            .background(color = color[SELECTED_BOX_COLOR] ?: MeetTheme.colors.secondary)
             .padding(
                 horizontal = padding[HORIZONTAL_PADDING_KEY] ?: MeetTheme.sizes.sizeX6,
                 vertical = padding[VERTICAL_PADDING_KEY] ?: MeetTheme.sizes.sizeX3

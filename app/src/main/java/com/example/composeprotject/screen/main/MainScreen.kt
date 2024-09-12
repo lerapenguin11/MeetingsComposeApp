@@ -1,103 +1,180 @@
 package com.example.composeprotject.screen.main
 
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.example.composeprotject.model.community.Community
-import com.example.composeprotject.model.interest.Category
-import com.example.composeprotject.model.interest.Interest
-import com.example.composeprotject.model.meeting.Meeting
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.composeprotject.R
 import com.example.composeprotject.ui.component.card.CommunityCard
 import com.example.composeprotject.ui.component.card.CommunityViewAllCard
 import com.example.composeprotject.ui.component.card.EventCard
+import com.example.composeprotject.ui.component.card.EventCardFillMaxWidth
 import com.example.composeprotject.ui.component.card.EventViewAllCard
 import com.example.composeprotject.ui.component.card.variant.EventCardVariant
 import com.example.composeprotject.ui.component.chip.Chip
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
+import com.example.composeprotject.ui.component.chip.chipStyle.ChipSelect
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipSize
+import com.example.composeprotject.ui.component.progressBar.CustomProgressBar
+import com.example.composeprotject.ui.component.spacer.SpacerHeight
+import com.example.composeprotject.ui.component.spacer.SpacerWidth
 import com.example.composeprotject.ui.component.state.SubscribeButtonState
 import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.theme.MeetTheme
-import kotlin.random.Random
-import kotlin.random.nextUInt
+import com.example.composeprotject.utils.checkingUserNoSuchInterest
+import com.example.composeprotject.viewModel.MainViewModel
+import com.example.domain.model.community.Community
+import com.example.domain.model.event.Meeting
+import com.example.domain.model.interest.Interest
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MainScreen(
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
+    mainViewModel: MainViewModel = koinViewModel(),
     onClickEvent: (Meeting) -> Unit,
     onClickCommunity: (Community) -> Unit
 ) {
+    val mainStateUI by mainViewModel.getMainStateUI().collectAsStateWithLifecycle()
+    val userCategories by mainViewModel.getUserSelectedCategories().collectAsStateWithLifecycle()
+    val fullInfoMainScreen by mainViewModel.getFullInfoMainScreen().collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        mainViewModel.loadEventsByCategory(selectedCategory = userCategories.map { it.id })
+    }
+
     val textSpecialist = "тестировщиков"
-    Column(
+
+    LazyColumn(
         modifier = modifier
             .padding(contentPadding)
-            .verticalScroll(rememberScrollState())
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center
     ) {
-        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX20))
-        BigEventsRow(events = events(), onClickEvent = onClickEvent)
-        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX32))
-        Text(
-            modifier = Modifier.padding(start = MeetTheme.sizes.sizeX16),
-            text = stringResource(CommonString.text_upcoming_meetings),
-            color = Color.Black,
-            style = MeetTheme.typography.interSemiBold24
-        )
-        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX16))
-        SmallEventsRow(events = events(), onClickEvent = onClickEvent)
-        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX32))
-        Text(
-            modifier = Modifier.padding(
-                start = MeetTheme.sizes.sizeX16,
-                end = MeetTheme.sizes.sizeX16
-            ),
-            text = "${stringResource(CommonString.text_communities_for)} ${textSpecialist}",
-            color = Color.Black,
-            style = MeetTheme.typography.interSemiBold24
-        )
-        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX16))
-        CommunityRow(communities = communities(), onClickCommunity = onClickCommunity)
-        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX40))
-        Text(
-            modifier = Modifier.padding(
-                start = MeetTheme.sizes.sizeX16,
-                end = MeetTheme.sizes.sizeX16
-            ),
-            text = stringResource(CommonString.text_other_meetings),
-            color = Color.Black,
-            style = MeetTheme.typography.interSemiBold24
-        )
-        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX16))
-        InterestsChipFlex(interests = interests())
+        if (mainStateUI) {
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(),
 
+                    contentAlignment = Alignment.Center
+                ) {
+                    CustomProgressBar()
+                }
+            }
+        } else {
+            item {
+                SpacerHeight(height = MeetTheme.sizes.sizeX20)
+                BigEventsRow(
+                    events = fullInfoMainScreen.eventsByCategory,
+                    onClickEvent = onClickEvent
+                )
+                SpacerHeight(height = MeetTheme.sizes.sizeX32)
+                Text(
+                    modifier = Modifier.padding(start = MeetTheme.sizes.sizeX16),
+                    text = stringResource(CommonString.text_upcoming_meetings),
+                    color = Color.Black,
+                    style = MeetTheme.typography.interSemiBold24
+                )
+                SpacerHeight(height = MeetTheme.sizes.sizeX16)
+                SmallEventsRow(
+                    events = fullInfoMainScreen.eventsClosest,
+                    onClickEvent = onClickEvent
+                )
+                SpacerHeight(height = MeetTheme.sizes.sizeX32)
+                Text(
+                    modifier = Modifier.padding(
+                        start = MeetTheme.sizes.sizeX16,
+                        end = MeetTheme.sizes.sizeX16
+                    ),
+                    text = "${stringResource(CommonString.text_communities_for)} ${textSpecialist}",
+                    color = Color.Black,
+                    style = MeetTheme.typography.interSemiBold24
+                )
+                SpacerHeight(height = MeetTheme.sizes.sizeX16)
+                CommunityRow(
+                    communities = fullInfoMainScreen.communities,
+                    onClickCommunity = onClickCommunity
+                )
+                SpacerHeight(height = MeetTheme.sizes.sizeX40)
+                Text(
+                    modifier = Modifier.padding(
+                        start = MeetTheme.sizes.sizeX16,
+                        end = MeetTheme.sizes.sizeX16
+                    ),
+                    text = stringResource(CommonString.text_other_meetings),
+                    color = Color.Black,
+                    style = MeetTheme.typography.interSemiBold24
+                )
+                SpacerHeight(height = MeetTheme.sizes.sizeX16)
+                InterestsChipFlex(
+                    interests = fullInfoMainScreen.categoryList,
+                    userCategories = userCategories,
+                    onFilteringByAllCategories = {
+                        //TODO
+                        mainViewModel.clearUserSelectedCategories()
+                    }
+                ) {
+                    mainViewModel.toggleUserCategory(fullInfoMainScreen.categoryList[it])
+                }
+                SpacerHeight(height = MeetTheme.sizes.sizeX40)
+            }
+            items(items = fullInfoMainScreen.filteredEventsByCategory) { event ->
+                Column(modifier = Modifier.padding(horizontal = MeetTheme.sizes.sizeX16)) {
+                    FilteredEventByCategoryBlock(event = event) {
+                        onClickEvent(event)
+                    }
+                    SpacerHeight(height = 38.dp)
+                }
+            }
+            item {
+                SpacerHeight(height = MeetTheme.sizes.sizeX24)
+            }
+        }
+    }
+}
 
-
-
-
-        Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX24))
+@Composable
+private fun FilteredEventByCategoryBlock(
+    event: Meeting,
+    onClickEvent: (Int) -> Unit
+) {
+    EventCardFillMaxWidth(
+        meeting = event
+    ) {
+        onClickEvent(event.id)
     }
 }
 
 @Composable
 private fun InterestsChipFlex(
-    interests: List<Interest>
+    interests: List<Interest>,
+    userCategories: List<Interest>,
+    onFilteringByAllCategories: () -> Unit,
+    onFilteringByCategory: (Int) -> Unit
 ) {
+
     FlexRow(
         horizontalPadding = 16.dp,
         horizontalGap = MeetTheme.sizes.sizeX10,
@@ -108,9 +185,24 @@ private fun InterestsChipFlex(
             Chip(
                 text = interests[index].title,
                 chipSize = ChipSize.MEDIUM,
-                chipColors = ChipClick.FALSE
+                chipColors = if (checkingUserNoSuchInterest(
+                        userInterests = userCategories,
+                        id = interests[index].id
+                    )
+                ) ChipSelect.FALSE else ChipSelect.TRUE,
+                chipClick = ChipClick.ON_CLICK
             ) {
-                //TODO
+                onFilteringByCategory(index)
+            }
+            if (interests.isNotEmpty() && interests.size - 1 == index) {
+                Chip(
+                    text = stringResource(R.string.text_all_caterories),
+                    chipSize = ChipSize.MEDIUM,
+                    chipColors = if (userCategories.isEmpty()) ChipSelect.TRUE else ChipSelect.FALSE,
+                    chipClick = ChipClick.ON_CLICK
+                ) {
+                    onFilteringByAllCategories()
+                }
             }
         }
     }
@@ -119,16 +211,11 @@ private fun InterestsChipFlex(
 @Composable
 private fun CommunityRow(
     communities: List<Community>,
-    modifier: Modifier = Modifier,
     onClickCommunity: (Community) -> Unit
 ) {
-    Row(
-        modifier = modifier
-            .horizontalScroll(rememberScrollState())
-            .padding(start = MeetTheme.sizes.sizeX16),
-        horizontalArrangement = Arrangement.spacedBy(MeetTheme.sizes.sizeX10)
-    ) {
-        communities.forEachIndexed { index, community ->
+    LazyRow {
+        item { SpacerWidth(width = MeetTheme.sizes.sizeX16) }
+        itemsIndexed(communities) { index, community ->
             if (index < MAX_NUMBER_CARDS_DISPLAYED) {
                 CommunityCard(
                     community = community,
@@ -136,11 +223,14 @@ private fun CommunityRow(
                 ) {
                     onClickCommunity(community)
                 }
+                SpacerWidth(width = MeetTheme.sizes.sizeX10)
             }
         }
-        if (communities.size > MAX_NUMBER_CARDS_DISPLAYED) {
-            CommunityViewAllCard {/*TODO*/ }
-            Spacer(modifier = Modifier.width(MeetTheme.sizes.sizeX4))
+        item {
+            if (communities.size > MAX_NUMBER_CARDS_DISPLAYED) {
+                CommunityViewAllCard {/*TODO*/ }
+                SpacerWidth(width = MeetTheme.sizes.sizeX16)
+            }
         }
     }
 }
@@ -148,16 +238,11 @@ private fun CommunityRow(
 @Composable
 private fun SmallEventsRow(
     events: List<Meeting>,
-    modifier: Modifier = Modifier,
     onClickEvent: (Meeting) -> Unit
 ) {
-    Row(
-        modifier = modifier
-            .horizontalScroll(rememberScrollState())
-            .padding(start = MeetTheme.sizes.sizeX16),
-        horizontalArrangement = Arrangement.spacedBy(MeetTheme.sizes.sizeX10)
-    ) {
-        events.forEachIndexed { index, meeting ->
+    LazyRow {
+        item { SpacerWidth(width = MeetTheme.sizes.sizeX16) }
+        itemsIndexed(events) { index, meeting ->
             if (index < MAX_NUMBER_CARDS_DISPLAYED) {
                 EventCard(
                     meeting = meeting,
@@ -165,13 +250,16 @@ private fun SmallEventsRow(
                 ) {
                     onClickEvent(meeting)
                 }
+                SpacerWidth(width = MeetTheme.sizes.sizeX10)
             }
         }
-        if (events().size > MAX_NUMBER_CARDS_DISPLAYED) {
-            EventViewAllCard(
-                variant = EventCardVariant.SMALL
-            ) {/*TODO*/ }
-            Spacer(modifier = Modifier.width(MeetTheme.sizes.sizeX4))
+        item {
+            if (events.size > MAX_NUMBER_CARDS_DISPLAYED) {
+                EventViewAllCard(
+                    variant = EventCardVariant.SMALL
+                ) {/*TODO*/ }
+                SpacerWidth(width = MeetTheme.sizes.sizeX16)
+            }
         }
     }
 }
@@ -179,16 +267,11 @@ private fun SmallEventsRow(
 @Composable
 private fun BigEventsRow(
     events: List<Meeting>,
-    modifier: Modifier = Modifier,
     onClickEvent: (Meeting) -> Unit
 ) {
-    Row(
-        modifier = modifier
-            .horizontalScroll(rememberScrollState())
-            .padding(start = MeetTheme.sizes.sizeX16),
-        horizontalArrangement = Arrangement.spacedBy(MeetTheme.sizes.sizeX10)
-    ) {
-        events.forEachIndexed { index, meeting ->
+    LazyRow {
+        item { SpacerWidth(width = MeetTheme.sizes.sizeX16) }
+        itemsIndexed(events) { index, meeting ->
             if (index < MAX_NUMBER_CARDS_DISPLAYED) {
                 EventCard(
                     meeting = meeting,
@@ -196,97 +279,18 @@ private fun BigEventsRow(
                 ) {
                     onClickEvent(meeting)
                 }
+                SpacerWidth(width = MeetTheme.sizes.sizeX10)
             }
         }
-        if (events().size > MAX_NUMBER_CARDS_DISPLAYED) {
-            EventViewAllCard(
-                variant = EventCardVariant.BIG
-            ) {/*TODO*/ }
-            Spacer(modifier = Modifier.width(MeetTheme.sizes.sizeX4))
+        item {
+            if (events.size > MAX_NUMBER_CARDS_DISPLAYED) {
+                EventViewAllCard(
+                    variant = EventCardVariant.BIG
+                ) { /*TODO*/ }
+                Spacer(modifier = Modifier.width(MeetTheme.sizes.sizeX16))
+            }
         }
     }
 }
 
 private const val MAX_NUMBER_CARDS_DISPLAYED = 5
-
-private fun interests(): List<Interest> {
-    val interestList = listOf(
-        Interest(
-            id = 0, title = "Дизайн"
-        ),
-        Interest(
-            id = 1, title = "Разработка"
-        ),
-        Interest(
-            id = 2, title = "Продакт менеджмент"
-        ),
-        Interest(
-            id = 3, title = "Проджект менеджмент"
-        ),
-        Interest(
-            id = 4, title = "Backend"
-        ),
-        Interest(
-            id = 5, title = "Frontend"
-        ),
-        Interest(
-            id = 6, title = "Mobile"
-        ),
-        Interest(
-            id = 7, title = "Web"
-        ),
-        Interest(
-            id = 8, title = "Тестирование"
-        ),
-        Interest(
-            id = 9, title = "Продажи"
-        ),
-        Interest(
-            id = 10, title = "Бизнес"
-        ),
-        Interest(
-            id = 11, title = "Маркетинг"
-        ),
-        Interest(
-            id = 12, title = "Безопасность"
-        ),
-        Interest(
-            id = 13, title = "Девопс"
-        ),
-        Interest(
-            id = 14, title = "Аналитика"
-        ),
-        Interest(
-            id = 15, title = "Все категории"
-        ),
-    )
-    return interestList
-}
-
-private fun communities(): List<Community> {
-    val communityList = List((10..15).random()) {
-        Community(
-            id = Random.nextUInt().toInt(),
-            title = "Супер тестировщики",
-            avatarUrl = null
-        )
-    }
-    return communityList
-}
-
-private fun events(): List<Meeting> {
-    val eventList = List((10..15).random()) {
-        Meeting(
-            id = Random.nextUInt().toInt(),
-            title = "Как повышать грейд. Лекция Павла Хорикова",
-            categories = listOf(
-                Category(id = 0, "Маркетинг"),
-                Category(id = 1, "Бизнес")
-            ),
-            avatarUrl = null,
-            shortAddress = "Невский проспект, 11",
-            startDate = 1724594610
-        )
-    }
-    return eventList
-}

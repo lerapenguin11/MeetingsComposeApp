@@ -6,14 +6,19 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
 import com.example.composeprotject.nav.RootNavigationGraph
-import com.example.composeprotject.nav.route.Graph
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.composeprotject.viewModel.SplashViewModel
+import org.koin.android.ext.android.inject
+import org.koin.core.component.KoinComponent
 
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity(), KoinComponent {
+    private val viewModel: SplashViewModel by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -24,7 +29,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     containerColor = Color.White
                 ) { contentPadding ->
-                    val startDestination = Graph.MAIN //TODO
+                    val startDestination by viewModel.getStartDestination()
                     RootNavigationGraph(
                         navHostController = rememberNavController(),
                         startDestination = startDestination,
@@ -32,21 +37,6 @@ class MainActivity : ComponentActivity() {
                         isLoading = true
                     )
                 }
-
-                //val startDestination by viewModel.startDestination
-
-
-                /*val navController = rememberNavController()
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    containerColor = ,
-                ) { contentPadding ->
-                    RootNavigationGraph(
-                        navController = navController,
-                        isLoggedIn = false,
-                        contentPadding = contentPadding
-                    )
-                }*/
             }
         }
     }

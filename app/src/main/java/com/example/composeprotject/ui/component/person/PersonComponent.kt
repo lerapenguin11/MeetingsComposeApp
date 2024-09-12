@@ -27,16 +27,18 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
-import com.example.composeprotject.model.interest.Interest
 import com.example.composeprotject.ui.component.avatar.Avatar
 import com.example.composeprotject.ui.component.avatar.variant.AvatarVariant
-import com.example.composeprotject.ui.component.chip.Tag
+import com.example.composeprotject.ui.component.chip.Chip
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
+import com.example.composeprotject.ui.component.chip.chipStyle.ChipSelect
+import com.example.composeprotject.ui.component.chip.chipStyle.ChipSize
 import com.example.composeprotject.ui.component.text.BaseText
 import com.example.composeprotject.ui.component.utils.CommonDrawables
 import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.imageCash
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.domain.model.interest.Interest
 
 @Composable
 fun PersonImage(
@@ -89,7 +91,13 @@ fun Person(
             textStyle = MeetTheme.typography.interMedium18
         )
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX4))
-        Tag(text = tags[0].title, chipColors = ChipClick.FALSE)
+        Chip(
+            text = tags[0].title,
+            chipColors = ChipSelect.FALSE,
+            chipClick = ChipClick.NOT_ON_CLICK,
+            chipSize = ChipSize.SMALL,
+            onClick = {}
+        )
     }
 }
 

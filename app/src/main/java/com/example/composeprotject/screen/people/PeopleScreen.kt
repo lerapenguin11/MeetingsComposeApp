@@ -5,19 +5,41 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.composeprotject.model.interest.Interest
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.composeprotject.screen.state.PeopleState
 import com.example.composeprotject.ui.component.person.Person
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.composeprotject.viewModel.PeopleViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun PeopleScreen(
-    eventId: Int,
+    id: Int,
     contentPadding: PaddingValues,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    peopleViewModel: PeopleViewModel = koinViewModel(),
+    screenState: PeopleState
 ) {
+    LaunchedEffect(Unit) {
+        when (screenState) {
+            PeopleState.EVENT_PEOPLE -> {
+                peopleViewModel.loadPeopleByEventId(eventId = id)
+            }
+
+            PeopleState.SUBSCRIBERS -> {
+                peopleViewModel.loadPeopleByCategoryId(communityId = id)
+            }
+        }
+    }
+
+    val people by peopleViewModel.getPeople().collectAsStateWithLifecycle()
+
     LazyVerticalGrid(
         modifier = modifier
             .padding(contentPadding)
@@ -27,16 +49,11 @@ fun PeopleScreen(
         verticalArrangement = Arrangement.spacedBy(25.dp),
         horizontalArrangement = Arrangement.spacedBy(15.dp)
     ) {
-        items(200) { item ->
+        items(people) { item ->
             Person(
-                namePerson = "Анастасия"/*item.name*/,
-                avatarUrl = "https://images11.domashnyochag.ru/upload/img_cache/e9e/e9e885bc744faf05a6fd0f21962eba77_ce_1159x801x21x0_cropped_1332x888.jpg"/*item.avatarUrl*/,
-                tags = listOf(
-                    Interest(
-                        id = 0,
-                        title = "Разработка"
-                    )
-                )/*item.interests*/
+                namePerson = item.name,
+                avatarUrl = item.image,
+                tags = item.interests
             )
         }
     }
