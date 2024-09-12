@@ -25,4 +25,6 @@ interface EventRepository {
     ): Flow<List<Meeting>>
 
     fun getEventDetails(eventId: Int): Flow<MeetingDetails>
+
+    fun getEventsByCommunityId(communityId: Int): Flow<List<Meeting>>
 }

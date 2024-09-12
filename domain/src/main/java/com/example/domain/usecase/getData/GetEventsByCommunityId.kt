@@ -1,7 +1,7 @@
 package com.example.domain.usecase.getData
 
 import com.example.domain.model.event.Meeting
-import com.example.domain.repository.community.CommunityRepository
+import com.example.domain.repository.event.EventRepository
 import com.example.domain.usecase.details.GetEventDetailsInfoUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +13,7 @@ import org.koin.core.component.inject
 
 class GetEventsByCommunityId : KoinComponent {
     private val innerEvents: GetEventDetailsInfoUseCase by inject()
-    private val repository: CommunityRepository by inject()
+    private val repository: EventRepository by inject()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val eventsPrepared: Flow<List<Meeting>> =

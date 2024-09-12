@@ -3,7 +3,6 @@ package com.example.data.repository
 import com.example.data.fakeData.communities
 import com.example.data.mappers.CommunityMapper
 import com.example.domain.model.community.Community
-import com.example.domain.model.event.Meeting
 import com.example.domain.repository.community.CommunityRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -20,12 +19,6 @@ class CommunityRepositoryImpl(
                 mapper.communitiesResponseToCommunities(communitiesResponseItem = it)
             }
             emit(value = communities.take(6))
-        }.flowOn(Dispatchers.IO)
-    }
-
-    override fun getEventsByCommunityId(communityId: Int): Flow<List<Meeting>> {
-        return flow {
-            emit(value = emptyList<Meeting>())
         }.flowOn(Dispatchers.IO)
     }
 }

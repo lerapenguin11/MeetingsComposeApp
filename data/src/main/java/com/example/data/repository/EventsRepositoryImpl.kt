@@ -48,6 +48,12 @@ class EventsRepositoryImpl(
             .flowOn(Dispatchers.IO)
     }
 
+    override fun getEventsByCommunityId(communityId: Int): Flow<List<Meeting>> {
+        return flow {
+            emit(value = emptyList<Meeting>())
+        }.flowOn(Dispatchers.IO)
+    }
+
     override fun getEventsClosest(
         eventType: EventListType,
         userInterests: List<Int>?,
