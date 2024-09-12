@@ -1,13 +1,17 @@
 package com.example.domain.di
 
 import com.example.domain.usecase.combineUseCase.InteractorFullEventDetailsInfo
+import com.example.domain.usecase.combineUseCase.InteractorFullInfoCommunityDetails
 import com.example.domain.usecase.combineUseCase.InteractorFullInfoMainScreen
+import com.example.domain.usecase.details.GetCommunityDetailsUseCase
 import com.example.domain.usecase.details.GetEventDetailsInfoUseCase
+import com.example.domain.usecase.details.InteractorLoadCommunityDetails
 import com.example.domain.usecase.details.InteractorLoadEventDetailsInfo
 import com.example.domain.usecase.details.InteractorLoadEventsByCommunityId
 import com.example.domain.usecase.event.GetMainInfoUseCase
 import com.example.domain.usecase.event.InteractorLoadMainInfo
 import com.example.domain.usecase.getData.GetCommunity
+import com.example.domain.usecase.getData.GetCommunityDetails
 import com.example.domain.usecase.getData.GetEventDetails
 import com.example.domain.usecase.getData.GetEventsByCategory
 import com.example.domain.usecase.getData.GetEventsByCommunityId
@@ -44,4 +48,8 @@ internal val useCaseModule = module {
     single { InteractorLoadEventsByCommunityId() }
     single { GetEventDetails() }
     single { GetEventsByCommunityId() }
+    single { GetCommunityDetailsUseCase() }
+    single { InteractorLoadCommunityDetails() }
+    single { GetCommunityDetails() }
+    single { InteractorFullInfoCommunityDetails() }
 }
