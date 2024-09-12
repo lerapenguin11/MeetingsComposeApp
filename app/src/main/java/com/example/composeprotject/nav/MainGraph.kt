@@ -14,6 +14,7 @@ import com.example.composeprotject.screen.details.CommunityDetailsScreen
 import com.example.composeprotject.screen.details.EventDetailsScreen
 import com.example.composeprotject.screen.main.MainScreen
 import com.example.composeprotject.screen.people.PeopleScreen
+import com.example.composeprotject.screen.state.PeopleState
 import com.example.composeprotject.ui.component.button.TopAppBarImageButton
 import com.example.composeprotject.ui.component.text.TopAppBarTextWithBackArrow
 import com.example.composeprotject.ui.component.topBar.ProvideAppBarAction
@@ -133,7 +134,8 @@ fun MainGraph(navController: NavHostController, contentPadding: PaddingValues) {
             backStackEntry.arguments?.getInt(EVENT_ID)?.let {
                 PeopleScreen(
                     contentPadding = contentPadding,
-                    eventId = it
+                    id = it,
+                    screenState = PeopleState.EVENT_PEOPLE
                 )
                 ProvideAppBarTitle(title = {
                     TopAppBarTextWithBackArrow(
@@ -150,8 +152,9 @@ fun MainGraph(navController: NavHostController, contentPadding: PaddingValues) {
         ) { backStackEntry ->
             backStackEntry.arguments?.getInt(COMMUNITY_ID)?.let {
                 PeopleScreen(
+                    id = it,
                     contentPadding = contentPadding,
-                    eventId = it
+                    screenState = PeopleState.SUBSCRIBERS
                 )
                 ProvideAppBarTitle(title = {
                     TopAppBarTextWithBackArrow(

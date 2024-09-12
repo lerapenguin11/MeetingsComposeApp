@@ -41,7 +41,20 @@ fun eventDetailsFake(): List<EventDetailsResponse> {
                 ),
                 participants = Participants(
                     `data` = listOf(
-                        Data(id = i, image = "https://example.com/participant$i.jpg")
+                        Data(id = i, image = "https://example.com/participant$i.jpg"),
+                        Data(id = i, image = "https://example.com/participant$i.jpg"),
+                        Data(id = i, image = "https://example.com/participant$i.jpg"),
+                        Data(id = i, image = "https://example.com/participant$i.jpg"),
+                        Data(id = i, image = "https://example.com/participant$i.jpg"),
+                        Data(id = i, image = "https://example.com/participant$i.jpg"),
+                        Data(id = i, image = "https://example.com/participant$i.jpg"),
+                        Data(id = i, image = "https://example.com/participant$i.jpg"),
+                        Data(id = i, image = "https://example.com/participant$i.jpg"),
+                        Data(id = i, image = "https://example.com/participant$i.jpg"),
+                        Data(id = i, image = "https://example.com/participant$i.jpg"),
+                        Data(id = i, image = "https://example.com/participant$i.jpg"),
+                        Data(id = i, image = "https://example.com/participant$i.jpg"),
+                        Data(id = i, image = "https://example.com/participant$i.jpg"),
                     ),
                     total = 100 + i
                 ),

@@ -149,7 +149,7 @@ fun EventDetailsScreen(
                 }
             }
         }
-        if (status == MeetingStatus.ACTIVE) {
+        if (fullInfoEvent?.eventDetails?.status == MeetingStatus.ACTIVE) {
             fullInfoEvent?.eventDetails?.let {
                 BottomActionBar(
                     buttonText = "Записаться на встречу",

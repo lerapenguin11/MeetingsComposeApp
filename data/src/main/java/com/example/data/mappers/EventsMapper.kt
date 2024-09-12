@@ -87,7 +87,7 @@ class EventsMapper {
 
     private fun determineMeetingStatus(status: String): MeetingStatus {
         return when (status) {
-            MeetingStatus.ACTIVE.name -> MeetingStatus.ACTIVE
+            MeetingStatus.ACTIVE.string -> MeetingStatus.ACTIVE
             MeetingStatus.INACTIVE.name -> MeetingStatus.INACTIVE
             else -> {
                 MeetingStatus.CANCELLATION
