@@ -45,9 +45,10 @@ import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.utils.CountryData
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 
-@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun PhoneNumberContainer() {
+fun PhoneNumberContainer(
+    onValueChange: (String) -> Unit
+) {
     val context = LocalContext.current
     val countryData = (context.applicationContext as? BaseApplication)?.countryData
     var phoneNumberValue by remember { mutableStateOf(EMPTY_LINE) }
@@ -57,7 +58,7 @@ fun PhoneNumberContainer() {
         ?: stringResource(id = CommonString.text_ph_phone_number)
     val colorBorder =
         if (phoneNumberValue.isNotEmpty()) MeetTheme.colors.secondary else MeetTheme.colors.primary
-
+    onValueChange("$PLUS${countryDataRegion?.callingCode}$phoneNumberValue")
     Row {
         countryDataRegion?.let { country ->
             CallingCode(

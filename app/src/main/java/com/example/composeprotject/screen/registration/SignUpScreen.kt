@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,8 +47,15 @@ fun SignUpScreen(
     modifier: Modifier = Modifier,
     onCancelScreen: () -> Unit
 ) {
-    var screenState by remember { mutableStateOf(RegistrationScreenState.INPUT_NAME) }
+    var screenState by remember { mutableStateOf(RegistrationScreenState.entries.toTypedArray()) }
     var buttonState by remember { mutableStateOf(FilledButtonState.DISABLED) }
+    var t by remember { mutableStateOf(RegistrationScreenState.INPUT_NAME) }
+
+    var text by remember { mutableStateOf("") }
+
+    LaunchedEffect (buttonState) {
+
+    }
 
     Column(
         modifier = modifier
@@ -68,15 +76,56 @@ fun SignUpScreen(
                 shortAddress = shortAddress
             )
             SpacerHeight(height = MeetTheme.sizes.sizeX24)
+            if (text.isEmpty()){
+                buttonState = FilledButtonState.DISABLED
+            }
             InputBlock(
-                screenState = screenState,
-                isEnabled = true
+                screenState = t,
+                isEnabled = true,
+                onInputName = {
+                    text = it
+                    if (text.isNotEmpty()){
+                        buttonState = FilledButtonState.ACTIVE_PRIMARY
+                    }
+                    //TODO
+                },
+                onInputCode = {
+                    text = it
+                    if (text.isNotEmpty()){
+                        buttonState = FilledButtonState.ACTIVE_PRIMARY
+                    }
+                },
+                onInputNumberPhone = {
+                    text = it
+                    if (text.isNotEmpty()){
+                        buttonState = FilledButtonState.ACTIVE_PRIMARY
+                    }
+                }
             )
         }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ActionComponent(screenState = screenState)
+            if (t == RegistrationScreenState.INPUT_CODE) {
+                Text(
+                    text = "Получить новый код через 10",
+                    color = MeetTheme.colors.darkGray,
+                    style = MeetTheme.typography.interMedium14
+                )
+                SpacerHeight(height = MeetTheme.sizes.sizeX24)
+            }
+            FilledButton(
+                buttonText = getActionButtonText(screenState = t),
+                onClick = {
+                    buttonState = FilledButtonState.DISABLED
+                    text = ""
+
+                    if (screenState.indexOf(t)+1 < screenState.size && buttonState == FilledButtonState.DISABLED){
+                        t = screenState[screenState.indexOf(t)+1]
+                    }
+                },
+                state = buttonState,
+            )
             SpacerHeight(height = 28.dp)
         }
     }
@@ -84,7 +133,9 @@ fun SignUpScreen(
 
 @Composable
 private fun ActionComponent(
-    screenState: RegistrationScreenState
+    screenState: RegistrationScreenState,
+    buttonState: FilledButtonState,
+    onClick: (FilledButtonState) -> Unit
 ) {
     if (screenState == RegistrationScreenState.INPUT_CODE) {
         Text(
@@ -95,15 +146,15 @@ private fun ActionComponent(
         SpacerHeight(height = MeetTheme.sizes.sizeX24)
     }
     FilledButton(
-        state = FilledButtonState.ACTIVE_PRIMARY,
-        buttonText = variantTextButton(screenState = screenState)
+        state = buttonState,
+        buttonText = getActionButtonText(screenState = screenState)
     ) {
-
+        onClick(buttonState)
     }
 }
 
 @Composable
-private fun variantTextButton(
+private fun getActionButtonText(
     screenState: RegistrationScreenState
 ): String {
     return when (screenState) {
@@ -124,7 +175,10 @@ private fun variantTextButton(
 @Composable
 fun InputBlock(
     screenState: RegistrationScreenState,
-    isEnabled: Boolean
+    isEnabled: Boolean,
+    onInputName: (String) -> Unit,
+    onInputCode: (String) -> Unit,
+    onInputNumberPhone: (String) -> Unit
 ) {
     when (screenState) {
         RegistrationScreenState.INPUT_NAME -> {
@@ -132,8 +186,8 @@ fun InputBlock(
                 textPlaceholder = stringResource(R.string.text_name_and_surname),
                 isEnabled = isEnabled,
                 state = InputState.SUCCESS,
-                onValueChange = {
-                    //TODO
+                onValueChange = { newValue ->
+                    onInputName(newValue)
                 }
             )
         }
@@ -143,8 +197,8 @@ fun InputBlock(
                 textPlaceholder = stringResource(R.string.text_placeholder_code),
                 isEnabled = isEnabled,
                 state = InputState.SUCCESS,
-                onValueChange = {
-                    //TODO
+                onValueChange = { newValue ->
+                    onInputCode(newValue)
                 }
             )
             SpacerHeight(height = MeetTheme.sizes.sizeX8)
@@ -156,7 +210,11 @@ fun InputBlock(
         }
 
         RegistrationScreenState.INPUT_NUMBER_PHONE -> {
-            PhoneNumberContainer()
+            PhoneNumberContainer(
+                onValueChange = { newValue ->
+                    onInputNumberPhone(newValue)
+                }
+            )
         }
     }
 }
