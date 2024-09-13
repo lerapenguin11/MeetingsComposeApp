@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +36,8 @@ import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.eventDate
 import com.example.composeprotject.ui.theme.MeetTheme
 
+private val signUpSteps by lazy { RegistrationScreenState.entries.toTypedArray() }
+
 @Composable
 fun SignUpScreen(
     title: String,
@@ -47,15 +48,10 @@ fun SignUpScreen(
     modifier: Modifier = Modifier,
     onCancelScreen: () -> Unit
 ) {
-    var screenState by remember { mutableStateOf(RegistrationScreenState.entries.toTypedArray()) }
-    var buttonState by remember { mutableStateOf(FilledButtonState.DISABLED) }
-    var t by remember { mutableStateOf(RegistrationScreenState.INPUT_NAME) }
-
-    var text by remember { mutableStateOf("") }
-
-    LaunchedEffect (buttonState) {
-
-    }
+    var currentStep by remember { mutableStateOf(RegistrationScreenState.INPUT_NAME) }
+    var inputValue by remember { mutableStateOf("") }
+    var buttonState =
+        if (inputValue.isNotEmpty()) FilledButtonState.ACTIVE_PRIMARY else FilledButtonState.DISABLED
 
     Column(
         modifier = modifier
@@ -76,29 +72,25 @@ fun SignUpScreen(
                 shortAddress = shortAddress
             )
             SpacerHeight(height = MeetTheme.sizes.sizeX24)
-            if (text.isEmpty()){
-                buttonState = FilledButtonState.DISABLED
-            }
             InputBlock(
-                screenState = t,
+                screenState = currentStep,
                 isEnabled = true,
                 onInputName = {
-                    text = it
-                    if (text.isNotEmpty()){
-                        buttonState = FilledButtonState.ACTIVE_PRIMARY
-                    }
+                    inputValue = it
                     //TODO
                 },
                 onInputCode = {
-                    text = it
-                    if (text.isNotEmpty()){
-                        buttonState = FilledButtonState.ACTIVE_PRIMARY
-                    }
+                    inputValue = it
                 },
                 onInputNumberPhone = {
-                    text = it
-                    if (text.isNotEmpty()){
-                        buttonState = FilledButtonState.ACTIVE_PRIMARY
+                    inputValue = it
+                },
+                inputValue = inputValue,
+                onValidationPhoneNumber = {
+                    buttonState = if (it) {
+                        FilledButtonState.ACTIVE_PRIMARY
+                    } else {
+                        FilledButtonState.DISABLED
                     }
                 }
             )
@@ -106,7 +98,7 @@ fun SignUpScreen(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (t == RegistrationScreenState.INPUT_CODE) {
+            if (currentStep == RegistrationScreenState.INPUT_CODE) {
                 Text(
                     text = "Получить новый код через 10",
                     color = MeetTheme.colors.darkGray,
@@ -115,13 +107,14 @@ fun SignUpScreen(
                 SpacerHeight(height = MeetTheme.sizes.sizeX24)
             }
             FilledButton(
-                buttonText = getActionButtonText(screenState = t),
+                buttonText = getActionButtonText(screenState = currentStep),
                 onClick = {
-                    buttonState = FilledButtonState.DISABLED
-                    text = ""
+                    val nextStepIndex = signUpSteps.indexOf(currentStep) + 1
+                    val nextStepExists = nextStepIndex < signUpSteps.size
 
-                    if (screenState.indexOf(t)+1 < screenState.size && buttonState == FilledButtonState.DISABLED){
-                        t = screenState[screenState.indexOf(t)+1]
+                    if (nextStepExists) {
+                        currentStep = signUpSteps[nextStepIndex]
+                        inputValue = ""
                     }
                 },
                 state = buttonState,
@@ -178,7 +171,9 @@ fun InputBlock(
     isEnabled: Boolean,
     onInputName: (String) -> Unit,
     onInputCode: (String) -> Unit,
-    onInputNumberPhone: (String) -> Unit
+    onInputNumberPhone: (String) -> Unit,
+    onValidationPhoneNumber: (Boolean) -> Unit,
+    inputValue: String
 ) {
     when (screenState) {
         RegistrationScreenState.INPUT_NAME -> {
@@ -212,7 +207,10 @@ fun InputBlock(
         RegistrationScreenState.INPUT_NUMBER_PHONE -> {
             PhoneNumberContainer(
                 onValueChange = { newValue ->
-                    onInputNumberPhone(newValue)
+                    onInputNumberPhone(newValue.replace("+", ""))
+                },
+                onValidityChange = {
+                    onValidationPhoneNumber(it)
                 }
             )
         }
