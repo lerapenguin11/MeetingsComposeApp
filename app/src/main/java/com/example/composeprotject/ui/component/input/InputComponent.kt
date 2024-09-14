@@ -33,6 +33,7 @@ fun SimpleInputField(
     isEnabled: Boolean,
     state: InputState,
     modifier: Modifier = Modifier,
+    keyboardType: KeyboardType = KeyboardType.Text,
     inputColors: InputColors = InputColorsDefaults.colors(),
     onValueChange: (String) -> Unit
 ) {
@@ -69,7 +70,7 @@ fun SimpleInputField(
         singleLine = singleLine,
         textStyle = MeetTheme.typography.interRegular19,
         keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Text,
+            keyboardType = keyboardType,
             imeAction = ImeAction.Done
         ),
         keyboardActions = KeyboardActions(

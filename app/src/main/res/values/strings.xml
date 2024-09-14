@@ -91,4 +91,5 @@
     <string name="text_could_have_gone">Могли пойти</string>
     <string name="text_get_new_code_via">Получить новый код через</string>
     <string name="text_get_new_code">Получить новый код</string>
+    <string name="text_sent_code">Отправили код на</string>
 </resources>

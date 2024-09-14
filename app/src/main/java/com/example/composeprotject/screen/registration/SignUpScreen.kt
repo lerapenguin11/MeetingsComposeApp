@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.composeprotject.R
@@ -255,28 +256,6 @@ private fun TextGetNewCode(
 }
 
 @Composable
-private fun ActionComponent(
-    screenState: RegistrationScreenState,
-    buttonState: FilledButtonState,
-    onClick: (FilledButtonState) -> Unit
-) {
-    if (screenState == RegistrationScreenState.INPUT_CODE) {
-        Text(
-            text = "Получить новый код через 10",
-            color = MeetTheme.colors.darkGray,
-            style = MeetTheme.typography.interMedium14
-        )
-        SpacerHeight(height = MeetTheme.sizes.sizeX24)
-    }
-    FilledButton(
-        state = buttonState,
-        buttonText = getActionButtonText(screenState = screenState)
-    ) {
-        onClick(buttonState)
-    }
-}
-
-@Composable
 private fun getActionButtonText(
     screenState: RegistrationScreenState
 ): String {
@@ -299,11 +278,11 @@ private fun getActionButtonText(
 private fun InputBlock(
     screenState: RegistrationScreenState,
     isEnabled: Boolean,
+    phoneNumber: String,
     onInputName: (String) -> Unit,
     onInputCode: (String) -> Unit,
     onInputNumberPhone: (String) -> Unit,
-    onValidationPhoneNumber: (Boolean) -> Unit,
-    phoneNumber: String
+    onValidationPhoneNumber: (Boolean) -> Unit
 ) {
     when (screenState) {
         RegistrationScreenState.INPUT_NAME -> {
@@ -322,13 +301,18 @@ private fun InputBlock(
                 textPlaceholder = stringResource(R.string.text_placeholder_code),
                 isEnabled = isEnabled,
                 state = InputState.SUCCESS,
+                keyboardType = KeyboardType.NumberPassword,
                 onValueChange = { newValue ->
                     onInputCode(newValue)
                 }
             )
             SpacerHeight(height = MeetTheme.sizes.sizeX8)
+            val text = buildAnnotatedString {
+                append(stringResource(R.string.text_sent_code))
+                append(" $phoneNumber")
+            }
             Text(
-                text = "Отправили код на ${phoneNumber}",
+                text = text,
                 color = MeetTheme.colors.darkGray,
                 style = MeetTheme.typography.interMedium14
             )
@@ -401,3 +385,4 @@ private const val START_TIMER = 60
 private const val STEP = 1
 private const val EMPTY_LINE = ""
 private const val PLUS = "+"
+private const val LENGTH_CODE = "0000"
