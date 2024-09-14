@@ -89,4 +89,6 @@
     <string name="text_subscribers">Подписчики</string>
     <string name="text_all_caterories">Все категории</string>
     <string name="text_could_have_gone">Могли пойти</string>
+    <string name="text_get_new_code_via">Получить новый код через</string>
+    <string name="text_get_new_code">Получить новый код</string>
 </resources>
