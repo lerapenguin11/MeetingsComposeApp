@@ -45,6 +45,7 @@ import com.example.composeprotject.ui.component.utils.NoRippleTheme
 import com.example.composeprotject.ui.component.utils.eventDate
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.SingUpViewModel
+import com.example.domain.model.signUp.UserParam
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -66,17 +67,18 @@ fun SignUpScreen(
 ) {
     var currentStep by remember { mutableStateOf(RegistrationScreenState.INPUT_NAME) }
     var inputValue by remember { mutableStateOf(EMPTY_LINE) }
-    val phoneNumber by singUpViewModel.getPhoneNumber().collectAsStateWithLifecycle()
-    val userParam by singUpViewModel.getUserParam().collectAsStateWithLifecycle()
-    val buttonState by singUpViewModel.getButtonState().collectAsStateWithLifecycle()
-    val test by singUpViewModel.getIsLoading().collectAsStateWithLifecycle()
+    val phoneNumber by singUpViewModel.getPhoneNumberFlow().collectAsStateWithLifecycle()
+    val userParam by singUpViewModel.getUserParamFlow().collectAsStateWithLifecycle()
+    val buttonState by singUpViewModel.getButtonStateFlow().collectAsStateWithLifecycle()
+    val isSendPhoneVerificationCode by singUpViewModel.getIsLoading()
+        .collectAsStateWithLifecycle()
 
     if (inputValue.isEmpty()) {
         singUpViewModel.updateButtonState(state = FilledButtonState.DISABLED)
     }
 
-    LaunchedEffect(test) {
-        if (test) {
+    LaunchedEffect(isSendPhoneVerificationCode) {
+        if (!isSendPhoneVerificationCode) {
             singUpViewModel.updateButtonState(state = FilledButtonState.DISABLED)
             val nextStepIndex = signUpSteps.indexOf(currentStep) + STEP
             currentStep = signUpSteps[nextStepIndex]
@@ -162,7 +164,13 @@ fun SignUpScreen(
                     val nextStepExists = nextStepIndex < signUpSteps.size
                     sendUserDataAndStartTimer(
                         currentStep = currentStep,
-                        singUpViewModel = singUpViewModel,
+                        signUpViewModel = singUpViewModel,
+                        userParam = UserParam(
+                            eventId = eventId,
+                            name = userParam.first.orEmpty(),
+                            phoneNumber = userParam.second.orEmpty(),
+                            userInterests = null
+                        ),
                         coroutineScope = coroutineScope,
                         onSecondsRemaining = {
                             secondsRemaining = it
@@ -198,14 +206,15 @@ private fun goToNextStepRegistration(
 
 private fun sendUserDataAndStartTimer(
     currentStep: RegistrationScreenState,
-    singUpViewModel: SingUpViewModel,
+    signUpViewModel: SingUpViewModel,
+    userParam: UserParam,
     coroutineScope: CoroutineScope,
     onSecondsRemaining: (Int) -> Unit
 ) {
     if (RegistrationScreenState.INPUT_NUMBER_PHONE == currentStep) {
-        singUpViewModel.updateButtonState(state = FilledButtonState.LOADING)
+        signUpViewModel.updateButtonState(state = FilledButtonState.LOADING)
         coroutineScope.launch {
-            singUpViewModel.test()
+            signUpViewModel.sendPhoneVerificationCode(userParam = userParam)
         }
         onSecondsRemaining(START_TIMER)
     }

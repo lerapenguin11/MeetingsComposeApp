@@ -25,6 +25,8 @@ import com.example.domain.usecase.interest.AddUserInterestsUseCase
 import com.example.domain.usecase.interest.AddUserInterestsUseCaseInteractor
 import com.example.domain.usecase.interest.GetInterestInteractor
 import com.example.domain.usecase.interest.GetInterestsUseCase
+import com.example.domain.usecase.signUp.SendPhoneVerificationCodeUseCase
+import com.example.domain.usecase.signUp.SendPhoneVerificationCodeUseCaseImpl
 import com.example.domain.usecase.store.ReadOnBoardingInterestStateUseCase
 import com.example.domain.usecase.store.ReadOnBoardingInterestStateUseCaseImpl
 import com.example.domain.usecase.store.SaveOnBoardingInterestStateUseCase
@@ -60,4 +62,5 @@ internal val useCaseModule = module {
     single { InteractorLoadPeopleByEventId() }
     single { InteractorLoadPeopleByCategoryId() }
     single { GetPeople() }
+    single<SendPhoneVerificationCodeUseCase> { SendPhoneVerificationCodeUseCaseImpl(repository = get()) }
 }
