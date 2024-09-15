@@ -32,6 +32,7 @@ fun SimpleInputField(
     textPlaceholder: String,
     isEnabled: Boolean,
     state: InputState,
+    limit: Int? = null,
     modifier: Modifier = Modifier,
     keyboardType: KeyboardType = KeyboardType.Text,
     inputColors: InputColors = InputColorsDefaults.colors(),
@@ -60,8 +61,9 @@ fun SimpleInputField(
     BasicTextField(
         value = inputText,
         onValueChange = { newValue ->
-            inputText = newValue
-            onValueChange(newValue)
+            val value = if (limit == null) newValue else newValue.take(limit)
+            inputText = value
+            onValueChange(value)
         },
         modifier = modifier
             .fillMaxWidth(),

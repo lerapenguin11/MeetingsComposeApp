@@ -92,4 +92,5 @@
     <string name="text_get_new_code_via">Получить новый код через</string>
     <string name="text_get_new_code">Получить новый код</string>
     <string name="text_sent_code">Отправили код на</string>
+    <string name="text_error">Упс, что-то пошла не так...</string>
 </resources>

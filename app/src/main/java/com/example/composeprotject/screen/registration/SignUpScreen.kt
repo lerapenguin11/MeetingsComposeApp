@@ -67,6 +67,7 @@ fun SignUpScreen(
 ) {
     var currentStep by remember { mutableStateOf(RegistrationScreenState.INPUT_NAME) }
     var inputValue by remember { mutableStateOf(EMPTY_LINE) }
+    val code by singUpViewModel.getCodeFlow().collectAsStateWithLifecycle()
     val phoneNumber by singUpViewModel.getPhoneNumberFlow().collectAsStateWithLifecycle()
     val userParam by singUpViewModel.getUserParamFlow().collectAsStateWithLifecycle()
     val buttonState by singUpViewModel.getButtonStateFlow().collectAsStateWithLifecycle()
@@ -183,11 +184,28 @@ fun SignUpScreen(
                         currentStep = currentStep,
                         onInputValue = { inputValue = it }
                     )
+                    code?.let {
+                        sendConfirmationCode(
+                            currentStep = currentStep,
+                            singUpViewModel = singUpViewModel,
+                            code = it
+                        )
+                    }
                 },
                 state = buttonState,
             )
             SpacerHeight(height = 28.dp)
         }
+    }
+}
+
+private fun sendConfirmationCode(
+    currentStep: RegistrationScreenState,
+    singUpViewModel: SingUpViewModel,
+    code: String
+) {
+    if (RegistrationScreenState.INPUT_CODE == currentStep) {
+        singUpViewModel.sendConfirmationCode(code = code)
     }
 }
 
@@ -199,8 +217,8 @@ private fun goToNextStepRegistration(
     onInputValue: (String) -> Unit
 ) {
     if (nextStepExists && RegistrationScreenState.INPUT_NUMBER_PHONE != currentStep) {
-        onCurrentStep(signUpSteps[nextStepIndex])
         onInputValue(EMPTY_LINE)
+        onCurrentStep(signUpSteps[nextStepIndex])
     }
 }
 
@@ -310,6 +328,7 @@ private fun InputBlock(
                 textPlaceholder = stringResource(R.string.text_placeholder_code),
                 isEnabled = isEnabled,
                 state = InputState.SUCCESS,
+                limit = LENGTH_CODE,
                 keyboardType = KeyboardType.NumberPassword,
                 onValueChange = { newValue ->
                     onInputCode(newValue)
@@ -394,4 +413,4 @@ private const val START_TIMER = 60
 private const val STEP = 1
 private const val EMPTY_LINE = ""
 private const val PLUS = "+"
-private const val LENGTH_CODE = "0000"
+private const val LENGTH_CODE = 4
