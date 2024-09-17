@@ -21,7 +21,7 @@ import org.koin.dsl.module
 
 internal val repositoryModule = module {
     single<InterestRepository> { InterestRepositoryImpl(mapper = get(), dao = get()) }
-    single<EventRepository> { EventsRepositoryImpl(mapper = get(), dao = get()) }
+    single<EventRepository> { EventsRepositoryImpl(mapper = get(), dao = get(), service = get()) }
     single<CommunityRepository> { CommunityRepositoryImpl(mapper = get()) }
     single<StoreRepository> { StoreRepositoryImpl(context = get()) }
     single<PeopleRepository> { PeopleRepositoryImpl(mapper = get()) }

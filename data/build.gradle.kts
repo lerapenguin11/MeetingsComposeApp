@@ -24,11 +24,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
 
@@ -36,11 +36,14 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":common"))
     implementation(project(":core:database"))
+    implementation(project(":core:network"))
 
-    implementation("io.insert-koin:koin-android:3.5.6")
+    implementation(libs.koin.android)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.sandwich)
+    implementation(libs.sandwich.retrofit)
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.play.services.location)

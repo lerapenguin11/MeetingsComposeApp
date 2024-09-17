@@ -1,10 +1,6 @@
 package com.example.data.mappers
 
-import com.example.data.responseModel.event.EventResponseItem
-import com.example.data.responseModel.eventDetails.EventDetailsResponse
-import com.example.data.responseModel.eventDetails.Location
-import com.example.data.responseModel.eventDetails.Participants
-import com.example.data.responseModel.eventDetails.Presenter
+import android.text.TextUtils
 import com.example.database.entity.UserInterestEntity
 import com.example.domain.model.event.Meeting
 import com.example.domain.model.eventDetails.MeetingAddress
@@ -17,6 +13,14 @@ import com.example.domain.model.eventDetails.MeetingPresenter
 import com.example.domain.model.eventDetails.MeetingStatus
 import com.example.domain.model.eventDetails.MeetingsData
 import com.example.domain.model.interest.Category
+import com.example.network.responseModel.event.EventResponseItem
+import com.example.network.responseModel.eventDetails.EventDetailsResponse
+import com.example.network.responseModel.eventDetails.Location
+import com.example.network.responseModel.eventDetails.Participants
+import com.example.network.responseModel.eventDetails.Presenter
+import java.io.UnsupportedEncodingException
+import java.net.URLEncoder
+
 
 class EventsMapper {
 
@@ -25,14 +29,22 @@ class EventsMapper {
             id = item.id,
             avatarUrl = item.image,
             title = item.title,
-            categories = item.categories.map { Category(it.id, it.title) },
-            shortAddress = item.location.address.plain.short,
-            startDate = item.startDate
+            categories = item.tags.map { Category(it.id, it.title) },
+            shortAddress = item.location?.address?.plain?.short.toString(), //TODO toString delete
+            startDate = 1726583978 //TODO: item.startDate
         )
     }
 
     fun userInterestEntityToIdInterest(entity: UserInterestEntity): Int {
         return entity.id
+    }
+
+    fun typeConvectorListIdToUriId(ids: List<Int>): String? {
+        return try {
+            URLEncoder.encode(TextUtils.join(",", ids), "utf-8")
+        } catch (e: UnsupportedEncodingException) {
+            null
+        }
     }
 
     fun eventDetailsResponseToEventDetails(item: EventDetailsResponse): MeetingDetails {
@@ -95,7 +107,7 @@ class EventsMapper {
         }
     }
 
-    private fun categoryResponseToCategory(category: com.example.data.responseModel.eventDetails.Category): Category {
+    private fun categoryResponseToCategory(category: com.example.network.responseModel.eventDetails.Category): Category {
         return Category(
             id = category.id,
             title = category.title

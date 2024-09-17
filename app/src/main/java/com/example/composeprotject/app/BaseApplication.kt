@@ -7,6 +7,7 @@ import com.example.composeprotject.utils.readCountryDataFromJson
 import com.example.data.di.dataModule
 import com.example.database.di.databaseModule
 import com.example.domain.di.domainModule
+import com.example.network.di.serviceModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -25,6 +26,7 @@ class BaseApplication : Application() {
             modules(
                 listOf(
                     appModule,
+                    serviceModule,
                     databaseModule,
                     dataModule,
                     domainModule

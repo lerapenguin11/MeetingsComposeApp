@@ -70,7 +70,7 @@ class MainViewModel(
             QueryParam(
                 authToken = null,
                 userInterests = null,
-                city = null,
+                city = city,
                 test = selectedCategory
             )
         )

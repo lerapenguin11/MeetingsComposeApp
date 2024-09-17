@@ -58,6 +58,8 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.okhttp)
+    implementation(libs.sandwich)
+    implementation(libs.sandwich.retrofit)
     implementation(libs.converter.scalars)
     implementation(libs.converter.moshi)
     implementation(libs.moshi.kotlin)

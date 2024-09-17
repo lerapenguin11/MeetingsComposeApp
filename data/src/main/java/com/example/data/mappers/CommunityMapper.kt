@@ -1,7 +1,5 @@
 package com.example.data.mappers
 
-import com.example.data.responseModel.communiryDetails.CommunityDetailsResponse
-import com.example.data.responseModel.community.CommunitiesResponseItem
 import com.example.domain.model.community.Community
 import com.example.domain.model.communityDetails.Category
 import com.example.domain.model.communityDetails.CommunityDetails
@@ -10,7 +8,7 @@ import com.example.domain.model.communityDetails.Members
 
 class CommunityMapper {
 
-    fun communitiesResponseToCommunities(communitiesResponseItem: CommunitiesResponseItem): Community {
+    fun communitiesResponseToCommunities(communitiesResponseItem: com.example.network.responseModel.community.CommunitiesResponseItem): Community {
         return Community(
             id = communitiesResponseItem.id,
             title = communitiesResponseItem.title,
@@ -18,7 +16,7 @@ class CommunityMapper {
         )
     }
 
-    fun communityDetailsResponseToCommunityResponse(response: CommunityDetailsResponse): CommunityDetails {
+    fun communityDetailsResponseToCommunityResponse(response: com.example.network.responseModel.communiryDetails.CommunityDetailsResponse): CommunityDetails {
         return CommunityDetails(
             id = response.id,
             image = response.image,
