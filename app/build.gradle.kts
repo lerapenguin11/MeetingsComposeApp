@@ -57,6 +57,7 @@ dependencies {
     implementation(project(":core:database"))
 
     implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation("com.google.accompanist:accompanist-permissions:0.31.1-alpha")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -76,6 +77,7 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
     implementation(libs.koin.core)
+    implementation(libs.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

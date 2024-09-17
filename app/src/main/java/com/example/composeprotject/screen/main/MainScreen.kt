@@ -59,9 +59,13 @@ fun MainScreen(
     val mainStateUI by mainViewModel.getMainStateUI().collectAsStateWithLifecycle()
     val userCategories by mainViewModel.getUserSelectedCategories().collectAsStateWithLifecycle()
     val fullInfoMainScreen by mainViewModel.getFullInfoMainScreen().collectAsStateWithLifecycle()
+    val currentLocation by mainViewModel.getCurrentLocation().collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-        mainViewModel.loadEventsByCategory(selectedCategory = userCategories.map { it.id })
+    LaunchedEffect(key1 = Unit) {
+        mainViewModel.loadEventsByCategory(
+            selectedCategory = userCategories.map { it.id },
+            city = currentLocation
+        )
     }
 
     val textSpecialist = "тестировщиков"

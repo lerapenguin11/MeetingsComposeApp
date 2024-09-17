@@ -37,11 +37,13 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":core:database"))
 
+    implementation("io.insert-koin:koin-android:3.5.6")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
+    implementation(libs.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

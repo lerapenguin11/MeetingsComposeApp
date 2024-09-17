@@ -27,14 +27,15 @@ fun RootNavigationGraph(
     ) {
         splash(contentPadding = contentPadding)
         onBoardingNavGraph(navController = navHostController, contentPadding = contentPadding)
+        locationGraph(navController = navHostController, contentPadding = contentPadding)
         composable(route = Graph.MAIN) {
             MainContainer()
         }
     }
     LaunchedEffect(startDestination) {
         when (startDestination) {
-            Graph.ON_BOARDING -> navHostController.navigateToSingleTop(Graph.ON_BOARDING)
             Graph.MAIN -> navHostController.navigateToSingleTop(Graph.MAIN)
+            Graph.LOCATION -> navHostController.navigateToSingleTop(Graph.LOCATION)
         }
     }
 }

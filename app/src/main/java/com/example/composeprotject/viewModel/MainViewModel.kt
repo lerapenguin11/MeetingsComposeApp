@@ -7,6 +7,7 @@ import com.example.domain.model.interest.Interest
 import com.example.domain.usecase.combineUseCase.CombineMainDataScreen
 import com.example.domain.usecase.combineUseCase.InteractorFullInfoMainScreen
 import com.example.domain.usecase.event.InteractorLoadMainInfo
+import com.example.domain.usecase.location.GetCurrentLocationUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -18,8 +19,12 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val interactorLoadMainInfo: InteractorLoadMainInfo,
-    private val interactorFullInfoMainScreen: InteractorFullInfoMainScreen
+    private val interactorFullInfoMainScreen: InteractorFullInfoMainScreen,
+    private val getCurrentLocationUseCase: GetCurrentLocationUseCase
 ) : ViewModel() {
+
+    private val _currentLocation = MutableStateFlow<String?>(null)
+    private val currentLocation: StateFlow<String?> = _currentLocation
 
     private val fullInfoMainScreen: StateFlow<CombineMainDataScreen> =
         interactorFullInfoMainScreen.execute().flatMapLatest { fullInfo ->
@@ -52,18 +57,15 @@ class MainViewModel(
 
     init {
         getAuthToken()
+        updateCurrentLocation()
     }
 
-    private fun getAuthToken() {
-        _authToken.update { null } //TODO
-    }
-
+    fun getCurrentLocation() = currentLocation
     fun getUserSelectedCategories() = userSelectedCategories
     fun getMainStateUI() = mainStateUI
-
     fun getFullInfoMainScreen() = fullInfoMainScreen
 
-    fun loadEventsByCategory(selectedCategory: List<Int>) = viewModelScope.launch {
+    fun loadEventsByCategory(selectedCategory: List<Int>, city: String?) = viewModelScope.launch {
         interactorLoadMainInfo.execute(
             QueryParam(
                 authToken = null,
@@ -82,6 +84,10 @@ class MainViewModel(
         }
     }
 
+    fun clearUserSelectedCategories() = viewModelScope.launch {
+        _userSelectedCategories.update { emptyList() }
+    }
+
     private fun hasUserCategories(interest: Interest): Boolean {
         return _userSelectedCategories.value.none { it.id == interest.id }
     }
@@ -92,13 +98,20 @@ class MainViewModel(
         }
     }
 
-    fun clearUserSelectedCategories() = viewModelScope.launch {
-        _userSelectedCategories.update { emptyList() }
-    }
-
     private fun deleteUserCategory(interest: Interest) = viewModelScope.launch {
         _userSelectedCategories.update { currentInterests ->
             currentInterests.filterNot { it.id == interest.id }
+        }
+    }
+
+    private fun getAuthToken() {
+        _authToken.update { null } //TODO
+    }
+
+
+    private fun updateCurrentLocation() {
+        viewModelScope.launch {
+            _currentLocation.update { getCurrentLocationUseCase.execute() }
         }
     }
 }

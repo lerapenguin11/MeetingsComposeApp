@@ -1,7 +1,9 @@
 package com.example.composeprotject.utils
 
 import android.content.Context
+import android.content.pm.PackageManager
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.core.content.ContextCompat
 import com.example.composeprotject.R
 import com.example.domain.model.interest.Interest
 import com.google.gson.Gson
@@ -34,4 +36,17 @@ fun lineBreakInAddress(short: String, full: String): String {
 
 fun checkingUserNoSuchInterest(userInterests: List<Interest>, id: Int): Boolean {
     return userInterests.none { it.id == id }
+}
+
+fun hasPermissions(context: Context, vararg permissions: String): Boolean {
+    for (permission in permissions) {
+        if (ContextCompat.checkSelfPermission(
+                context,
+                permission
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return false
+        }
+    }
+    return true
 }

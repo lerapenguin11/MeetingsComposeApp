@@ -3,6 +3,7 @@ package com.example.composeprotject.di
 import com.example.composeprotject.viewModel.CommunityDetailsViewModel
 import com.example.composeprotject.viewModel.EventDetailsViewModel
 import com.example.composeprotject.viewModel.InterestsViewModel
+import com.example.composeprotject.viewModel.LocationOnboardingViewModel
 import com.example.composeprotject.viewModel.MainViewModel
 import com.example.composeprotject.viewModel.PeopleViewModel
 import com.example.composeprotject.viewModel.SingUpViewModel
@@ -18,4 +19,5 @@ val appModule = module {
     viewModelOf(::CommunityDetailsViewModel)
     viewModelOf(::PeopleViewModel)
     viewModelOf(::SingUpViewModel)
+    viewModelOf(::LocationOnboardingViewModel)
 }

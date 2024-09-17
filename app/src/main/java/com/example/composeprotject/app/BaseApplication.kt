@@ -14,7 +14,7 @@ import org.koin.core.logger.Level
 
 class BaseApplication : Application() {
 
-    val countryData: Map<String, CountryData> by lazy { readCountryDataFromJson(this) } //TODO
+    val countryData: Map<String, CountryData> by lazy { readCountryDataFromJson(this) }
 
     override fun onCreate() {
         super.onCreate()

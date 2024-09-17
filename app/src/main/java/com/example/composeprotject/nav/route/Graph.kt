@@ -6,4 +6,5 @@ object Graph {
     const val ON_BOARDING = "on_boarding_graph"
     const val SPLASH = "splash_graph"
     const val AUTH = "auth_graph"
+    const val LOCATION = "location_graph"
 }

@@ -25,6 +25,8 @@ import com.example.domain.usecase.interest.AddUserInterestsUseCase
 import com.example.domain.usecase.interest.AddUserInterestsUseCaseInteractor
 import com.example.domain.usecase.interest.GetInterestInteractor
 import com.example.domain.usecase.interest.GetInterestsUseCase
+import com.example.domain.usecase.location.GetCurrentLocationUseCase
+import com.example.domain.usecase.location.GetCurrentLocationUseCaseImpl
 import com.example.domain.usecase.signUp.SendConfirmationCodeUseCase
 import com.example.domain.usecase.signUp.SendConfirmationCodeUseCaseImpl
 import com.example.domain.usecase.signUp.SendPhoneVerificationCodeUseCase
@@ -66,4 +68,5 @@ internal val useCaseModule = module {
     single { GetPeople() }
     single<SendPhoneVerificationCodeUseCase> { SendPhoneVerificationCodeUseCaseImpl(repository = get()) }
     single<SendConfirmationCodeUseCase> { SendConfirmationCodeUseCaseImpl(repository = get()) }
+    single<GetCurrentLocationUseCase> { GetCurrentLocationUseCaseImpl(repository = get()) }
 }
