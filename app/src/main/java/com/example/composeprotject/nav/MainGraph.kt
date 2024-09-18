@@ -1,5 +1,6 @@
 package com.example.composeprotject.nav
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -20,17 +21,25 @@ import com.example.composeprotject.ui.component.text.TopAppBarTextWithBackArrow
 import com.example.composeprotject.ui.component.topBar.ProvideAppBarAction
 import com.example.composeprotject.ui.component.topBar.ProvideAppBarTitle
 import com.example.composeprotject.ui.component.utils.CommonString
+import com.example.composeprotject.viewModel.SearchViewModel
 
+@SuppressLint("UnrememberedGetBackStackEntry")
 @Composable
-fun MainGraph(navController: NavHostController, contentPadding: PaddingValues) {
+fun MainGraph(
+    navController: NavHostController,
+    contentPadding: PaddingValues,
+    searchViewModel: SearchViewModel
+) {
     NavHost(
         navController = navController,
         startDestination = Main.Home.route,
         route = Graph.MAIN
     ) {
+
         composable(route = Main.Home.route) {
             MainScreen(
                 contentPadding = contentPadding,
+                searchViewModel = searchViewModel,
                 onClickEvent = { meeting ->
                     navController.navigate(
                         route = "${Main.EventDetails.route}/${meeting.id}/${meeting.title}"

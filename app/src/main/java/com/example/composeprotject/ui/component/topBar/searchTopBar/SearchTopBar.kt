@@ -42,6 +42,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.example.composeprotject.screen.state.SearchState
 import com.example.composeprotject.ui.component.input.inputState.InputColors
 import com.example.composeprotject.ui.component.input.inputState.InputColorsDefaults
 import com.example.composeprotject.ui.component.state.InputState
@@ -54,9 +55,11 @@ import com.example.composeprotject.ui.theme.MeetTheme
 fun SearchBar(
     isEnabled: Boolean,
     state: InputState,
+    authToken: String?,
     modifier: Modifier = Modifier,
     inputColors: InputColors = InputColorsDefaults.colors(),
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    onMainScreenState: (SearchState) -> Unit
 ) {
     var searchText by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -189,41 +192,69 @@ fun SearchBar(
 
                 )
             }
-            Spacer(modifier = Modifier.width(MeetTheme.sizes.sizeX8))
-            Box(
-                modifier = Modifier
-                    .height(44.dp)
-                    .background(color = Color.White, shape = RoundedCornerShape(10.dp))
-                    .clip(RoundedCornerShape(10.dp))
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = rememberRipple(bounded = true),
-                        onClick = {
-                            //TODO
+            if (authToken != null) {
+                Spacer(modifier = Modifier.width(MeetTheme.sizes.sizeX8))
+                Box(
+                    modifier = Modifier
+                        .height(44.dp)
+                        .background(color = Color.White, shape = RoundedCornerShape(10.dp))
+                        .clip(RoundedCornerShape(10.dp))
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = rememberRipple(bounded = true),
+                            onClick = {
+                                //TODO
+                            }
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    if (searchText.isEmpty()) {
+                        Box(
+                            modifier = Modifier
+                                .width(width = 39.dp)
+                                .clip(RoundedCornerShape(10.dp))
+                        ) {
+                            Image(
+                                modifier = Modifier.size(width = 32.dp, height = 44.dp),
+                                painter = painterResource(id = CommonDrawables.ic_user_profile),
+                                contentDescription = null
+                            )
                         }
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                if (searchText.isEmpty()) {
-                    Box(
-                        modifier = Modifier
-                            .width(width = 39.dp)
-                            .clip(RoundedCornerShape(10.dp))
-                    ) {
-                        Image(
-                            modifier = Modifier.size(width = 32.dp, height = 44.dp),
-                            painter = painterResource(id = CommonDrawables.ic_user_profile),
-                            contentDescription = null
+                    } else {
+                        onMainScreenState(SearchState.MAIN_SEARCH_SCREEN)
+                        ActionCancellation(
+                            onClickCancel = {
+                                onMainScreenState(it)
+                            }
                         )
                     }
-                } else {
-                    Text(
-                        text = stringResource(CommonString.text_cancel),
-                        color = MeetTheme.colors.primary,
-                        style = MeetTheme.typography.interSemiBold14
+                }
+            } else {
+                if (searchText.isNotEmpty()) {
+                    Spacer(modifier = Modifier.width(MeetTheme.sizes.sizeX8))
+                    ActionCancellation(
+                        onClickCancel = {
+                            onMainScreenState(it)
+                        }
                     )
                 }
             }
         }
     }
+}
+
+@Composable
+private fun ActionCancellation(
+    modifier: Modifier = Modifier,
+    onClickCancel: (SearchState) -> Unit
+) {
+    Text(
+        modifier = modifier
+            .clickable {
+                onClickCancel(SearchState.MAIN_DEFAULT_SCREEN)
+            },
+        text = stringResource(CommonString.text_cancel),
+        color = MeetTheme.colors.primary,
+        style = MeetTheme.typography.interSemiBold14
+    )
 }

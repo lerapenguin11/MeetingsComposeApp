@@ -77,6 +77,7 @@ dependencies {
     implementation(libs.com.google.code.gson)
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
+    implementation(libs.koin.androidx.compose.navigation)
     implementation(libs.koin.core)
     implementation(libs.play.services.location)
     testImplementation(libs.junit)

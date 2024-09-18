@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.composeprotject.R
+import com.example.composeprotject.screen.state.SearchState
 import com.example.composeprotject.ui.component.card.CommunityCard
 import com.example.composeprotject.ui.component.card.CommunityViewAllCard
 import com.example.composeprotject.ui.component.card.EventCard
@@ -43,20 +44,22 @@ import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.utils.checkingUserNoSuchInterest
 import com.example.composeprotject.viewModel.MainViewModel
+import com.example.composeprotject.viewModel.SearchViewModel
 import com.example.domain.model.community.Community
 import com.example.domain.model.event.Meeting
 import com.example.domain.model.interest.Interest
+import com.example.domain.usecase.combineUseCase.CombineMainDataScreen
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MainScreen(
     contentPadding: PaddingValues,
+    searchViewModel: SearchViewModel,
     modifier: Modifier = Modifier,
     mainViewModel: MainViewModel = koinViewModel(),
     onClickEvent: (Meeting) -> Unit,
     onClickCommunity: (Community) -> Unit
 ) {
-
     val mainStateUI by mainViewModel.getMainStateUIFlow().collectAsStateWithLifecycle()
     val userCategories by mainViewModel.getUserSelectedCategoriesFlow()
         .collectAsStateWithLifecycle()
@@ -65,6 +68,8 @@ fun MainScreen(
     val currentLocation by mainViewModel.getCurrentLocationFlow().collectAsStateWithLifecycle()
     val authToken by mainViewModel.getAuthTokenFlow().collectAsStateWithLifecycle()
 
+    val searchQuery by searchViewModel.getSearchQuery().collectAsStateWithLifecycle()
+    val mainState by searchViewModel.getMainScreenState().collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = Unit, key2 = currentLocation) {
         mainViewModel.loadEventsByCategory(
@@ -73,7 +78,48 @@ fun MainScreen(
             token = authToken
         )
     }
+
     println("LOC: $currentLocation")
+
+
+    when (mainState) {
+        SearchState.MAIN_SEARCH_SCREEN -> {
+            MainSearchScreen()
+        }
+
+        SearchState.MAIN_DEFAULT_SCREEN -> {
+            MainDefault(
+                contentPadding = contentPadding,
+                mainStateUI = mainStateUI,
+                fullInfoMainScreen = fullInfoMainScreen,
+                onClickEvent = onClickEvent,
+                onClickCommunity = onClickCommunity,
+                userCategories = userCategories,
+                mainViewModel = mainViewModel
+            )
+        }
+    }
+}
+
+@Composable
+fun MainSearchScreen() {
+    LazyColumn {
+
+    }
+}
+
+@Composable
+fun MainDefault(
+    contentPadding: PaddingValues,
+    modifier: Modifier = Modifier,
+    mainStateUI: Boolean,
+    fullInfoMainScreen: CombineMainDataScreen,
+    onClickEvent: (Meeting) -> Unit,
+    onClickCommunity: (Community) -> Unit,
+    userCategories: List<Interest>,
+    mainViewModel: MainViewModel
+) {
+
     val textSpecialist = "тестировщиков"
 
     LazyColumn(

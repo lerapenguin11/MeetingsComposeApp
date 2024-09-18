@@ -74,11 +74,15 @@ class MainViewModel(
     fun getMainStateUIFlow() = mainStateUI
     fun getFullInfoMainScreenFlow() = fullInfoMainScreen
 
-    fun loadEventsByCategory(selectedCategory: List<Int>, city: String?, token: String?) =
+    fun loadEventsByCategory(
+        selectedCategory: List<Int>,
+        city: String?,
+        token: String?
+    ) =
         viewModelScope.launch {
             interactorLoadMainInfo.execute(
                 QueryParam(
-                    authToken = null,
+                    authToken = token,
                     userInterests = null,
                     city = city,
                     filteredParam = selectedCategory
