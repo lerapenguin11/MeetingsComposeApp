@@ -1,5 +1,6 @@
 package com.example.composeprotject.nav
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -14,6 +15,7 @@ import com.example.composeprotject.container.MainContainer
 import com.example.composeprotject.nav.route.Graph
 import com.example.composeprotject.screen.splash.SplashScreen
 
+@SuppressLint("UnrememberedGetBackStackEntry")
 @Composable
 fun RootNavigationGraph(
     contentPadding: PaddingValues,
@@ -27,14 +29,15 @@ fun RootNavigationGraph(
     ) {
         splash(contentPadding = contentPadding)
         onBoardingNavGraph(navController = navHostController, contentPadding = contentPadding)
+        locationGraph(navController = navHostController, contentPadding = contentPadding)
         composable(route = Graph.MAIN) {
             MainContainer()
         }
     }
     LaunchedEffect(startDestination) {
         when (startDestination) {
-            Graph.ON_BOARDING -> navHostController.navigateToSingleTop(Graph.ON_BOARDING)
             Graph.MAIN -> navHostController.navigateToSingleTop(Graph.MAIN)
+            Graph.LOCATION -> navHostController.navigateToSingleTop(Graph.LOCATION)
         }
     }
 }

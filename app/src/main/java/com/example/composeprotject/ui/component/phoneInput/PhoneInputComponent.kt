@@ -17,6 +17,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,7 +33,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
 import com.example.composeprotject.app.BaseApplication
@@ -45,9 +45,11 @@ import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.utils.CountryData
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 
-@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun PhoneNumberContainer() {
+fun PhoneNumberContainer(
+    onValueChange: (String) -> Unit,
+    onValidityChange: (Boolean) -> Unit
+) {
     val context = LocalContext.current
     val countryData = (context.applicationContext as? BaseApplication)?.countryData
     var phoneNumberValue by remember { mutableStateOf(EMPTY_LINE) }
@@ -57,6 +59,14 @@ fun PhoneNumberContainer() {
         ?: stringResource(id = CommonString.text_ph_phone_number)
     val colorBorder =
         if (phoneNumberValue.isNotEmpty()) MeetTheme.colors.secondary else MeetTheme.colors.primary
+
+    LaunchedEffect(phoneNumberValue) {
+        onValueChange("$PLUS${countryDataRegion?.callingCode.orEmpty()}$phoneNumberValue")
+
+        if (region.isNotEmpty() && countryDataRegion != null) {
+            onValidityChange(isValidNumber(phoneNumberValue, region, countryDataRegion.callingCode))
+        }
+    }
 
     Row {
         countryDataRegion?.let { country ->

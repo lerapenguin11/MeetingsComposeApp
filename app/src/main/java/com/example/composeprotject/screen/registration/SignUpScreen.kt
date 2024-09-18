@@ -10,19 +10,27 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.composeprotject.R
 import com.example.composeprotject.screen.state.RegistrationScreenState
 import com.example.composeprotject.ui.component.button.FilledButton
@@ -33,23 +41,63 @@ import com.example.composeprotject.ui.component.state.FilledButtonState
 import com.example.composeprotject.ui.component.state.InputState
 import com.example.composeprotject.ui.component.utils.CommonDrawables
 import com.example.composeprotject.ui.component.utils.CommonString
+import com.example.composeprotject.ui.component.utils.NoRippleTheme
 import com.example.composeprotject.ui.component.utils.eventDate
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.composeprotject.viewModel.SingUpViewModel
+import com.example.domain.model.signUp.UserParam
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
+import kotlin.time.Duration.Companion.seconds
 
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-fun SignUpScreenPreview() {
-    SignUpScreen(
-        contentPadding = PaddingValues()
-    )
-}
+private val signUpSteps by lazy { RegistrationScreenState.entries.toTypedArray() }
 
 @Composable
 fun SignUpScreen(
+    title: String,
+    eventId: Int,
+    startDate: Long,
+    shortAddress: String,
     contentPadding: PaddingValues,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    singUpViewModel: SingUpViewModel = koinViewModel(),
+    onCancelScreen: () -> Unit
 ) {
-    val screenState by remember { mutableStateOf(RegistrationScreenState.INPUT_NAME) }
+    var currentStep by remember { mutableStateOf(RegistrationScreenState.INPUT_NAME) }
+    var inputValue by remember { mutableStateOf(EMPTY_LINE) }
+    val code by singUpViewModel.getCodeFlow().collectAsStateWithLifecycle()
+    val phoneNumber by singUpViewModel.getPhoneNumberFlow().collectAsStateWithLifecycle()
+    val userParam by singUpViewModel.getUserParamFlow().collectAsStateWithLifecycle()
+    val buttonState by singUpViewModel.getButtonStateFlow().collectAsStateWithLifecycle()
+    val isSendPhoneVerificationCode by singUpViewModel.getIsLoading()
+        .collectAsStateWithLifecycle()
+
+    if (inputValue.isEmpty()) {
+        singUpViewModel.updateButtonState(state = FilledButtonState.DISABLED)
+    }
+
+    LaunchedEffect(isSendPhoneVerificationCode) {
+        if (!isSendPhoneVerificationCode) {
+            singUpViewModel.updateButtonState(state = FilledButtonState.DISABLED)
+            val nextStepIndex = signUpSteps.indexOf(currentStep) + STEP
+            currentStep = signUpSteps[nextStepIndex]
+        }
+    }
+
+    val coroutineScope = rememberCoroutineScope() //TODO удалить
+
+    var secondsRemaining by remember { mutableIntStateOf(FINISH_TIMER) }
+    LaunchedEffect(key1 = secondsRemaining) {
+        if (secondsRemaining > FINISH_TIMER) {
+            while (true) {
+                delay(SECOND.seconds)
+                secondsRemaining--
+            }
+        }
+    }
+
     Column(
         modifier = modifier
             .padding(contentPadding)
@@ -61,50 +109,181 @@ fun SignUpScreen(
                 .weight(5f)
         ) {
             SpacerHeight(height = MeetTheme.sizes.sizeX20)
-            SignTopBar()
+            SignTopBar(onCancel = { onCancelScreen() })
             SpacerHeight(height = MeetTheme.sizes.sizeX12)
             DescriptionBlock(
-                eventName = "Супертестировщики",
-                startDate = 1725021117,
-                shortAddress = "Невский проспект, 11"
+                eventName = title,
+                startDate = startDate,
+                shortAddress = shortAddress
             )
             SpacerHeight(height = MeetTheme.sizes.sizeX24)
             InputBlock(
-                screenState = screenState,
-                isEnabled = true
+                screenState = currentStep,
+                isEnabled = true,
+                onInputName = {
+                    inputValue = it
+                    singUpViewModel.updateUserName(name = inputValue)
+                    updateSignupButtonState(
+                        inputValue = inputValue,
+                        singUpViewModel = singUpViewModel
+                    )
+                },
+                onInputCode = {
+                    inputValue = it
+                    singUpViewModel.updateConfirmationCode(code = inputValue)
+                    updateSignupButtonState(
+                        inputValue = inputValue,
+                        singUpViewModel = singUpViewModel
+                    )
+                },
+                onInputNumberPhone = {
+                    inputValue = it
+                    singUpViewModel.updatePhoneNumber(phoneNumber = inputValue)
+                },
+                phoneNumber = "+${phoneNumber.orEmpty()}",
+                onValidationPhoneNumber = {
+                    singUpViewModel.updateButtonState(
+                        state = if (it) {
+                            FilledButtonState.ACTIVE_PRIMARY
+                        } else {
+                            FilledButtonState.DISABLED
+                        }
+                    )
+                }
             )
         }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ActionComponent(screenState = screenState)
+            TextGetNewCode(secondsRemaining = secondsRemaining, currentStep = currentStep) {
+                secondsRemaining = START_TIMER
+            }
+            FilledButton(
+                buttonText = getActionButtonText(screenState = currentStep),
+                onClick = {
+                    val nextStepIndex = signUpSteps.indexOf(currentStep) + STEP
+                    val nextStepExists = nextStepIndex < signUpSteps.size
+                    sendUserDataAndStartTimer(
+                        currentStep = currentStep,
+                        signUpViewModel = singUpViewModel,
+                        userParam = UserParam(
+                            eventId = eventId,
+                            name = userParam.first.orEmpty(),
+                            phoneNumber = userParam.second.orEmpty(),
+                            userInterests = null
+                        ),
+                        coroutineScope = coroutineScope,
+                        onSecondsRemaining = {
+                            secondsRemaining = it
+                        }
+                    )
+                    goToNextStepRegistration(
+                        nextStepExists = nextStepExists,
+                        onCurrentStep = { currentStep = it },
+                        nextStepIndex = nextStepIndex,
+                        currentStep = currentStep,
+                        onInputValue = { inputValue = it }
+                    )
+                    code?.let {
+                        sendConfirmationCode(
+                            currentStep = currentStep,
+                            singUpViewModel = singUpViewModel,
+                            code = it
+                        )
+                    }
+                },
+                state = buttonState,
+            )
             SpacerHeight(height = 28.dp)
         }
     }
 }
 
-@Composable
-private fun ActionComponent(
-    screenState: RegistrationScreenState
+private fun sendConfirmationCode(
+    currentStep: RegistrationScreenState,
+    singUpViewModel: SingUpViewModel,
+    code: String
 ) {
-    if (screenState == RegistrationScreenState.INPUT_CODE) {
-        Text(
-            text = "Получить новый код через 10",
-            color = MeetTheme.colors.darkGray,
-            style = MeetTheme.typography.interMedium14
-        )
-        SpacerHeight(height = MeetTheme.sizes.sizeX24)
+    if (RegistrationScreenState.INPUT_CODE == currentStep) {
+        singUpViewModel.sendConfirmationCode(code = code)
     }
-    FilledButton(
-        state = FilledButtonState.ACTIVE_PRIMARY,
-        buttonText = variantTextButton(screenState = screenState)
-    ) {
+}
 
+private fun goToNextStepRegistration(
+    nextStepExists: Boolean,
+    nextStepIndex: Int,
+    currentStep: RegistrationScreenState,
+    onCurrentStep: (RegistrationScreenState) -> Unit,
+    onInputValue: (String) -> Unit
+) {
+    if (nextStepExists && RegistrationScreenState.INPUT_NUMBER_PHONE != currentStep) {
+        onInputValue(EMPTY_LINE)
+        onCurrentStep(signUpSteps[nextStepIndex])
+    }
+}
+
+private fun sendUserDataAndStartTimer(
+    currentStep: RegistrationScreenState,
+    signUpViewModel: SingUpViewModel,
+    userParam: UserParam,
+    coroutineScope: CoroutineScope,
+    onSecondsRemaining: (Int) -> Unit
+) {
+    if (RegistrationScreenState.INPUT_NUMBER_PHONE == currentStep) {
+        signUpViewModel.updateButtonState(state = FilledButtonState.LOADING)
+        coroutineScope.launch {
+            signUpViewModel.sendPhoneVerificationCode(userParam = userParam)
+        }
+        onSecondsRemaining(START_TIMER)
+    }
+}
+
+private fun updateSignupButtonState(inputValue: String, singUpViewModel: SingUpViewModel) {
+    if (inputValue.isEmpty()) {
+        singUpViewModel.updateButtonState(state = FilledButtonState.DISABLED)
+    } else {
+        singUpViewModel.updateButtonState(state = FilledButtonState.ACTIVE_PRIMARY)
     }
 }
 
 @Composable
-private fun variantTextButton(
+private fun TextGetNewCode(
+    secondsRemaining: Int,
+    currentStep: RegistrationScreenState,
+    modifier: Modifier = Modifier,
+    onGetNewCode: () -> Unit
+) {
+    val isCountdownActive = secondsRemaining > FINISH_TIMER
+    val text = buildAnnotatedString {
+        if (isCountdownActive) {
+            append(stringResource(R.string.text_get_new_code_via))
+            append(" $secondsRemaining")
+        } else {
+            append(stringResource(R.string.text_get_new_code))
+        }
+    }
+    if (currentStep == RegistrationScreenState.INPUT_CODE) {
+        CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
+            Text(
+                modifier = modifier
+                    .then(
+                        if (!isCountdownActive) {
+                            modifier.clickable {
+                                onGetNewCode()
+                            }
+                        } else modifier
+                    ),
+                text = text,
+                color = if (isCountdownActive) MeetTheme.colors.darkGray else MeetTheme.colors.primary,
+                style = MeetTheme.typography.interMedium18
+            )
+        }
+        SpacerHeight(height = MeetTheme.sizes.sizeX24)
+    }
+}
+
+@Composable
+private fun getActionButtonText(
     screenState: RegistrationScreenState
 ): String {
     return when (screenState) {
@@ -123,9 +302,14 @@ private fun variantTextButton(
 }
 
 @Composable
-fun InputBlock(
+private fun InputBlock(
     screenState: RegistrationScreenState,
-    isEnabled: Boolean
+    isEnabled: Boolean,
+    phoneNumber: String,
+    onInputName: (String) -> Unit,
+    onInputCode: (String) -> Unit,
+    onInputNumberPhone: (String) -> Unit,
+    onValidationPhoneNumber: (Boolean) -> Unit
 ) {
     when (screenState) {
         RegistrationScreenState.INPUT_NAME -> {
@@ -133,8 +317,8 @@ fun InputBlock(
                 textPlaceholder = stringResource(R.string.text_name_and_surname),
                 isEnabled = isEnabled,
                 state = InputState.SUCCESS,
-                onValueChange = {
-                    //TODO
+                onValueChange = { newValue ->
+                    onInputName(newValue)
                 }
             )
         }
@@ -144,20 +328,33 @@ fun InputBlock(
                 textPlaceholder = stringResource(R.string.text_placeholder_code),
                 isEnabled = isEnabled,
                 state = InputState.SUCCESS,
-                onValueChange = {
-                    //TODO
+                limit = LENGTH_CODE,
+                keyboardType = KeyboardType.NumberPassword,
+                onValueChange = { newValue ->
+                    onInputCode(newValue)
                 }
             )
             SpacerHeight(height = MeetTheme.sizes.sizeX8)
+            val text = buildAnnotatedString {
+                append(stringResource(R.string.text_sent_code))
+                append(" $phoneNumber")
+            }
             Text(
-                text = "Отправили код на +7 999 999-99-99",
+                text = text,
                 color = MeetTheme.colors.darkGray,
                 style = MeetTheme.typography.interMedium14
             )
         }
 
         RegistrationScreenState.INPUT_NUMBER_PHONE -> {
-            PhoneNumberContainer()
+            PhoneNumberContainer(
+                onValueChange = { newValue ->
+                    onInputNumberPhone(newValue.replace(PLUS, EMPTY_LINE))
+                },
+                onValidityChange = {
+                    onValidationPhoneNumber(it)
+                }
+            )
         }
     }
 }
@@ -176,7 +373,9 @@ private fun DescriptionBlock(
 }
 
 @Composable
-private fun SignTopBar() {
+private fun SignTopBar(
+    onCancel: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -192,7 +391,7 @@ private fun SignTopBar() {
             modifier = Modifier
                 .clip(RoundedCornerShape(size = MeetTheme.sizes.sizeX10))
                 .clickable {
-                    //TODO
+                    onCancel()
                 }
         ) {
             Image(
@@ -207,3 +406,11 @@ private fun SignTopBar() {
         }
     }
 }
+
+private const val SECOND = 1
+private const val FINISH_TIMER = 0
+private const val START_TIMER = 60
+private const val STEP = 1
+private const val EMPTY_LINE = ""
+private const val PLUS = "+"
+private const val LENGTH_CODE = 4

@@ -25,10 +25,24 @@ import com.example.domain.usecase.interest.AddUserInterestsUseCase
 import com.example.domain.usecase.interest.AddUserInterestsUseCaseInteractor
 import com.example.domain.usecase.interest.GetInterestInteractor
 import com.example.domain.usecase.interest.GetInterestsUseCase
+import com.example.domain.usecase.location.GetCurrentLocationUseCase
+import com.example.domain.usecase.location.GetCurrentLocationUseCaseImpl
+import com.example.domain.usecase.signUp.SendConfirmationCodeUseCase
+import com.example.domain.usecase.signUp.SendConfirmationCodeUseCaseImpl
+import com.example.domain.usecase.signUp.SendPhoneVerificationCodeUseCase
+import com.example.domain.usecase.signUp.SendPhoneVerificationCodeUseCaseImpl
 import com.example.domain.usecase.store.ReadOnBoardingInterestStateUseCase
 import com.example.domain.usecase.store.ReadOnBoardingInterestStateUseCaseImpl
+import com.example.domain.usecase.store.ReadUserCityUseCase
+import com.example.domain.usecase.store.ReadUserCityUseCaseImpl
+import com.example.domain.usecase.store.ReadeAuthTokenUseCase
+import com.example.domain.usecase.store.ReadeAuthTokenUseCaseImpl
+import com.example.domain.usecase.store.SaveAuthTokenUseCase
+import com.example.domain.usecase.store.SaveAuthTokenUseCaseImpl
 import com.example.domain.usecase.store.SaveOnBoardingInterestStateUseCase
 import com.example.domain.usecase.store.SaveOnBoardingInterestStateUseCaseImpl
+import com.example.domain.usecase.store.SaveUserCityUseCase
+import com.example.domain.usecase.store.SaveUserCityUseCaseImpl
 import org.koin.dsl.module
 
 internal val useCaseModule = module {
@@ -60,4 +74,11 @@ internal val useCaseModule = module {
     single { InteractorLoadPeopleByEventId() }
     single { InteractorLoadPeopleByCategoryId() }
     single { GetPeople() }
+    single<SendPhoneVerificationCodeUseCase> { SendPhoneVerificationCodeUseCaseImpl(repository = get()) }
+    single<SendConfirmationCodeUseCase> { SendConfirmationCodeUseCaseImpl(repository = get()) }
+    single<GetCurrentLocationUseCase> { GetCurrentLocationUseCaseImpl(repository = get()) }
+    single<SaveUserCityUseCase> { SaveUserCityUseCaseImpl(repository = get()) }
+    single<ReadUserCityUseCase> { ReadUserCityUseCaseImpl(repository = get()) }
+    single<SaveAuthTokenUseCase> { SaveAuthTokenUseCaseImpl(repository = get()) }
+    single<ReadeAuthTokenUseCase> { ReadeAuthTokenUseCaseImpl(repository = get()) }
 }

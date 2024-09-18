@@ -7,6 +7,7 @@ import com.example.composeprotject.utils.readCountryDataFromJson
 import com.example.data.di.dataModule
 import com.example.database.di.databaseModule
 import com.example.domain.di.domainModule
+import com.example.network.di.serviceModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -14,7 +15,7 @@ import org.koin.core.logger.Level
 
 class BaseApplication : Application() {
 
-    val countryData: Map<String, CountryData> by lazy { readCountryDataFromJson(this) } //TODO
+    val countryData: Map<String, CountryData> by lazy { readCountryDataFromJson(this) }
 
     override fun onCreate() {
         super.onCreate()
@@ -25,6 +26,7 @@ class BaseApplication : Application() {
             modules(
                 listOf(
                     appModule,
+                    serviceModule,
                     databaseModule,
                     dataModule,
                     domainModule

@@ -1,7 +1,7 @@
 package com.example.data.fakeData
 
-import com.example.data.responseModel.people.Interest
-import com.example.data.responseModel.people.PeopleResponse
+import com.example.network.responseModel.people.Interest
+import com.example.network.responseModel.people.PeopleResponse
 import kotlin.random.Random
 
 fun generatePeopleList(count: Int): List<PeopleResponse> {

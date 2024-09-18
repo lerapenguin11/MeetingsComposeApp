@@ -7,19 +7,32 @@ import com.example.domain.model.interest.Interest
 import com.example.domain.usecase.combineUseCase.CombineMainDataScreen
 import com.example.domain.usecase.combineUseCase.InteractorFullInfoMainScreen
 import com.example.domain.usecase.event.InteractorLoadMainInfo
+import com.example.domain.usecase.location.GetCurrentLocationUseCase
+import com.example.domain.usecase.store.ReadUserCityUseCase
+import com.example.domain.usecase.store.ReadeAuthTokenUseCase
+import com.example.domain.usecase.store.SaveUserCityUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val interactorLoadMainInfo: InteractorLoadMainInfo,
-    private val interactorFullInfoMainScreen: InteractorFullInfoMainScreen
+    private val interactorFullInfoMainScreen: InteractorFullInfoMainScreen,
+    private val getCurrentLocationUseCase: GetCurrentLocationUseCase,
+    private val saveUserCityUseCase: SaveUserCityUseCase,
+    private val readUserCityUseCase: ReadUserCityUseCase,
+    private val readeAuthTokenUseCase: ReadeAuthTokenUseCase
 ) : ViewModel() {
+
+    private val _currentLocation = MutableStateFlow<String?>(null)
+    private val currentLocation: StateFlow<String?> = _currentLocation
 
     private val fullInfoMainScreen: StateFlow<CombineMainDataScreen> =
         interactorFullInfoMainScreen.execute().flatMapLatest { fullInfo ->
@@ -52,27 +65,30 @@ class MainViewModel(
 
     init {
         getAuthToken()
+        updateCurrentLocation()
     }
 
-    private fun getAuthToken() {
-        _authToken.update { null } //TODO
-    }
+    fun getAuthTokenFlow() = authToken
+    fun getCurrentLocationFlow() = currentLocation
+    fun getUserSelectedCategoriesFlow() = userSelectedCategories
+    fun getMainStateUIFlow() = mainStateUI
+    fun getFullInfoMainScreenFlow() = fullInfoMainScreen
 
-    fun getUserSelectedCategories() = userSelectedCategories
-    fun getMainStateUI() = mainStateUI
-
-    fun getFullInfoMainScreen() = fullInfoMainScreen
-
-    fun loadEventsByCategory(selectedCategory: List<Int>) = viewModelScope.launch {
-        interactorLoadMainInfo.execute(
-            QueryParam(
-                authToken = null,
-                userInterests = null,
-                city = null,
-                test = selectedCategory
+    fun loadEventsByCategory(
+        selectedCategory: List<Int>,
+        city: String?,
+        token: String?
+    ) =
+        viewModelScope.launch {
+            interactorLoadMainInfo.execute(
+                QueryParam(
+                    authToken = token,
+                    userInterests = null,
+                    city = city,
+                    filteredParam = selectedCategory
+                )
             )
-        )
-    }
+        }
 
     fun toggleUserCategory(id: Interest) {
         if (hasUserCategories(id)) {
@@ -80,6 +96,10 @@ class MainViewModel(
         } else {
             deleteUserCategory(id)
         }
+    }
+
+    fun clearUserSelectedCategories() = viewModelScope.launch {
+        _userSelectedCategories.update { emptyList() }
     }
 
     private fun hasUserCategories(interest: Interest): Boolean {
@@ -92,13 +112,25 @@ class MainViewModel(
         }
     }
 
-    fun clearUserSelectedCategories() = viewModelScope.launch {
-        _userSelectedCategories.update { emptyList() }
-    }
-
     private fun deleteUserCategory(interest: Interest) = viewModelScope.launch {
         _userSelectedCategories.update { currentInterests ->
             currentInterests.filterNot { it.id == interest.id }
         }
     }
+
+    private fun getAuthToken() {
+        readeAuthTokenUseCase.execute().onEach { token ->
+            _authToken.update { token }
+        }.launchIn(scope = viewModelScope)
+    }
+
+    private fun updateCurrentLocation() {
+        viewModelScope.launch {
+            saveUserCityUseCase.execute(city = getCurrentLocationUseCase.execute())
+        }
+        readUserCityUseCase.execute().onEach { city ->
+            _currentLocation.update { city }
+        }.launchIn(viewModelScope)
+    }
+
 }

@@ -32,7 +32,9 @@ fun SimpleInputField(
     textPlaceholder: String,
     isEnabled: Boolean,
     state: InputState,
+    limit: Int? = null,
     modifier: Modifier = Modifier,
+    keyboardType: KeyboardType = KeyboardType.Text,
     inputColors: InputColors = InputColorsDefaults.colors(),
     onValueChange: (String) -> Unit
 ) {
@@ -59,8 +61,9 @@ fun SimpleInputField(
     BasicTextField(
         value = inputText,
         onValueChange = { newValue ->
-            inputText = newValue
-            onValueChange(newValue)
+            val value = if (limit == null) newValue else newValue.take(limit)
+            inputText = value
+            onValueChange(value)
         },
         modifier = modifier
             .fillMaxWidth(),
@@ -69,7 +72,7 @@ fun SimpleInputField(
         singleLine = singleLine,
         textStyle = MeetTheme.typography.interRegular19,
         keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Text,
+            keyboardType = keyboardType,
             imeAction = ImeAction.Done
         ),
         keyboardActions = KeyboardActions(

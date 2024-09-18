@@ -1,5 +1,6 @@
 package com.example.composeprotject.nav
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -20,17 +21,25 @@ import com.example.composeprotject.ui.component.text.TopAppBarTextWithBackArrow
 import com.example.composeprotject.ui.component.topBar.ProvideAppBarAction
 import com.example.composeprotject.ui.component.topBar.ProvideAppBarTitle
 import com.example.composeprotject.ui.component.utils.CommonString
+import com.example.composeprotject.viewModel.SearchViewModel
 
+@SuppressLint("UnrememberedGetBackStackEntry")
 @Composable
-fun MainGraph(navController: NavHostController, contentPadding: PaddingValues) {
+fun MainGraph(
+    navController: NavHostController,
+    contentPadding: PaddingValues,
+    searchViewModel: SearchViewModel
+) {
     NavHost(
         navController = navController,
         startDestination = Main.Home.route,
         route = Graph.MAIN
     ) {
+
         composable(route = Main.Home.route) {
             MainScreen(
                 contentPadding = contentPadding,
+                searchViewModel = searchViewModel,
                 onClickEvent = { meeting ->
                     navController.navigate(
                         route = "${Main.EventDetails.route}/${meeting.id}/${meeting.title}"
@@ -68,6 +77,12 @@ fun MainGraph(navController: NavHostController, contentPadding: PaddingValues) {
                     onClickEvent = { event ->
                         navController.navigate(
                             route = "${Main.EventDetails.route}/${event.id}/${event.title}"
+                        )
+                    },
+                    onMeetingRegistrationCheckIn = { eventInfoShort ->
+                        navController.navigate(
+                            route = "${Graph.AUTH}?${EVENT_TITLE}=${eventInfoShort.title}?${EVENT_ID}=${eventInfoShort.id}?$SHORT_ADDRESS=${eventInfoShort.shortAddress}?$START_DATE=${eventInfoShort.startDate}"
+                            //TODO
                         )
                     }
                 )
@@ -163,6 +178,7 @@ fun MainGraph(navController: NavHostController, contentPadding: PaddingValues) {
                 })
             }
         }
+        authGraph(contentPadding = contentPadding, navController = navController)
     }
 }
 
@@ -178,3 +194,5 @@ private const val EVENT_ID = "event_id"
 private const val COMMUNITY_ID = "community_id"
 private const val COMMUNITY_TITLE = "community_title"
 private const val EVENT_TITLE = "event_title"
+private const val START_DATE = "startDate"
+private const val SHORT_ADDRESS = "shortAddress"

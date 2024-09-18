@@ -20,7 +20,7 @@ class GetFilteredEventsByCategory : KoinComponent {
         innerEvents.trigger().mapLatest { categories ->
             categories?.let {
                 repository.getFilteredEventsByCategory(
-                    filterParam = it.test
+                    filterParam = it.filteredParam
                 )
             }
         }.flatMapMerge { it ?: flow { emptyList<Meeting>() } }

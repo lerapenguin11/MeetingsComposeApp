@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.composeprotject.R
+import com.example.composeprotject.screen.state.SearchState
 import com.example.composeprotject.ui.component.card.CommunityCard
 import com.example.composeprotject.ui.component.card.CommunityViewAllCard
 import com.example.composeprotject.ui.component.card.EventCard
@@ -43,26 +44,81 @@ import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.utils.checkingUserNoSuchInterest
 import com.example.composeprotject.viewModel.MainViewModel
+import com.example.composeprotject.viewModel.SearchViewModel
 import com.example.domain.model.community.Community
 import com.example.domain.model.event.Meeting
 import com.example.domain.model.interest.Interest
+import com.example.domain.usecase.combineUseCase.CombineMainDataScreen
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MainScreen(
     contentPadding: PaddingValues,
+    searchViewModel: SearchViewModel,
     modifier: Modifier = Modifier,
     mainViewModel: MainViewModel = koinViewModel(),
     onClickEvent: (Meeting) -> Unit,
     onClickCommunity: (Community) -> Unit
 ) {
-    val mainStateUI by mainViewModel.getMainStateUI().collectAsStateWithLifecycle()
-    val userCategories by mainViewModel.getUserSelectedCategories().collectAsStateWithLifecycle()
-    val fullInfoMainScreen by mainViewModel.getFullInfoMainScreen().collectAsStateWithLifecycle()
+    val mainStateUI by mainViewModel.getMainStateUIFlow().collectAsStateWithLifecycle()
+    val userCategories by mainViewModel.getUserSelectedCategoriesFlow()
+        .collectAsStateWithLifecycle()
+    val fullInfoMainScreen by mainViewModel.getFullInfoMainScreenFlow()
+        .collectAsStateWithLifecycle()
+    val currentLocation by mainViewModel.getCurrentLocationFlow().collectAsStateWithLifecycle()
+    val authToken by mainViewModel.getAuthTokenFlow().collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-        mainViewModel.loadEventsByCategory(selectedCategory = userCategories.map { it.id })
+    val searchQuery by searchViewModel.getSearchQuery().collectAsStateWithLifecycle()
+    val mainState by searchViewModel.getMainScreenState().collectAsStateWithLifecycle()
+
+    LaunchedEffect(key1 = Unit, key2 = currentLocation) {
+        mainViewModel.loadEventsByCategory(
+            selectedCategory = userCategories.map { it.id },
+            city = currentLocation,
+            token = authToken
+        )
     }
+
+    println("LOC: $currentLocation")
+
+
+    when (mainState) {
+        SearchState.MAIN_SEARCH_SCREEN -> {
+            MainSearchScreen()
+        }
+
+        SearchState.MAIN_DEFAULT_SCREEN -> {
+            MainDefault(
+                contentPadding = contentPadding,
+                mainStateUI = mainStateUI,
+                fullInfoMainScreen = fullInfoMainScreen,
+                onClickEvent = onClickEvent,
+                onClickCommunity = onClickCommunity,
+                userCategories = userCategories,
+                mainViewModel = mainViewModel
+            )
+        }
+    }
+}
+
+@Composable
+fun MainSearchScreen() {
+    LazyColumn {
+
+    }
+}
+
+@Composable
+fun MainDefault(
+    contentPadding: PaddingValues,
+    modifier: Modifier = Modifier,
+    mainStateUI: Boolean,
+    fullInfoMainScreen: CombineMainDataScreen,
+    onClickEvent: (Meeting) -> Unit,
+    onClickCommunity: (Community) -> Unit,
+    userCategories: List<Interest>,
+    mainViewModel: MainViewModel
+) {
 
     val textSpecialist = "тестировщиков"
 
@@ -76,7 +132,8 @@ fun MainScreen(
             item {
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .padding(bottom = 50.dp),
 
                     contentAlignment = Alignment.Center
                 ) {
@@ -108,7 +165,7 @@ fun MainScreen(
                         start = MeetTheme.sizes.sizeX16,
                         end = MeetTheme.sizes.sizeX16
                     ),
-                    text = "${stringResource(CommonString.text_communities_for)} ${textSpecialist}",
+                    text = "${stringResource(CommonString.text_communities_for)} $textSpecialist",
                     color = Color.Black,
                     style = MeetTheme.typography.interSemiBold24
                 )
@@ -215,22 +272,18 @@ private fun CommunityRow(
 ) {
     LazyRow {
         item { SpacerWidth(width = MeetTheme.sizes.sizeX16) }
-        itemsIndexed(communities) { index, community ->
-            if (index < MAX_NUMBER_CARDS_DISPLAYED) {
-                CommunityCard(
-                    community = community,
-                    buttonState = SubscribeButtonState.NOT_SUBSCRIBED_COMMUNITY
-                ) {
-                    onClickCommunity(community)
-                }
-                SpacerWidth(width = MeetTheme.sizes.sizeX10)
+        itemsIndexed(communities) { _, community ->
+            CommunityCard(
+                community = community,
+                buttonState = SubscribeButtonState.NOT_SUBSCRIBED_COMMUNITY
+            ) {
+                onClickCommunity(community)
             }
+            SpacerWidth(width = MeetTheme.sizes.sizeX10)
         }
         item {
-            if (communities.size > MAX_NUMBER_CARDS_DISPLAYED) {
-                CommunityViewAllCard {/*TODO*/ }
-                SpacerWidth(width = MeetTheme.sizes.sizeX16)
-            }
+            CommunityViewAllCard {/*TODO*/ }
+            SpacerWidth(width = MeetTheme.sizes.sizeX16)
         }
     }
 }
@@ -242,24 +295,20 @@ private fun SmallEventsRow(
 ) {
     LazyRow {
         item { SpacerWidth(width = MeetTheme.sizes.sizeX16) }
-        itemsIndexed(events) { index, meeting ->
-            if (index < MAX_NUMBER_CARDS_DISPLAYED) {
-                EventCard(
-                    meeting = meeting,
-                    variant = EventCardVariant.SMALL
-                ) {
-                    onClickEvent(meeting)
-                }
-                SpacerWidth(width = MeetTheme.sizes.sizeX10)
+        itemsIndexed(events) { _, meeting ->
+            EventCard(
+                meeting = meeting,
+                variant = EventCardVariant.SMALL
+            ) {
+                onClickEvent(meeting)
             }
+            SpacerWidth(width = MeetTheme.sizes.sizeX10)
         }
         item {
-            if (events.size > MAX_NUMBER_CARDS_DISPLAYED) {
-                EventViewAllCard(
-                    variant = EventCardVariant.SMALL
-                ) {/*TODO*/ }
-                SpacerWidth(width = MeetTheme.sizes.sizeX16)
-            }
+            EventViewAllCard(
+                variant = EventCardVariant.SMALL
+            ) {/*TODO*/ }
+            SpacerWidth(width = MeetTheme.sizes.sizeX16)
         }
     }
 }
@@ -271,26 +320,20 @@ private fun BigEventsRow(
 ) {
     LazyRow {
         item { SpacerWidth(width = MeetTheme.sizes.sizeX16) }
-        itemsIndexed(events) { index, meeting ->
-            if (index < MAX_NUMBER_CARDS_DISPLAYED) {
-                EventCard(
-                    meeting = meeting,
-                    variant = EventCardVariant.BIG
-                ) {
-                    onClickEvent(meeting)
-                }
-                SpacerWidth(width = MeetTheme.sizes.sizeX10)
+        itemsIndexed(events) { _, meeting ->
+            EventCard(
+                meeting = meeting,
+                variant = EventCardVariant.BIG
+            ) {
+                onClickEvent(meeting)
             }
+            SpacerWidth(width = MeetTheme.sizes.sizeX10)
         }
         item {
-            if (events.size > MAX_NUMBER_CARDS_DISPLAYED) {
-                EventViewAllCard(
-                    variant = EventCardVariant.BIG
-                ) { /*TODO*/ }
-                Spacer(modifier = Modifier.width(MeetTheme.sizes.sizeX16))
-            }
+            EventViewAllCard(
+                variant = EventCardVariant.BIG
+            ) { /*TODO*/ }
+            Spacer(modifier = Modifier.width(MeetTheme.sizes.sizeX16))
         }
     }
 }
-
-private const val MAX_NUMBER_CARDS_DISPLAYED = 5

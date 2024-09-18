@@ -1,5 +1,6 @@
 package com.example.composeprotject.container
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.statusBars
@@ -19,7 +20,10 @@ import com.example.composeprotject.ui.component.state.InputState
 import com.example.composeprotject.ui.component.state.TopBarState
 import com.example.composeprotject.ui.component.topBar.TopAppBar
 import com.example.composeprotject.ui.component.topBar.searchTopBar.SearchBar
+import com.example.composeprotject.viewModel.SearchViewModel
+import org.koin.androidx.compose.navigation.koinNavViewModel
 
+@SuppressLint("UnrememberedGetBackStackEntry")
 @Composable
 fun MainContainer() {
     val navController = rememberNavController()
@@ -27,6 +31,7 @@ fun MainContainer() {
     val currentRoute = navBackStackEntry?.destination?.route
     val baseRoute = currentRoute?.substringBefore("/") ?: ""
     val topBarIsShow = rememberSaveable { (mutableStateOf(TopBarState.MAIN_TOP_BAR)) }
+    val searchViewModel: SearchViewModel = koinNavViewModel()
 
     topBarIsShow.value = when (baseRoute) {
         Main.CommunityDetails.route,
@@ -49,9 +54,13 @@ fun MainContainer() {
                 TopBarState.MAIN_TOP_BAR -> {
                     SearchBar(
                         isEnabled = true,
+                        authToken = null, //TODO
                         state = InputState.SUCCESS,
                         onValueChange = {
-                            /*TODO*/
+                            searchViewModel.searchQueryUpdate(text = it)
+                        },
+                        onMainScreenState = {
+                            searchViewModel.mainScreenStateUpdate(state = it)
                         }
                     )
                 }
@@ -66,7 +75,8 @@ fun MainContainer() {
     ) { contentPadding ->
         MainGraph(
             navController = navController,
-            contentPadding = contentPadding
+            contentPadding = contentPadding,
+            searchViewModel = searchViewModel
         )
     }
 }
