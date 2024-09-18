@@ -82,7 +82,8 @@ fun MainScreen(
             item {
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .padding(bottom = 50.dp),
 
                     contentAlignment = Alignment.Center
                 ) {
