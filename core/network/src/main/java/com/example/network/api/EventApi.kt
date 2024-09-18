@@ -11,6 +11,7 @@ interface EventApi {
     suspend fun getMeetings(
         @Query("type") eventType: String? = null,
         @Query(encoded = true, value = "categories") categories: String? = null,
-        @Query("query") query: String? = null
+        @Query("query") query: String? = null,
+        @Query("city") city: String? = null
     ): ApiResponse<EventResponse>
 }

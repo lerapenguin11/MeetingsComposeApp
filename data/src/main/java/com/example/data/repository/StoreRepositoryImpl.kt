@@ -28,6 +28,27 @@ class StoreRepositoryImpl(private val context: Context) : StoreRepository {
         }
     }
 
+    override suspend fun saveUserCity(city: String?) {
+        if (city != null) {
+            getSharedPreferences(context = context, name = PREF_APP_SETTINGS).edit {
+                putString(USER_CITY, city)
+            }
+        }
+    }
+
+    override fun readUserCity(): Flow<String?> {
+        return flow {
+            emit(
+                value = getSharedPreferences(
+                    context = context,
+                    name = PREF_APP_SETTINGS
+                ).getString(
+                    USER_CITY, "Москва"
+                )
+            )
+        }
+    }
+
     companion object {
         private fun getSharedPreferences(context: Context, name: String): SharedPreferences {
             return context.getSharedPreferences(name, Context.MODE_PRIVATE)
@@ -35,5 +56,6 @@ class StoreRepositoryImpl(private val context: Context) : StoreRepository {
 
         private const val IS_ONBOARDING_INTEREST_SHOW_KEY = "is_onboarding_show"
         private const val PREF_APP_SETTINGS = "pref_app_settings"
+        private const val USER_CITY = "user_city"
     }
 }

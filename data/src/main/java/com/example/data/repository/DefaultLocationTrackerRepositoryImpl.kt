@@ -2,7 +2,6 @@ package com.example.data.repository
 
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.Address
 import android.location.Geocoder
 import android.location.LocationManager
 import androidx.core.content.ContextCompat
@@ -15,6 +14,7 @@ class DefaultLocationTrackerRepositoryImpl(
     private val fusedLocationProviderClient: FusedLocationProviderClient,
     private val context: Context
 ) : LocationTrackerRepository {
+
     override suspend fun getCurrentLocation(): String? {
         val hasAccessFineLocationPermission = ContextCompat.checkSelfPermission(
             context,
@@ -56,8 +56,8 @@ class DefaultLocationTrackerRepositoryImpl(
                 addOnSuccessListener {
                     cont.resume(
                         getCityName(
-                            lat = result.latitude,
-                            long = result.longitude
+                            lat = it?.latitude,
+                            long = it?.longitude
                         )
                     ) { cause, _, _ -> }
                 }
@@ -71,12 +71,10 @@ class DefaultLocationTrackerRepositoryImpl(
         }
     }
 
-    private fun getCityName(lat: Double, long: Double): String? {
+    private fun getCityName(lat: Double?, long: Double?): String? {
         val geocoder = Geocoder(context, Locale(LANGUAGE))
-        val addresses: List<Address>? = geocoder.getFromLocation(lat, long, MAX_RESULT)
-
-        val cityName = addresses?.get(0)?.locality
-        return cityName
+        val addresses = lat?.let { long?.let { geocoder.getFromLocation(it, it, MAX_RESULT) } }
+        return addresses?.get(0)?.locality
     }
 }
 

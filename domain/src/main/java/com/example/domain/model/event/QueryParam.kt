@@ -4,5 +4,5 @@ data class QueryParam(
     val userInterests: List<Int>?,
     val authToken: String?,
     val city: String?,
-    val test: List<Int>
+    val filteredParam: List<Int>
 )

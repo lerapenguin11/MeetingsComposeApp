@@ -8,11 +8,15 @@ import com.example.domain.usecase.combineUseCase.CombineMainDataScreen
 import com.example.domain.usecase.combineUseCase.InteractorFullInfoMainScreen
 import com.example.domain.usecase.event.InteractorLoadMainInfo
 import com.example.domain.usecase.location.GetCurrentLocationUseCase
+import com.example.domain.usecase.store.ReadUserCityUseCase
+import com.example.domain.usecase.store.SaveUserCityUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -20,7 +24,9 @@ import kotlinx.coroutines.launch
 class MainViewModel(
     private val interactorLoadMainInfo: InteractorLoadMainInfo,
     private val interactorFullInfoMainScreen: InteractorFullInfoMainScreen,
-    private val getCurrentLocationUseCase: GetCurrentLocationUseCase
+    private val getCurrentLocationUseCase: GetCurrentLocationUseCase,
+    private val saveUserCityUseCase: SaveUserCityUseCase,
+    private val readUserCityUseCase: ReadUserCityUseCase
 ) : ViewModel() {
 
     private val _currentLocation = MutableStateFlow<String?>(null)
@@ -71,7 +77,7 @@ class MainViewModel(
                 authToken = null,
                 userInterests = null,
                 city = city,
-                test = selectedCategory
+                filteredParam = selectedCategory
             )
         )
     }
@@ -108,10 +114,13 @@ class MainViewModel(
         _authToken.update { null } //TODO
     }
 
-
     private fun updateCurrentLocation() {
         viewModelScope.launch {
-            _currentLocation.update { getCurrentLocationUseCase.execute() }
+            saveUserCityUseCase.execute(city = getCurrentLocationUseCase.execute())
         }
+        readUserCityUseCase.execute().onEach { city ->
+            _currentLocation.update { city }
+        }.launchIn(viewModelScope)
     }
+
 }

@@ -49,7 +49,7 @@ class EventsRepositoryImpl(
                 }
             ) //TODO add query
             response.suspendOnSuccess {
-                emit(value = data.map { mapper.eventResponseToMeeting(it) })
+                emit(value = data.map { mapper.eventResponseToMeeting(it) }.take(MAX_ELEMENT))
             }.onFailure {
                 println("ERROR: ${message()}")
                 //TODO: response = ...{...}.onFailure{ onError(message())
@@ -71,21 +71,36 @@ class EventsRepositoryImpl(
         authToken: String?
     ): Flow<List<Meeting>> {
         return flow {
-            /*val filteredEvents = filterEvents(
-                eventType = eventType,
-                events = com.example.network.responseModel.event.EventResponse()
-            ).map { mapper.eventResponseToMeeting(it) }*/
-            emit(
-                value = emptyList<Meeting>()/*filteredEvents.filter { it.id % 2 == 0 }.take(6)*/
+            val response = service.getMeetings(
+                eventType = eventType.value,
+                categories = userInterests?.let {
+                    mapper.typeConvectorListIdToUriId(ids = it)
+                },
+                city = city
             )
-            //TODO: response = ...{...}.onFailure{ onError(message())
+            response.suspendOnSuccess {
+                emit(
+                    value = data.map { mapper.eventResponseToMeeting(it) }.take(MAX_ELEMENT)
+                )
+            }.onFailure {
+                println("ERROR: ${message()}")//TODO: response = ...{...}.onFailure{ onError(message())
+            }
         }
             .flowOn(Dispatchers.IO)
     }
 
     override fun getFilteredEventsByCategory(filterParam: List<Int>): Flow<List<Meeting>> {
         return flow {
-            emit(value = emptyList<Meeting>()/*eventsFake().map { mapper.eventResponseToMeeting(it) }*/)
+            val response = service.getMeetings(
+                categories = if (filterParam.isEmpty()) null else filterParam.let {
+                    mapper.typeConvectorListIdToUriId(ids = it)
+                }
+            )
+            response.suspendOnSuccess {
+                emit(value = data.map { mapper.eventResponseToMeeting(it) })
+            }.onFailure {
+                message()
+            }
         }.flowOn(Dispatchers.IO)
     }
 
@@ -109,3 +124,5 @@ class EventsRepositoryImpl(
         }
     }
 }
+
+private const val MAX_ELEMENT = 5

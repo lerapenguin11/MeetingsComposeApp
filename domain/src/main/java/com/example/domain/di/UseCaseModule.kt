@@ -33,8 +33,12 @@ import com.example.domain.usecase.signUp.SendPhoneVerificationCodeUseCase
 import com.example.domain.usecase.signUp.SendPhoneVerificationCodeUseCaseImpl
 import com.example.domain.usecase.store.ReadOnBoardingInterestStateUseCase
 import com.example.domain.usecase.store.ReadOnBoardingInterestStateUseCaseImpl
+import com.example.domain.usecase.store.ReadUserCityUseCase
+import com.example.domain.usecase.store.ReadUserCityUseCaseImpl
 import com.example.domain.usecase.store.SaveOnBoardingInterestStateUseCase
 import com.example.domain.usecase.store.SaveOnBoardingInterestStateUseCaseImpl
+import com.example.domain.usecase.store.SaveUserCityUseCase
+import com.example.domain.usecase.store.SaveUserCityUseCaseImpl
 import org.koin.dsl.module
 
 internal val useCaseModule = module {
@@ -69,4 +73,6 @@ internal val useCaseModule = module {
     single<SendPhoneVerificationCodeUseCase> { SendPhoneVerificationCodeUseCaseImpl(repository = get()) }
     single<SendConfirmationCodeUseCase> { SendConfirmationCodeUseCaseImpl(repository = get()) }
     single<GetCurrentLocationUseCase> { GetCurrentLocationUseCaseImpl(repository = get()) }
+    single<SaveUserCityUseCase> { SaveUserCityUseCaseImpl(repository = get()) }
+    single<ReadUserCityUseCase> { ReadUserCityUseCaseImpl(repository = get()) }
 }

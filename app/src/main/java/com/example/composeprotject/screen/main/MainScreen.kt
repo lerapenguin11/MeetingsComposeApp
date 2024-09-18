@@ -56,18 +56,20 @@ fun MainScreen(
     onClickEvent: (Meeting) -> Unit,
     onClickCommunity: (Community) -> Unit
 ) {
+
     val mainStateUI by mainViewModel.getMainStateUI().collectAsStateWithLifecycle()
     val userCategories by mainViewModel.getUserSelectedCategories().collectAsStateWithLifecycle()
     val fullInfoMainScreen by mainViewModel.getFullInfoMainScreen().collectAsStateWithLifecycle()
     val currentLocation by mainViewModel.getCurrentLocation().collectAsStateWithLifecycle()
 
-    LaunchedEffect(key1 = Unit) {
+
+    LaunchedEffect(key1 = Unit, key2 = currentLocation) {
         mainViewModel.loadEventsByCategory(
             selectedCategory = userCategories.map { it.id },
             city = currentLocation
         )
     }
-
+    println("LOC: $currentLocation")
     val textSpecialist = "тестировщиков"
 
     LazyColumn(
