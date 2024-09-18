@@ -57,16 +57,20 @@ fun MainScreen(
     onClickCommunity: (Community) -> Unit
 ) {
 
-    val mainStateUI by mainViewModel.getMainStateUI().collectAsStateWithLifecycle()
-    val userCategories by mainViewModel.getUserSelectedCategories().collectAsStateWithLifecycle()
-    val fullInfoMainScreen by mainViewModel.getFullInfoMainScreen().collectAsStateWithLifecycle()
-    val currentLocation by mainViewModel.getCurrentLocation().collectAsStateWithLifecycle()
+    val mainStateUI by mainViewModel.getMainStateUIFlow().collectAsStateWithLifecycle()
+    val userCategories by mainViewModel.getUserSelectedCategoriesFlow()
+        .collectAsStateWithLifecycle()
+    val fullInfoMainScreen by mainViewModel.getFullInfoMainScreenFlow()
+        .collectAsStateWithLifecycle()
+    val currentLocation by mainViewModel.getCurrentLocationFlow().collectAsStateWithLifecycle()
+    val authToken by mainViewModel.getAuthTokenFlow().collectAsStateWithLifecycle()
 
 
     LaunchedEffect(key1 = Unit, key2 = currentLocation) {
         mainViewModel.loadEventsByCategory(
             selectedCategory = userCategories.map { it.id },
-            city = currentLocation
+            city = currentLocation,
+            token = authToken
         )
     }
     println("LOC: $currentLocation")

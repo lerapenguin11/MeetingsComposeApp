@@ -9,6 +9,7 @@ import com.example.domain.usecase.combineUseCase.InteractorFullInfoMainScreen
 import com.example.domain.usecase.event.InteractorLoadMainInfo
 import com.example.domain.usecase.location.GetCurrentLocationUseCase
 import com.example.domain.usecase.store.ReadUserCityUseCase
+import com.example.domain.usecase.store.ReadeAuthTokenUseCase
 import com.example.domain.usecase.store.SaveUserCityUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -26,7 +27,8 @@ class MainViewModel(
     private val interactorFullInfoMainScreen: InteractorFullInfoMainScreen,
     private val getCurrentLocationUseCase: GetCurrentLocationUseCase,
     private val saveUserCityUseCase: SaveUserCityUseCase,
-    private val readUserCityUseCase: ReadUserCityUseCase
+    private val readUserCityUseCase: ReadUserCityUseCase,
+    private val readeAuthTokenUseCase: ReadeAuthTokenUseCase
 ) : ViewModel() {
 
     private val _currentLocation = MutableStateFlow<String?>(null)
@@ -66,21 +68,23 @@ class MainViewModel(
         updateCurrentLocation()
     }
 
-    fun getCurrentLocation() = currentLocation
-    fun getUserSelectedCategories() = userSelectedCategories
-    fun getMainStateUI() = mainStateUI
-    fun getFullInfoMainScreen() = fullInfoMainScreen
+    fun getAuthTokenFlow() = authToken
+    fun getCurrentLocationFlow() = currentLocation
+    fun getUserSelectedCategoriesFlow() = userSelectedCategories
+    fun getMainStateUIFlow() = mainStateUI
+    fun getFullInfoMainScreenFlow() = fullInfoMainScreen
 
-    fun loadEventsByCategory(selectedCategory: List<Int>, city: String?) = viewModelScope.launch {
-        interactorLoadMainInfo.execute(
-            QueryParam(
-                authToken = null,
-                userInterests = null,
-                city = city,
-                filteredParam = selectedCategory
+    fun loadEventsByCategory(selectedCategory: List<Int>, city: String?, token: String?) =
+        viewModelScope.launch {
+            interactorLoadMainInfo.execute(
+                QueryParam(
+                    authToken = null,
+                    userInterests = null,
+                    city = city,
+                    filteredParam = selectedCategory
+                )
             )
-        )
-    }
+        }
 
     fun toggleUserCategory(id: Interest) {
         if (hasUserCategories(id)) {
@@ -111,7 +115,9 @@ class MainViewModel(
     }
 
     private fun getAuthToken() {
-        _authToken.update { null } //TODO
+        readeAuthTokenUseCase.execute().onEach { token ->
+            _authToken.update { token }
+        }.launchIn(scope = viewModelScope)
     }
 
     private fun updateCurrentLocation() {
