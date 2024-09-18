@@ -21,7 +21,7 @@ fun communities(): com.example.network.responseModel.community.CommunitiesRespon
             description = "A community for category ${categories[0].title} and ${categories[1].title}.",
             id = i,
             image = "https://example.com/community$i.jpg",
-            members = com.example.network.responseModel.community.Members(
+            /*members = com.example.network.responseModel.community.Members(
                 data = listOf(
                     com.example.network.responseModel.community.Data(
                         1 + (i - 1) * 2,
@@ -33,7 +33,7 @@ fun communities(): com.example.network.responseModel.community.CommunitiesRespon
                     )
                 ),
                 total = 50 + i * 5
-            ),
+            ),*/
             title = "Community $i"
         )
         communitiesResponse.add(community)

@@ -125,4 +125,4 @@ class EventsRepositoryImpl(
     }
 }
 
-private const val MAX_ELEMENT = 5
+private const val MAX_ELEMENT = 6

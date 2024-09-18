@@ -1,10 +1,13 @@
 package com.example.data.mappers
 
+import android.text.TextUtils
 import com.example.domain.model.community.Community
 import com.example.domain.model.communityDetails.Category
 import com.example.domain.model.communityDetails.CommunityDetails
 import com.example.domain.model.communityDetails.Data
 import com.example.domain.model.communityDetails.Members
+import java.io.UnsupportedEncodingException
+import java.net.URLEncoder
 
 class CommunityMapper {
 
@@ -29,5 +32,13 @@ class CommunityMapper {
                 data = response.members.data.map { Data(id = it.id, image = it.image) }
             )
         )
+    }
+
+    fun typeConvectorListIdToUriId(ids: List<Int>): String? {
+        return try {
+            URLEncoder.encode(TextUtils.join(",", ids), "utf-8")
+        } catch (e: UnsupportedEncodingException) {
+            null
+        }
     }
 }

@@ -8,6 +8,6 @@ data class CommunitiesResponseItem(
     val description: String,
     val id: Int,
     val image: String,
-    val members: Members,
+    //val members: Members, //TODO
     val title: String
 )
