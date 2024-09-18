@@ -11,4 +11,8 @@ interface StoreRepository {
     suspend fun saveUserCity(city: String?)
 
     fun readUserCity(): Flow<String?>
+
+    suspend fun saveAuthToken(token: String)
+
+    fun readeAuthToken(): Flow<String?>
 }

@@ -35,6 +35,8 @@ import com.example.domain.usecase.store.ReadOnBoardingInterestStateUseCase
 import com.example.domain.usecase.store.ReadOnBoardingInterestStateUseCaseImpl
 import com.example.domain.usecase.store.ReadUserCityUseCase
 import com.example.domain.usecase.store.ReadUserCityUseCaseImpl
+import com.example.domain.usecase.store.SaveAuthTokenUseCase
+import com.example.domain.usecase.store.SaveAuthTokenUseCaseImpl
 import com.example.domain.usecase.store.SaveOnBoardingInterestStateUseCase
 import com.example.domain.usecase.store.SaveOnBoardingInterestStateUseCaseImpl
 import com.example.domain.usecase.store.SaveUserCityUseCase
@@ -75,4 +77,5 @@ internal val useCaseModule = module {
     single<GetCurrentLocationUseCase> { GetCurrentLocationUseCaseImpl(repository = get()) }
     single<SaveUserCityUseCase> { SaveUserCityUseCaseImpl(repository = get()) }
     single<ReadUserCityUseCase> { ReadUserCityUseCaseImpl(repository = get()) }
+    single<SaveAuthTokenUseCase> { SaveAuthTokenUseCaseImpl(repository = get()) }
 }
