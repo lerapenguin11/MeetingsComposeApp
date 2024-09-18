@@ -272,5 +272,5 @@ fun CommunityViewAllCard(
 
 private const val DATE_LOCATION_EVENT_MAX_LINE = 2
 private const val EVENT_NAME_MAX_LINE = 2
-private const val MAX_ROW = 2
+private const val MAX_ROW = 1
 private const val COMMUNITY_NAME_MAX_LINE = 1
