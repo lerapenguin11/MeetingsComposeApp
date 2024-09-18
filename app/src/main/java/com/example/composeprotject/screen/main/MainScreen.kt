@@ -114,7 +114,7 @@ fun MainScreen(
                         start = MeetTheme.sizes.sizeX16,
                         end = MeetTheme.sizes.sizeX16
                     ),
-                    text = "${stringResource(CommonString.text_communities_for)} ${textSpecialist}",
+                    text = "${stringResource(CommonString.text_communities_for)} $textSpecialist",
                     color = Color.Black,
                     style = MeetTheme.typography.interSemiBold24
                 )
@@ -221,22 +221,18 @@ private fun CommunityRow(
 ) {
     LazyRow {
         item { SpacerWidth(width = MeetTheme.sizes.sizeX16) }
-        itemsIndexed(communities) { index, community ->
-            if (index < MAX_NUMBER_CARDS_DISPLAYED) {
-                CommunityCard(
-                    community = community,
-                    buttonState = SubscribeButtonState.NOT_SUBSCRIBED_COMMUNITY
-                ) {
-                    onClickCommunity(community)
-                }
-                SpacerWidth(width = MeetTheme.sizes.sizeX10)
+        itemsIndexed(communities) { _, community ->
+            CommunityCard(
+                community = community,
+                buttonState = SubscribeButtonState.NOT_SUBSCRIBED_COMMUNITY
+            ) {
+                onClickCommunity(community)
             }
+            SpacerWidth(width = MeetTheme.sizes.sizeX10)
         }
         item {
-            if (communities.size > MAX_NUMBER_CARDS_DISPLAYED) {
-                CommunityViewAllCard {/*TODO*/ }
-                SpacerWidth(width = MeetTheme.sizes.sizeX16)
-            }
+            CommunityViewAllCard {/*TODO*/ }
+            SpacerWidth(width = MeetTheme.sizes.sizeX16)
         }
     }
 }
@@ -248,24 +244,20 @@ private fun SmallEventsRow(
 ) {
     LazyRow {
         item { SpacerWidth(width = MeetTheme.sizes.sizeX16) }
-        itemsIndexed(events) { index, meeting ->
-            if (index < MAX_NUMBER_CARDS_DISPLAYED) {
-                EventCard(
-                    meeting = meeting,
-                    variant = EventCardVariant.SMALL
-                ) {
-                    onClickEvent(meeting)
-                }
-                SpacerWidth(width = MeetTheme.sizes.sizeX10)
+        itemsIndexed(events) { _, meeting ->
+            EventCard(
+                meeting = meeting,
+                variant = EventCardVariant.SMALL
+            ) {
+                onClickEvent(meeting)
             }
+            SpacerWidth(width = MeetTheme.sizes.sizeX10)
         }
         item {
-            if (events.size > MAX_NUMBER_CARDS_DISPLAYED) {
-                EventViewAllCard(
-                    variant = EventCardVariant.SMALL
-                ) {/*TODO*/ }
-                SpacerWidth(width = MeetTheme.sizes.sizeX16)
-            }
+            EventViewAllCard(
+                variant = EventCardVariant.SMALL
+            ) {/*TODO*/ }
+            SpacerWidth(width = MeetTheme.sizes.sizeX16)
         }
     }
 }
@@ -277,26 +269,20 @@ private fun BigEventsRow(
 ) {
     LazyRow {
         item { SpacerWidth(width = MeetTheme.sizes.sizeX16) }
-        itemsIndexed(events) { index, meeting ->
-            if (index < MAX_NUMBER_CARDS_DISPLAYED) {
-                EventCard(
-                    meeting = meeting,
-                    variant = EventCardVariant.BIG
-                ) {
-                    onClickEvent(meeting)
-                }
-                SpacerWidth(width = MeetTheme.sizes.sizeX10)
+        itemsIndexed(events) { _, meeting ->
+            EventCard(
+                meeting = meeting,
+                variant = EventCardVariant.BIG
+            ) {
+                onClickEvent(meeting)
             }
+            SpacerWidth(width = MeetTheme.sizes.sizeX10)
         }
         item {
-            if (events.size > MAX_NUMBER_CARDS_DISPLAYED) {
-                EventViewAllCard(
-                    variant = EventCardVariant.BIG
-                ) { /*TODO*/ }
-                Spacer(modifier = Modifier.width(MeetTheme.sizes.sizeX16))
-            }
+            EventViewAllCard(
+                variant = EventCardVariant.BIG
+            ) { /*TODO*/ }
+            Spacer(modifier = Modifier.width(MeetTheme.sizes.sizeX16))
         }
     }
 }
-
-private const val MAX_NUMBER_CARDS_DISPLAYED = 5
