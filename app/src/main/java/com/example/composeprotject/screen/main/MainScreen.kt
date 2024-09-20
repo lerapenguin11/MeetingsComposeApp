@@ -78,6 +78,7 @@ fun MainScreen(
     var authState by remember { mutableStateOf(AuthState.NOT_AUTHORIZED) }
 
     LaunchedEffect(key1 = Unit, key2 = currentLocation, key3 = authToken) {
+        mainViewModel.getAuthToken()
         mainViewModel.loadEventsByCategory(
             selectedCategory = userCategories.map { it.id },
             city = currentLocation,

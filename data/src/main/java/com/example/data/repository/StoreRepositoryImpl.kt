@@ -3,6 +3,8 @@ package com.example.data.repository
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKeys
 import com.example.domain.repository.store.StoreRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -50,20 +52,13 @@ class StoreRepositoryImpl(private val context: Context) : StoreRepository {
     }
 
     override suspend fun saveAuthToken(token: String) {
-        getSharedPreferences(context = context, name = PREF_APP_SETTINGS).edit {
-            putString(AUTH_TOKEN, token)
-        }
+        getEncryptedSharedPreferences(context = context).edit().putString(AUTH_TOKEN, token).apply()
     }
 
     override fun readeAuthToken(): Flow<String?> {
         return flow {
             emit(
-                value = getSharedPreferences(
-                    context = context,
-                    name = PREF_APP_SETTINGS
-                ).getString(
-                    AUTH_TOKEN, null
-                )
+                value = getEncryptedSharedPreferences(context = context).getString(AUTH_TOKEN, null)
             )
         }
     }
@@ -73,10 +68,22 @@ class StoreRepositoryImpl(private val context: Context) : StoreRepository {
             return context.getSharedPreferences(name, Context.MODE_PRIVATE)
         }
 
+        fun getEncryptedSharedPreferences(context: Context): SharedPreferences {
+            val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
+            return EncryptedSharedPreferences.create(
+                ENCRYPTED_PREF,
+                masterKeyAlias,
+                context,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            )
+        }
+
         private const val IS_ONBOARDING_INTEREST_SHOW_KEY = "is_onboarding_show"
         private const val PREF_APP_SETTINGS = "pref_app_settings"
         private const val USER_CITY = "user_city"
         private const val DEFAULT_CITY = "Москва"
         private const val AUTH_TOKEN = "auth_token"
+        private const val ENCRYPTED_PREF = "encrypted_pref"
     }
 }

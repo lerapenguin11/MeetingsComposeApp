@@ -42,6 +42,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.androidx.security.crypto)
     implementation(libs.sandwich)
     implementation(libs.sandwich.retrofit)
     implementation(platform(libs.koin.bom))

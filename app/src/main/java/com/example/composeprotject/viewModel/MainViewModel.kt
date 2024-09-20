@@ -64,7 +64,6 @@ class MainViewModel(
     private val authToken: StateFlow<String?> = _authToken
 
     init {
-        getAuthToken()
         updateCurrentLocation()
     }
 
@@ -118,7 +117,7 @@ class MainViewModel(
         }
     }
 
-    private fun getAuthToken() {
+    fun getAuthToken() {
         readeAuthTokenUseCase.execute().onEach { token ->
             _authToken.update { token }
         }.launchIn(scope = viewModelScope)
