@@ -55,7 +55,7 @@ import kotlin.time.Duration.Companion.seconds
 private val signUpSteps by lazy { RegistrationScreenState.entries.toTypedArray() }
 
 @Composable
-fun SignUpScreen(
+fun SignInScreen(
     title: String,
     eventId: Int,
     startDate: Long,
@@ -109,7 +109,9 @@ fun SignUpScreen(
                 .weight(5f)
         ) {
             SpacerHeight(height = MeetTheme.sizes.sizeX20)
-            SignTopBar(onCancel = { onCancelScreen() })
+            SignTopBar(
+                onCancel = { onCancelScreen() }
+            )
             SpacerHeight(height = MeetTheme.sizes.sizeX12)
             DescriptionBlock(
                 eventName = title,

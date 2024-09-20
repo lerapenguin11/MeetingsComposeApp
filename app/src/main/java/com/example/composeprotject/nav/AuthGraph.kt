@@ -9,13 +9,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
 import com.example.composeprotject.nav.route.Graph
-import com.example.composeprotject.screen.registration.SignUpScreen
-import com.example.composeprotject.screen.registration.SignUpSuccessScreen
+import com.example.composeprotject.screen.registration.SignInScreen
+import com.example.composeprotject.screen.registration.SignInSuccessScreen
 
 fun NavGraphBuilder.authGraph(contentPadding: PaddingValues, navController: NavHostController) {
     navigation(
         route = "${Graph.AUTH}?${EVENT_TITLE}={$EVENT_TITLE}?${EVENT_ID}={$EVENT_ID}" +
-                "?$SHORT_ADDRESS={$SHORT_ADDRESS}?$START_DATE={$START_DATE}",
+                "?$SHORT_ADDRESS={$SHORT_ADDRESS}?$START_DATE={$START_DATE}?",
         arguments = listOf(
             navArgument(EVENT_TITLE) { type = NavType.StringType },
             navArgument(EVENT_ID) { type = NavType.IntType },
@@ -37,7 +37,7 @@ fun NavGraphBuilder.authGraph(contentPadding: PaddingValues, navController: NavH
                 parentEntry.arguments?.getString(SHORT_ADDRESS)?.let { shortAddress ->
                     parentEntry.arguments?.getInt(EVENT_ID)?.let { id ->
                         parentEntry.arguments?.getLong(START_DATE)?.let { date ->
-                            SignUpScreen(
+                            SignInScreen(
                                 title = title,
                                 startDate = date,
                                 shortAddress = shortAddress,
@@ -53,7 +53,7 @@ fun NavGraphBuilder.authGraph(contentPadding: PaddingValues, navController: NavH
             }
         }
         composable(route = Auth.CheckInSuccess.route) {
-            SignUpSuccessScreen(contentPadding = contentPadding)
+            SignInSuccessScreen(contentPadding = contentPadding)
         }
     }
 }

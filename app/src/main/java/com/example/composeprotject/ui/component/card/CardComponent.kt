@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.composeprotject.screen.state.AuthState
 import com.example.composeprotject.ui.component.button.SubscribeButton
 import com.example.composeprotject.ui.component.card.cardStyle.EventCardStyle
 import com.example.composeprotject.ui.component.card.cardStyle.EventCardStyleDefault
@@ -159,6 +160,7 @@ fun EventCardFillMaxWidth(
 fun CommunityCard(
     community: Community,
     buttonState: SubscribeButtonState,
+    state: AuthState,
     modifier: Modifier = Modifier,
     onClickCard: () -> Unit
 ) {
@@ -187,10 +189,12 @@ fun CommunityCard(
             textStyle = MeetTheme.typography.interSemiBold14
         )
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX4))
-        SubscribeButton(
-            state = buttonState,
-        ) {
-            //TODO
+        if (state == AuthState.AUTHORIZED) {
+            SubscribeButton(
+                state = buttonState,
+            ) {
+                //TODO
+            }
         }
     }
 }

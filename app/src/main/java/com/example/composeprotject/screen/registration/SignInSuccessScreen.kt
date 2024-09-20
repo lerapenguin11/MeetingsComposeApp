@@ -31,11 +31,11 @@ import com.example.composeprotject.ui.theme.MeetTheme
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun SignUpSuccessScreenPreview() {
-    SignUpSuccessScreen(contentPadding = PaddingValues())
+    SignInSuccessScreen(contentPadding = PaddingValues())
 }
 
 @Composable
-fun SignUpSuccessScreen(
+fun SignInSuccessScreen(
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier
 ) {

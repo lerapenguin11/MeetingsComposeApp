@@ -17,6 +17,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.composeprotject.R
+import com.example.composeprotject.screen.state.AuthState
 import com.example.composeprotject.screen.state.SearchState
 import com.example.composeprotject.ui.component.card.CommunityCard
 import com.example.composeprotject.ui.component.card.CommunityViewAllCard
@@ -71,12 +75,18 @@ fun MainScreen(
     val searchQuery by searchViewModel.getSearchQuery().collectAsStateWithLifecycle()
     val mainState by searchViewModel.getMainScreenState().collectAsStateWithLifecycle()
 
-    LaunchedEffect(key1 = Unit, key2 = currentLocation) {
+    var authState by remember { mutableStateOf(AuthState.NOT_AUTHORIZED) }
+
+    LaunchedEffect(key1 = Unit, key2 = currentLocation, key3 = authToken) {
         mainViewModel.loadEventsByCategory(
             selectedCategory = userCategories.map { it.id },
             city = currentLocation,
             token = authToken
         )
+
+        if (authToken != null) {
+            authState = AuthState.AUTHORIZED
+        }
     }
 
     println("LOC: $currentLocation")
@@ -91,6 +101,7 @@ fun MainScreen(
             MainDefault(
                 contentPadding = contentPadding,
                 mainStateUI = mainStateUI,
+                authState = authState,
                 fullInfoMainScreen = fullInfoMainScreen,
                 onClickEvent = onClickEvent,
                 onClickCommunity = onClickCommunity,
@@ -117,7 +128,8 @@ fun MainDefault(
     onClickEvent: (Meeting) -> Unit,
     onClickCommunity: (Community) -> Unit,
     userCategories: List<Interest>,
-    mainViewModel: MainViewModel
+    mainViewModel: MainViewModel,
+    authState: AuthState
 ) {
 
     val textSpecialist = "тестировщиков"
@@ -171,6 +183,7 @@ fun MainDefault(
                 )
                 SpacerHeight(height = MeetTheme.sizes.sizeX16)
                 CommunityRow(
+                    state = authState,
                     communities = fullInfoMainScreen.communities,
                     onClickCommunity = onClickCommunity
                 )
@@ -268,12 +281,14 @@ private fun InterestsChipFlex(
 @Composable
 private fun CommunityRow(
     communities: List<Community>,
-    onClickCommunity: (Community) -> Unit
+    onClickCommunity: (Community) -> Unit,
+    state: AuthState
 ) {
     LazyRow {
         item { SpacerWidth(width = MeetTheme.sizes.sizeX16) }
         itemsIndexed(communities) { _, community ->
             CommunityCard(
+                state = state,
                 community = community,
                 buttonState = SubscribeButtonState.NOT_SUBSCRIBED_COMMUNITY
             ) {
