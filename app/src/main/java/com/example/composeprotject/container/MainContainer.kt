@@ -12,6 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.composeprotject.nav.Main
@@ -32,6 +33,7 @@ fun MainContainer() {
     val baseRoute = currentRoute?.substringBefore("/") ?: ""
     val topBarIsShow = rememberSaveable { (mutableStateOf(TopBarState.MAIN_TOP_BAR)) }
     val searchViewModel: SearchViewModel = koinNavViewModel()
+    val authToken by searchViewModel.getAuthToken().collectAsStateWithLifecycle()
 
     topBarIsShow.value = when (baseRoute) {
         Main.CommunityDetails.route,
@@ -54,7 +56,7 @@ fun MainContainer() {
                 TopBarState.MAIN_TOP_BAR -> {
                     SearchBar(
                         isEnabled = true,
-                        authToken = null, //TODO
+                        authToken = authToken,
                         state = InputState.SUCCESS,
                         onValueChange = {
                             searchViewModel.searchQueryUpdate(text = it)
