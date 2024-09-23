@@ -15,7 +15,7 @@ import com.example.composeprotject.screen.registration.SignInSuccessScreen
 fun NavGraphBuilder.authGraph(contentPadding: PaddingValues, navController: NavHostController) {
     navigation(
         route = "${Graph.AUTH}?${EVENT_TITLE}={$EVENT_TITLE}?${EVENT_ID}={$EVENT_ID}" +
-                "?$SHORT_ADDRESS={$SHORT_ADDRESS}?$START_DATE={$START_DATE}?",
+                "?$SHORT_ADDRESS={$SHORT_ADDRESS}?$START_DATE={$START_DATE}",
         arguments = listOf(
             navArgument(EVENT_TITLE) { type = NavType.StringType },
             navArgument(EVENT_ID) { type = NavType.IntType },

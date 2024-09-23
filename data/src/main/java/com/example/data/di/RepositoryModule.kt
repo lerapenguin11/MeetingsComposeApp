@@ -25,7 +25,7 @@ internal val repositoryModule = module {
     single<CommunityRepository> { CommunityRepositoryImpl(mapper = get(), service = get()) }
     single<StoreRepository> { StoreRepositoryImpl(context = get()) }
     single<PeopleRepository> { PeopleRepositoryImpl(mapper = get()) }
-    single<SignUpRepository> { SignUpRepositoryImpl() }
+    single<SignUpRepository> { SignUpRepositoryImpl(service = get(), mapper = get()) }
     single<FusedLocationProviderClient> {
         LocationServices.getFusedLocationProviderClient(
             androidContext().applicationContext

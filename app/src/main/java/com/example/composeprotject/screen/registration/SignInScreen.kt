@@ -19,7 +19,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,7 +30,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.composeprotject.R
+import com.example.common.result.SendCodeStatus
 import com.example.composeprotject.screen.state.RegistrationScreenState
 import com.example.composeprotject.ui.component.button.FilledButton
 import com.example.composeprotject.ui.component.input.SimpleInputField
@@ -46,9 +45,7 @@ import com.example.composeprotject.ui.component.utils.eventDate
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.SingUpViewModel
 import com.example.domain.model.signUp.UserParam
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import kotlin.time.Duration.Companion.seconds
 
@@ -71,11 +68,19 @@ fun SignInScreen(
     val phoneNumber by singUpViewModel.getPhoneNumberFlow().collectAsStateWithLifecycle()
     val userParam by singUpViewModel.getUserParamFlow().collectAsStateWithLifecycle()
     val buttonState by singUpViewModel.getButtonStateFlow().collectAsStateWithLifecycle()
-    val isSendPhoneVerificationCode by singUpViewModel.getIsLoading()
+    val isSendPhoneVerificationCode by singUpViewModel.getIsSendPhoneVerificationCodeFlow()
         .collectAsStateWithLifecycle()
+    val authToken by singUpViewModel.getTokenFlow().collectAsStateWithLifecycle()
 
     if (inputValue.isEmpty()) {
         singUpViewModel.updateButtonState(state = FilledButtonState.DISABLED)
+    }
+
+    LaunchedEffect(authToken?.token) {
+        if (authToken?.token != null) {
+            authToken!!.token?.let { singUpViewModel.saveAuthToken(token = it) }
+            //TODO: переход на SignInSuccuessScreen
+        }
     }
 
     LaunchedEffect(isSendPhoneVerificationCode) {
@@ -85,8 +90,6 @@ fun SignInScreen(
             currentStep = signUpSteps[nextStepIndex]
         }
     }
-
-    val coroutineScope = rememberCoroutineScope() //TODO удалить
 
     var secondsRemaining by remember { mutableIntStateOf(FINISH_TIMER) }
     LaunchedEffect(key1 = secondsRemaining) {
@@ -120,6 +123,7 @@ fun SignInScreen(
             )
             SpacerHeight(height = MeetTheme.sizes.sizeX24)
             InputBlock(
+                codeState = authToken?.success,
                 screenState = currentStep,
                 isEnabled = true,
                 onInputName = {
@@ -174,7 +178,6 @@ fun SignInScreen(
                             phoneNumber = userParam.second.orEmpty(),
                             userInterests = null
                         ),
-                        coroutineScope = coroutineScope,
                         onSecondsRemaining = {
                             secondsRemaining = it
                         }
@@ -187,11 +190,14 @@ fun SignInScreen(
                         onInputValue = { inputValue = it }
                     )
                     code?.let {
-                        sendConfirmationCode(
-                            currentStep = currentStep,
-                            singUpViewModel = singUpViewModel,
-                            code = it
-                        )
+                        phoneNumber?.let { it1 ->
+                            sendConfirmationCode(
+                                currentStep = currentStep,
+                                singUpViewModel = singUpViewModel,
+                                code = it,
+                                phoneNumber = it1
+                            )
+                        }
                     }
                 },
                 state = buttonState,
@@ -204,10 +210,11 @@ fun SignInScreen(
 private fun sendConfirmationCode(
     currentStep: RegistrationScreenState,
     singUpViewModel: SingUpViewModel,
-    code: String
+    code: String,
+    phoneNumber: String
 ) {
     if (RegistrationScreenState.INPUT_CODE == currentStep) {
-        singUpViewModel.sendConfirmationCode(code = code)
+        singUpViewModel.sendConfirmationCode(code = code, phoneNumber = phoneNumber)
     }
 }
 
@@ -228,14 +235,11 @@ private fun sendUserDataAndStartTimer(
     currentStep: RegistrationScreenState,
     signUpViewModel: SingUpViewModel,
     userParam: UserParam,
-    coroutineScope: CoroutineScope,
     onSecondsRemaining: (Int) -> Unit
 ) {
     if (RegistrationScreenState.INPUT_NUMBER_PHONE == currentStep) {
         signUpViewModel.updateButtonState(state = FilledButtonState.LOADING)
-        coroutineScope.launch {
-            signUpViewModel.sendPhoneVerificationCode(userParam = userParam)
-        }
+        signUpViewModel.sendPhoneVerificationCode(userParam = userParam)
         onSecondsRemaining(START_TIMER)
     }
 }
@@ -258,10 +262,10 @@ private fun TextGetNewCode(
     val isCountdownActive = secondsRemaining > FINISH_TIMER
     val text = buildAnnotatedString {
         if (isCountdownActive) {
-            append(stringResource(R.string.text_get_new_code_via))
+            append(stringResource(CommonString.text_get_new_code_via))
             append(" $secondsRemaining")
         } else {
-            append(stringResource(R.string.text_get_new_code))
+            append(stringResource(CommonString.text_get_new_code))
         }
     }
     if (currentStep == RegistrationScreenState.INPUT_CODE) {
@@ -294,11 +298,11 @@ private fun getActionButtonText(
         }
 
         RegistrationScreenState.INPUT_CODE -> {
-            stringResource(R.string.text_send_and_confirm_an_entry)
+            stringResource(CommonString.text_send_and_confirm_an_entry)
         }
 
         RegistrationScreenState.INPUT_NUMBER_PHONE -> {
-            stringResource(R.string.text_get_code)
+            stringResource(CommonString.text_get_code)
         }
     }
 }
@@ -308,6 +312,7 @@ private fun InputBlock(
     screenState: RegistrationScreenState,
     isEnabled: Boolean,
     phoneNumber: String,
+    codeState: SendCodeStatus?,
     onInputName: (String) -> Unit,
     onInputCode: (String) -> Unit,
     onInputNumberPhone: (String) -> Unit,
@@ -316,7 +321,7 @@ private fun InputBlock(
     when (screenState) {
         RegistrationScreenState.INPUT_NAME -> {
             SimpleInputField(
-                textPlaceholder = stringResource(R.string.text_name_and_surname),
+                textPlaceholder = stringResource(CommonString.text_name_and_surname),
                 isEnabled = isEnabled,
                 state = InputState.SUCCESS,
                 onValueChange = { newValue ->
@@ -327,9 +332,13 @@ private fun InputBlock(
 
         RegistrationScreenState.INPUT_CODE -> {
             SimpleInputField(
-                textPlaceholder = stringResource(R.string.text_placeholder_code),
+                textPlaceholder = stringResource(CommonString.text_placeholder_code),
                 isEnabled = isEnabled,
-                state = InputState.SUCCESS,
+                state = when (codeState) {
+                    SendCodeStatus.SUCCESS -> InputState.SUCCESS
+                    SendCodeStatus.FAILURE, SendCodeStatus.ERROR -> InputState.ERROR
+                    null -> InputState.SUCCESS
+                },
                 limit = LENGTH_CODE,
                 keyboardType = KeyboardType.NumberPassword,
                 onValueChange = { newValue ->
@@ -338,12 +347,17 @@ private fun InputBlock(
             )
             SpacerHeight(height = MeetTheme.sizes.sizeX8)
             val text = buildAnnotatedString {
-                append(stringResource(R.string.text_sent_code))
+                append(stringResource(CommonString.text_sent_code))
                 append(" $phoneNumber")
             }
             Text(
-                text = text,
-                color = MeetTheme.colors.darkGray,
+                text = when (codeState) {
+                    SendCodeStatus.SUCCESS -> text.text
+                    SendCodeStatus.FAILURE -> stringResource(CommonString.text_incorrect_code)
+                    SendCodeStatus.ERROR -> stringResource(CommonString.text_something_went_wrong)
+                    null -> text.text
+                },
+                color = if (codeState == SendCodeStatus.SUCCESS) MeetTheme.colors.darkGray else MeetTheme.colors.error,
                 style = MeetTheme.typography.interMedium14
             )
         }
@@ -385,7 +399,7 @@ private fun SignTopBar(
         Text(
             modifier = Modifier
                 .weight(5f),
-            text = stringResource(R.string.text_log_in_and_make_appointment),
+            text = stringResource(CommonString.text_log_in_and_make_appointment),
             color = Color.Black,
             style = MeetTheme.typography.interSemiBold49
         )

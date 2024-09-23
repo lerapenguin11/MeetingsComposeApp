@@ -10,18 +10,19 @@ import com.example.domain.model.signUp.Token
 import com.example.domain.model.signUp.UserParam
 import com.example.domain.usecase.signUp.SendConfirmationCodeUseCase
 import com.example.domain.usecase.signUp.SendPhoneVerificationCodeUseCase
+import com.example.domain.usecase.store.SaveAuthTokenUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class SingUpViewModel(
     private val sendPhoneVerificationCodeUseCase: SendPhoneVerificationCodeUseCase,
-    private val sendConfirmationCodeUseCase: SendConfirmationCodeUseCase
+    private val sendConfirmationCodeUseCase: SendConfirmationCodeUseCase,
+    private val saveAuthTokenUseCase: SaveAuthTokenUseCase
 ) : ViewModel() {
     private val _userName: MutableStateFlow<String?> = MutableStateFlow(null)
     private val userName: StateFlow<String?> = _userName
@@ -62,6 +63,7 @@ class SingUpViewModel(
 
     fun getCodeFlow() = confirmationCode
 
+    fun getTokenFlow() = resultToken
     fun updateButtonState(state: FilledButtonState) {
         _buttonState.update { state }
     }
@@ -78,9 +80,13 @@ class SingUpViewModel(
         _confirmationCode.update { code }
     }
 
-    fun sendPhoneVerificationCode(userParam: UserParam) {
+    fun saveAuthToken(token: String) = viewModelScope.launch {
+        saveAuthTokenUseCase.execute(token = token)
+    }
+
+    fun sendPhoneVerificationCode(userParam: UserParam) = viewModelScope.launch {
         val response = sendPhoneVerificationCodeUseCase.execute(param = userParam)
-        response.onEach {
+        response.collect {
             when (it) {
                 is PhoneNumberResult.Success<PhoneNumberStatus> -> {
                 }
@@ -88,12 +94,12 @@ class SingUpViewModel(
                 is PhoneNumberResult.Error -> {}
             }
             _isSendPhoneVerificationCodeFlow.update { false }
-        }.launchIn(scope = viewModelScope)
+        }
     }
 
-    fun sendConfirmationCode(code: String) {
-        val response = sendConfirmationCodeUseCase.execute(code = code)
-        response.onEach { result ->
+    fun sendConfirmationCode(code: String, phoneNumber: String) = viewModelScope.launch {
+        val response = sendConfirmationCodeUseCase.execute(code = code, phoneNumber = phoneNumber)
+        response.collect { result ->
             when (result) {
                 is PhoneNumberResult.Success<Token> -> {
                     _resultToken.update { result.data }
@@ -103,8 +109,8 @@ class SingUpViewModel(
                     _resultToken.update { Token(token = null, success = SendCodeStatus.ERROR) }
                 }
             }
-        }.launchIn(scope = viewModelScope)
+        }
     }
 
-    fun getIsLoading() = isSendPhoneVerificationCodeFlow
+    fun getIsSendPhoneVerificationCodeFlow() = isSendPhoneVerificationCodeFlow
 }

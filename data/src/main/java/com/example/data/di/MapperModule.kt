@@ -4,6 +4,7 @@ import com.example.data.mappers.CommunityMapper
 import com.example.data.mappers.EventsMapper
 import com.example.data.mappers.InterestsMapper
 import com.example.data.mappers.PeopleMapper
+import com.example.data.mappers.SingUpMapper
 import org.koin.dsl.module
 
 internal val mapperModule = module {
@@ -11,4 +12,5 @@ internal val mapperModule = module {
     single<EventsMapper> { EventsMapper() }
     single<CommunityMapper> { CommunityMapper() }
     single<PeopleMapper> { PeopleMapper() }
+    single<SingUpMapper> { SingUpMapper() }
 }
