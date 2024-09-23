@@ -18,8 +18,8 @@ import com.example.composeprotject.screen.people.PeopleScreen
 import com.example.composeprotject.screen.state.PeopleState
 import com.example.composeprotject.ui.component.button.TopAppBarImageButton
 import com.example.composeprotject.ui.component.text.TopAppBarTextWithBackArrow
-import com.example.composeprotject.ui.component.topBar.ProvideAppBarAction
-import com.example.composeprotject.ui.component.topBar.ProvideAppBarTitle
+import com.example.composeprotject.ui.component.topBar.standard.ProvideAppBarAction
+import com.example.composeprotject.ui.component.topBar.standard.ProvideAppBarTitle
 import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.viewModel.SearchViewModel
 

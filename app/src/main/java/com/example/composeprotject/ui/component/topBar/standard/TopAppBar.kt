@@ -1,4 +1,4 @@
-package com.example.composeprotject.ui.component.topBar
+package com.example.composeprotject.ui.component.topBar.standard
 
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.Box

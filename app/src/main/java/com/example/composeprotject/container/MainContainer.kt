@@ -19,8 +19,8 @@ import com.example.composeprotject.nav.Main
 import com.example.composeprotject.nav.MainGraph
 import com.example.composeprotject.ui.component.state.InputState
 import com.example.composeprotject.ui.component.state.TopBarState
-import com.example.composeprotject.ui.component.topBar.TopAppBar
-import com.example.composeprotject.ui.component.topBar.searchTopBar.SearchBar
+import com.example.composeprotject.ui.component.topBar.search.SearchBar
+import com.example.composeprotject.ui.component.topBar.standard.TopAppBar
 import com.example.composeprotject.viewModel.SearchViewModel
 import org.koin.androidx.compose.navigation.koinNavViewModel
 
