@@ -188,7 +188,7 @@ private fun OtherCommunityMeetings(
             if (index < MAX_NUMBER_CARDS_DISPLAYED) {
                 EventCard(
                     meeting = meeting,
-                    variant = EventCardVariant.SMALL
+                    variant = EventCardVariant.MEDIUM
                 ) {
                     onClickEvent(meeting)
                 }
@@ -198,7 +198,7 @@ private fun OtherCommunityMeetings(
         item {
             if (eventsCommunity.size > MAX_NUMBER_CARDS_DISPLAYED) {
                 EventViewAllCard(
-                    variant = EventCardVariant.SMALL
+                    variant = EventCardVariant.MEDIUM
                 ) {/*TODO*/ }
                 SpacerWidth(width = MeetTheme.sizes.sizeX16)
             }

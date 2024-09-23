@@ -95,4 +95,7 @@
     <string name="text_error">Упс, что-то пошла не так...</string>
     <string name="text_incorrect_code">Неправильный код</string>
     <string name="text_something_went_wrong">Упс, что-то пошло не так...</string>
+    <string name="text_avatar">Аватар</string>
+    <string name="text_my_community">Мои сообщества</string>
+    <string name="text_exit">Выйти</string>
 </resources>

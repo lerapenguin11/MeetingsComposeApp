@@ -178,7 +178,7 @@ private fun PastMeetingsBlock(
     }
     EventCard(
         meeting = event,
-        variant = EventCardVariant.SMALL
+        variant = EventCardVariant.MEDIUM
     ) {
         onClickEvent()
     }

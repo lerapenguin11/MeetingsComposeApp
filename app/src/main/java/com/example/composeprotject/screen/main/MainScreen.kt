@@ -27,8 +27,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.composeprotject.R
-import com.example.composeprotject.screen.state.AuthState
 import com.example.composeprotject.screen.state.SearchState
+import com.example.composeprotject.screen.state.SubscriptionCapabilityStatus
 import com.example.composeprotject.ui.component.card.CommunityCard
 import com.example.composeprotject.ui.component.card.CommunityViewAllCard
 import com.example.composeprotject.ui.component.card.EventCard
@@ -75,7 +75,7 @@ fun MainScreen(
     val searchQuery by searchViewModel.getSearchQuery().collectAsStateWithLifecycle()
     val mainState by searchViewModel.getMainScreenState().collectAsStateWithLifecycle()
 
-    var authState by remember { mutableStateOf(AuthState.NOT_AUTHORIZED) }
+    var subscriptionCapabilityStatus by remember { mutableStateOf(SubscriptionCapabilityStatus.WITHOUT_SUBSCRIPTION) }
 
     LaunchedEffect(key1 = Unit, key2 = currentLocation, key3 = authToken) {
         mainViewModel.getAuthToken()
@@ -86,7 +86,7 @@ fun MainScreen(
         )
 
         if (authToken != null) {
-            authState = AuthState.AUTHORIZED
+            subscriptionCapabilityStatus = SubscriptionCapabilityStatus.THERE_SUBSCRIPTION
         }
     }
 
@@ -102,7 +102,7 @@ fun MainScreen(
             MainDefault(
                 contentPadding = contentPadding,
                 mainStateUI = mainStateUI,
-                authState = authState,
+                subscriptionCapabilityStatus = subscriptionCapabilityStatus,
                 fullInfoMainScreen = fullInfoMainScreen,
                 onClickEvent = onClickEvent,
                 onClickCommunity = onClickCommunity,
@@ -130,7 +130,7 @@ fun MainDefault(
     onClickCommunity: (Community) -> Unit,
     userCategories: List<Interest>,
     mainViewModel: MainViewModel,
-    authState: AuthState
+    subscriptionCapabilityStatus: SubscriptionCapabilityStatus
 ) {
 
     val textSpecialist = "тестировщиков"
@@ -184,7 +184,7 @@ fun MainDefault(
                 )
                 SpacerHeight(height = MeetTheme.sizes.sizeX16)
                 CommunityRow(
-                    state = authState,
+                    state = subscriptionCapabilityStatus,
                     communities = fullInfoMainScreen.communities,
                     onClickCommunity = onClickCommunity
                 )
@@ -282,8 +282,8 @@ private fun InterestsChipFlex(
 @Composable
 private fun CommunityRow(
     communities: List<Community>,
-    onClickCommunity: (Community) -> Unit,
-    state: AuthState
+    state: SubscriptionCapabilityStatus,
+    onClickCommunity: (Community) -> Unit
 ) {
     LazyRow {
         item { SpacerWidth(width = MeetTheme.sizes.sizeX16) }
@@ -291,7 +291,7 @@ private fun CommunityRow(
             CommunityCard(
                 state = state,
                 community = community,
-                buttonState = SubscribeButtonState.NOT_SUBSCRIBED_COMMUNITY
+                buttonState = SubscribeButtonState.NOT_SUBSCRIBED_COMMUNITY //TODO
             ) {
                 onClickCommunity(community)
             }
@@ -314,7 +314,7 @@ private fun SmallEventsRow(
         itemsIndexed(events) { _, meeting ->
             EventCard(
                 meeting = meeting,
-                variant = EventCardVariant.SMALL
+                variant = EventCardVariant.MEDIUM
             ) {
                 onClickEvent(meeting)
             }
@@ -322,7 +322,7 @@ private fun SmallEventsRow(
         }
         item {
             EventViewAllCard(
-                variant = EventCardVariant.SMALL
+                variant = EventCardVariant.MEDIUM
             ) {/*TODO*/ }
             SpacerWidth(width = MeetTheme.sizes.sizeX16)
         }
