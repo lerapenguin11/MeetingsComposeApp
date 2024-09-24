@@ -1,5 +1,6 @@
 package com.example.composeprotject.screen.profile
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -10,8 +11,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,6 +43,7 @@ import com.example.composeprotject.ui.component.state.SubscribeButtonState
 import com.example.composeprotject.ui.component.utils.CommonDrawables
 import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.FlexRow
+import com.example.composeprotject.ui.component.utils.NoRippleTheme
 import com.example.composeprotject.ui.component.utils.imageCash
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.domain.model.community.Community
@@ -170,11 +174,17 @@ private fun LogOutOfProfileBlock(
             ),
         contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = stringResource(CommonString.text_exit),
-            color = MeetTheme.colors.darkGray,
-            style = MeetTheme.typography.interMedium18
-        )
+        CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
+            Text(
+                modifier = Modifier
+                    .clickable {
+                        //TODO
+                    },
+                text = stringResource(CommonString.text_exit),
+                color = MeetTheme.colors.darkGray,
+                style = MeetTheme.typography.interMedium18
+            )
+        }
     }
 }
 

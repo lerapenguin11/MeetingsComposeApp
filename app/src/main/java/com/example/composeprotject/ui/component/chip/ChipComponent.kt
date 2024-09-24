@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -64,6 +65,36 @@ fun Chip(
             text = text,
             textStyle = style.chipTextStyle(chipSize),
             textColor = color[SELECTED_TEXT_COLOR] ?: MeetTheme.colors.primary
+        )
+    }
+}
+
+@Composable
+fun EditChip(
+    text: String,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(size = MeetTheme.sizes.sizeX8))
+            .background(
+                color = MeetTheme.colors.primaryTransparent,
+                shape = RoundedCornerShape(size = MeetTheme.sizes.sizeX8)
+            )
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = rememberRipple(bounded = false),
+                onClick = {
+                    onClick()
+                }
+            )
+            .padding(all = MeetTheme.sizes.sizeX8)
+    ) {
+        Text(
+            text = text,
+            color = MeetTheme.colors.secondary,
+            style = MeetTheme.typography.interMedium16
         )
     }
 }
