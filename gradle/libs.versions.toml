@@ -41,6 +41,7 @@ moshi = "1.15.0"
 coroutines_adapter = "0.9.2"
 playServicesLocation = "21.3.0"
 securityCrypto = "1.0.0"
+animationGraphicsAndroid = "1.7.2"
 
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
@@ -96,6 +97,7 @@ kotlin-coroutines-adapter = { module = "com.jakewharton.retrofit:retrofit2-kotli
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 sandwich = { module = "com.github.skydoves:sandwich", version.ref = "sandwich" }
 sandwich-retrofit = { module = "com.github.skydoves:sandwich-retrofit", version.ref = "sandwichRetrofit" }
+androidx-animation-graphics-android = { group = "androidx.compose.animation", name = "animation-graphics-android", version.ref = "animationGraphicsAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

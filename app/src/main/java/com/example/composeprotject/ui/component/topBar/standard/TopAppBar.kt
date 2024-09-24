@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.FloatingWindow
@@ -28,7 +29,8 @@ import kotlinx.coroutines.flow.filterNot
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopAppBar(
-    navController: NavController
+    navController: NavController,
+    containerColor: Color
 ) {
     val currentContentBackStackEntry by produceState(
         initialValue = null as NavBackStackEntry?,
@@ -41,7 +43,7 @@ fun TopAppBar(
     CenterAlignedTopAppBar(
         modifier = Modifier
             .height(40.dp),
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = MeetTheme.colors.neutralWhite),
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = containerColor),
         navigationIcon = {
             val backPressDispatcher = LocalOnBackPressedDispatcherOwner.current
             val isBackPress =

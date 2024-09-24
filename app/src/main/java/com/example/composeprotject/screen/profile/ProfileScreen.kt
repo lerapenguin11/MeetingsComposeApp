@@ -23,6 +23,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.composeprotject.screen.state.SubscriptionCapabilityStatus
 import com.example.composeprotject.ui.component.card.CommunityCard
@@ -39,6 +41,7 @@ import com.example.composeprotject.ui.component.network.variant.SocialNetworkVar
 import com.example.composeprotject.ui.component.spacer.SpacerHeight
 import com.example.composeprotject.ui.component.spacer.SpacerWidth
 import com.example.composeprotject.ui.component.state.SubscribeButtonState
+import com.example.composeprotject.ui.component.topBar.standard.TopAppBar
 import com.example.composeprotject.ui.component.utils.CommonDrawables
 import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.FlexRow
@@ -53,20 +56,23 @@ import com.example.domain.model.interest.Interest
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ProfilePreview() {
-    ProfileScreen()
+    ProfileScreen(
+        navController = rememberNavController()
+    )
 }
 
 @Composable
 fun ProfileScreen(
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
         modifier = modifier
             .fillMaxWidth()
-        /*     .windowInsetsTopHeight(insets = WindowInsets.statusBars)*/
     ) {
         item {
             AvatarBlock(
+                navController = navController,
                 avatarUrl = null
             )
         }
@@ -330,6 +336,7 @@ private fun BlockUserInformation(
 @Composable
 private fun AvatarBlock(
     avatarUrl: String?,
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -349,6 +356,12 @@ private fun AvatarBlock(
             contentScale = ContentScale.Crop,
             modifier = Modifier.height(height = 375.dp)
         )
+        Row(modifier = Modifier.padding(top = MeetTheme.sizes.sizeX12)) {
+            TopAppBar(
+                navController = navController,
+                containerColor = Color.Transparent
+            )
+        }
     }
 }
 

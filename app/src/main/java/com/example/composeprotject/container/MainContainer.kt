@@ -22,6 +22,7 @@ import com.example.composeprotject.ui.component.state.InputState
 import com.example.composeprotject.ui.component.state.TopBarState
 import com.example.composeprotject.ui.component.topBar.search.SearchBar
 import com.example.composeprotject.ui.component.topBar.standard.TopAppBar
+import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.SearchViewModel
 import org.koin.androidx.compose.navigation.koinNavViewModel
 
@@ -43,6 +44,7 @@ fun MainContainer() {
         Main.PeopleCommunity.route -> TopBarState.DETAILS_TOP_BAR
 
         Main.Home.route -> TopBarState.MAIN_TOP_BAR
+
         else -> TopBarState.NO_TOP_BAR
     }
 
@@ -75,12 +77,13 @@ fun MainContainer() {
                 }
 
                 TopBarState.DETAILS_TOP_BAR -> {
-                    TopAppBar(navController = navController)
+                    TopAppBar(
+                        navController = navController,
+                        containerColor = MeetTheme.colors.neutralWhite
+                    )
                 }
 
                 TopBarState.NO_TOP_BAR -> {}
-
-                TopBarState.PROFILE_TOP_BAR -> TODO()
             }
         }
     ) { contentPadding ->
