@@ -1,8 +1,5 @@
 package com.example.domain.di
 
-import com.example.domain.usecase.GetPeopleUseCase
-import com.example.domain.usecase.InteractorLoadPeopleByCategoryId
-import com.example.domain.usecase.InteractorLoadPeopleByEventId
 import com.example.domain.usecase.combineUseCase.InteractorFullEventDetailsInfo
 import com.example.domain.usecase.combineUseCase.InteractorFullInfoCommunityDetails
 import com.example.domain.usecase.combineUseCase.InteractorFullInfoMainScreen
@@ -13,7 +10,7 @@ import com.example.domain.usecase.details.InteractorLoadEventDetailsInfo
 import com.example.domain.usecase.details.InteractorLoadEventsByCommunityId
 import com.example.domain.usecase.event.GetMainInfoUseCase
 import com.example.domain.usecase.event.InteractorLoadMainInfo
-import com.example.domain.usecase.getData.GetCommunity
+import com.example.domain.usecase.getData.GetCommunities
 import com.example.domain.usecase.getData.GetCommunityDetails
 import com.example.domain.usecase.getData.GetEventDetails
 import com.example.domain.usecase.getData.GetEventsByCategory
@@ -27,6 +24,9 @@ import com.example.domain.usecase.interest.GetInterestInteractor
 import com.example.domain.usecase.interest.GetInterestsUseCase
 import com.example.domain.usecase.location.GetCurrentLocationUseCase
 import com.example.domain.usecase.location.GetCurrentLocationUseCaseImpl
+import com.example.domain.usecase.people.GetPeopleUseCase
+import com.example.domain.usecase.people.InteractorLoadPeopleByCategoryId
+import com.example.domain.usecase.people.InteractorLoadPeopleByEventId
 import com.example.domain.usecase.signUp.SendConfirmationCodeUseCase
 import com.example.domain.usecase.signUp.SendConfirmationCodeUseCaseImpl
 import com.example.domain.usecase.signUp.SendPhoneVerificationCodeUseCase
@@ -56,7 +56,7 @@ internal val useCaseModule = module {
     }
     single { InteractorFullInfoMainScreen() }
     single { GetEventsClosest() }
-    single { GetCommunity() }
+    single { GetCommunities() }
     single { GetFilteredEventsByCategory() }
     single<ReadOnBoardingInterestStateUseCase> { ReadOnBoardingInterestStateUseCaseImpl(repository = get()) }
     single<SaveOnBoardingInterestStateUseCase> { SaveOnBoardingInterestStateUseCaseImpl(repository = get()) }

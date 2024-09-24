@@ -68,7 +68,6 @@ fun MainContainer() {
                             searchViewModel.mainScreenStateUpdate(state = it)
                         },
                         onGoProfile = {
-                            //TODO
                             navController.navigate(route = Graph.PROFILE)
                         }
                     )

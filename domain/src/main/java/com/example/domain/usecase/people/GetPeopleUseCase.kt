@@ -1,4 +1,4 @@
-package com.example.domain.usecase
+package com.example.domain.usecase.people
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
