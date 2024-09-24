@@ -17,6 +17,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.composeprotject.nav.Main
 import com.example.composeprotject.nav.MainGraph
+import com.example.composeprotject.nav.route.Graph
 import com.example.composeprotject.ui.component.state.InputState
 import com.example.composeprotject.ui.component.state.TopBarState
 import com.example.composeprotject.ui.component.topBar.search.SearchBar
@@ -63,6 +64,12 @@ fun MainContainer() {
                         },
                         onMainScreenState = {
                             searchViewModel.mainScreenStateUpdate(state = it)
+                        },
+                        onGoProfile = {
+                            //TODO
+                            navController.navigate(route = Graph.PROFILE) {
+
+                            }
                         }
                     )
                 }
@@ -72,6 +79,8 @@ fun MainContainer() {
                 }
 
                 TopBarState.NO_TOP_BAR -> {}
+
+                TopBarState.PROFILE_TOP_BAR -> TODO()
             }
         }
     ) { contentPadding ->

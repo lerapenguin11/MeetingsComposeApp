@@ -59,7 +59,8 @@ fun SearchBar(
     modifier: Modifier = Modifier,
     inputColors: InputColors = InputColorsDefaults.colors(),
     onValueChange: (String) -> Unit,
-    onMainScreenState: (SearchState) -> Unit
+    onMainScreenState: (SearchState) -> Unit,
+    onGoProfile: () -> Unit
 ) {
     var searchText by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -203,7 +204,7 @@ fun SearchBar(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = rememberRipple(bounded = true),
                             onClick = {
-                                //TODO
+                                onGoProfile()
                             }
                         ),
                     contentAlignment = Alignment.Center

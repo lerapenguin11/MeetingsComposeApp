@@ -3,7 +3,6 @@ package com.example.composeprotject.screen.profile
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -54,18 +53,17 @@ import com.example.domain.model.interest.Interest
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ProfilePreview() {
-    ProfileScreen(contentPadding = PaddingValues())
+    ProfileScreen()
 }
 
 @Composable
 fun ProfileScreen(
-    contentPadding: PaddingValues,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
         modifier = modifier
-            .padding(contentPadding)
             .fillMaxWidth()
+        /*     .windowInsetsTopHeight(insets = WindowInsets.statusBars)*/
     ) {
         item {
             AvatarBlock(

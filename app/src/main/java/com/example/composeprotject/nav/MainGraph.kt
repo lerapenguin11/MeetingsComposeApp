@@ -179,6 +179,7 @@ fun MainGraph(
             }
         }
         authGraph(contentPadding = contentPadding, navController = navController)
+        profileGraph(navController = navController)
     }
 }
 
