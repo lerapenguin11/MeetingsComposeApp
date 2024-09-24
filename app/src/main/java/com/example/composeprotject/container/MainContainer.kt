@@ -69,9 +69,7 @@ fun MainContainer() {
                         },
                         onGoProfile = {
                             //TODO
-                            navController.navigate(route = Graph.PROFILE) {
-
-                            }
+                            navController.navigate(route = Graph.PROFILE)
                         }
                     )
                 }
