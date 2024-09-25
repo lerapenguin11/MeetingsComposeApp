@@ -1,8 +1,8 @@
 package com.example.domain.usecase.combineUseCase
 
 import com.example.domain.usecase.interest.GetUserInterestsUseCase
-import com.example.domain.usecase.store.ReadAuthTokenUseCase
-import com.example.domain.usecase.store.ReadUserCityUseCase
+import com.example.domain.usecase.store.city.ReadUserCityUseCase
+import com.example.domain.usecase.store.token.ReadAuthTokenUseCase
 import kotlinx.coroutines.flow.combine
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject

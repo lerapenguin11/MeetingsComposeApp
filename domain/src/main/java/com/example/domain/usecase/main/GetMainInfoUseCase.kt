@@ -1,4 +1,4 @@
-package com.example.domain.usecase.event
+package com.example.domain.usecase.main
 
 import com.example.domain.model.event.QueryParam
 import kotlinx.coroutines.flow.MutableStateFlow

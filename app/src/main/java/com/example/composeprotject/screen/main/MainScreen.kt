@@ -77,7 +77,7 @@ fun MainScreen(
 
     LaunchedEffect(
         key1 = userCategories,
-        key2 = fullQueryParamLocal.city,
+        key2 = Unit,
         key3 = fullQueryParamLocal.authToken
     ) {
         mainViewModel.loadEventsByCategory(

@@ -25,7 +25,6 @@ import com.example.composeprotject.ui.theme.MeetTheme
 
 @Composable
 fun CustomSwitch(isSwitchOn: Boolean, onSwitch: (Boolean) -> Unit) {
-    //var isSwitchOn by remember { mutableStateOf(false) }
     val bgColor: Color by animateColorAsState(
         if (isSwitchOn) MeetTheme.colors.primary else MeetTheme.colors.inactiveSwitch,
         animationSpec = tween(ANIMATION_DURATION_MILLIS, easing = LinearEasing),

@@ -3,7 +3,7 @@ package com.example.composeprotject.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composeprotject.screen.state.SearchState
-import com.example.domain.usecase.store.ReadAuthTokenUseCase
+import com.example.domain.usecase.store.token.ReadAuthTokenUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

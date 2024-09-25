@@ -8,9 +8,9 @@ import com.example.domain.usecase.combineUseCase.CombineFullQueryParamLocal
 import com.example.domain.usecase.combineUseCase.CombineMainDataScreen
 import com.example.domain.usecase.combineUseCase.InteractorFullInfoMainScreen
 import com.example.domain.usecase.combineUseCase.InteractorFullQueryParamLocal
-import com.example.domain.usecase.event.InteractorLoadMainInfo
 import com.example.domain.usecase.location.GetCurrentLocationUseCase
-import com.example.domain.usecase.store.SaveUserCityUseCase
+import com.example.domain.usecase.main.InteractorLoadMainInfo
+import com.example.domain.usecase.store.city.SaveUserCityUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

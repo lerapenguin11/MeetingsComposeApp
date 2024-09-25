@@ -1,4 +1,4 @@
-package com.example.domain.usecase.store
+package com.example.domain.usecase.store.settings
 
 import com.example.domain.repository.store.StoreRepository
 

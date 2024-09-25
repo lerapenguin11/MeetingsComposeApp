@@ -15,4 +15,16 @@ interface StoreRepository {
     suspend fun saveAuthToken(token: String)
 
     fun readeAuthToken(): Flow<String?>
+
+    suspend fun saveIsShowMyCommunities(isOn: Boolean)
+
+    fun readIsShowMyCommunities(): Flow<Boolean>
+
+    suspend fun saveIsShowMyEvents(isOn: Boolean)
+
+    fun readIsShowMyEvents(): Flow<Boolean>
+
+    suspend fun saveIsEnableNotifications(isOn: Boolean)
+
+    fun readIsEnableNotifications(): Flow<Boolean>
 }

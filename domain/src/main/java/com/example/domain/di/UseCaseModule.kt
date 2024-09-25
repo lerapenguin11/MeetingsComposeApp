@@ -9,8 +9,6 @@ import com.example.domain.usecase.details.GetEventDetailsInfoUseCase
 import com.example.domain.usecase.details.InteractorLoadCommunityDetails
 import com.example.domain.usecase.details.InteractorLoadEventDetailsInfo
 import com.example.domain.usecase.details.InteractorLoadEventsByCommunityId
-import com.example.domain.usecase.event.GetMainInfoUseCase
-import com.example.domain.usecase.event.InteractorLoadMainInfo
 import com.example.domain.usecase.getData.GetCommunities
 import com.example.domain.usecase.getData.GetCommunityDetails
 import com.example.domain.usecase.getData.GetEventDetails
@@ -27,6 +25,8 @@ import com.example.domain.usecase.interest.GetUserInterestsUseCase
 import com.example.domain.usecase.interest.GetUserInterestsUseCaseImpl
 import com.example.domain.usecase.location.GetCurrentLocationUseCase
 import com.example.domain.usecase.location.GetCurrentLocationUseCaseImpl
+import com.example.domain.usecase.main.GetMainInfoUseCase
+import com.example.domain.usecase.main.InteractorLoadMainInfo
 import com.example.domain.usecase.people.GetPeopleUseCase
 import com.example.domain.usecase.people.InteractorLoadPeopleByCategoryId
 import com.example.domain.usecase.people.InteractorLoadPeopleByEventId
@@ -34,18 +34,30 @@ import com.example.domain.usecase.signUp.SendConfirmationCodeUseCase
 import com.example.domain.usecase.signUp.SendConfirmationCodeUseCaseImpl
 import com.example.domain.usecase.signUp.SendPhoneVerificationCodeUseCase
 import com.example.domain.usecase.signUp.SendPhoneVerificationCodeUseCaseImpl
-import com.example.domain.usecase.store.ReadAuthTokenUseCase
-import com.example.domain.usecase.store.ReadAuthTokenUseCaseImpl
-import com.example.domain.usecase.store.ReadOnBoardingInterestStateUseCase
-import com.example.domain.usecase.store.ReadOnBoardingInterestStateUseCaseImpl
-import com.example.domain.usecase.store.ReadUserCityUseCase
-import com.example.domain.usecase.store.ReadUserCityUseCaseImpl
-import com.example.domain.usecase.store.SaveAuthTokenUseCase
-import com.example.domain.usecase.store.SaveAuthTokenUseCaseImpl
-import com.example.domain.usecase.store.SaveOnBoardingInterestStateUseCase
-import com.example.domain.usecase.store.SaveOnBoardingInterestStateUseCaseImpl
-import com.example.domain.usecase.store.SaveUserCityUseCase
-import com.example.domain.usecase.store.SaveUserCityUseCaseImpl
+import com.example.domain.usecase.store.city.ReadUserCityUseCase
+import com.example.domain.usecase.store.city.ReadUserCityUseCaseImpl
+import com.example.domain.usecase.store.city.SaveUserCityUseCase
+import com.example.domain.usecase.store.city.SaveUserCityUseCaseImpl
+import com.example.domain.usecase.store.settings.ReadIsEnableNotificationsUseCase
+import com.example.domain.usecase.store.settings.ReadIsEnableNotificationsUseCaseImpl
+import com.example.domain.usecase.store.settings.ReadIsIsShowMyCommunitiesUseCaseImpl
+import com.example.domain.usecase.store.settings.ReadIsShowMyCommunitiesUseCase
+import com.example.domain.usecase.store.settings.ReadIsShowMyEventsUseCase
+import com.example.domain.usecase.store.settings.ReadIsShowMyEventsUseCaseImpl
+import com.example.domain.usecase.store.settings.ReadOnBoardingInterestStateUseCase
+import com.example.domain.usecase.store.settings.ReadOnBoardingInterestStateUseCaseImpl
+import com.example.domain.usecase.store.settings.SaveIsEnableNotificationsUseCase
+import com.example.domain.usecase.store.settings.SaveIsEnableNotificationsUseCaseImpl
+import com.example.domain.usecase.store.settings.SaveIsShowMyCommunitiesUseCase
+import com.example.domain.usecase.store.settings.SaveIsShowMyCommunitiesUseCaseImpl
+import com.example.domain.usecase.store.settings.SaveIsShowMyEventsUseCase
+import com.example.domain.usecase.store.settings.SaveIsShowMyEventsUseCaseImpl
+import com.example.domain.usecase.store.settings.SaveOnBoardingInterestStateUseCase
+import com.example.domain.usecase.store.settings.SaveOnBoardingInterestStateUseCaseImpl
+import com.example.domain.usecase.store.token.ReadAuthTokenUseCase
+import com.example.domain.usecase.store.token.ReadAuthTokenUseCaseImpl
+import com.example.domain.usecase.store.token.SaveAuthTokenUseCase
+import com.example.domain.usecase.store.token.SaveAuthTokenUseCaseImpl
 import org.koin.dsl.module
 
 internal val useCaseModule = module {
@@ -86,4 +98,10 @@ internal val useCaseModule = module {
     single<ReadAuthTokenUseCase> { ReadAuthTokenUseCaseImpl(repository = get()) }
     single<GetUserInterestsUseCase> { GetUserInterestsUseCaseImpl(repository = get()) }
     single { InteractorFullQueryParamLocal() }
+    single<SaveIsShowMyCommunitiesUseCase> { SaveIsShowMyCommunitiesUseCaseImpl(repository = get()) }
+    single<ReadIsShowMyCommunitiesUseCase> { ReadIsIsShowMyCommunitiesUseCaseImpl(repository = get()) }
+    single<SaveIsShowMyEventsUseCase> { SaveIsShowMyEventsUseCaseImpl(repository = get()) }
+    single<ReadIsShowMyEventsUseCase> { ReadIsShowMyEventsUseCaseImpl(repository = get()) }
+    single<SaveIsEnableNotificationsUseCase> { SaveIsEnableNotificationsUseCaseImpl(repository = get()) }
+    single<ReadIsEnableNotificationsUseCase> { ReadIsEnableNotificationsUseCaseImpl(repository = get()) }
 }

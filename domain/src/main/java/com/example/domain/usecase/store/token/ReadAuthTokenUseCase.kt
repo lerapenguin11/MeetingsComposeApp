@@ -1,4 +1,4 @@
-package com.example.domain.usecase.store
+package com.example.domain.usecase.store.token
 
 import com.example.domain.repository.store.StoreRepository
 import kotlinx.coroutines.flow.Flow

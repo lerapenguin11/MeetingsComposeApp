@@ -63,6 +63,63 @@ class StoreRepositoryImpl(private val context: Context) : StoreRepository {
         }
     }
 
+    override suspend fun saveIsShowMyCommunities(isOn: Boolean) {
+        getSharedPreferences(context = context, name = PREF_APP_SETTINGS).edit {
+            putBoolean(IS_SHOW_MY_COMMUNITIES, isOn)
+        }
+    }
+
+    override fun readIsShowMyCommunities(): Flow<Boolean> {
+        return flow {
+            emit(
+                value = getSharedPreferences(
+                    context = context,
+                    name = PREF_APP_SETTINGS
+                ).getBoolean(
+                    IS_SHOW_MY_COMMUNITIES, DEFAULT_IS_SHOW
+                )
+            )
+        }
+    }
+
+    override suspend fun saveIsShowMyEvents(isOn: Boolean) {
+        getSharedPreferences(context = context, name = PREF_APP_SETTINGS).edit {
+            putBoolean(IS_SHOW_MY_EVENTS, isOn)
+        }
+    }
+
+    override fun readIsShowMyEvents(): Flow<Boolean> {
+        return flow {
+            emit(
+                value = getSharedPreferences(
+                    context = context,
+                    name = PREF_APP_SETTINGS
+                ).getBoolean(
+                    IS_SHOW_MY_EVENTS, DEFAULT_IS_SHOW
+                )
+            )
+        }
+    }
+
+    override suspend fun saveIsEnableNotifications(isOn: Boolean) {
+        getSharedPreferences(context = context, name = PREF_APP_SETTINGS).edit {
+            putBoolean(IS_ENABLE_NOTIFICATION, isOn)
+        }
+    }
+
+    override fun readIsEnableNotifications(): Flow<Boolean> {
+        return flow {
+            emit(
+                value = getSharedPreferences(
+                    context = context,
+                    name = PREF_APP_SETTINGS
+                ).getBoolean(
+                    IS_ENABLE_NOTIFICATION, DEFAULT_IS_SHOW
+                )
+            )
+        }
+    }
+
     companion object {
         private fun getSharedPreferences(context: Context, name: String): SharedPreferences {
             return context.getSharedPreferences(name, Context.MODE_PRIVATE)
@@ -85,5 +142,9 @@ class StoreRepositoryImpl(private val context: Context) : StoreRepository {
         private const val DEFAULT_CITY = "Москва"
         private const val AUTH_TOKEN = "auth_token"
         private const val ENCRYPTED_PREF = "encrypted_pref"
+        private const val DEFAULT_IS_SHOW = true
+        private const val IS_SHOW_MY_COMMUNITIES = "is_show_my_communities"
+        private const val IS_SHOW_MY_EVENTS = "is_show_my_events"
+        private const val IS_ENABLE_NOTIFICATION = "is_enable_notification"
     }
 }

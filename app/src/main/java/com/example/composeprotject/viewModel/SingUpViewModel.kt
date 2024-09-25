@@ -10,7 +10,7 @@ import com.example.domain.model.signUp.Token
 import com.example.domain.model.signUp.UserParam
 import com.example.domain.usecase.signUp.SendConfirmationCodeUseCase
 import com.example.domain.usecase.signUp.SendPhoneVerificationCodeUseCase
-import com.example.domain.usecase.store.SaveAuthTokenUseCase
+import com.example.domain.usecase.store.token.SaveAuthTokenUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
