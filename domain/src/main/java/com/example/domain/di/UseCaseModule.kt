@@ -3,6 +3,7 @@ package com.example.domain.di
 import com.example.domain.usecase.combineUseCase.InteractorFullEventDetailsInfo
 import com.example.domain.usecase.combineUseCase.InteractorFullInfoCommunityDetails
 import com.example.domain.usecase.combineUseCase.InteractorFullInfoMainScreen
+import com.example.domain.usecase.combineUseCase.InteractorFullQueryParamLocal
 import com.example.domain.usecase.details.GetCommunityDetailsUseCase
 import com.example.domain.usecase.details.GetEventDetailsInfoUseCase
 import com.example.domain.usecase.details.InteractorLoadCommunityDetails
@@ -22,6 +23,8 @@ import com.example.domain.usecase.interest.AddUserInterestsUseCase
 import com.example.domain.usecase.interest.AddUserInterestsUseCaseInteractor
 import com.example.domain.usecase.interest.GetInterestInteractor
 import com.example.domain.usecase.interest.GetInterestsUseCase
+import com.example.domain.usecase.interest.GetUserInterestsUseCase
+import com.example.domain.usecase.interest.GetUserInterestsUseCaseImpl
 import com.example.domain.usecase.location.GetCurrentLocationUseCase
 import com.example.domain.usecase.location.GetCurrentLocationUseCaseImpl
 import com.example.domain.usecase.people.GetPeopleUseCase
@@ -31,12 +34,12 @@ import com.example.domain.usecase.signUp.SendConfirmationCodeUseCase
 import com.example.domain.usecase.signUp.SendConfirmationCodeUseCaseImpl
 import com.example.domain.usecase.signUp.SendPhoneVerificationCodeUseCase
 import com.example.domain.usecase.signUp.SendPhoneVerificationCodeUseCaseImpl
+import com.example.domain.usecase.store.ReadAuthTokenUseCase
+import com.example.domain.usecase.store.ReadAuthTokenUseCaseImpl
 import com.example.domain.usecase.store.ReadOnBoardingInterestStateUseCase
 import com.example.domain.usecase.store.ReadOnBoardingInterestStateUseCaseImpl
 import com.example.domain.usecase.store.ReadUserCityUseCase
 import com.example.domain.usecase.store.ReadUserCityUseCaseImpl
-import com.example.domain.usecase.store.ReadeAuthTokenUseCase
-import com.example.domain.usecase.store.ReadeAuthTokenUseCaseImpl
 import com.example.domain.usecase.store.SaveAuthTokenUseCase
 import com.example.domain.usecase.store.SaveAuthTokenUseCaseImpl
 import com.example.domain.usecase.store.SaveOnBoardingInterestStateUseCase
@@ -80,5 +83,7 @@ internal val useCaseModule = module {
     single<SaveUserCityUseCase> { SaveUserCityUseCaseImpl(repository = get()) }
     single<ReadUserCityUseCase> { ReadUserCityUseCaseImpl(repository = get()) }
     single<SaveAuthTokenUseCase> { SaveAuthTokenUseCaseImpl(repository = get()) }
-    single<ReadeAuthTokenUseCase> { ReadeAuthTokenUseCaseImpl(repository = get()) }
+    single<ReadAuthTokenUseCase> { ReadAuthTokenUseCaseImpl(repository = get()) }
+    single<GetUserInterestsUseCase> { GetUserInterestsUseCaseImpl(repository = get()) }
+    single { InteractorFullQueryParamLocal() }
 }

@@ -69,29 +69,30 @@ fun MainScreen(
         .collectAsStateWithLifecycle()
     val fullInfoMainScreen by mainViewModel.getFullInfoMainScreenFlow()
         .collectAsStateWithLifecycle()
-    val currentLocation by mainViewModel.getCurrentLocationFlow().collectAsStateWithLifecycle()
-    val authToken by mainViewModel.getAuthTokenFlow().collectAsStateWithLifecycle()
-
     val searchQuery by searchViewModel.getSearchQuery().collectAsStateWithLifecycle()
     val mainState by searchViewModel.getMainScreenState().collectAsStateWithLifecycle()
-
+    val fullQueryParamLocal by mainViewModel.getFullQueryParamLocalFlow()
+        .collectAsStateWithLifecycle()
     var subscriptionCapabilityStatus by remember { mutableStateOf(SubscriptionCapabilityStatus.WITHOUT_SUBSCRIPTION) }
 
-    LaunchedEffect(key1 = Unit, key2 = currentLocation, key3 = authToken) {
-        mainViewModel.getAuthToken()
+    LaunchedEffect(
+        key1 = userCategories,
+        key2 = fullQueryParamLocal.city,
+        key3 = fullQueryParamLocal.authToken
+    ) {
         mainViewModel.loadEventsByCategory(
+            userCategories = fullQueryParamLocal.userInterests,
             selectedCategory = userCategories.map { it.id },
-            city = currentLocation,
-            token = authToken
+            city = fullQueryParamLocal.city,
+            token = fullQueryParamLocal.authToken
         )
-
-        if (authToken != null) {
+        if (fullQueryParamLocal.authToken != null) {
             subscriptionCapabilityStatus = SubscriptionCapabilityStatus.THERE_SUBSCRIPTION
         }
     }
-
-    println("LOC: $currentLocation")
-
+    LaunchedEffect(Unit) {
+        mainViewModel.updateCurrentLocation()
+    }
 
     when (mainState) {
         SearchState.MAIN_SEARCH_SCREEN -> {

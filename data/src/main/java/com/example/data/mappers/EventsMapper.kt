@@ -1,7 +1,6 @@
 package com.example.data.mappers
 
 import android.text.TextUtils
-import com.example.database.entity.UserInterestEntity
 import com.example.domain.model.event.Meeting
 import com.example.domain.model.eventDetails.MeetingAddress
 import com.example.domain.model.eventDetails.MeetingCoordinates
@@ -33,10 +32,6 @@ class EventsMapper {
             shortAddress = item.location?.address?.plain?.short.toString(), //TODO toString delete
             startDate = 1726583978 //TODO: item.startDate
         )
-    }
-
-    fun userInterestEntityToIdInterest(entity: UserInterestEntity): Int {
-        return entity.id
     }
 
     fun typeConvectorListIdToUriId(ids: List<Int>): String? {
