@@ -4,6 +4,8 @@ import com.example.domain.usecase.combineUseCase.InteractorFullEventDetailsInfo
 import com.example.domain.usecase.combineUseCase.InteractorFullInfoCommunityDetails
 import com.example.domain.usecase.combineUseCase.InteractorFullInfoMainScreen
 import com.example.domain.usecase.combineUseCase.InteractorFullQueryParamLocal
+import com.example.domain.usecase.combineUseCase.InteractorFullUserInfo
+import com.example.domain.usecase.combineUseCase.InteractorReadIsShowSettingsLists
 import com.example.domain.usecase.details.GetCommunityDetailsUseCase
 import com.example.domain.usecase.details.GetEventDetailsInfoUseCase
 import com.example.domain.usecase.details.InteractorLoadCommunityDetails
@@ -17,6 +19,9 @@ import com.example.domain.usecase.getData.GetEventsByCommunityId
 import com.example.domain.usecase.getData.GetEventsClosest
 import com.example.domain.usecase.getData.GetFilteredEventsByCategory
 import com.example.domain.usecase.getData.GetPeople
+import com.example.domain.usecase.getData.GetUserCommunities
+import com.example.domain.usecase.getData.GetUserEvents
+import com.example.domain.usecase.getData.GetUserInfo
 import com.example.domain.usecase.interest.AddUserInterestsUseCase
 import com.example.domain.usecase.interest.AddUserInterestsUseCaseInteractor
 import com.example.domain.usecase.interest.GetInterestInteractor
@@ -58,6 +63,8 @@ import com.example.domain.usecase.store.token.ReadAuthTokenUseCase
 import com.example.domain.usecase.store.token.ReadAuthTokenUseCaseImpl
 import com.example.domain.usecase.store.token.SaveAuthTokenUseCase
 import com.example.domain.usecase.store.token.SaveAuthTokenUseCaseImpl
+import com.example.domain.usecase.user.GetUserInfoUseCase
+import com.example.domain.usecase.user.InteractorLoadUserInfo
 import org.koin.dsl.module
 
 internal val useCaseModule = module {
@@ -104,4 +111,11 @@ internal val useCaseModule = module {
     single<ReadIsShowMyEventsUseCase> { ReadIsShowMyEventsUseCaseImpl(repository = get()) }
     single<SaveIsEnableNotificationsUseCase> { SaveIsEnableNotificationsUseCaseImpl(repository = get()) }
     single<ReadIsEnableNotificationsUseCase> { ReadIsEnableNotificationsUseCaseImpl(repository = get()) }
+    single<InteractorReadIsShowSettingsLists> { InteractorReadIsShowSettingsLists() }
+    single { GetUserInfoUseCase() }
+    single { InteractorLoadUserInfo() }
+    single { GetUserEvents() }
+    single { GetUserCommunities() }
+    single<GetUserInfo> { GetUserInfo() }
+    single { InteractorFullUserInfo() }
 }

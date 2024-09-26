@@ -14,6 +14,8 @@ import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,16 +23,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.composeprotject.screen.state.SubscriptionCapabilityStatus
-import com.example.composeprotject.ui.component.card.CommunityCard
 import com.example.composeprotject.ui.component.card.CommunityViewAllCard
-import com.example.composeprotject.ui.component.card.EventCard
 import com.example.composeprotject.ui.component.card.EventViewAllCard
+import com.example.composeprotject.ui.component.card.UserCommunityCard
+import com.example.composeprotject.ui.component.card.UserEventCard
 import com.example.composeprotject.ui.component.card.variant.EventCardVariant
 import com.example.composeprotject.ui.component.chip.Chip
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
@@ -48,24 +49,32 @@ import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.component.utils.NoRippleTheme
 import com.example.composeprotject.ui.component.utils.imageCash
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.domain.model.community.Community
-import com.example.domain.model.event.Meeting
-import com.example.domain.model.interest.Category
+import com.example.composeprotject.viewModel.ProfileViewModel
 import com.example.domain.model.interest.Interest
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun ProfilePreview() {
-    ProfileScreen(
-        navController = rememberNavController()
-    )
-}
+import com.example.domain.model.userLists.UserCommunities
+import com.example.domain.model.userLists.UserEvents
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ProfileScreen(
     navController: NavController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    profileViewModel: ProfileViewModel = koinViewModel()
 ) {
+    val isShowSettings by profileViewModel.getIsShowSettingsMyListsFlow()
+        .collectAsStateWithLifecycle()
+    val fullUserInfoFlow by profileViewModel.getFullUserInfoFlow().collectAsStateWithLifecycle()
+
+    LaunchedEffect(isShowSettings) {
+        isShowSettings.authToken?.let {
+            profileViewModel.loadUserInfo(
+                isShowMyEvents = isShowSettings.isShowMyEvents,
+                isShowMyCommunities = isShowSettings.isShowMyCommunities,
+                authToken = it
+            )
+        }
+    }
+
     LazyColumn(
         modifier = modifier
             .fillMaxWidth()
@@ -73,91 +82,39 @@ fun ProfileScreen(
         item {
             AvatarBlock(
                 navController = navController,
-                avatarUrl = null
+                avatarUrl = fullUserInfoFlow.userInfo?.avatarUrl
             )
         }
         item {
-            BlockUserInformation(
-                name = "Сергей",
-                city = "Москва",
-                bio = "Занимаюсь разрабокой интерфейсов в eCom. Учу HTML, CSS и JavaScript",
-                userInterest = listOf(
-                    Interest(id = 0, "Разработка"),
-                    Interest(id = 0, "Дизайн"),
-                    Interest(id = 0, "Illustrator"),
-                    Interest(id = 0, "Backend"),
-                    Interest(id = 0, "Продакт менеджмент")
+            fullUserInfoFlow.userInfo?.let {
+                BlockUserInformation(
+                    name = it.fullName,
+                    city = it.city,
+                    bio = it.bio,
+                    userInterest = it.interests,
+                    habr = it.socialNetwork.habr,
+                    telegram = it.socialNetwork.telegram
                 )
-            )
-        }
-        //TODO: мои встречи
-        item {
-            MyMeetingsBlock(
-                myMeeting = listOf(
-                    Meeting(
-                        id = 1,
-                        title = "Python days",
-                        categories = listOf(Category(id = 0, "Разработка")),
-                        avatarUrl = null,
-                        startDate = 9,
-                        shortAddress = "Большая Конюшенная, 10"
-                    )
-                )
-            ) {
-                //TODO
             }
         }
-        //TODO: мои встречи
-        //TODO: мои сообщества
         item {
-            MyCommunityBlock(
-                communities = listOf(
-                    Community(
-                        id = 0,
-                        title = "WBTECH",
-                        avatarUrl = null
-                    ),
-                    Community(
-                        id = 0,
-                        title = "WBTECH",
-                        avatarUrl = null
-                    ),
-                    Community(
-                        id = 0,
-                        title = "WBTECH",
-                        avatarUrl = null
-                    ),
-                    Community(
-                        id = 0,
-                        title = "WBTECH",
-                        avatarUrl = null
-                    ),
-                    Community(
-                        id = 0,
-                        title = "WBTECH",
-                        avatarUrl = null
-                    ),
-                    Community(
-                        id = 0,
-                        title = "WBTECH",
-                        avatarUrl = null
-                    ),
-                    Community(
-                        id = 0,
-                        title = "WBTECH",
-                        avatarUrl = null
-                    ),
-                    Community(
-                        id = 0,
-                        title = "WBTECH",
-                        avatarUrl = null
-                    ),
-                )
-            ) {
-                //TODO
+            fullUserInfoFlow.userEvents?.let {
+                MyMeetingsBlock(
+                    myMeeting = it
+                ) {
+                    //TODO
+                }
             }
         }
-        //TODO: мои сообщества
+        item {
+            fullUserInfoFlow.userCommunities?.let {
+                MyCommunityBlock(
+                    communities = it
+                ) {
+                    //TODO
+                }
+            }
+        }
         item { LogOutOfProfileBlock() }
     }
 }
@@ -194,9 +151,9 @@ private fun LogOutOfProfileBlock(
 
 @Composable
 private fun MyCommunityBlock(
-    communities: List<Community>,
+    communities: List<UserCommunities>,
     modifier: Modifier = Modifier,
-    onClickCommunity: (Community) -> Unit
+    onClickCommunity: (UserCommunities) -> Unit
 ) {
     SpacerHeight(height = MeetTheme.sizes.sizeX40)
     Text(
@@ -210,7 +167,7 @@ private fun MyCommunityBlock(
     LazyRow {
         item { SpacerWidth(width = MeetTheme.sizes.sizeX16) }
         itemsIndexed(communities) { _, community ->
-            CommunityCard(
+            UserCommunityCard(
                 state = SubscriptionCapabilityStatus.WITHOUT_SUBSCRIPTION,
                 community = community,
                 buttonState = SubscribeButtonState.NOT_SUBSCRIBED_COMMUNITY
@@ -235,9 +192,9 @@ private fun MyCommunityBlock(
 
 @Composable
 private fun MyMeetingsBlock(
-    myMeeting: List<Meeting>,
+    myMeeting: List<UserEvents>,
     modifier: Modifier = Modifier,
-    onClickEvent: (Meeting) -> Unit
+    onClickEvent: (UserEvents) -> Unit
 ) {
     SpacerHeight(height = MeetTheme.sizes.sizeX40)
     Text(
@@ -251,7 +208,7 @@ private fun MyMeetingsBlock(
     LazyRow {
         item { SpacerWidth(width = MeetTheme.sizes.sizeX16) }
         itemsIndexed(myMeeting) { index, meeting ->
-            EventCard(
+            UserEventCard(
                 meeting = meeting,
                 variant = EventCardVariant.MEDIUM
             ) {
@@ -278,9 +235,11 @@ private fun MyMeetingsBlock(
 @Composable
 private fun BlockUserInformation(
     name: String,
-    city: String,
-    bio: String,
-    userInterest: List<Interest>,
+    city: String?,
+    bio: String?,
+    habr: String?,
+    telegram: String?,
+    userInterest: List<Interest>?,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -293,41 +252,49 @@ private fun BlockUserInformation(
             style = MeetTheme.typography.interSemiBold49,
             color = MeetTheme.colors.neutralActive
         )
-        SpacerHeight(height = MeetTheme.sizes.sizeX4)
-        Text(
-            text = city,
-            color = Color.Black,
-            style = MeetTheme.typography.interSemiBold14
-        )
-        SpacerHeight(height = MeetTheme.sizes.sizeX2)
-        Text(
-            text = bio,
-            color = Color.Black,
-            style = MeetTheme.typography.interMedium14
-        )
-        SpacerHeight(height = MeetTheme.sizes.sizeX16)
-        FlexRow(
-            horizontalGap = MeetTheme.sizes.sizeX6,
-            verticalGap = MeetTheme.sizes.sizeX6,
-            alignment = Alignment.Start
-        ) {
-            repeat(userInterest.size) { index ->
-                Chip(
-                    text = userInterest[index].title,
-                    chipSize = ChipSize.SMALL,
-                    chipColors = ChipSelect.FALSE,
-                    chipClick = ChipClick.NOT_ON_CLICK
-                ) {}
+        city?.let {
+            SpacerHeight(height = MeetTheme.sizes.sizeX4)
+            Text(
+                text = it,
+                color = Color.Black,
+                style = MeetTheme.typography.interSemiBold14
+            )
+        }
+        bio?.let {
+            SpacerHeight(height = MeetTheme.sizes.sizeX2)
+            Text(
+                text = it,
+                color = Color.Black,
+                style = MeetTheme.typography.interMedium14
+            )
+        }
+        userInterest?.let {
+            SpacerHeight(height = MeetTheme.sizes.sizeX16)
+            FlexRow(
+                horizontalGap = MeetTheme.sizes.sizeX6,
+                verticalGap = MeetTheme.sizes.sizeX6,
+                alignment = Alignment.Start
+            ) {
+                repeat(it.size) { index ->
+                    Chip(
+                        text = userInterest[index].title,
+                        chipSize = ChipSize.SMALL,
+                        chipColors = ChipSelect.FALSE,
+                        chipClick = ChipClick.NOT_ON_CLICK
+                    ) {}
+                }
             }
         }
-        SpacerHeight(height = MeetTheme.sizes.sizeX16)
-        Row {
-            SocialNetwork(variant = SocialNetworkVariant.HABR) {
-                //TODO
-            }
-            SpacerWidth(width = MeetTheme.sizes.sizeX8)
-            SocialNetwork(variant = SocialNetworkVariant.TELEGRAM) {
-                //TODO
+        if (habr != null || telegram != null) {
+            SpacerHeight(height = MeetTheme.sizes.sizeX16)
+            Row {
+                SocialNetwork(variant = SocialNetworkVariant.HABR) {
+                    //TODO
+                }
+                SpacerWidth(width = MeetTheme.sizes.sizeX8)
+                SocialNetwork(variant = SocialNetworkVariant.TELEGRAM) {
+                    //TODO
+                }
             }
         }
     }
@@ -335,16 +302,15 @@ private fun BlockUserInformation(
 
 @Composable
 private fun AvatarBlock(
-    avatarUrl: String?,
     navController: NavController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    avatarUrl: String? = null
 ) {
     Box(
         modifier = with(modifier) {
             fillMaxWidth()
         }
     ) {
-        //TODO add top app bar
         AsyncImage(
             model = imageCash(
                 context = LocalContext.current,
