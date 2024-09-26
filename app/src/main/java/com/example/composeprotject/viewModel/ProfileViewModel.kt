@@ -7,17 +7,20 @@ import com.example.domain.usecase.combineUseCase.FullUserInfo
 import com.example.domain.usecase.combineUseCase.InteractorFullUserInfo
 import com.example.domain.usecase.combineUseCase.InteractorReadIsShowSettingsLists
 import com.example.domain.usecase.combineUseCase.ShowSettingsMyLists
+import com.example.domain.usecase.store.token.DeleteAuthTokenUseCase
 import com.example.domain.usecase.user.InteractorLoadUserInfo
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class ProfileViewModel(
     private val interactorReadIsShowSettingsLists: InteractorReadIsShowSettingsLists,
     private val getUserInfo: InteractorLoadUserInfo,
-    private val interactorFullUserInfo: InteractorFullUserInfo
+    private val interactorFullUserInfo: InteractorFullUserInfo,
+    private val deleteAuthTokenUseCase: DeleteAuthTokenUseCase
 ) : ViewModel() {
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -62,5 +65,9 @@ class ProfileViewModel(
                 authToken = authToken
             )
         )
+    }
+
+    fun deleteAuthToken() = viewModelScope.launch {
+        deleteAuthTokenUseCase.execute()
     }
 }

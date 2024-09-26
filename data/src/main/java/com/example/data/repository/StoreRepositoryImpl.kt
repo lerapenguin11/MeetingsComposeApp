@@ -63,6 +63,10 @@ class StoreRepositoryImpl(private val context: Context) : StoreRepository {
         }
     }
 
+    override suspend fun deleteAuthToken() {
+        getEncryptedSharedPreferences(context = context).edit().remove(AUTH_TOKEN).apply()
+    }
+
     override suspend fun saveIsShowMyCommunities(isOn: Boolean) {
         getSharedPreferences(context = context, name = PREF_APP_SETTINGS).edit {
             putBoolean(IS_SHOW_MY_COMMUNITIES, isOn)

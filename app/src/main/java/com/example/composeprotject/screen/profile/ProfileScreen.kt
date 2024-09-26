@@ -59,7 +59,8 @@ import org.koin.androidx.compose.koinViewModel
 fun ProfileScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    profileViewModel: ProfileViewModel = koinViewModel()
+    profileViewModel: ProfileViewModel = koinViewModel(),
+    logOutOfProfile: () -> Unit
 ) {
     val isShowSettings by profileViewModel.getIsShowSettingsMyListsFlow()
         .collectAsStateWithLifecycle()
@@ -115,13 +116,21 @@ fun ProfileScreen(
                 }
             }
         }
-        item { LogOutOfProfileBlock() }
+        item {
+            LogOutOfProfileBlock(
+                logOutOfProfile = {
+                    profileViewModel.deleteAuthToken()
+                    logOutOfProfile()
+                }
+            )
+        }
     }
 }
 
 @Composable
 private fun LogOutOfProfileBlock(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    logOutOfProfile: () -> Unit
 ) {
     SpacerHeight(height = MeetTheme.sizes.sizeX40)
     Box(
@@ -139,7 +148,7 @@ private fun LogOutOfProfileBlock(
             Text(
                 modifier = Modifier
                     .clickable {
-                        //TODO
+                        logOutOfProfile()
                     },
                 text = stringResource(CommonString.text_exit),
                 color = MeetTheme.colors.darkGray,

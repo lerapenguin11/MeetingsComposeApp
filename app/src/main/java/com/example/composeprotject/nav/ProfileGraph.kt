@@ -32,7 +32,14 @@ fun NavGraphBuilder.profileGraph(navController: NavHostController) {
                     content = R.drawable.ic_edit_profile
                 )
             })
-            ProfileScreen(navController = navController)
+            ProfileScreen(navController = navController) {
+                navController.navigate(route = Graph.MAIN) {
+                    popUpTo(route = Graph.MAIN) {
+                        saveState = true
+                        inclusive = true
+                    }
+                }
+            }
         }
         composable(
             route = Profile.EditInfo.route

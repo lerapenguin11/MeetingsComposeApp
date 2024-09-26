@@ -59,6 +59,8 @@ import com.example.domain.usecase.store.settings.SaveIsShowMyEventsUseCase
 import com.example.domain.usecase.store.settings.SaveIsShowMyEventsUseCaseImpl
 import com.example.domain.usecase.store.settings.SaveOnBoardingInterestStateUseCase
 import com.example.domain.usecase.store.settings.SaveOnBoardingInterestStateUseCaseImpl
+import com.example.domain.usecase.store.token.DeleteAuthTokenUseCase
+import com.example.domain.usecase.store.token.DeleteAuthTokenUseCaseImpl
 import com.example.domain.usecase.store.token.ReadAuthTokenUseCase
 import com.example.domain.usecase.store.token.ReadAuthTokenUseCaseImpl
 import com.example.domain.usecase.store.token.SaveAuthTokenUseCase
@@ -118,4 +120,5 @@ internal val useCaseModule = module {
     single { GetUserCommunities() }
     single<GetUserInfo> { GetUserInfo() }
     single { InteractorFullUserInfo() }
+    single<DeleteAuthTokenUseCase> { DeleteAuthTokenUseCaseImpl(repository = get()) }
 }

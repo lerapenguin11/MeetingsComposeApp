@@ -16,6 +16,8 @@ interface StoreRepository {
 
     fun readeAuthToken(): Flow<String?>
 
+    suspend fun deleteAuthToken()
+
     suspend fun saveIsShowMyCommunities(isOn: Boolean)
 
     fun readIsShowMyCommunities(): Flow<Boolean>

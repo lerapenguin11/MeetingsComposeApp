@@ -357,7 +357,7 @@ private fun InputBlock(
                     SendCodeStatus.ERROR -> stringResource(CommonString.text_something_went_wrong)
                     null -> text.text
                 },
-                color = if (codeState == SendCodeStatus.SUCCESS) MeetTheme.colors.darkGray else MeetTheme.colors.error,
+                color = if (codeState == SendCodeStatus.SUCCESS || codeState == null) MeetTheme.colors.darkGray else MeetTheme.colors.error,
                 style = MeetTheme.typography.interMedium14
             )
         }
