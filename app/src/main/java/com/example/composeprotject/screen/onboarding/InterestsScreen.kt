@@ -86,10 +86,9 @@ fun InterestsScreen(
                             combinedInterests.first[index].id
                         )
                     ) ChipSelect.FALSE else ChipSelect.TRUE,
-                    chipClick = ChipClick.ON_CLICK
-                ) {
-                    interestsViewModel.toggleUserInterest(combinedInterests.first[index])
-                }
+                    chipClick = ChipClick.ON_CLICK,
+                    onClick = { interestsViewModel.toggleUserInterest(combinedInterests.first[index]) }
+                )
             }
         }
         Column(

@@ -261,19 +261,17 @@ private fun InterestsSelectionBlock(
                     text = userInterests[index].title,
                     chipSize = ChipSize.MEDIUM,
                     chipColors = ChipSelect.TRUE,
-                    chipClick = ChipClick.ON_CLICK
-                ) {
-                    //TODO
-                }
+                    chipClick = ChipClick.ON_CLICK,
+                    onClick = { }
+                )
                 if (userInterests.size == index + 1 || userInterests.isEmpty()) {
                     Chip(
                         text = stringResource(CommonString.text_add),
                         chipSize = ChipSize.MEDIUM,
                         chipColors = ChipSelect.FALSE,
-                        chipClick = ChipClick.ON_CLICK
-                    ) {
-                        //TODO
-                    }
+                        chipClick = ChipClick.ON_CLICK,
+                        onClick = {}
+                    )
                 }
             }
         }

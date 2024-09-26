@@ -289,8 +289,9 @@ private fun BlockUserInformation(
                         text = userInterest[index].title,
                         chipSize = ChipSize.SMALL,
                         chipColors = ChipSelect.FALSE,
-                        chipClick = ChipClick.NOT_ON_CLICK
-                    ) {}
+                        chipClick = ChipClick.NOT_ON_CLICK,
+                        onClick = {}
+                    )
                 }
             }
         }

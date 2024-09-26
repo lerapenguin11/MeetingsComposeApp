@@ -2,17 +2,14 @@ package com.example.composeprotject.screen.main
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -73,7 +70,7 @@ fun MainScreen(
     val mainState by searchViewModel.getMainScreenState().collectAsStateWithLifecycle()
     val fullQueryParamLocal by mainViewModel.getFullQueryParamLocalFlow()
         .collectAsStateWithLifecycle()
-    var subscriptionCapabilityStatus by remember { mutableStateOf(SubscriptionCapabilityStatus.WITHOUT_SUBSCRIPTION) }
+    var subscriptionCapabilityStatus by remember { mutableStateOf(SubscriptionCapabilityStatus.WITHOUT_SUBSCRIPTION) } //TODO вынести во viewModel
 
     LaunchedEffect(
         key1 = userCategories,
@@ -133,96 +130,63 @@ fun MainDefault(
     mainViewModel: MainViewModel,
     subscriptionCapabilityStatus: SubscriptionCapabilityStatus
 ) {
-
-    val textSpecialist = "тестировщиков"
-
+    if (mainStateUI) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CustomProgressBar()
+        }
+    }
     LazyColumn(
         modifier = modifier
             .padding(contentPadding)
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center
     ) {
-        if (mainStateUI) {
-            item {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 50.dp),
-
-                    contentAlignment = Alignment.Center
-                ) {
-                    CustomProgressBar()
+        item {
+            SpacerHeight(height = MeetTheme.sizes.sizeX20)
+            BigEventsRow(
+                events = fullInfoMainScreen.eventsByCategory,
+                onClickEvent = onClickEvent
+            )
+            SpacerHeight(height = MeetTheme.sizes.sizeX32)
+            SmallEventsRow(
+                events = fullInfoMainScreen.eventsClosest,
+                onClickEvent = onClickEvent
+            )
+            SpacerHeight(height = MeetTheme.sizes.sizeX32)
+            CommunityRow(
+                state = subscriptionCapabilityStatus,
+                communities = fullInfoMainScreen.communities,
+                onClickCommunity = onClickCommunity
+            )
+            SpacerHeight(height = MeetTheme.sizes.sizeX40)
+            InterestsChipFlex(
+                interests = fullInfoMainScreen.categoryList,
+                userCategories = userCategories,
+                onFilteringByAllCategories = {
+                    //TODO
+                    mainViewModel.clearUserSelectedCategories()
+                }
+            ) {
+                mainViewModel.toggleUserCategory(fullInfoMainScreen.categoryList[it])
+            }
+            SpacerHeight(height = MeetTheme.sizes.sizeX40)
+        }
+        items(items = fullInfoMainScreen.filteredEventsByCategory, key = { event ->
+            event.id
+        }) { event ->
+            Box(modifier = Modifier.padding(horizontal = MeetTheme.sizes.sizeX16)) {
+                FilteredEventByCategoryBlock(event = event) {
+                    onClickEvent(event)
                 }
             }
-        } else {
-            item {
-                SpacerHeight(height = MeetTheme.sizes.sizeX20)
-                BigEventsRow(
-                    events = fullInfoMainScreen.eventsByCategory,
-                    onClickEvent = onClickEvent
-                )
-                SpacerHeight(height = MeetTheme.sizes.sizeX32)
-                Text(
-                    modifier = Modifier.padding(start = MeetTheme.sizes.sizeX16),
-                    text = stringResource(CommonString.text_upcoming_meetings),
-                    color = Color.Black,
-                    style = MeetTheme.typography.interSemiBold24
-                )
-                SpacerHeight(height = MeetTheme.sizes.sizeX16)
-                SmallEventsRow(
-                    events = fullInfoMainScreen.eventsClosest,
-                    onClickEvent = onClickEvent
-                )
-                SpacerHeight(height = MeetTheme.sizes.sizeX32)
-                Text(
-                    modifier = Modifier.padding(
-                        start = MeetTheme.sizes.sizeX16,
-                        end = MeetTheme.sizes.sizeX16
-                    ),
-                    text = "${stringResource(CommonString.text_communities_for)} $textSpecialist",
-                    color = Color.Black,
-                    style = MeetTheme.typography.interSemiBold24
-                )
-                SpacerHeight(height = MeetTheme.sizes.sizeX16)
-                CommunityRow(
-                    state = subscriptionCapabilityStatus,
-                    communities = fullInfoMainScreen.communities,
-                    onClickCommunity = onClickCommunity
-                )
-                SpacerHeight(height = MeetTheme.sizes.sizeX40)
-                Text(
-                    modifier = Modifier.padding(
-                        start = MeetTheme.sizes.sizeX16,
-                        end = MeetTheme.sizes.sizeX16
-                    ),
-                    text = stringResource(CommonString.text_other_meetings),
-                    color = Color.Black,
-                    style = MeetTheme.typography.interSemiBold24
-                )
-                SpacerHeight(height = MeetTheme.sizes.sizeX16)
-                InterestsChipFlex(
-                    interests = fullInfoMainScreen.categoryList,
-                    userCategories = userCategories,
-                    onFilteringByAllCategories = {
-                        //TODO
-                        mainViewModel.clearUserSelectedCategories()
-                    }
-                ) {
-                    mainViewModel.toggleUserCategory(fullInfoMainScreen.categoryList[it])
-                }
-                SpacerHeight(height = MeetTheme.sizes.sizeX40)
-            }
-            items(items = fullInfoMainScreen.filteredEventsByCategory) { event ->
-                Column(modifier = Modifier.padding(horizontal = MeetTheme.sizes.sizeX16)) {
-                    FilteredEventByCategoryBlock(event = event) {
-                        onClickEvent(event)
-                    }
-                    SpacerHeight(height = 38.dp)
-                }
-            }
-            item {
-                SpacerHeight(height = MeetTheme.sizes.sizeX24)
-            }
+            SpacerHeight(height = 38.dp)
+        }
+        item {
+            SpacerHeight(height = MeetTheme.sizes.sizeX24)
         }
     }
 }
@@ -246,7 +210,18 @@ private fun InterestsChipFlex(
     onFilteringByAllCategories: () -> Unit,
     onFilteringByCategory: (Int) -> Unit
 ) {
-
+    if (interests.isNotEmpty()) {
+        Text(
+            modifier = Modifier.padding(
+                start = MeetTheme.sizes.sizeX16,
+                end = MeetTheme.sizes.sizeX16
+            ),
+            text = stringResource(CommonString.text_other_meetings),
+            color = Color.Black,
+            style = MeetTheme.typography.interSemiBold24
+        )
+        SpacerHeight(height = MeetTheme.sizes.sizeX16)
+    }
     FlexRow(
         horizontalPadding = 16.dp,
         horizontalGap = MeetTheme.sizes.sizeX10,
@@ -262,19 +237,17 @@ private fun InterestsChipFlex(
                         id = interests[index].id
                     )
                 ) ChipSelect.FALSE else ChipSelect.TRUE,
-                chipClick = ChipClick.ON_CLICK
-            ) {
-                onFilteringByCategory(index)
-            }
+                chipClick = ChipClick.ON_CLICK,
+                onClick = { onFilteringByCategory(index) }
+            )
             if (interests.isNotEmpty() && interests.size - 1 == index) {
                 Chip(
                     text = stringResource(R.string.text_all_caterories),
                     chipSize = ChipSize.MEDIUM,
                     chipColors = if (userCategories.isEmpty()) ChipSelect.TRUE else ChipSelect.FALSE,
-                    chipClick = ChipClick.ON_CLICK
-                ) {
-                    onFilteringByAllCategories()
-                }
+                    chipClick = ChipClick.ON_CLICK,
+                    onClick = { onFilteringByAllCategories() }
+                )
             }
         }
     }
@@ -286,9 +259,23 @@ private fun CommunityRow(
     state: SubscriptionCapabilityStatus,
     onClickCommunity: (Community) -> Unit
 ) {
+    if (communities.isNotEmpty()) {
+        Text(
+            modifier = Modifier.padding(
+                start = MeetTheme.sizes.sizeX16,
+                end = MeetTheme.sizes.sizeX16
+            ),
+            text = "${stringResource(CommonString.text_communities_for)} тестировщиков",
+            color = Color.Black,
+            style = MeetTheme.typography.interSemiBold24
+        )
+        SpacerHeight(height = MeetTheme.sizes.sizeX16)
+    }
     LazyRow {
         item { SpacerWidth(width = MeetTheme.sizes.sizeX16) }
-        itemsIndexed(communities) { _, community ->
+        items(items = communities, key = { community ->
+            community.id
+        }) { community ->
             CommunityCard(
                 state = state,
                 community = community,
@@ -299,8 +286,15 @@ private fun CommunityRow(
             SpacerWidth(width = MeetTheme.sizes.sizeX10)
         }
         item {
-            CommunityViewAllCard {/*TODO*/ }
-            SpacerWidth(width = MeetTheme.sizes.sizeX16)
+            if (communities.size > MAX_ELEMENT) {
+                CommunityViewAllCard {/*TODO*/ }
+                SpacerWidth(width = MeetTheme.sizes.sizeX16)
+            }
+        }
+        item {
+            if (communities.size <= MAX_ELEMENT) {
+                SpacerWidth(width = MeetTheme.sizes.sizeX6)
+            }
         }
     }
 }
@@ -310,9 +304,20 @@ private fun SmallEventsRow(
     events: List<Meeting>,
     onClickEvent: (Meeting) -> Unit
 ) {
+    if (events.isNotEmpty()) {
+        Text(
+            modifier = Modifier.padding(start = MeetTheme.sizes.sizeX16),
+            text = stringResource(CommonString.text_upcoming_meetings),
+            color = Color.Black,
+            style = MeetTheme.typography.interSemiBold24
+        )
+        SpacerHeight(height = MeetTheme.sizes.sizeX16)
+    }
     LazyRow {
         item { SpacerWidth(width = MeetTheme.sizes.sizeX16) }
-        itemsIndexed(events) { _, meeting ->
+        items(items = events, key = { event ->
+            event.id
+        }) { meeting ->
             EventCard(
                 meeting = meeting,
                 variant = EventCardVariant.MEDIUM
@@ -322,10 +327,17 @@ private fun SmallEventsRow(
             SpacerWidth(width = MeetTheme.sizes.sizeX10)
         }
         item {
-            EventViewAllCard(
-                variant = EventCardVariant.MEDIUM
-            ) {/*TODO*/ }
-            SpacerWidth(width = MeetTheme.sizes.sizeX16)
+            if (events.size > MAX_ELEMENT) {
+                EventViewAllCard(
+                    variant = EventCardVariant.MEDIUM
+                ) {/*TODO*/ }
+                SpacerWidth(width = MeetTheme.sizes.sizeX16)
+            }
+        }
+        item {
+            if (events.size <= MAX_ELEMENT) {
+                SpacerWidth(width = MeetTheme.sizes.sizeX6)
+            }
         }
     }
 }
@@ -337,7 +349,9 @@ private fun BigEventsRow(
 ) {
     LazyRow {
         item { SpacerWidth(width = MeetTheme.sizes.sizeX16) }
-        itemsIndexed(events) { _, meeting ->
+        items(items = events, key = { event ->
+            event.id
+        }) { meeting ->
             EventCard(
                 meeting = meeting,
                 variant = EventCardVariant.BIG
@@ -347,10 +361,19 @@ private fun BigEventsRow(
             SpacerWidth(width = MeetTheme.sizes.sizeX10)
         }
         item {
-            EventViewAllCard(
-                variant = EventCardVariant.BIG
-            ) { /*TODO*/ }
-            Spacer(modifier = Modifier.width(MeetTheme.sizes.sizeX16))
+            if (events.size > MAX_ELEMENT) {
+                EventViewAllCard(
+                    variant = EventCardVariant.BIG
+                ) { /*TODO*/ }
+                Spacer(modifier = Modifier.width(MeetTheme.sizes.sizeX16))
+            }
+        }
+        item {
+            if (events.size <= MAX_ELEMENT) {
+                SpacerWidth(width = MeetTheme.sizes.sizeX6)
+            }
         }
     }
 }
+
+private const val MAX_ELEMENT = 5

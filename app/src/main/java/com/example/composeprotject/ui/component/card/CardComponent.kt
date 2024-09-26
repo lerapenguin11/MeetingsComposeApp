@@ -95,8 +95,9 @@ fun EventCard(
                     text = meeting.categories[index].title,
                     chipSize = ChipSize.SMALL,
                     chipColors = ChipSelect.FALSE,
-                    chipClick = ChipClick.NOT_ON_CLICK
-                ) { }
+                    chipClick = ChipClick.NOT_ON_CLICK,
+                    onClick = {}
+                )
             }
         }
     }
@@ -156,8 +157,9 @@ fun UserEventCard(
                     text = meeting.categories[index].title,
                     chipSize = ChipSize.SMALL,
                     chipColors = ChipSelect.FALSE,
-                    chipClick = ChipClick.NOT_ON_CLICK
-                ) { }
+                    chipClick = ChipClick.NOT_ON_CLICK,
+                    onClick = {}
+                )
             }
         }
     }
@@ -166,7 +168,6 @@ fun UserEventCard(
 @Composable
 fun EventCardFillMaxWidth(
     meeting: Meeting,
-    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     Card(
@@ -212,8 +213,9 @@ fun EventCardFillMaxWidth(
                     text = meeting.categories[index].title,
                     chipSize = ChipSize.SMALL,
                     chipColors = ChipSelect.FALSE,
-                    chipClick = ChipClick.NOT_ON_CLICK
-                ) {}
+                    chipClick = ChipClick.NOT_ON_CLICK,
+                    onClick = {}
+                )
             }
         }
     }

@@ -387,10 +387,9 @@ private fun EventChipBlock(categories: List<Category>) {
                 text = categories[index].title,
                 chipSize = ChipSize.MEDIUM,
                 chipColors = ChipSelect.FALSE,
-                chipClick = ChipClick.NOT_ON_CLICK
-            ) {
-                //TODO
-            }
+                chipClick = ChipClick.NOT_ON_CLICK,
+                onClick = {}
+            )
         }
     }
 }
