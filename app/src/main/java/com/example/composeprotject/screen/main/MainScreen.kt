@@ -100,12 +100,12 @@ fun MainScreen(
             .systemBarsPadding(),
         topBar = {
             SearchBar(
+                searchState = mainState,
+                searchText = searchQuery,
                 isEnabled = true,
                 authToken = fullQueryParamLocal.authToken,
                 state = InputState.SUCCESS,
-                onValueChange = {
-                    mainViewModel.searchQueryUpdate(text = it)
-                },
+                onValueChange = mainViewModel::searchQueryUpdate,
                 onMainScreenState = {
                     mainViewModel.mainScreenStateUpdate(state = it)
                 },
@@ -136,8 +136,21 @@ fun MainScreen(
 }
 
 @Composable
-fun MainSearchScreen(innerPadding: PaddingValues) {
-    LazyColumn {
+fun MainSearchScreen(
+    innerPadding: PaddingValues,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CustomProgressBar()
+    }
+    LazyColumn(
+        modifier = modifier
+            .padding(innerPadding)
+    ) {
 
     }
 }

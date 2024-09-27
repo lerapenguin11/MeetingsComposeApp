@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -25,10 +26,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,12 +47,15 @@ import com.example.composeprotject.ui.component.input.inputState.InputColorsDefa
 import com.example.composeprotject.ui.component.state.InputState
 import com.example.composeprotject.ui.component.utils.CommonDrawables
 import com.example.composeprotject.ui.component.utils.CommonString
+import com.example.composeprotject.ui.component.utils.NoRippleTheme
 import com.example.composeprotject.ui.theme.MeetTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBar(
+    searchText: String?,
     isEnabled: Boolean,
+    searchState: SearchState,
     state: InputState,
     authToken: String?,
     modifier: Modifier = Modifier,
@@ -62,7 +64,6 @@ fun SearchBar(
     onMainScreenState: (SearchState) -> Unit,
     onGoProfile: () -> Unit
 ) {
-    var searchText by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
 
@@ -109,9 +110,9 @@ fun SearchBar(
             verticalAlignment = Alignment.CenterVertically
         ) {
             BasicTextField(
-                value = searchText,
+                value = searchText ?: "",
                 onValueChange = { newValue ->
-                    searchText = newValue
+                    //searchText = newValue
                     onValueChange(newValue)
                 },
                 modifier = modifier
@@ -137,7 +138,7 @@ fun SearchBar(
                 )
             ) {
                 OutlinedTextFieldDefaults.DecorationBox(
-                    value = searchText,
+                    value = searchText.orEmpty(),
                     visualTransformation = VisualTransformation.None,
                     innerTextField = it,
                     singleLine = singleLine,
@@ -178,11 +179,12 @@ fun SearchBar(
                         )
                     },
                     trailingIcon = {
-                        AnimatedVisibility(visible = searchText.isNotEmpty()) {
+                        AnimatedVisibility(visible = searchText.orEmpty().isNotEmpty()) {
                             Icon(
                                 modifier = Modifier
                                     .clickable {
-                                        searchText = ""
+                                        //searchText = ""
+                                        onValueChange("")
                                     },
                                 tint = MeetTheme.colors.darkGray,
                                 painter = painterResource(id = CommonDrawables.ic_event_text_clear),
@@ -209,7 +211,9 @@ fun SearchBar(
                         ),
                     contentAlignment = Alignment.Center
                 ) {
-                    if (searchText.isEmpty()) {
+                    if (searchText.orEmpty()
+                            .isEmpty() && searchState == SearchState.MAIN_DEFAULT_SCREEN
+                    ) {
                         Box(
                             modifier = Modifier
                                 .width(width = 39.dp)
@@ -226,16 +230,22 @@ fun SearchBar(
                         ActionCancellation(
                             onClickCancel = {
                                 onMainScreenState(it)
+                            },
+                            onClearText = {
+                                onValueChange(it)
                             }
                         )
                     }
                 }
             } else {
-                if (searchText.isNotEmpty()) {
+                if (searchText.orEmpty().isNotEmpty()) {
                     Spacer(modifier = Modifier.width(MeetTheme.sizes.sizeX8))
                     ActionCancellation(
                         onClickCancel = {
                             onMainScreenState(it)
+                        },
+                        onClearText = {
+                            onValueChange(it)
                         }
                     )
                 }
@@ -247,15 +257,19 @@ fun SearchBar(
 @Composable
 private fun ActionCancellation(
     modifier: Modifier = Modifier,
-    onClickCancel: (SearchState) -> Unit
+    onClickCancel: (SearchState) -> Unit,
+    onClearText: (String) -> Unit
 ) {
-    Text(
-        modifier = modifier
-            .clickable {
-                onClickCancel(SearchState.MAIN_DEFAULT_SCREEN)
-            },
-        text = stringResource(CommonString.text_cancel),
-        color = MeetTheme.colors.primary,
-        style = MeetTheme.typography.interSemiBold14
-    )
+    CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
+        Text(
+            modifier = modifier
+                .clickable {
+                    onClearText("")
+                    onClickCancel(SearchState.MAIN_DEFAULT_SCREEN)
+                },
+            text = stringResource(CommonString.text_cancel),
+            color = MeetTheme.colors.primary,
+            style = MeetTheme.typography.interSemiBold14
+        )
+    }
 }
