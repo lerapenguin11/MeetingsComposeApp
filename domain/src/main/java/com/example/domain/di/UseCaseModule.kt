@@ -30,7 +30,9 @@ import com.example.domain.usecase.interest.GetUserInterestsUseCase
 import com.example.domain.usecase.interest.GetUserInterestsUseCaseImpl
 import com.example.domain.usecase.location.GetCurrentLocationUseCase
 import com.example.domain.usecase.location.GetCurrentLocationUseCaseImpl
+import com.example.domain.usecase.main.GetFilteredEventsUseCase
 import com.example.domain.usecase.main.GetMainInfoUseCase
+import com.example.domain.usecase.main.InteractorLoadFilteredEvents
 import com.example.domain.usecase.main.InteractorLoadMainInfo
 import com.example.domain.usecase.people.GetPeopleUseCase
 import com.example.domain.usecase.people.InteractorLoadPeopleByCategoryId
@@ -121,4 +123,6 @@ internal val useCaseModule = module {
     single<GetUserInfo> { GetUserInfo() }
     single { InteractorFullUserInfo() }
     single<DeleteAuthTokenUseCase> { DeleteAuthTokenUseCaseImpl(repository = get()) }
+    single<GetFilteredEventsUseCase> { GetFilteredEventsUseCase() }
+    single<InteractorLoadFilteredEvents> { InteractorLoadFilteredEvents() }
 }

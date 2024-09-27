@@ -73,16 +73,15 @@ fun MainScreen(
     val mainState by mainViewModel.getMainScreenState().collectAsStateWithLifecycle()
     val fullQueryParamLocal by mainViewModel.getFullQueryParamLocalFlow()
         .collectAsStateWithLifecycle()
+    val filteredEventsByCategory by mainViewModel.getFilteredEvents().collectAsStateWithLifecycle()
     var subscriptionCapabilityStatus by remember { mutableStateOf(SubscriptionCapabilityStatus.WITHOUT_SUBSCRIPTION) } //TODO вынести во viewModel
 
     LaunchedEffect(
-        key1 = userCategories,
-        key2 = Unit,
-        key3 = fullQueryParamLocal.authToken
+        key1 = Unit,
+        key2 = fullQueryParamLocal.authToken
     ) {
         mainViewModel.loadEventsByCategory(
             userCategories = fullQueryParamLocal.userInterests,
-            selectedCategory = userCategories.map { it.id },
             city = fullQueryParamLocal.city,
             token = fullQueryParamLocal.authToken
         )
@@ -90,6 +89,11 @@ fun MainScreen(
             subscriptionCapabilityStatus = SubscriptionCapabilityStatus.THERE_SUBSCRIPTION
         }
     }
+
+    LaunchedEffect(userCategories) {
+        mainViewModel.loadFilteredEvents(selectedCategory = userCategories.map { it.id })
+    }
+
     LaunchedEffect(Unit) {
         mainViewModel.updateCurrentLocation()
     }
@@ -125,6 +129,7 @@ fun MainScreen(
                     mainStateUI = mainStateUI,
                     subscriptionCapabilityStatus = subscriptionCapabilityStatus,
                     fullInfoMainScreen = fullInfoMainScreen,
+                    filteredEvents = filteredEventsByCategory,
                     onClickEvent = onClickEvent,
                     onClickCommunity = onClickCommunity,
                     userCategories = userCategories,
@@ -160,6 +165,7 @@ fun MainDefault(
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
     mainStateUI: Boolean,
+    filteredEvents: List<Meeting>,
     fullInfoMainScreen: CombineMainDataScreen,
     onClickEvent: (Meeting) -> Unit,
     onClickCommunity: (Community) -> Unit,
@@ -212,7 +218,7 @@ fun MainDefault(
             }
             SpacerHeight(height = MeetTheme.sizes.sizeX40)
         }
-        items(items = fullInfoMainScreen.filteredEventsByCategory, key = { event ->
+        items(items = filteredEvents, key = { event ->
             event.id
         }) { event ->
             Box(modifier = Modifier.padding(horizontal = MeetTheme.sizes.sizeX16)) {

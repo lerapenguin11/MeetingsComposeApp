@@ -6,7 +6,6 @@ import com.example.domain.model.interest.Interest
 import com.example.domain.usecase.getData.GetCommunities
 import com.example.domain.usecase.getData.GetEventsByCategory
 import com.example.domain.usecase.getData.GetEventsClosest
-import com.example.domain.usecase.getData.GetFilteredEventsByCategory
 import com.example.domain.usecase.interest.GetInterestsUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -18,22 +17,19 @@ class InteractorFullInfoMainScreen : KoinComponent {
     private val getEventsClosest: GetEventsClosest by inject()
     private val getCommunities: GetCommunities by inject()
     private val getInterestsUseCase: GetInterestsUseCase by inject()
-    private val getFilteredEventsByCategory: GetFilteredEventsByCategory by inject()
 
     private val innerEventFlow = combine(
         getEventsByCategory.execute(),
         getEventsClosest.execute(),
         getCommunities.execute(),
-        getInterestsUseCase.execute(),
-        getFilteredEventsByCategory.execute()
+        getInterestsUseCase.execute()
 
-    ) { eventsByCategory, eventsClosest, communities, interests, filteredEventsByCategory ->
+    ) { eventsByCategory, eventsClosest, communities, interests ->
         CombineMainDataScreen(
             eventsByCategory = eventsByCategory,
             eventsClosest = eventsClosest,
             communities = communities,
             categoryList = interests,
-            filteredEventsByCategory = filteredEventsByCategory,
             isLoadingFullData = false
         )
     }
@@ -47,6 +43,5 @@ data class CombineMainDataScreen(
     val eventsClosest: List<Meeting>,
     val communities: List<Community>,
     val categoryList: List<Interest>,
-    val filteredEventsByCategory: List<Meeting>,
     val isLoadingFullData: Boolean
 )

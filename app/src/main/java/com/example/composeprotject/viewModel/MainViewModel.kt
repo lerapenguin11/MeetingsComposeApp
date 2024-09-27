@@ -3,15 +3,19 @@ package com.example.composeprotject.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composeprotject.screen.state.SearchState
+import com.example.domain.model.event.Meeting
 import com.example.domain.model.event.QueryParam
 import com.example.domain.model.interest.Interest
 import com.example.domain.usecase.combineUseCase.CombineFullQueryParamLocal
 import com.example.domain.usecase.combineUseCase.CombineMainDataScreen
 import com.example.domain.usecase.combineUseCase.InteractorFullInfoMainScreen
 import com.example.domain.usecase.combineUseCase.InteractorFullQueryParamLocal
+import com.example.domain.usecase.getData.GetFilteredEventsByCategory
 import com.example.domain.usecase.location.GetCurrentLocationUseCase
+import com.example.domain.usecase.main.InteractorLoadFilteredEvents
 import com.example.domain.usecase.main.InteractorLoadMainInfo
 import com.example.domain.usecase.store.city.SaveUserCityUseCase
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -26,9 +30,12 @@ class MainViewModel(
     private val interactorLoadMainInfo: InteractorLoadMainInfo,
     private val interactorFullInfoMainScreen: InteractorFullInfoMainScreen,
     private val getCurrentLocationUseCase: GetCurrentLocationUseCase,
-    private val saveUserCityUseCase: SaveUserCityUseCase
+    private val saveUserCityUseCase: SaveUserCityUseCase,
+    private val getFilteredEventsByCategory: GetFilteredEventsByCategory,
+    private val loadFilteredEvents: InteractorLoadFilteredEvents
 ) : ViewModel() {
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private val fullInfoMainScreen: StateFlow<CombineMainDataScreen> =
         interactorFullInfoMainScreen.execute().flatMapLatest { fullInfo ->
             flow {
@@ -44,11 +51,11 @@ class MainViewModel(
                     eventsClosest = emptyList(),
                     communities = emptyList(),
                     categoryList = emptyList(),
-                    filteredEventsByCategory = emptyList(),
                     isLoadingFullData = true
                 )
             )
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private val fullQueryParamLocal: StateFlow<CombineFullQueryParamLocal> =
         interactorFullQueryParamLocal.execute().flatMapLatest { fullParam ->
             flow {
@@ -62,6 +69,18 @@ class MainViewModel(
                 city = null,
                 authToken = null
             )
+        )
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private val filteredEventsByCategory: StateFlow<List<Meeting>> =
+        getFilteredEventsByCategory.execute().flatMapLatest { filteredEvents ->
+            flow {
+                emit(value = filteredEvents)
+            }
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = emptyList()
         )
 
     private val _mainStateUI = MutableStateFlow(true)
@@ -82,6 +101,7 @@ class MainViewModel(
     fun getFullInfoMainScreenFlow() = fullInfoMainScreen
     fun getSearchQuery() = searchQuery
     fun getMainScreenState() = mainScreenState
+    fun getFilteredEvents() = filteredEventsByCategory
 
     fun searchQueryUpdate(text: String?) {
         _searchQuery.update {
@@ -97,7 +117,6 @@ class MainViewModel(
 
     fun loadEventsByCategory(
         userCategories: List<Int>,
-        selectedCategory: List<Int>,
         city: String?,
         token: String?
     ) =
@@ -106,11 +125,16 @@ class MainViewModel(
                 QueryParam(
                     authToken = token,
                     userInterests = userCategories,
-                    city = city,
-                    filteredParam = selectedCategory
+                    city = city
                 )
             )
         }
+
+    fun loadFilteredEvents(
+        selectedCategory: List<Int>
+    ) = viewModelScope.launch {
+        loadFilteredEvents.execute(filterParam = selectedCategory)
+    }
 
     fun toggleUserCategory(id: Interest) {
         if (hasUserCategories(id)) {
