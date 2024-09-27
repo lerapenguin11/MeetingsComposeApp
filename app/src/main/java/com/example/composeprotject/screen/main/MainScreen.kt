@@ -6,10 +6,13 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -39,13 +42,14 @@ import com.example.composeprotject.ui.component.chip.chipStyle.ChipSize
 import com.example.composeprotject.ui.component.progressBar.CustomProgressBar
 import com.example.composeprotject.ui.component.spacer.SpacerHeight
 import com.example.composeprotject.ui.component.spacer.SpacerWidth
+import com.example.composeprotject.ui.component.state.InputState
 import com.example.composeprotject.ui.component.state.SubscribeButtonState
+import com.example.composeprotject.ui.component.topBar.search.SearchBar
 import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.utils.checkingUserNoSuchInterest
 import com.example.composeprotject.viewModel.MainViewModel
-import com.example.composeprotject.viewModel.SearchViewModel
 import com.example.domain.model.community.Community
 import com.example.domain.model.event.Meeting
 import com.example.domain.model.interest.Interest
@@ -54,10 +58,9 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MainScreen(
-    contentPadding: PaddingValues,
-    searchViewModel: SearchViewModel,
     modifier: Modifier = Modifier,
     mainViewModel: MainViewModel = koinViewModel(),
+    onGoProfile: () -> Unit,
     onClickEvent: (Meeting) -> Unit,
     onClickCommunity: (Community) -> Unit
 ) {
@@ -66,8 +69,8 @@ fun MainScreen(
         .collectAsStateWithLifecycle()
     val fullInfoMainScreen by mainViewModel.getFullInfoMainScreenFlow()
         .collectAsStateWithLifecycle()
-    val searchQuery by searchViewModel.getSearchQuery().collectAsStateWithLifecycle()
-    val mainState by searchViewModel.getMainScreenState().collectAsStateWithLifecycle()
+    val searchQuery by mainViewModel.getSearchQuery().collectAsStateWithLifecycle()
+    val mainState by mainViewModel.getMainScreenState().collectAsStateWithLifecycle()
     val fullQueryParamLocal by mainViewModel.getFullQueryParamLocalFlow()
         .collectAsStateWithLifecycle()
     var subscriptionCapabilityStatus by remember { mutableStateOf(SubscriptionCapabilityStatus.WITHOUT_SUBSCRIPTION) } //TODO вынести во viewModel
@@ -91,28 +94,49 @@ fun MainScreen(
         mainViewModel.updateCurrentLocation()
     }
 
-    when (mainState) {
-        SearchState.MAIN_SEARCH_SCREEN -> {
-            MainSearchScreen()
-        }
-
-        SearchState.MAIN_DEFAULT_SCREEN -> {
-            MainDefault(
-                contentPadding = contentPadding,
-                mainStateUI = mainStateUI,
-                subscriptionCapabilityStatus = subscriptionCapabilityStatus,
-                fullInfoMainScreen = fullInfoMainScreen,
-                onClickEvent = onClickEvent,
-                onClickCommunity = onClickCommunity,
-                userCategories = userCategories,
-                mainViewModel = mainViewModel
+    Scaffold(
+        modifier = modifier
+            .statusBarsPadding()
+            .systemBarsPadding(),
+        topBar = {
+            SearchBar(
+                isEnabled = true,
+                authToken = fullQueryParamLocal.authToken,
+                state = InputState.SUCCESS,
+                onValueChange = {
+                    mainViewModel.searchQueryUpdate(text = it)
+                },
+                onMainScreenState = {
+                    mainViewModel.mainScreenStateUpdate(state = it)
+                },
+                onGoProfile = {
+                    onGoProfile()
+                }
             )
+        }) { innerPadding ->
+        when (mainState) {
+            SearchState.MAIN_SEARCH_SCREEN -> {
+                MainSearchScreen(innerPadding)
+            }
+
+            SearchState.MAIN_DEFAULT_SCREEN -> {
+                MainDefault(
+                    contentPadding = innerPadding,
+                    mainStateUI = mainStateUI,
+                    subscriptionCapabilityStatus = subscriptionCapabilityStatus,
+                    fullInfoMainScreen = fullInfoMainScreen,
+                    onClickEvent = onClickEvent,
+                    onClickCommunity = onClickCommunity,
+                    userCategories = userCategories,
+                    mainViewModel = mainViewModel
+                )
+            }
         }
     }
 }
 
 @Composable
-fun MainSearchScreen() {
+fun MainSearchScreen(innerPadding: PaddingValues) {
     LazyColumn {
 
     }

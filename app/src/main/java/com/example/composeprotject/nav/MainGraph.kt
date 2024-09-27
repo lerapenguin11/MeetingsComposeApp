@@ -21,14 +21,12 @@ import com.example.composeprotject.ui.component.text.TopAppBarTextWithBackArrow
 import com.example.composeprotject.ui.component.topBar.standard.ProvideAppBarAction
 import com.example.composeprotject.ui.component.topBar.standard.ProvideAppBarTitle
 import com.example.composeprotject.ui.component.utils.CommonString
-import com.example.composeprotject.viewModel.SearchViewModel
 
 @SuppressLint("UnrememberedGetBackStackEntry")
 @Composable
 fun MainGraph(
     navController: NavHostController,
-    contentPadding: PaddingValues,
-    searchViewModel: SearchViewModel
+    contentPadding: PaddingValues
 ) {
     NavHost(
         navController = navController,
@@ -38,8 +36,6 @@ fun MainGraph(
 
         composable(route = Main.Home.route) {
             MainScreen(
-                contentPadding = contentPadding,
-                searchViewModel = searchViewModel,
                 onClickEvent = { meeting ->
                     navController.navigate(
                         route = "${Main.EventDetails.route}/${meeting.id}/${meeting.title}"
@@ -49,6 +45,9 @@ fun MainGraph(
                     navController.navigate(
                         route = "${Main.CommunityDetails.route}/${community.id}/${community.title}"
                     )
+                },
+                onGoProfile = {
+                    navController.navigate(Graph.PROFILE)
                 }
             )
         }

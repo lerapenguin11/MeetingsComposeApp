@@ -2,6 +2,7 @@ package com.example.composeprotject.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.composeprotject.screen.state.SearchState
 import com.example.domain.model.event.QueryParam
 import com.example.domain.model.interest.Interest
 import com.example.domain.usecase.combineUseCase.CombineFullQueryParamLocal
@@ -69,10 +70,30 @@ class MainViewModel(
     private val _userSelectedCategories = MutableStateFlow<List<Interest>>(emptyList())
     private val userSelectedCategories: StateFlow<List<Interest>> = _userSelectedCategories
 
+    private val _searchQuery = MutableStateFlow<String?>(null)
+    private val searchQuery: StateFlow<String?> = _searchQuery
+
+    private val _mainScreenState = MutableStateFlow(SearchState.MAIN_DEFAULT_SCREEN)
+    private val mainScreenState: StateFlow<SearchState> = _mainScreenState
+
     fun getFullQueryParamLocalFlow() = fullQueryParamLocal
     fun getUserSelectedCategoriesFlow() = userSelectedCategories
     fun getMainStateUIFlow() = mainStateUI
     fun getFullInfoMainScreenFlow() = fullInfoMainScreen
+    fun getSearchQuery() = searchQuery
+    fun getMainScreenState() = mainScreenState
+
+    fun searchQueryUpdate(text: String?) {
+        _searchQuery.update {
+            text
+        }
+    }
+
+    fun mainScreenStateUpdate(state: SearchState) {
+        _mainScreenState.update {
+            state
+        }
+    }
 
     fun loadEventsByCategory(
         userCategories: List<Int>,

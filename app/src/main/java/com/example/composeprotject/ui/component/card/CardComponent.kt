@@ -27,7 +27,6 @@ import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipSelect
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipSize
 import com.example.composeprotject.ui.component.image.CommunityImage
-import com.example.composeprotject.ui.component.image.EventDetailsImage
 import com.example.composeprotject.ui.component.image.EventImage
 import com.example.composeprotject.ui.component.state.SubscribeButtonState
 import com.example.composeprotject.ui.component.text.BaseText
@@ -63,12 +62,13 @@ fun EventCard(
         modifier = modifier
             .width(width = style.widthImage(variant = variant))
     ) {
-        EventImage(
+        Text(text = "TEST")
+        /*EventImage(
             width = style.widthImage(variant = variant),
             height = style.heightImage(variant = variant),
             avatarUrl = meeting.avatarUrl,
             placeholderImage = CommonDrawables.ic_event_placeholder
-        )
+        )*/
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX8))
         BaseText(
             text = meeting.title,
@@ -182,11 +182,12 @@ fun EventCardFillMaxWidth(
             bottomStart = 4.dp
         ),
     ) {
-        EventDetailsImage(
+        Text(text = "TEST")
+        /*EventDetailsImage(
             height = 180.dp,
             avatarUrl = meeting.avatarUrl,
             placeholderImage = CommonDrawables.ic_event_placeholder
-        )
+        )*/
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX8))
         BaseText(
             text = meeting.title,
@@ -242,10 +243,11 @@ fun CommunityCard(
             bottomStart = 0.dp
         ),
     ) {
-        CommunityImage(
+        Text(text = "TEST")
+        /*CommunityImage(
             placeholderImage = CommonDrawables.ic_community_placeholder,
             avatarUrl = community.avatarUrl
-        )
+        )*/
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX4))
         BaseText(
             text = community.title,
