@@ -20,6 +20,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SingUpViewModel(
+    /*private val sendUserParamVerificationCodeUseCase: SendUserParamVerificationCodeUseCase,
+    private val getUserParamSendStatusCode: GetUserParamSendStatusCode,*/
     private val sendPhoneVerificationCodeUseCase: SendPhoneVerificationCodeUseCase,
     private val sendConfirmationCodeUseCase: SendConfirmationCodeUseCase,
     private val saveAuthTokenUseCase: SaveAuthTokenUseCase
@@ -40,6 +42,27 @@ class SingUpViewModel(
     private val _isSendPhoneVerificationCodeFlow: MutableStateFlow<Boolean> = MutableStateFlow(true)
     private val isSendPhoneVerificationCodeFlow: StateFlow<Boolean> =
         _isSendPhoneVerificationCodeFlow
+
+    /* @OptIn(ExperimentalCoroutinesApi::class)
+     private val isSendPhoneVerificationCodeFlow =
+         getUserParamSendStatusCode.execute().flatMapLatest { result ->
+             flow {
+                 when (result) {
+                     is PhoneNumberResult.Success<PhoneNumberStatus> -> {
+                         val a = 1234
+                         emit(value = false)
+                     }
+
+                     is PhoneNumberResult.Error -> {
+                         emit(value = true)
+                     }
+                 }
+             }
+         }.stateIn(
+             scope = viewModelScope,
+             started = SharingStarted.WhileSubscribed(5_000),
+             initialValue = true
+         )*/
 
     private val _resultToken = MutableStateFlow<Token?>(null)
     private val resultToken: StateFlow<Token?> = _resultToken
@@ -85,6 +108,7 @@ class SingUpViewModel(
     }
 
     fun sendPhoneVerificationCode(userParam: UserParam) = viewModelScope.launch {
+        //sendUserParamVerificationCodeUseCase.execute(param = userParam)
         val response = sendPhoneVerificationCodeUseCase.execute(param = userParam)
         response.collect {
             when (it) {

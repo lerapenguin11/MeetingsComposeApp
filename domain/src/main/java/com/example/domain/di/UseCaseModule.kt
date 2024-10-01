@@ -11,6 +11,8 @@ import com.example.domain.usecase.details.GetEventDetailsInfoUseCase
 import com.example.domain.usecase.details.InteractorLoadCommunityDetails
 import com.example.domain.usecase.details.InteractorLoadEventDetailsInfo
 import com.example.domain.usecase.details.InteractorLoadEventsByCommunityId
+import com.example.domain.usecase.editUser.GetPathFromGalleryUriUseCase
+import com.example.domain.usecase.editUser.GetPathFromGalleryUriUseCaseImpl
 import com.example.domain.usecase.getData.GetCommunities
 import com.example.domain.usecase.getData.GetCommunityDetails
 import com.example.domain.usecase.getData.GetEventDetails
@@ -41,6 +43,10 @@ import com.example.domain.usecase.signUp.SendConfirmationCodeUseCase
 import com.example.domain.usecase.signUp.SendConfirmationCodeUseCaseImpl
 import com.example.domain.usecase.signUp.SendPhoneVerificationCodeUseCase
 import com.example.domain.usecase.signUp.SendPhoneVerificationCodeUseCaseImpl
+import com.example.domain.usecase.signUp.test.GetUserParamSendStatusCode
+import com.example.domain.usecase.signUp.test.GetUserParamSendStatusCodeImpl
+import com.example.domain.usecase.signUp.test.SendUserParamVerificationCodeUseCase
+import com.example.domain.usecase.signUp.test.SendUserParamVerificationCodeUseCaseImpl
 import com.example.domain.usecase.store.city.ReadUserCityUseCase
 import com.example.domain.usecase.store.city.ReadUserCityUseCaseImpl
 import com.example.domain.usecase.store.city.SaveUserCityUseCase
@@ -125,4 +131,11 @@ internal val useCaseModule = module {
     single<DeleteAuthTokenUseCase> { DeleteAuthTokenUseCaseImpl(repository = get()) }
     single<GetFilteredEventsUseCase> { GetFilteredEventsUseCase() }
     single<InteractorLoadFilteredEvents> { InteractorLoadFilteredEvents() }
+    single<SendUserParamVerificationCodeUseCase> {
+        SendUserParamVerificationCodeUseCaseImpl(
+            repository = get()
+        )
+    }
+    single<GetUserParamSendStatusCode> { GetUserParamSendStatusCodeImpl(repository = get()) }
+    single<GetPathFromGalleryUriUseCase> { GetPathFromGalleryUriUseCaseImpl(repository = get()) }
 }

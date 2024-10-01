@@ -210,7 +210,6 @@ fun MainDefault(
                 interests = fullInfoMainScreen.categoryList,
                 userCategories = userCategories,
                 onFilteringByAllCategories = {
-                    //TODO
                     mainViewModel.clearUserSelectedCategories()
                 }
             ) {

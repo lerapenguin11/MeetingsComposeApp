@@ -2,6 +2,7 @@ package com.example.data.di
 
 import com.example.data.repository.CommunityRepositoryImpl
 import com.example.data.repository.DefaultLocationTrackerRepositoryImpl
+import com.example.data.repository.EditUserRepositoryImpl
 import com.example.data.repository.EventsRepositoryImpl
 import com.example.data.repository.InterestRepositoryImpl
 import com.example.data.repository.PeopleRepositoryImpl
@@ -10,6 +11,7 @@ import com.example.data.repository.StoreRepositoryImpl
 import com.example.data.repository.UserListsRepositoryImpl
 import com.example.data.repository.UserRepositoryImpl
 import com.example.domain.repository.community.CommunityRepository
+import com.example.domain.repository.editUser.EditUserRepository
 import com.example.domain.repository.event.EventRepository
 import com.example.domain.repository.interest.InterestRepository
 import com.example.domain.repository.location.LocationTrackerRepository
@@ -43,4 +45,5 @@ internal val repositoryModule = module {
     }
     single<UserRepository> { UserRepositoryImpl() }
     single<UserListsRepository> { UserListsRepositoryImpl() }
+    single<EditUserRepository> { EditUserRepositoryImpl(context = androidContext().applicationContext) }
 }

@@ -13,6 +13,6 @@ interface SendPhoneVerificationCodeUseCase {
 internal class SendPhoneVerificationCodeUseCaseImpl(private val repository: SignUpRepository) :
     SendPhoneVerificationCodeUseCase {
     override suspend fun execute(param: UserParam): Flow<PhoneNumberResult<PhoneNumberStatus>> {
-        return repository.getVerificationCode(userParam = param)
+        return repository.getVerificationCodeT(userParam = param)
     }
 }

@@ -1,31 +1,51 @@
 package com.example.composeprotject.screen.profile
 
+import android.app.Activity
+import android.content.Intent
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.CompositingStrategy
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.composeprotject.R
+import com.example.composeprotject.screen.state.EditState
+import com.example.composeprotject.ui.component.button.FilledButton
 import com.example.composeprotject.ui.component.chip.Chip
 import com.example.composeprotject.ui.component.chip.EditChip
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
@@ -34,6 +54,7 @@ import com.example.composeprotject.ui.component.chip.chipStyle.ChipSize
 import com.example.composeprotject.ui.component.input.InputFieldIcon
 import com.example.composeprotject.ui.component.input.SimpleInputField
 import com.example.composeprotject.ui.component.spacer.SpacerHeight
+import com.example.composeprotject.ui.component.state.FilledButtonState
 import com.example.composeprotject.ui.component.state.InputState
 import com.example.composeprotject.ui.component.switcher.CustomSwitch
 import com.example.composeprotject.ui.component.topBar.standard.TopAppBar
@@ -43,38 +64,178 @@ import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.component.utils.NoRippleTheme
 import com.example.composeprotject.ui.component.utils.imageCash
 import com.example.composeprotject.ui.theme.MeetTheme
+import com.example.composeprotject.viewModel.EditUserViewModel
 import com.example.domain.model.interest.Interest
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun EditProfileScreenPreview() {
-    EditProfileScreen(
-        navController = rememberNavController(),
-        onGoProfileAfterSaving = {},
-        isSaveData = true
-    )
-}
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun EditProfileScreen(
     navController: NavController,
     isSaveData: Boolean,
     modifier: Modifier = Modifier,
+    editUserViewModel: EditUserViewModel = koinViewModel(),
     onGoProfileAfterSaving: (Boolean) -> Unit
 ) {
+    val editPhoto by editUserViewModel.getEditPhotoFlow().collectAsStateWithLifecycle()
+    val galleryUri by editUserViewModel.getPathFromGalleryUriFlow().collectAsStateWithLifecycle()
+    val editProfileStateScreen by editUserViewModel.editProfileScreenStateFlow()
+        .collectAsStateWithLifecycle()
+
     LaunchedEffect(isSaveData) {
         if (isSaveData) {
-            println("SAVE")
             kotlinx.coroutines.delay(5000)
             onGoProfileAfterSaving(true)
         }
     }
+
+    LaunchedEffect(editPhoto) {
+        println("EDIT PHOTO: $editPhoto")
+    }
+
+    val launcher =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val data = it.data?.data
+                data?.let { it1 -> editUserViewModel.getPathFromGalleryUri(it1) }
+                galleryUri?.let { data -> editUserViewModel.updatePhoto(data = data) }
+            }
+        }
+
+    when (editProfileStateScreen) {
+        EditState.EDIT_PROFILE -> {
+            EditProfile(
+                editUserViewModel = editUserViewModel,
+                navController = navController,
+                galleryUri = galleryUri,
+                launcher = launcher
+            )
+        }
+
+        EditState.EDIT_PICTURE -> {
+            val avatarUrl =
+                "https://avatars.mds.yandex.net/i?id=5d46bf0b54370ee44f75cd4614e7391bd82ca521-9224539-images-thumbs&n=13"
+            EditPicture(
+                currentPhoto = galleryUri ?: avatarUrl,
+                galleryUri = galleryUri,
+                onCancel = { editUserViewModel.updateEditProfileScreenState(state = EditState.EDIT_PROFILE) },
+                onSave = { editUserViewModel.updateEditProfileScreenState(state = EditState.EDIT_PROFILE) },
+                onChooseAnotherPhoto = { launcher.launch(editUserViewModel.getChooseImageIntent()) }
+            )
+        }
+    }
+}
+
+@Composable
+private fun EditPicture(
+    currentPhoto: String?,
+    galleryUri: String?,
+    modifier: Modifier = Modifier,
+    onCancel: () -> Unit,
+    onChooseAnotherPhoto: () -> Unit,
+    onSave: () -> Unit
+) {
+    Column(
+        modifier = modifier
+            .background(color = Color.Black)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Bottom
+    ) {
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .clip(RoundedCornerShape(size = MeetTheme.sizes.sizeX10))
+                .padding(horizontal = MeetTheme.sizes.sizeX16, vertical = MeetTheme.sizes.sizeX20)
+                .clickable {
+                    onCancel()
+                }
+        ) {
+            Image(
+                modifier = Modifier
+                    .size(size = MeetTheme.sizes.sizeX24),
+                painter = painterResource(id = CommonDrawables.ic_close_bt),
+                contentDescription = null
+            )
+        }
+        Box(
+            modifier = with(modifier) {
+                fillMaxWidth()
+                    .weight(3.5f)
+            }
+        ) {
+            AsyncImage(
+                model = imageCash(
+                    context = LocalContext.current,
+                    imageUrl = galleryUri ?: currentPhoto
+                ),
+                placeholder = painterResource(id = CommonDrawables.ic_avatar_user_profile),
+                error = painterResource(id = CommonDrawables.ic_avatar_user_profile),
+                contentDescription = stringResource(CommonString.text_avatar),
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.height(height = 375.dp)
+            )
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .height(375.dp)
+                .graphicsLayer {
+                    compositingStrategy = CompositingStrategy.Offscreen
+                }
+                .drawWithContent {
+                    drawContent()
+                    drawCircle(
+                        color = Color(0xFFFFFFFF),
+                        center = Offset(x = size.width / 2, y = size.height / 2),
+                        radius = size.width / 2.15f,
+                        blendMode = BlendMode.DstOut
+                    )
+                }
+                .background(color = MeetTheme.colors.blackTransparent)
+            )
+        }
+        Column(
+            modifier = Modifier
+                .weight(2.5f)
+                .padding(horizontal = MeetTheme.sizes.sizeX16),
+            verticalArrangement = Arrangement.Bottom,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                modifier = Modifier
+                    .clickable {
+                        onChooseAnotherPhoto()
+                    },
+                text = stringResource(CommonString.text_choose_another_photo),
+                color = MeetTheme.colors.darkGray,
+                style = MeetTheme.typography.interMedium18
+            )
+            SpacerHeight(height = 24.dp)
+            FilledButton(
+                state = FilledButtonState.ACTIVE_PRIMARY,
+                buttonText = stringResource(id = CommonString.text_save)
+            ) {
+                onSave()
+            }
+            SpacerHeight(height = 28.dp)
+        }
+    }
+}
+
+@Composable
+private fun EditProfile(
+    navController: NavController,
+    galleryUri: String?,
+    launcher: ManagedActivityResultLauncher<Intent, ActivityResult>,
+    editUserViewModel: EditUserViewModel,
+    modifier: Modifier = Modifier
+) {
     LazyColumn(
         modifier = modifier.fillMaxWidth()
     ) {
         item {
             AvatarBlock(
-                avatarUrl = null,
+                launcher = launcher,
+                galleryUri = galleryUri,
+                editUserViewModel = editUserViewModel,
+                currentPhoto = null,
                 navController = navController
             )
         }
@@ -329,9 +490,12 @@ private fun BlockInputUserInformation(
 
 @Composable
 private fun AvatarBlock(
-    avatarUrl: String?,
+    currentPhoto: String?,
+    galleryUri: String?,
+    editUserViewModel: EditUserViewModel,
     navController: NavController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    launcher: ManagedActivityResultLauncher<Intent, ActivityResult>
 ) {
     Box {
         Box(
@@ -340,11 +504,10 @@ private fun AvatarBlock(
             },
             contentAlignment = Alignment.BottomCenter
         ) {
-            //TODO add top app bar
             AsyncImage(
                 model = imageCash(
                     context = LocalContext.current,
-                    imageUrl = avatarUrl
+                    imageUrl = galleryUri ?: currentPhoto
                 ),
                 placeholder = painterResource(id = CommonDrawables.ic_avatar_user_profile),
                 error = painterResource(id = CommonDrawables.ic_avatar_user_profile),
@@ -359,7 +522,8 @@ private fun AvatarBlock(
                 EditChip(
                     text = stringResource(CommonString.text_edit_photo)
                 ) {
-                    //TODO
+                    editUserViewModel.updateEditProfileScreenState(state = EditState.EDIT_PICTURE)
+                    launcher.launch(editUserViewModel.getChooseImageIntent())
                 }
             }
         }

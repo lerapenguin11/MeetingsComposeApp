@@ -16,12 +16,16 @@ import com.skydoves.sandwich.suspendOnError
 import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.mapLatest
 
 class SignUpRepositoryImpl(private val service: AuthApi, private val mapper: SingUpMapper) :
     SignUpRepository {
-    override suspend fun getVerificationCode(userParam: UserParam): Flow<PhoneNumberResult<PhoneNumberStatus>> =
+
+    override suspend fun getVerificationCodeT(userParam: UserParam): Flow<PhoneNumberResult<PhoneNumberStatus>> =
         flow {
             val response =
                 service.getRequestCode(authParam = mapper.userParamToAuthParam(userParam = userParam))
@@ -36,6 +40,49 @@ class SignUpRepositoryImpl(private val service: AuthApi, private val mapper: Sin
                 message()
             }
         }.flowOn(Dispatchers.IO)
+
+    private val verificationCodeStatusCode = MutableStateFlow<Int?>(value = null)
+    private val observeResultStatusCode = verificationCodeStatusCode.flatMapLatest {
+        flow {
+            println("observeResultStatusCode: $it")
+            emit(value = it)
+        }
+    }
+
+    override fun getVerificationCode(userParam: UserParam) {
+        println("TEST_AMOGUS")
+        flow<Unit> {
+            println("response: ${userParam}")
+            val response =
+                service.getRequestCode(authParam = mapper.userParamToAuthParam(userParam = userParam))
+            println("response: ${response}")
+            response.suspendOnSuccess {
+                println("OnSuccess_CODE: ${statusCode.code}")
+                //emit(value = statusCode.code)
+                //emit(value = verificationCodeStatusCode.tryEmit(value = statusCode.code))
+                verificationCodeStatusCode.tryEmit(value = statusCode.code)
+            }.onFailure {
+                println("ERROR MESSAGE: ${message()}")
+            }
+            response.suspendOnError {
+                println("ERROR_CODE: ${statusCode.code}")
+                //emit(value = statusCode.code)
+                //emit(value = verificationCodeStatusCode.tryEmit(value = statusCode.code))
+                verificationCodeStatusCode.tryEmit(value = statusCode.code)
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override fun resultGetVerificationCode(): Flow<PhoneNumberResult<PhoneNumberStatus>> {
+        return flow {
+            observeResultStatusCode.mapLatest { responseCode ->
+                when (responseCode) {
+                    SUCCESS_CODE -> emit(value = PhoneNumberResult.Success(PhoneNumberStatus.SUCCESS))
+                    else -> emit(value = PhoneNumberResult.Error(Exception(PhoneNumberStatus.ERROR.message)))
+                }
+            }
+        }.flowOn(Dispatchers.IO)
+    }
 
     override suspend fun sendConfirmationCode(
         code: String,
