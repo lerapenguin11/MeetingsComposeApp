@@ -184,7 +184,7 @@ private fun EditPicture(
                     drawCircle(
                         color = Color(0xFFFFFFFF),
                         center = Offset(x = size.width / 2, y = size.height / 2),
-                        radius = size.width / 2.15f,
+                        radius = size.height / 2.15f,
                         blendMode = BlendMode.DstOut
                     )
                 }
