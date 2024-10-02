@@ -9,20 +9,21 @@ import com.example.composeprotject.ui.component.state.FilledButtonState
 import com.example.domain.model.signUp.Token
 import com.example.domain.model.signUp.UserParam
 import com.example.domain.usecase.signUp.SendConfirmationCodeUseCase
-import com.example.domain.usecase.signUp.SendPhoneVerificationCodeUseCase
+import com.example.domain.usecase.signUp.test.SendUserParamAuthentication
 import com.example.domain.usecase.store.token.SaveAuthTokenUseCase
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SingUpViewModel(
-    /*private val sendUserParamVerificationCodeUseCase: SendUserParamVerificationCodeUseCase,
-    private val getUserParamSendStatusCode: GetUserParamSendStatusCode,*/
-    private val sendPhoneVerificationCodeUseCase: SendPhoneVerificationCodeUseCase,
+    private val getUserParamSendStatusCode: SendUserParamAuthentication,
     private val sendConfirmationCodeUseCase: SendConfirmationCodeUseCase,
     private val saveAuthTokenUseCase: SaveAuthTokenUseCase
 ) : ViewModel() {
@@ -39,13 +40,9 @@ class SingUpViewModel(
         MutableStateFlow(FilledButtonState.DISABLED)
     private val buttonState: StateFlow<FilledButtonState> = _buttonState
 
-    private val _isSendPhoneVerificationCodeFlow: MutableStateFlow<Boolean> = MutableStateFlow(true)
-    private val isSendPhoneVerificationCodeFlow: StateFlow<Boolean> =
-        _isSendPhoneVerificationCodeFlow
-
-    /* @OptIn(ExperimentalCoroutinesApi::class)
+    @OptIn(ExperimentalCoroutinesApi::class)
      private val isSendPhoneVerificationCodeFlow =
-         getUserParamSendStatusCode.execute().flatMapLatest { result ->
+        getUserParamSendStatusCode.resultSendUserParam().flatMapLatest { result ->
              flow {
                  when (result) {
                      is PhoneNumberResult.Success<PhoneNumberStatus> -> {
@@ -62,7 +59,7 @@ class SingUpViewModel(
              scope = viewModelScope,
              started = SharingStarted.WhileSubscribed(5_000),
              initialValue = true
-         )*/
+        )
 
     private val _resultToken = MutableStateFlow<Token?>(null)
     private val resultToken: StateFlow<Token?> = _resultToken
@@ -87,6 +84,9 @@ class SingUpViewModel(
     fun getCodeFlow() = confirmationCode
 
     fun getTokenFlow() = resultToken
+
+    fun getIsSendPhoneVerificationCodeFlow() = isSendPhoneVerificationCodeFlow
+
     fun updateButtonState(state: FilledButtonState) {
         _buttonState.update { state }
     }
@@ -108,17 +108,7 @@ class SingUpViewModel(
     }
 
     fun sendPhoneVerificationCode(userParam: UserParam) = viewModelScope.launch {
-        //sendUserParamVerificationCodeUseCase.execute(param = userParam)
-        val response = sendPhoneVerificationCodeUseCase.execute(param = userParam)
-        response.collect {
-            when (it) {
-                is PhoneNumberResult.Success<PhoneNumberStatus> -> {
-                }
-
-                is PhoneNumberResult.Error -> {}
-            }
-            _isSendPhoneVerificationCodeFlow.update { false }
-        }
+        getUserParamSendStatusCode.execute(userParam = userParam)
     }
 
     fun sendConfirmationCode(code: String, phoneNumber: String) = viewModelScope.launch {
@@ -135,6 +125,4 @@ class SingUpViewModel(
             }
         }
     }
-
-    fun getIsSendPhoneVerificationCodeFlow() = isSendPhoneVerificationCodeFlow
 }

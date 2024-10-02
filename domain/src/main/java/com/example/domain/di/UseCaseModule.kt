@@ -41,12 +41,8 @@ import com.example.domain.usecase.people.InteractorLoadPeopleByCategoryId
 import com.example.domain.usecase.people.InteractorLoadPeopleByEventId
 import com.example.domain.usecase.signUp.SendConfirmationCodeUseCase
 import com.example.domain.usecase.signUp.SendConfirmationCodeUseCaseImpl
-import com.example.domain.usecase.signUp.SendPhoneVerificationCodeUseCase
-import com.example.domain.usecase.signUp.SendPhoneVerificationCodeUseCaseImpl
-import com.example.domain.usecase.signUp.test.GetUserParamSendStatusCode
-import com.example.domain.usecase.signUp.test.GetUserParamSendStatusCodeImpl
-import com.example.domain.usecase.signUp.test.SendUserParamVerificationCodeUseCase
-import com.example.domain.usecase.signUp.test.SendUserParamVerificationCodeUseCaseImpl
+import com.example.domain.usecase.signUp.test.GetUserParamSendUserParamAuthenticationImpl
+import com.example.domain.usecase.signUp.test.SendUserParamAuthentication
 import com.example.domain.usecase.store.city.ReadUserCityUseCase
 import com.example.domain.usecase.store.city.ReadUserCityUseCaseImpl
 import com.example.domain.usecase.store.city.SaveUserCityUseCase
@@ -106,7 +102,6 @@ internal val useCaseModule = module {
     single { InteractorLoadPeopleByEventId() }
     single { InteractorLoadPeopleByCategoryId() }
     single { GetPeople() }
-    single<SendPhoneVerificationCodeUseCase> { SendPhoneVerificationCodeUseCaseImpl(repository = get()) }
     single<SendConfirmationCodeUseCase> { SendConfirmationCodeUseCaseImpl(repository = get()) }
     single<GetCurrentLocationUseCase> { GetCurrentLocationUseCaseImpl(repository = get()) }
     single<SaveUserCityUseCase> { SaveUserCityUseCaseImpl(repository = get()) }
@@ -131,11 +126,6 @@ internal val useCaseModule = module {
     single<DeleteAuthTokenUseCase> { DeleteAuthTokenUseCaseImpl(repository = get()) }
     single<GetFilteredEventsUseCase> { GetFilteredEventsUseCase() }
     single<InteractorLoadFilteredEvents> { InteractorLoadFilteredEvents() }
-    single<SendUserParamVerificationCodeUseCase> {
-        SendUserParamVerificationCodeUseCaseImpl(
-            repository = get()
-        )
-    }
-    single<GetUserParamSendStatusCode> { GetUserParamSendStatusCodeImpl(repository = get()) }
+    single<SendUserParamAuthentication> { GetUserParamSendUserParamAuthenticationImpl(repository = get()) }
     single<GetPathFromGalleryUriUseCase> { GetPathFromGalleryUriUseCaseImpl(repository = get()) }
 }

@@ -7,14 +7,11 @@ import com.example.domain.model.signUp.UserParam
 import kotlinx.coroutines.flow.Flow
 
 interface SignUpRepository {
-    suspend fun getVerificationCodeT(userParam: UserParam): Flow<PhoneNumberResult<PhoneNumberStatus>>
 
     suspend fun sendConfirmationCode(
         code: String,
         phoneNumber: String
     ): Flow<PhoneNumberResult<Token>>
 
-    fun getVerificationCode(userParam: UserParam)
-
-    fun resultGetVerificationCode(): Flow<PhoneNumberResult<PhoneNumberStatus>>
+    fun getVerificationCode(userParam: UserParam): Flow<PhoneNumberResult<PhoneNumberStatus>>
 }
