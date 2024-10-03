@@ -123,6 +123,7 @@ fun SignInScreen(
             )
             SpacerHeight(height = MeetTheme.sizes.sizeX24)
             InputBlock(
+                inputValue = inputValue,
                 codeState = authToken?.success,
                 screenState = currentStep,
                 isEnabled = true,
@@ -180,7 +181,8 @@ fun SignInScreen(
                         ),
                         onSecondsRemaining = {
                             secondsRemaining = it
-                        }
+                        },
+                        onInputValue = { inputValue = it }
                     )
                     goToNextStepRegistration(
                         nextStepExists = nextStepExists,
@@ -235,11 +237,13 @@ private fun sendUserDataAndStartTimer(
     currentStep: RegistrationScreenState,
     signUpViewModel: SingUpViewModel,
     userParam: UserParam,
-    onSecondsRemaining: (Int) -> Unit
+    onSecondsRemaining: (Int) -> Unit,
+    onInputValue: (String) -> Unit
 ) {
     if (RegistrationScreenState.INPUT_NUMBER_PHONE == currentStep) {
         signUpViewModel.updateButtonState(state = FilledButtonState.LOADING)
         signUpViewModel.sendPhoneVerificationCode(userParam = userParam)
+        onInputValue(EMPTY_LINE)
         onSecondsRemaining(START_TIMER)
     }
 }
@@ -316,11 +320,13 @@ private fun InputBlock(
     onInputName: (String) -> Unit,
     onInputCode: (String) -> Unit,
     onInputNumberPhone: (String) -> Unit,
-    onValidationPhoneNumber: (Boolean) -> Unit
+    onValidationPhoneNumber: (Boolean) -> Unit,
+    inputValue: String
 ) {
     when (screenState) {
         RegistrationScreenState.INPUT_NAME -> {
             SimpleInputField(
+                inputText = inputValue, //TODO
                 textPlaceholder = stringResource(CommonString.text_name_and_surname),
                 isEnabled = isEnabled,
                 state = InputState.SUCCESS,
@@ -332,6 +338,7 @@ private fun InputBlock(
 
         RegistrationScreenState.INPUT_CODE -> {
             SimpleInputField(
+                inputText = inputValue, //TODO
                 textPlaceholder = stringResource(CommonString.text_placeholder_code),
                 isEnabled = isEnabled,
                 state = when (codeState) {

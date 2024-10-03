@@ -65,31 +65,33 @@ import com.example.composeprotject.ui.component.utils.NoRippleTheme
 import com.example.composeprotject.ui.component.utils.imageCash
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.EditUserViewModel
+import com.example.domain.model.editUser.EditUserInfo
 import com.example.domain.model.interest.Interest
+import com.example.domain.model.user.SocialNetwork
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun EditProfileScreen(
     navController: NavController,
     isSaveData: Boolean,
-    modifier: Modifier = Modifier,
     editUserViewModel: EditUserViewModel = koinViewModel(),
     onGoProfileAfterSaving: (Boolean) -> Unit
 ) {
     val editPhoto by editUserViewModel.getEditPhotoFlow().collectAsStateWithLifecycle()
     val galleryUri by editUserViewModel.getPathFromGalleryUriFlow().collectAsStateWithLifecycle()
-    val editProfileStateScreen by editUserViewModel.editProfileScreenStateFlow()
+    val editProfileStateScreen by editUserViewModel.getEditProfileScreenStateFlow()
         .collectAsStateWithLifecycle()
+    val userInfo by editUserViewModel.getUserInfoFlow().collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        editUserViewModel.loadUserInfoForEdit()
+    }
 
     LaunchedEffect(isSaveData) {
         if (isSaveData) {
             kotlinx.coroutines.delay(5000)
             onGoProfileAfterSaving(true)
         }
-    }
-
-    LaunchedEffect(editPhoto) {
-        println("EDIT PHOTO: $editPhoto")
     }
 
     val launcher =
@@ -104,6 +106,7 @@ fun EditProfileScreen(
     when (editProfileStateScreen) {
         EditState.EDIT_PROFILE -> {
             EditProfile(
+                userInfo = userInfo,
                 editUserViewModel = editUserViewModel,
                 navController = navController,
                 galleryUri = galleryUri,
@@ -112,10 +115,8 @@ fun EditProfileScreen(
         }
 
         EditState.EDIT_PICTURE -> {
-            val avatarUrl =
-                "https://avatars.mds.yandex.net/i?id=5d46bf0b54370ee44f75cd4614e7391bd82ca521-9224539-images-thumbs&n=13"
             EditPicture(
-                currentPhoto = galleryUri ?: avatarUrl,
+                currentPhoto = galleryUri ?: userInfo?.avatarUrl,
                 galleryUri = galleryUri,
                 onCancel = { editUserViewModel.updateEditProfileScreenState(state = EditState.EDIT_PROFILE) },
                 onSave = { editUserViewModel.updateEditProfileScreenState(state = EditState.EDIT_PROFILE) },
@@ -221,6 +222,7 @@ private fun EditPicture(
 
 @Composable
 private fun EditProfile(
+    userInfo: EditUserInfo?,
     navController: NavController,
     galleryUri: String?,
     launcher: ManagedActivityResultLauncher<Intent, ActivityResult>,
@@ -230,35 +232,61 @@ private fun EditProfile(
     LazyColumn(
         modifier = modifier.fillMaxWidth()
     ) {
-        item {
-            AvatarBlock(
-                launcher = launcher,
-                galleryUri = galleryUri,
-                editUserViewModel = editUserViewModel,
-                currentPhoto = null,
-                navController = navController
-            )
-        }
-        item {
-            BlockInputUserInformation()
-        }
-        item {
-            InterestsSelectionBlock(
-                userInterests = listOf(
-                    Interest(id = 0, "Разработка"),
-                    Interest(id = 0, "Дизайн"),
-                    Interest(id = 0, "Frontend")
+        userInfo?.let { info ->
+            item {
+                AvatarBlock(
+                    launcher = launcher,
+                    galleryUri = galleryUri,
+                    editUserViewModel = editUserViewModel,
+                    currentPhoto = info.avatarUrl,
+                    navController = navController
                 )
-            )
-        }
-        item {
-            SocialMediaBlock()
-        }
-        item {
-            NotificationBlock()
-        }
-        item {
-            DeleteProfileBlock()
+            }
+            item {
+                BlockInputUserInformation(
+                    fullName = info.fullName,
+                    phoneNumber = info.phoneNumber,
+                    city = info.city,
+                    bio = info.bio,
+                    onFullNameChange = {
+                        editUserViewModel.updateUserFullName(fullName = it)
+                    },
+                    onCityChange = {
+                        editUserViewModel.updateCity(city = it)
+                    },
+                    onBioChange = {
+                        editUserViewModel.updateBio(bio = it)
+                    },
+                    onPhoneNumberChange = {
+                        editUserViewModel.updatePhoneNumber(phoneNumber = it)
+                    }
+                )
+            }
+            item {
+                InterestsSelectionBlock(
+                    userInterests = info.interests,
+                    onClickUserInterest = {
+                        //TODO
+                    }
+                )
+            }
+            item {
+                SocialMediaBlock(
+                    socialNetwork = info.socialNetwork,
+                    onValueHabrChange = {
+                        editUserViewModel.updateSocialNetworkHabr(id = it)
+                    },
+                    onValueTelegramChange = {
+                        editUserViewModel.updateSocialNetworkTelegram(id = it)
+                    }
+                )
+            }
+            item {
+                NotificationBlock()
+            }
+            item {
+                DeleteProfileBlock()
+            }
         }
     }
 }
@@ -361,7 +389,10 @@ private fun NotificationBlock(
 
 @Composable
 private fun SocialMediaBlock(
-    modifier: Modifier = Modifier
+    socialNetwork: SocialNetwork,
+    modifier: Modifier = Modifier,
+    onValueHabrChange: (String) -> Unit,
+    onValueTelegramChange: (String) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -375,22 +406,24 @@ private fun SocialMediaBlock(
         )
         SpacerHeight(height = MeetTheme.sizes.sizeX16)
         InputFieldIcon(
+            inputText = socialNetwork.habr.orEmpty(),
             textPlaceholder = stringResource(CommonString.text_habr),
             isEnabled = true,
             leadingIcon = CommonDrawables.ic_leading_habr,
             state = InputState.SUCCESS,
             onValueChange = { newValue ->
-                //TODO
+                onValueHabrChange(newValue)
             }
         )
         SpacerHeight(height = MeetTheme.sizes.sizeX8)
         InputFieldIcon(
+            inputText = socialNetwork.telegram.orEmpty(),
             textPlaceholder = stringResource(CommonString.text_telegram),
             isEnabled = true,
             leadingIcon = CommonDrawables.ic_leading_telegram,
             state = InputState.SUCCESS,
             onValueChange = { newValue ->
-                //TODO
+                onValueTelegramChange(newValue)
             }
         )
     }
@@ -398,8 +431,9 @@ private fun SocialMediaBlock(
 
 @Composable
 private fun InterestsSelectionBlock(
-    userInterests: List<Interest>,
-    modifier: Modifier = Modifier
+    userInterests: List<Interest>?,
+    modifier: Modifier = Modifier,
+    onClickUserInterest: (Int) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -417,22 +451,27 @@ private fun InterestsSelectionBlock(
             verticalGap = MeetTheme.sizes.sizeX8,
             alignment = Alignment.Start
         ) {
-            repeat(userInterests.size) { index ->
-                Chip(
-                    text = userInterests[index].title,
-                    chipSize = ChipSize.MEDIUM,
-                    chipColors = ChipSelect.TRUE,
-                    chipClick = ChipClick.ON_CLICK,
-                    onClick = { }
-                )
-                if (userInterests.size == index + 1 || userInterests.isEmpty()) {
+            userInterests?.let {
+                repeat(it.size) { index ->
                     Chip(
-                        text = stringResource(CommonString.text_add),
+                        text = userInterests[index].title,
                         chipSize = ChipSize.MEDIUM,
-                        chipColors = ChipSelect.FALSE,
+                        chipColors = ChipSelect.TRUE,
                         chipClick = ChipClick.ON_CLICK,
-                        onClick = {}
+                        onClick = {
+                            onClickUserInterest(userInterests[index].id)
+                        }
                     )
+                    if (userInterests.size == index + 1) {
+                        ChipAddInterests {
+                            //TODO
+                        }
+                    }
+                }
+            }
+            if (userInterests.isNullOrEmpty()) {
+                ChipAddInterests {
+                    //TODO
                 }
             }
         }
@@ -440,8 +479,31 @@ private fun InterestsSelectionBlock(
 }
 
 @Composable
+fun ChipAddInterests(
+    onAddInterest: () -> Unit
+) {
+    Chip(
+        text = stringResource(CommonString.text_add),
+        chipSize = ChipSize.MEDIUM,
+        chipColors = ChipSelect.FALSE,
+        chipClick = ChipClick.ON_CLICK,
+        onClick = {
+            onAddInterest()
+        }
+    )
+}
+
+@Composable
 private fun BlockInputUserInformation(
-    modifier: Modifier = Modifier
+    fullName: String,
+    phoneNumber: String,
+    city: String?,
+    bio: String?,
+    modifier: Modifier = Modifier,
+    onFullNameChange: (String) -> Unit,
+    onPhoneNumberChange: (String) -> Unit,
+    onBioChange: (String) -> Unit,
+    onCityChange: (String) -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -449,40 +511,44 @@ private fun BlockInputUserInformation(
     ) {
         SpacerHeight(height = MeetTheme.sizes.sizeX40)
         SimpleInputField(
+            inputText = fullName,
             textPlaceholder = stringResource(CommonString.text_user_name_surname),
             isEnabled = true,
             state = InputState.SUCCESS,
             onValueChange = { newValue ->
-                //TODO
+                onFullNameChange(newValue)
             }
         )
         SpacerHeight(height = MeetTheme.sizes.sizeX8)
         SimpleInputField(
+            inputText = phoneNumber,
             textPlaceholder = stringResource(CommonString.text_ph_phone_number_with_code),
             isEnabled = true,
-            state = InputState.SUCCESS,
+            state = if (phoneNumber.isEmpty()) InputState.ERROR else InputState.SUCCESS,
             onValueChange = { newValue ->
-                //TODO
+                onPhoneNumberChange(newValue)
             }
         )
         SpacerHeight(height = MeetTheme.sizes.sizeX8)
         SimpleInputField(
+            inputText = city.orEmpty(),
             textPlaceholder = stringResource(CommonString.text_city),
             isEnabled = true,
             state = InputState.SUCCESS,
             onValueChange = { newValue ->
-                //TODO
+                onCityChange(newValue)
             }
         )
         SpacerHeight(height = MeetTheme.sizes.sizeX8)
         SimpleInputField(
+            inputText = bio.orEmpty(),
             textPlaceholder = stringResource(CommonString.text_tell_us_about_yourself),
             isEnabled = true,
             maxLine = 3,
             singleLine = false,
             state = InputState.SUCCESS,
             onValueChange = { newValue ->
-                //TODO
+                onBioChange(newValue)
             }
         )
     }

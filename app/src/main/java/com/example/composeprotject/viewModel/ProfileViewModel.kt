@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 class ProfileViewModel(
     private val interactorReadIsShowSettingsLists: InteractorReadIsShowSettingsLists,
-    private val getUserInfo: InteractorLoadUserInfo,
+    private val interactorLoadUserInfo: InteractorLoadUserInfo,
     private val interactorFullUserInfo: InteractorFullUserInfo,
     private val deleteAuthTokenUseCase: DeleteAuthTokenUseCase
 ) : ViewModel() {
@@ -58,7 +58,7 @@ class ProfileViewModel(
     fun getFullUserInfoFlow() = fullUserInfo
 
     fun loadUserInfo(isShowMyEvents: Boolean, isShowMyCommunities: Boolean, authToken: String) {
-        getUserInfo.execute(
+        interactorLoadUserInfo.execute(
             optionsUploading = OptionsUploadingMyLists(
                 isShowMyEvents = isShowMyEvents,
                 isShowMyCommunities = isShowMyCommunities,

@@ -34,6 +34,7 @@ fun SimpleInputField(
     textPlaceholder: String,
     isEnabled: Boolean,
     state: InputState,
+    inputText: String,
     modifier: Modifier = Modifier,
     limit: Int? = null,
     maxLine: Int = 1,
@@ -42,7 +43,7 @@ fun SimpleInputField(
     inputColors: InputColors = InputColorsDefaults.colors(),
     onValueChange: (String) -> Unit
 ) {
-    var inputText by remember { mutableStateOf("") }
+    //var inputText by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     var textOverflow by remember { mutableStateOf(false) }
@@ -66,7 +67,7 @@ fun SimpleInputField(
         value = inputText,
         onValueChange = { newValue ->
             val value = if (limit == null) newValue else newValue.take(limit)
-            inputText = value
+            //inputText = value
             onValueChange(value)
         },
         onTextLayout = { textLayoutResult ->
@@ -130,6 +131,7 @@ fun SimpleInputField(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InputFieldIcon(
+    inputText: String,
     textPlaceholder: String,
     isEnabled: Boolean,
     state: InputState,
@@ -140,7 +142,6 @@ fun InputFieldIcon(
     inputColors: InputColors = InputColorsDefaults.colors(),
     onValueChange: (String) -> Unit
 ) {
-    var inputText by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
 
@@ -162,7 +163,6 @@ fun InputFieldIcon(
     BasicTextField(
         value = inputText,
         onValueChange = { newValue ->
-            inputText = newValue
             onValueChange(newValue)
         },
         modifier = modifier

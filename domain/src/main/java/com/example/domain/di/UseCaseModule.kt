@@ -13,6 +13,8 @@ import com.example.domain.usecase.details.InteractorLoadEventDetailsInfo
 import com.example.domain.usecase.details.InteractorLoadEventsByCommunityId
 import com.example.domain.usecase.editUser.GetPathFromGalleryUriUseCase
 import com.example.domain.usecase.editUser.GetPathFromGalleryUriUseCaseImpl
+import com.example.domain.usecase.editUser.GetUserInfoForEditUseCase
+import com.example.domain.usecase.editUser.InteractorLoadUserInfoForEdit
 import com.example.domain.usecase.getData.GetCommunities
 import com.example.domain.usecase.getData.GetCommunityDetails
 import com.example.domain.usecase.getData.GetEventDetails
@@ -24,6 +26,7 @@ import com.example.domain.usecase.getData.GetPeople
 import com.example.domain.usecase.getData.GetUserCommunities
 import com.example.domain.usecase.getData.GetUserEvents
 import com.example.domain.usecase.getData.GetUserInfo
+import com.example.domain.usecase.getData.GetUserInfoForEdit
 import com.example.domain.usecase.interest.AddUserInterestsUseCase
 import com.example.domain.usecase.interest.AddUserInterestsUseCaseInteractor
 import com.example.domain.usecase.interest.GetInterestInteractor
@@ -128,4 +131,7 @@ internal val useCaseModule = module {
     single<InteractorLoadFilteredEvents> { InteractorLoadFilteredEvents() }
     single<SendUserParamAuthentication> { GetUserParamSendUserParamAuthenticationImpl(repository = get()) }
     single<GetPathFromGalleryUriUseCase> { GetPathFromGalleryUriUseCaseImpl(repository = get()) }
+    single { GetUserInfoForEditUseCase() }
+    single { InteractorLoadUserInfoForEdit() }
+    single { GetUserInfoForEdit() }
 }
