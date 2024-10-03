@@ -33,6 +33,7 @@ internal class GetUserParamSendUserParamAuthenticationImpl(private val repositor
         resultSendUserParamFlow.launchIn(CoroutineScope(Dispatchers.IO))
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun resultSendUserParam(): Flow<PhoneNumberResult<PhoneNumberStatus>> {
         return resultSendUserParamFlow.flatMapMerge { it ?: emptyFlow() }
     }

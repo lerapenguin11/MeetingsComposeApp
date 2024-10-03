@@ -41,24 +41,23 @@ class SingUpViewModel(
     private val buttonState: StateFlow<FilledButtonState> = _buttonState
 
     @OptIn(ExperimentalCoroutinesApi::class)
-     private val isSendPhoneVerificationCodeFlow =
+    private val isSendPhoneVerificationCodeFlow =
         getUserParamSendStatusCode.resultSendUserParam().flatMapLatest { result ->
-             flow {
-                 when (result) {
-                     is PhoneNumberResult.Success<PhoneNumberStatus> -> {
-                         val a = 1234
-                         emit(value = false)
-                     }
+            flow {
+                when (result) {
+                    is PhoneNumberResult.Success<PhoneNumberStatus> -> {
+                        emit(value = false)
+                    }
 
-                     is PhoneNumberResult.Error -> {
-                         emit(value = true)
-                     }
-                 }
-             }
-         }.stateIn(
-             scope = viewModelScope,
-             started = SharingStarted.WhileSubscribed(5_000),
-             initialValue = true
+                    is PhoneNumberResult.Error -> {
+                        emit(value = true)
+                    }
+                }
+            }
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = true
         )
 
     private val _resultToken = MutableStateFlow<Token?>(null)
@@ -112,8 +111,9 @@ class SingUpViewModel(
     }
 
     fun sendConfirmationCode(code: String, phoneNumber: String) = viewModelScope.launch {
-        val response = sendConfirmationCodeUseCase.execute(code = code, phoneNumber = phoneNumber)
-        response.collect { result ->
+        sendConfirmationCodeUseCase.execute(code = code, phoneNumber = phoneNumber)
+        //TODO вынести
+        sendConfirmationCodeUseCase.resultSendConfirmationCode().collect { result ->
             when (result) {
                 is PhoneNumberResult.Success<Token> -> {
                     _resultToken.update { result.data }

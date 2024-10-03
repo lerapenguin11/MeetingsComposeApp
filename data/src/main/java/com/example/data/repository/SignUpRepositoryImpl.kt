@@ -39,7 +39,7 @@ class SignUpRepositoryImpl(private val service: AuthApi, private val mapper: Sin
         }.flowOn(Dispatchers.IO)
     }
 
-    override suspend fun sendConfirmationCode(
+    override fun sendConfirmationCode(
         code: String,
         phoneNumber: String
     ): Flow<PhoneNumberResult<Token>> = flow {

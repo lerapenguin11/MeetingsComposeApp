@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface SignUpRepository {
 
-    suspend fun sendConfirmationCode(
+    fun sendConfirmationCode(
         code: String,
         phoneNumber: String
     ): Flow<PhoneNumberResult<Token>>
