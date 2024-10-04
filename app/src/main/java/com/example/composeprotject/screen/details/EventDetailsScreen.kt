@@ -78,6 +78,7 @@ fun EventDetailsScreen(
     }
 
     val fullEventInfo by eventDetailsViewModel.getEventDetailsInfo().collectAsStateWithLifecycle()
+    val actionState by eventDetailsViewModel.getActionBlockStateFlow().collectAsStateWithLifecycle()
 
     val status = MeetingStatus.ACTIVE
 
@@ -160,7 +161,7 @@ fun EventDetailsScreen(
                 BottomActionBar(
                     buttonText = "Записаться на встречу",
                     descText = "Всего ${meetingDetails.participantsCapacity} мест. Если передумаете — отпишитесь",
-                    state = FilledButtonState.ACTIVE_PRIMARY
+                    state = actionState
                 ) {
                     makeAnAppointment(
                         token = fullEventInfo?.authToken,
@@ -170,6 +171,9 @@ fun EventDetailsScreen(
                         startDate = meetingDetails.startDate,
                         onMeetingRegistrationCheckIn = {
                             onMeetingRegistrationCheckIn(it)
+                        },
+                        updateActionState = {
+                            eventDetailsViewModel.updateActionBlockState(state = it)
                         }
                     )
                 }
@@ -184,7 +188,8 @@ private fun makeAnAppointment(
     title: String,
     shortMeetingAddress: String,
     startDate: Long,
-    onMeetingRegistrationCheckIn: (EventInfoShort) -> Unit
+    onMeetingRegistrationCheckIn: (EventInfoShort) -> Unit,
+    updateActionState: (FilledButtonState) -> Unit
 ) {
     if (token.isNullOrEmpty()) {
         onMeetingRegistrationCheckIn(
@@ -196,7 +201,7 @@ private fun makeAnAppointment(
             )
         ) //TODO запись на встечу и регистрация
     } else {
-        //TODO
+        updateActionState(FilledButtonState.LOADING)
     }
 }
 
