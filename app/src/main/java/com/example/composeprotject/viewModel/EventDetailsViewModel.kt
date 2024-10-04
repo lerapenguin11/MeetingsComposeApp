@@ -32,7 +32,8 @@ class EventDetailsViewModel(
                 initialValue = CombineEventDetailsInfo(
                     eventDetails = null,
                     isLoadingFullData = true,
-                    eventsByCommunityId = emptyList()
+                    eventsByCommunityId = emptyList(),
+                    authToken = null
                 )
             )
 

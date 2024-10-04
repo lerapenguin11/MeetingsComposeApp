@@ -156,23 +156,47 @@ fun EventDetailsScreen(
             item { SpacerHeight(height = 28.dp) }
         }
         if (fullEventInfo?.eventDetails?.status == MeetingStatus.ACTIVE) {
-            fullEventInfo?.eventDetails?.let {
+            fullEventInfo?.eventDetails?.let { meetingDetails ->
                 BottomActionBar(
                     buttonText = "Записаться на встречу",
-                    descText = "Всего ${it.participantsCapacity} мест. Если передумаете — отпишитесь",
+                    descText = "Всего ${meetingDetails.participantsCapacity} мест. Если передумаете — отпишитесь",
                     state = FilledButtonState.ACTIVE_PRIMARY
                 ) {
-                    onMeetingRegistrationCheckIn(
-                        EventInfoShort(
-                            id = eventId,
-                            title = it.title,
-                            shortAddress = it.location.meetingAddress.short,
-                            startDate = it.startDate
-                        )
-                    ) //TODO запись на встечу и регистрация
+                    makeAnAppointment(
+                        token = fullEventInfo?.authToken,
+                        eventId = eventId,
+                        title = meetingDetails.title,
+                        shortMeetingAddress = meetingDetails.location.meetingAddress.short,
+                        startDate = meetingDetails.startDate,
+                        onMeetingRegistrationCheckIn = {
+                            onMeetingRegistrationCheckIn(it)
+                        }
+                    )
                 }
             }
         }
+    }
+}
+
+private fun makeAnAppointment(
+    token: String?,
+    eventId: Int,
+    title: String,
+    shortMeetingAddress: String,
+    startDate: Long,
+    onMeetingRegistrationCheckIn: (EventInfoShort) -> Unit
+) {
+    if (token.isNullOrEmpty()) {
+        onMeetingRegistrationCheckIn(
+            EventInfoShort(
+                id = eventId,
+                title = title,
+                shortAddress = shortMeetingAddress,
+                startDate = startDate
+            )
+        ) //TODO запись на встечу и регистрация
+    } else {
+        //TODO
     }
 }
 
