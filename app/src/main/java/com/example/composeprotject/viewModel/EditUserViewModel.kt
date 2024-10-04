@@ -1,11 +1,12 @@
 package com.example.composeprotject.viewModel
 
+import android.app.Application
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.ext.SdkExtensions
 import android.provider.MediaStore
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composeprotject.screen.state.EditState
 import com.example.domain.model.editUser.EditUserInfo
@@ -25,8 +26,9 @@ class EditUserViewModel(
     private val getPathFromGalleryUriUseCase: GetPathFromGalleryUriUseCase,
     private val readAuthTokenUseCase: ReadAuthTokenUseCase,
     private val interactorLoadUserInfoForEdit: InteractorLoadUserInfoForEdit,
-    private val getUserInfoForEdit: GetUserInfoForEdit
-) : ViewModel() {
+    private val getUserInfoForEdit: GetUserInfoForEdit,
+    private val context: Application
+) : AndroidViewModel(application = context) {
     private val _pathFromGalleryUri = MutableStateFlow<String?>(null)
     private val pathFromGalleryUri: StateFlow<String?> = _pathFromGalleryUri
 
@@ -53,19 +55,19 @@ class EditUserViewModel(
     fun getUserInfoFlow() = userInfo
 
     fun updateUserFullName(fullName: String) {
-        _userInfo.update { info -> info?.let { it.copy(fullName = fullName) } }
+        _userInfo.update { info -> info?.copy(fullName = fullName) }
     }
 
     fun updatePhoneNumber(phoneNumber: String) {
-        _userInfo.update { info -> info?.let { it.copy(phoneNumber = phoneNumber) } }
+        _userInfo.update { info -> info?.copy(phoneNumber = phoneNumber) }
     }
 
     fun updateBio(bio: String) {
-        _userInfo.update { info -> info?.let { it.copy(bio = bio) } }
+        _userInfo.update { info -> info?.copy(bio = bio) }
     }
 
     fun updateCity(city: String) {
-        _userInfo.update { info -> info?.let { it.copy(city = city) } }
+        _userInfo.update { info -> info?.copy(city = city) }
     }
 
     fun updateEditProfileScreenState(state: EditState) {

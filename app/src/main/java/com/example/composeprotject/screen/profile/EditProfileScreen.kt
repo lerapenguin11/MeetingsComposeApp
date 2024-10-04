@@ -53,6 +53,7 @@ import com.example.composeprotject.ui.component.chip.chipStyle.ChipSelect
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipSize
 import com.example.composeprotject.ui.component.input.InputFieldIcon
 import com.example.composeprotject.ui.component.input.SimpleInputField
+import com.example.composeprotject.ui.component.phoneInput.SimplePhoneInputFields
 import com.example.composeprotject.ui.component.spacer.SpacerHeight
 import com.example.composeprotject.ui.component.state.FilledButtonState
 import com.example.composeprotject.ui.component.state.InputState
@@ -503,7 +504,7 @@ private fun BlockInputUserInformation(
     onFullNameChange: (String) -> Unit,
     onPhoneNumberChange: (String) -> Unit,
     onBioChange: (String) -> Unit,
-    onCityChange: (String) -> Unit,
+    onCityChange: (String) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -514,13 +515,13 @@ private fun BlockInputUserInformation(
             inputText = fullName,
             textPlaceholder = stringResource(CommonString.text_user_name_surname),
             isEnabled = true,
-            state = InputState.SUCCESS,
+            state = if (fullName.isEmpty()) InputState.ERROR else InputState.SUCCESS,
             onValueChange = { newValue ->
                 onFullNameChange(newValue)
             }
         )
         SpacerHeight(height = MeetTheme.sizes.sizeX8)
-        SimpleInputField(
+        SimplePhoneInputFields(
             inputText = phoneNumber,
             textPlaceholder = stringResource(CommonString.text_ph_phone_number_with_code),
             isEnabled = true,
