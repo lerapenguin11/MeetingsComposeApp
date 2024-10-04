@@ -6,14 +6,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -77,82 +77,86 @@ fun EventDetailsScreen(
         eventDetailsViewModel.loadEventDetailsInfo(eventId = eventId)
     }
 
-    val fullInfoEvent by eventDetailsViewModel.getEventDetailsInfo().collectAsStateWithLifecycle()
+    val fullEventInfo by eventDetailsViewModel.getEventDetailsInfo().collectAsStateWithLifecycle()
 
     val status = MeetingStatus.ACTIVE
 
-    Column(verticalArrangement = Arrangement.Bottom) {
-        Column(
-            modifier = modifier
-                .padding(contentPadding)
+    Column(
+        modifier = modifier
+            .padding(contentPadding)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Bottom,
+    ) {
+        LazyColumn(
+            modifier = Modifier
                 .padding(horizontal = MeetTheme.sizes.sizeX16)
-                .verticalScroll(
-                    rememberScrollState()
-                )
-                .weight(5f)
+                .weight(1f)
         ) {
-            fullInfoEvent?.eventDetails?.let { item ->
-                SpacerHeight(height = MeetTheme.sizes.sizeX8)
-                CommonInfo(
-                    avatarUrl = item.image,
-                    title = item.title,
-                    startDate = item.startDate,
-                    shortMeetingAddress = item.location.meetingAddress.short,
-                    categories = item.categories,
-                    description = item.description,
-                    status = item.status
-                )
-                SpacerHeight(height = MeetTheme.sizes.sizeX32)
-                LeaderInfo(
-                    name = item.presenters.get(0).name,
-                    bio = item.presenters.get(0).bio,
-                    avatarUrl = item.presenters.get(0).avatar,
-                    placeholder = CommonDrawables.ic_community_placeholder
-                )
-                SpacerHeight(height = MeetTheme.sizes.sizeX32)
-                LocationInfo(
-                    short = item.location.meetingAddress.short,
-                    full = item.location.meetingAddress.full,
-                    metro = item.location.meetingAddress.metro
-                )
-                SpacerHeight(height = MeetTheme.sizes.sizeX32)
-                PeopleAtMeetings(
-                    meetingStatus = status,
-                    avatarList = item.participants.data,
-                    onClickMorePeople = {
-                        onClickMorePeople(eventId)
-                    }
-                )
-                SpacerHeight(height = MeetTheme.sizes.sizeX32)
-                OrganizerInfo(
-                    name = item.organizers.name,
-                    bio = item.organizers.bio,
-                    placeholder = CommonDrawables.ic_community_placeholder,
-                    avatarUrl = item.organizers.image,
-                    onClickOrganizer = {
-                        onClickOrganizer(
-                            MeetingOrganizer(
-                                id = item.organizers.id,
-                                name = item.organizers.name,
-                                bio = item.organizers.bio,
-                                image = item.organizers.image
-                            )
-                        )
-                    }
-                )
-                SpacerHeight(height = MeetTheme.sizes.sizeX32)
-                if (!fullInfoEvent?.eventsByCommunityId.isNullOrEmpty()) {
-                    OtherCommunityMeetings(
-                        eventsCommunity = fullInfoEvent!!.eventsByCommunityId,
-                        onClickEvent = {
-                            onClickEvent(it)
+            item {
+                fullEventInfo?.eventDetails?.let { item ->
+                    SpacerHeight(height = MeetTheme.sizes.sizeX8)
+                    CommonInfo(
+                        avatarUrl = item.image,
+                        title = item.title,
+                        startDate = item.startDate,
+                        shortMeetingAddress = item.location.meetingAddress.short,
+                        categories = item.categories,
+                        description = item.description,
+                        status = item.status
+                    )
+                    SpacerHeight(height = MeetTheme.sizes.sizeX32)
+                    LeaderInfo(
+                        name = item.presenters.get(0).name,
+                        bio = item.presenters.get(0).bio,
+                        avatarUrl = item.presenters.get(0).avatar,
+                        placeholder = CommonDrawables.ic_community_placeholder
+                    )
+                    SpacerHeight(height = MeetTheme.sizes.sizeX32)
+                    LocationInfo(
+                        short = item.location.meetingAddress.short,
+                        full = item.location.meetingAddress.full,
+                        metro = item.location.meetingAddress.metro
+                    )
+                    SpacerHeight(height = MeetTheme.sizes.sizeX32)
+                    PeopleAtMeetings(
+                        meetingStatus = status,
+                        avatarList = item.participants.data,
+                        onClickMorePeople = {
+                            onClickMorePeople(eventId)
                         }
                     )
+                    SpacerHeight(height = MeetTheme.sizes.sizeX32)
+                    OrganizerInfo(
+                        name = item.organizers.name,
+                        bio = item.organizers.bio,
+                        placeholder = CommonDrawables.ic_community_placeholder,
+                        avatarUrl = item.organizers.image,
+                        onClickOrganizer = {
+                            onClickOrganizer(
+                                MeetingOrganizer(
+                                    id = item.organizers.id,
+                                    name = item.organizers.name,
+                                    bio = item.organizers.bio,
+                                    image = item.organizers.image
+                                )
+                            )
+                        }
+                    )
+                    if (!fullEventInfo?.eventsByCommunityId.isNullOrEmpty()) {
+                        SpacerHeight(height = MeetTheme.sizes.sizeX32)
+                        OtherCommunityMeetings(
+                            eventsCommunity = fullEventInfo!!.eventsByCommunityId,
+                            onClickEvent = {
+                                onClickEvent(it)
+                            }
+                        )
+                    }
                 }
             }
+            item { SpacerHeight(height = 28.dp) }
         }
-        if (fullInfoEvent?.eventDetails?.status == MeetingStatus.ACTIVE) {
-            fullInfoEvent?.eventDetails?.let {
+        if (fullEventInfo?.eventDetails?.status == MeetingStatus.ACTIVE) {
+            fullEventInfo?.eventDetails?.let {
                 BottomActionBar(
                     buttonText = "Записаться на встречу",
                     descText = "Всего ${it.participantsCapacity} мест. Если передумаете — отпишитесь",
@@ -204,7 +208,6 @@ private fun OtherCommunityMeetings(
             }
         }
     }
-    SpacerHeight(height = 28.dp)
 }
 
 @Composable

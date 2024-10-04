@@ -51,8 +51,8 @@ class EditUserRepositoryImpl(private val context: Context) : EditUserRepository 
                 Interest(id = 1, "Продакт менеджмент")
             ),
             socialNetwork = SocialNetwork(
-                habr = null,
-                telegram = null
+                habr = "SergeyPyaterkin",
+                telegram = "serega1998"
             ),
             phoneNumber = "79961757814"
         )
