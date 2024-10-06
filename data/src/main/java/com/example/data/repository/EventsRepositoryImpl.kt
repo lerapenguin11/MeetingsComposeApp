@@ -31,15 +31,13 @@ class EventsRepositoryImpl(
             val response = service.getMeetings(
                 eventType = eventType.value,
                 categories = userInterests?.let {
-                    println("URI: ${mapper.typeConvectorListIdToUriId(ids = it)}")
                     mapper.typeConvectorListIdToUriId(ids = it)
                 }
-            ) //TODO add query
+            )
             response.suspendOnSuccess {
                 emit(value = data.map { mapper.eventResponseToMeeting(it) }.take(MAX_ELEMENT))
             }.onFailure {
-                println("ERROR: ${message()}")
-                //TODO: response = ...{...}.onFailure{ onError(message())
+                message()
             }
         }
             .flowOn(Dispatchers.IO)
@@ -70,7 +68,7 @@ class EventsRepositoryImpl(
                     value = data.map { mapper.eventResponseToMeeting(it) }.take(MAX_ELEMENT)
                 )
             }.onFailure {
-                println("ERROR: ${message()}")//TODO: response = ...{...}.onFailure{ onError(message())
+                message()
             }
         }
             .flowOn(Dispatchers.IO)

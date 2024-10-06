@@ -129,7 +129,7 @@ class StoreRepositoryImpl(private val context: Context) : StoreRepository {
             return context.getSharedPreferences(name, Context.MODE_PRIVATE)
         }
 
-        fun getEncryptedSharedPreferences(context: Context): SharedPreferences {
+        private fun getEncryptedSharedPreferences(context: Context): SharedPreferences {
             val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
             return EncryptedSharedPreferences.create(
                 ENCRYPTED_PREF,
