@@ -75,15 +75,10 @@ class SingUpViewModel(
     )
 
     fun getButtonStateFlow() = buttonState
-
     fun getUserParamFlow() = userParam
-
     fun getPhoneNumberFlow() = phoneNumber
-
     fun getCodeFlow() = confirmationCode
-
     fun getTokenFlow() = resultToken
-
     fun getIsSendPhoneVerificationCodeFlow() = isSendPhoneVerificationCodeFlow
 
     fun updateButtonState(state: FilledButtonState) {

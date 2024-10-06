@@ -21,8 +21,8 @@ class GetEventDetails : KoinComponent {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val eventPrepared: Flow<MeetingDetails> =
-        innerEvent.eventIdTrigger().filterNotNull().mapLatest { eventId ->
-            val eventDetailsFlow = repository.getEventDetails(eventId = eventId)
+        innerEvent.eventIdTrigger().filterNotNull().mapLatest { params ->
+            val eventDetailsFlow = repository.getEventDetails(params = params)
             eventDetailsFlow.collectLatest { loadEventsByCommunityId.execute(communityId = it.organizers.id) }
             eventDetailsFlow
         }.flatMapMerge { it }

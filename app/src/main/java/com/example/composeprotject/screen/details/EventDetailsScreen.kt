@@ -56,6 +56,7 @@ import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.utils.lineBreakInAddress
 import com.example.composeprotject.viewModel.EventDetailsViewModel
 import com.example.domain.model.event.Meeting
+import com.example.domain.model.eventDetails.EventDetailsParams
 import com.example.domain.model.eventDetails.MeetingOrganizer
 import com.example.domain.model.eventDetails.MeetingStatus
 import com.example.domain.model.eventDetails.MeetingsData
@@ -73,8 +74,19 @@ fun EventDetailsScreen(
     onClickEvent: (Meeting) -> Unit,
     onMeetingRegistrationCheckIn: (EventInfoShort) -> Unit
 ) {
-    LaunchedEffect(Unit) {
-        eventDetailsViewModel.loadEventDetailsInfo(eventId = eventId)
+    val authToken by eventDetailsViewModel.getAuthTokenFlow().collectAsStateWithLifecycle()
+    val resultMakeAppointment by eventDetailsViewModel.getResultMakeAppointmentFlow()
+        .collectAsStateWithLifecycle() //TODO
+
+    LaunchedEffect(key1 = Unit, key2 = authToken) {
+        if (authToken == null || !authToken.isNullOrEmpty()) {
+            eventDetailsViewModel.loadEventDetailsInfo(
+                params = EventDetailsParams(
+                    eventId = eventId,
+                    autToken = authToken
+                )
+            )
+        }
     }
 
     val fullEventInfo by eventDetailsViewModel.getEventDetailsInfo().collectAsStateWithLifecycle()
@@ -174,6 +186,14 @@ fun EventDetailsScreen(
                         },
                         updateActionState = {
                             eventDetailsViewModel.updateActionBlockState(state = it)
+                        },
+                        onMakeAppointment = {
+                            eventDetailsViewModel.makeAppointment(
+                                params = EventDetailsParams(
+                                    eventId = eventId,
+                                    autToken = authToken
+                                )
+                            )
                         }
                     )
                 }
@@ -189,7 +209,8 @@ private fun makeAnAppointment(
     shortMeetingAddress: String,
     startDate: Long,
     onMeetingRegistrationCheckIn: (EventInfoShort) -> Unit,
-    updateActionState: (FilledButtonState) -> Unit
+    updateActionState: (FilledButtonState) -> Unit,
+    onMakeAppointment: () -> Unit
 ) {
     if (token.isNullOrEmpty()) {
         onMeetingRegistrationCheckIn(
@@ -201,6 +222,7 @@ private fun makeAnAppointment(
             )
         ) //TODO запись на встечу и регистрация
     } else {
+        onMakeAppointment()
         updateActionState(FilledButtonState.LOADING)
     }
 }

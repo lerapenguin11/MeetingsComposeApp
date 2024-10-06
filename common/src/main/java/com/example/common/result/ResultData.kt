@@ -13,3 +13,9 @@ sealed class ResultData<out R> {
         }
     }
 }
+
+enum class ResultStatus {
+    SUCCESS,
+    FATAL,
+    ERROR
+}

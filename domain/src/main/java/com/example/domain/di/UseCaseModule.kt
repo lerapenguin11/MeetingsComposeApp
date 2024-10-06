@@ -11,6 +11,8 @@ import com.example.domain.usecase.details.GetEventDetailsInfoUseCase
 import com.example.domain.usecase.details.InteractorLoadCommunityDetails
 import com.example.domain.usecase.details.InteractorLoadEventDetailsInfo
 import com.example.domain.usecase.details.InteractorLoadEventsByCommunityId
+import com.example.domain.usecase.details.MakeAnAppointmentUseCase
+import com.example.domain.usecase.details.MakeAnAppointmentUseCaseImpl
 import com.example.domain.usecase.editUser.GetPathFromGalleryUriUseCase
 import com.example.domain.usecase.editUser.GetPathFromGalleryUriUseCaseImpl
 import com.example.domain.usecase.editUser.GetUserInfoForEditUseCase
@@ -134,4 +136,5 @@ internal val useCaseModule = module {
     single { GetUserInfoForEditUseCase() }
     single { InteractorLoadUserInfoForEdit() }
     single { GetUserInfoForEdit() }
+    single<MakeAnAppointmentUseCase> { MakeAnAppointmentUseCaseImpl(repository = get()) }
 }

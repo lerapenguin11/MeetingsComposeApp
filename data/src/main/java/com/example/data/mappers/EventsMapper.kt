@@ -59,7 +59,8 @@ class EventsMapper {
                 image = item.organizers.get(0).image
             ),
             presenters = item.presenters.map { presentersResponseToPresenters(it) },
-            location = locationResponseToLocation(loc = item.location)
+            location = locationResponseToLocation(loc = item.location),
+            isParticipating = item.isParticipating
         )
     }
 
