@@ -11,6 +11,8 @@ import com.example.domain.usecase.combineUseCase.InteractorFullEventDetailsInfo
 import com.example.domain.usecase.details.InteractorLoadEventDetailsInfo
 import com.example.domain.usecase.details.MakeAnAppointmentUseCase
 import com.example.domain.usecase.store.token.ReadAuthTokenUseCase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -18,6 +20,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -82,10 +85,13 @@ class EventDetailsViewModel(
     private val _actionBlockState = MutableStateFlow(FilledButtonState.ACTIVE_PRIMARY)
     private val actionBlockState: StateFlow<FilledButtonState> = _actionBlockState
 
+    init {
+        resultMakeAppointment.launchIn(CoroutineScope(Dispatchers.IO))
+    }
+
     fun getAuthTokenFlow() = authToken
     fun getEventDetailsInfo() = eventDetailsInfo
     fun getActionBlockStateFlow() = actionBlockState
-    fun getResultMakeAppointmentFlow() = resultMakeAppointment
 
     fun loadEventDetailsInfo(params: EventDetailsParams) = viewModelScope.launch {
         interactorLoadEventDetailsInfo.execute(params = params)

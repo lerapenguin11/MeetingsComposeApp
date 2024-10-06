@@ -75,8 +75,6 @@ fun EventDetailsScreen(
     onMeetingRegistrationCheckIn: (EventInfoShort) -> Unit
 ) {
     val authToken by eventDetailsViewModel.getAuthTokenFlow().collectAsStateWithLifecycle()
-    val resultMakeAppointment by eventDetailsViewModel.getResultMakeAppointmentFlow()
-        .collectAsStateWithLifecycle() //TODO
 
     LaunchedEffect(key1 = Unit, key2 = authToken) {
         if (authToken == null || !authToken.isNullOrEmpty()) {
