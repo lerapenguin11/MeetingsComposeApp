@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -57,6 +58,7 @@ import com.example.composeprotject.utils.lineBreakInAddress
 import com.example.composeprotject.viewModel.EventDetailsViewModel
 import com.example.domain.model.event.Meeting
 import com.example.domain.model.eventDetails.EventDetailsParams
+import com.example.domain.model.eventDetails.MeetingDetails
 import com.example.domain.model.eventDetails.MeetingOrganizer
 import com.example.domain.model.eventDetails.MeetingStatus
 import com.example.domain.model.eventDetails.MeetingsData
@@ -75,6 +77,8 @@ fun EventDetailsScreen(
     onMeetingRegistrationCheckIn: (EventInfoShort) -> Unit
 ) {
     val authToken by eventDetailsViewModel.getAuthTokenFlow().collectAsStateWithLifecycle()
+    val isParticipatingMeeting by eventDetailsViewModel.getIsParticipatingMeetingFlow()
+        .collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = Unit, key2 = authToken) {
         if (authToken == null || !authToken.isNullOrEmpty()) {
@@ -169,8 +173,13 @@ fun EventDetailsScreen(
         if (fullEventInfo?.eventDetails?.status == MeetingStatus.ACTIVE) {
             fullEventInfo?.eventDetails?.let { meetingDetails ->
                 BottomActionBar(
-                    buttonText = "Записаться на встречу",
-                    descText = "Всего ${meetingDetails.participantsCapacity} мест. Если передумаете — отпишитесь",
+                    buttonText = getButtonActionBarText(
+                        isParticipatingMeeting = isParticipatingMeeting
+                    ),
+                    descText = getDescTextForActionBar(
+                        isParticipatingMeeting = isParticipatingMeeting,
+                        meetingDetails = meetingDetails
+                    ),
                     state = actionState
                 ) {
                     makeAnAppointment(
@@ -186,18 +195,45 @@ fun EventDetailsScreen(
                             eventDetailsViewModel.updateActionBlockState(state = it)
                         },
                         onMakeAppointment = {
-                            eventDetailsViewModel.makeAppointment(
-                                params = EventDetailsParams(
-                                    eventId = eventId,
-                                    autToken = authToken
+                            if (isParticipatingMeeting) {
+                                //TODO отписаться от встечи
+                            } else {
+                                eventDetailsViewModel.makeAppointment(
+                                    params = EventDetailsParams(
+                                        eventId = eventId,
+                                        autToken = authToken
+                                    )
                                 )
-                            )
+                            }
                         }
                     )
                 }
             }
         }
     }
+}
+
+@Composable
+private fun getButtonActionBarText(isParticipatingMeeting: Boolean): String {
+    return if (isParticipatingMeeting)
+        stringResource(CommonString.text_can_not_go)
+    else stringResource(CommonString.text_make_an_appointment)
+}
+
+@Composable
+private fun getDescTextForActionBar(
+    isParticipatingMeeting: Boolean,
+    meetingDetails: MeetingDetails
+): String {
+    return buildAnnotatedString {
+        if (isParticipatingMeeting) {
+            append(stringResource(CommonString.text_will_you_go))
+        } else {
+            append(stringResource(CommonString.text_total))
+            append(" ${meetingDetails.participantsCapacity} ")
+            append(stringResource(CommonString.text_please_unsubscribe))
+        }
+    }.text
 }
 
 private fun makeAnAppointment(
@@ -218,7 +254,7 @@ private fun makeAnAppointment(
                 shortAddress = shortMeetingAddress,
                 startDate = startDate
             )
-        ) //TODO запись на встечу и регистрация
+        )
     } else {
         onMakeAppointment()
         updateActionState(FilledButtonState.LOADING)

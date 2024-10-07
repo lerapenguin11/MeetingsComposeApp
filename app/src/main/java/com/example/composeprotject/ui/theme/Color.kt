@@ -20,6 +20,8 @@ data class MeetColorScheme(
     val primaryTransparent: Color,
     val red: Color,
     val blackTransparent: Color,
+    val green: Color,
+    val lightGrey: Color,
 
 
     val disabledButton: Color,
@@ -78,6 +80,8 @@ val LightColorScheme = MeetColorScheme(
     primaryTransparent = Color(0xff309A10F0),
     red = Color(0xffFF0000),
     blackTransparent = Color(0xff55000000),
+    green = Color(0xff00BF59),
+    lightGrey = Color(0xffCFD3D8),
 
 
 

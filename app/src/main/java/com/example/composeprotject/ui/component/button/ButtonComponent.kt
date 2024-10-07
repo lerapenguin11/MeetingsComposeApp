@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.ui.component.button.buttonStyle.FilledButtonColorsDefault
@@ -36,6 +37,7 @@ import com.example.composeprotject.ui.component.button.buttonStyle.SubscribeButt
 import com.example.composeprotject.ui.component.state.FilledButtonState
 import com.example.composeprotject.ui.component.state.SubscribeButtonState
 import com.example.composeprotject.ui.component.text.BaseText
+import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.theme.MeetTheme
 
 @Composable
@@ -51,7 +53,7 @@ fun BottomActionBar(
             containerColor = Color.White
         ),
         elevation = CardDefaults.elevatedCardElevation(
-            defaultElevation = MeetTheme.sizes.sizeX10
+            defaultElevation = MeetTheme.sizes.sizeX12
         ),
         shape = RoundedCornerShape(
             topStart = MeetTheme.sizes.sizeX24,
@@ -71,9 +73,16 @@ fun BottomActionBar(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = descText,
+                text = if (FilledButtonState.LOADING == state) stringResource(CommonString.text_wait_bit) else descText,
                 style = MeetTheme.typography.interMedium14,
-                color = MeetTheme.colors.primary,
+                color = when (state) {
+                    FilledButtonState.ACTIVE_SECONDARY -> MeetTheme.colors.green
+                    FilledButtonState.ACTIVE_PRIMARY -> MeetTheme.colors.primary
+                    FilledButtonState.LOADING -> MeetTheme.colors.lightGrey
+                    else -> {
+                        Color.Transparent
+                    }
+                },
                 textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX8))

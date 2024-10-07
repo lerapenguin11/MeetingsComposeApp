@@ -34,10 +34,18 @@ class EventDetailsViewModel(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val eventDetailsInfo: StateFlow<CombineEventDetailsInfo?> =
-        interactorFullEventDetailsInfo.execute().filterNotNull()
+        interactorFullEventDetailsInfo.execute()
+            .filterNotNull()
             .flatMapLatest { eventDetailsInfo ->
                 flow {
                     //_mainStateUI.update { (eventDetailsInfo.isLoadingFullData) }
+                    eventDetailsInfo.eventDetails?.isParticipating?.let {
+                        updateActionBlockState(
+                            state = if (it) FilledButtonState.ACTIVE_SECONDARY
+                            else FilledButtonState.ACTIVE_PRIMARY
+                        )
+                        _isParticipatingMeeting.tryEmit(value = it)
+                    }
                     emit(value = eventDetailsInfo)
                 }
             }.stateIn(
@@ -68,8 +76,12 @@ class EventDetailsViewModel(
         makeAnAppointmentUseCase.resultRecordAnEvent().flatMapLatest { result ->
             flow {
                 when (result) {
-                    ResultData.Success(ResultStatus.SUCCESS) -> updateActionBlockState(state = FilledButtonState.ACTIVE_SECONDARY)
-                    else -> {}
+                    ResultData.Success(ResultStatus.SUCCESS) -> {
+                        updateIsParticipatingMeeting()
+                        updateActionBlockState(state = FilledButtonState.ACTIVE_SECONDARY)
+                    }
+
+                    else -> {} //TODO
                 }
                 emit(value = result)
             }
@@ -85,6 +97,9 @@ class EventDetailsViewModel(
     private val _actionBlockState = MutableStateFlow(FilledButtonState.ACTIVE_PRIMARY)
     private val actionBlockState: StateFlow<FilledButtonState> = _actionBlockState
 
+    private val _isParticipatingMeeting = MutableStateFlow(false)
+    private val isParticipatingMeeting: StateFlow<Boolean> = _isParticipatingMeeting
+
     init {
         resultMakeAppointment.launchIn(CoroutineScope(Dispatchers.IO))
     }
@@ -92,6 +107,7 @@ class EventDetailsViewModel(
     fun getAuthTokenFlow() = authToken
     fun getEventDetailsInfo() = eventDetailsInfo
     fun getActionBlockStateFlow() = actionBlockState
+    fun getIsParticipatingMeetingFlow() = isParticipatingMeeting
 
     fun loadEventDetailsInfo(params: EventDetailsParams) = viewModelScope.launch {
         interactorLoadEventDetailsInfo.execute(params = params)
@@ -103,5 +119,11 @@ class EventDetailsViewModel(
 
     fun makeAppointment(params: EventDetailsParams) {
         makeAnAppointmentUseCase.execute(params = params)
+    }
+
+    private fun updateIsParticipatingMeeting() {
+        _isParticipatingMeeting.update { isParticipating ->
+            !isParticipating
+        }
     }
 }

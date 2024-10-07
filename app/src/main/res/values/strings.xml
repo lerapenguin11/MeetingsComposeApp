@@ -111,4 +111,10 @@
     <string name="text_enable_notifications">Включить уведомления</string>
     <string name="text_delete_profile">Удалить профиль</string>
     <string name="text_choose_another_photo">Выбрать другое фото</string>
+    <string name="text_will_you_go">✓ Вы пойдёте</string>
+    <string name="text_total">Всего</string>
+    <string name="text_please_unsubscribe">мест. Если передумаете — отпишитесь</string>
+    <string name="text_make_an_appointment">Записаться на встречу</string>
+    <string name="text_can_not_go">Не смогу пойти</string>
+    <string name="text_wait_bit">Подождите немного...</string>
 </resources>
