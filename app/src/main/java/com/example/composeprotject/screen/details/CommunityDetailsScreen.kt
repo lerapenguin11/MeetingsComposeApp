@@ -178,7 +178,7 @@ private fun PastMeetingsBlock(
     }
     EventCard(
         meeting = event,
-        variant = EventCardVariant.SMALL
+        variant = EventCardVariant.MEDIUM
     ) {
         onClickEvent()
     }
@@ -266,10 +266,9 @@ private fun CommonInfo(
                 text = categories[index].title,
                 chipSize = ChipSize.MEDIUM,
                 chipColors = ChipSelect.FALSE,
-                chipClick = ChipClick.NOT_ON_CLICK
-            ) {
-                //TODO
-            }
+                chipClick = ChipClick.NOT_ON_CLICK,
+                onClick = {}
+            )
         }
     }
 }

@@ -10,7 +10,7 @@ import com.example.domain.model.interest.Interest
 import com.example.domain.model.interest.UserInterestDomain
 import com.example.domain.usecase.interest.AddUserInterestsUseCase
 import com.example.domain.usecase.interest.GetInterestsUseCase
-import com.example.domain.usecase.store.SaveOnBoardingInterestStateUseCase
+import com.example.domain.usecase.store.settings.SaveOnBoardingInterestStateUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

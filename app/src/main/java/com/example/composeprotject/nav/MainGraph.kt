@@ -18,17 +18,15 @@ import com.example.composeprotject.screen.people.PeopleScreen
 import com.example.composeprotject.screen.state.PeopleState
 import com.example.composeprotject.ui.component.button.TopAppBarImageButton
 import com.example.composeprotject.ui.component.text.TopAppBarTextWithBackArrow
-import com.example.composeprotject.ui.component.topBar.ProvideAppBarAction
-import com.example.composeprotject.ui.component.topBar.ProvideAppBarTitle
+import com.example.composeprotject.ui.component.topBar.standard.ProvideAppBarAction
+import com.example.composeprotject.ui.component.topBar.standard.ProvideAppBarTitle
 import com.example.composeprotject.ui.component.utils.CommonString
-import com.example.composeprotject.viewModel.SearchViewModel
 
 @SuppressLint("UnrememberedGetBackStackEntry")
 @Composable
 fun MainGraph(
     navController: NavHostController,
-    contentPadding: PaddingValues,
-    searchViewModel: SearchViewModel
+    contentPadding: PaddingValues
 ) {
     NavHost(
         navController = navController,
@@ -38,8 +36,6 @@ fun MainGraph(
 
         composable(route = Main.Home.route) {
             MainScreen(
-                contentPadding = contentPadding,
-                searchViewModel = searchViewModel,
                 onClickEvent = { meeting ->
                     navController.navigate(
                         route = "${Main.EventDetails.route}/${meeting.id}/${meeting.title}"
@@ -49,6 +45,9 @@ fun MainGraph(
                     navController.navigate(
                         route = "${Main.CommunityDetails.route}/${community.id}/${community.title}"
                     )
+                },
+                onGoProfile = {
+                    navController.navigate(Graph.PROFILE)
                 }
             )
         }
@@ -81,7 +80,7 @@ fun MainGraph(
                     },
                     onMeetingRegistrationCheckIn = { eventInfoShort ->
                         navController.navigate(
-                            route = "${Graph.AUTH}?${EVENT_TITLE}=${eventInfoShort.title}?${EVENT_ID}=${eventInfoShort.id}?$SHORT_ADDRESS=${eventInfoShort.shortAddress}?$START_DATE=${eventInfoShort.startDate}"
+                            route = "${Graph.AUTH}?${EVENT_TITLE}=${eventInfoShort.title}?${EVENT_ID}=${eventInfoShort.id}?$SHORT_ADDRESS=${eventInfoShort.shortAddress}?$START_DATE=${eventInfoShort.startDate}" //TODO удалить toInt()
                             //TODO
                         )
                     }
@@ -179,6 +178,7 @@ fun MainGraph(
             }
         }
         authGraph(contentPadding = contentPadding, navController = navController)
+        profileGraph(navController = navController)
     }
 }
 

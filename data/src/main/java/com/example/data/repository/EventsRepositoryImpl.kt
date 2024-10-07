@@ -1,11 +1,13 @@
 package com.example.data.repository
 
 import androidx.annotation.WorkerThread
+import com.example.common.result.ResultData
+import com.example.common.result.ResultStatus
 import com.example.data.fakeData.eventDetailsFake
 import com.example.data.mappers.EventsMapper
-import com.example.database.dao.UserInterestDao
 import com.example.domain.model.event.EventListType
 import com.example.domain.model.event.Meeting
+import com.example.domain.model.eventDetails.EventDetailsParams
 import com.example.domain.model.eventDetails.MeetingDetails
 import com.example.domain.repository.event.EventRepository
 import com.example.network.api.EventApi
@@ -13,26 +15,15 @@ import com.skydoves.sandwich.message
 import com.skydoves.sandwich.onFailure
 import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 
 class EventsRepositoryImpl(
     private val mapper: EventsMapper,
-    private val dao: UserInterestDao,
     private val service: EventApi
 ) : EventRepository {
-
-    private val _test = MutableStateFlow<List<Int>>(emptyList())
-    private val test: StateFlow<List<Int>> = _test.asStateFlow()
-
-    init {
-        getUserInterest()
-    }
 
     @WorkerThread
     override fun getEventsByUserInterest(
@@ -44,15 +35,13 @@ class EventsRepositoryImpl(
             val response = service.getMeetings(
                 eventType = eventType.value,
                 categories = userInterests?.let {
-                    println("URI: ${mapper.typeConvectorListIdToUriId(ids = it)}")
                     mapper.typeConvectorListIdToUriId(ids = it)
                 }
-            ) //TODO add query
+            )
             response.suspendOnSuccess {
                 emit(value = data.map { mapper.eventResponseToMeeting(it) }.take(MAX_ELEMENT))
             }.onFailure {
-                println("ERROR: ${message()}")
-                //TODO: response = ...{...}.onFailure{ onError(message())
+                message()
             }
         }
             .flowOn(Dispatchers.IO)
@@ -60,7 +49,19 @@ class EventsRepositoryImpl(
 
     override fun getEventsByCommunityId(communityId: Int): Flow<List<Meeting>> {
         return flow {
+            //TODO add response
             emit(value = emptyList<Meeting>())
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override fun makeAnAppointment(params: EventDetailsParams): Flow<ResultData<ResultStatus>> {
+        return flow<ResultData<ResultStatus>> {
+            //TODO add response
+            val responseCode = SUCCESS_CODE
+            delay(2000)
+            when (responseCode) {
+                SUCCESS_CODE -> emit(value = ResultData.Success(ResultStatus.SUCCESS))
+            }//TODO добавить на другие коды
         }.flowOn(Dispatchers.IO)
     }
 
@@ -83,7 +84,7 @@ class EventsRepositoryImpl(
                     value = data.map { mapper.eventResponseToMeeting(it) }.take(MAX_ELEMENT)
                 )
             }.onFailure {
-                println("ERROR: ${message()}")//TODO: response = ...{...}.onFailure{ onError(message())
+                message()
             }
         }
             .flowOn(Dispatchers.IO)
@@ -104,25 +105,18 @@ class EventsRepositoryImpl(
         }.flowOn(Dispatchers.IO)
     }
 
-    override fun getEventDetails(eventId: Int): Flow<MeetingDetails> {
+    override fun getEventDetails(params: EventDetailsParams): Flow<MeetingDetails> {
         return flow {
             emit(
                 value = mapper.eventDetailsResponseToEventDetails(
                     item = eventDetailsFake().elementAt(
-                        eventId
+                        params.eventId
                     )
                 )
             )
         }.flowOn(context = Dispatchers.IO)
     }
-
-    private fun getUserInterest() {
-        dao.getUserInterests().map {
-            it.map { entity ->
-                _test.emit(value = listOf(mapper.userInterestEntityToIdInterest(entity = entity)))
-            }
-        }
-    }
 }
 
 private const val MAX_ELEMENT = 6
+private const val SUCCESS_CODE = 200

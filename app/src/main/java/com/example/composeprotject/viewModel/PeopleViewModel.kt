@@ -3,9 +3,9 @@ package com.example.composeprotject.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.people.People
-import com.example.domain.usecase.InteractorLoadPeopleByCategoryId
-import com.example.domain.usecase.InteractorLoadPeopleByEventId
 import com.example.domain.usecase.getData.GetPeople
+import com.example.domain.usecase.people.InteractorLoadPeopleByCategoryId
+import com.example.domain.usecase.people.InteractorLoadPeopleByEventId
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

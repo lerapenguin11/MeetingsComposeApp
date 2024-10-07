@@ -3,7 +3,7 @@ package com.example.composeprotject.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composeprotject.nav.route.Graph
-import com.example.domain.usecase.store.ReadOnBoardingInterestStateUseCase
+import com.example.domain.usecase.store.settings.ReadOnBoardingInterestStateUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn

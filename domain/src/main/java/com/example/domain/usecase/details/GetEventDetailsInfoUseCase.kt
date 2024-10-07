@@ -1,5 +1,6 @@
 package com.example.domain.usecase.details
 
+import com.example.domain.model.eventDetails.EventDetailsParams
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import org.koin.core.component.KoinComponent
@@ -7,16 +8,17 @@ import org.koin.core.component.inject
 
 internal class GetEventDetailsInfoUseCase {
 
-    private val streamEventWithEventId: MutableStateFlow<Int?> = MutableStateFlow(null)
-    private var eventIdLastValue: Int? = null
+    private val streamEventWithEventId: MutableStateFlow<EventDetailsParams?> =
+        MutableStateFlow(null)
+    private var eventIdLastValue: EventDetailsParams? = null
 
     private val streamEventsWithCommunityId: MutableStateFlow<Int?> = MutableStateFlow(null)
     private var communityIdLastValue: Int? = null
 
 
-    fun loadEventDetails(eventId: Int) {
-        eventIdLastValue = eventId
-        streamEventWithEventId.tryEmit(eventId)
+    fun loadEventDetails(params: EventDetailsParams) {
+        eventIdLastValue = params
+        streamEventWithEventId.tryEmit(value = params)
     }
 
     fun loadEventsByCommunityId(communityId: Int) {
@@ -29,7 +31,7 @@ internal class GetEventDetailsInfoUseCase {
         communityIdLastValue?.run { streamEventsWithCommunityId.tryEmit(this) }
     }
 
-    fun eventIdTrigger(): SharedFlow<Int?> = streamEventWithEventId
+    fun eventIdTrigger(): SharedFlow<EventDetailsParams?> = streamEventWithEventId
 
     fun communityIdTrigger(): SharedFlow<Int?> = streamEventsWithCommunityId
 }
@@ -37,8 +39,8 @@ internal class GetEventDetailsInfoUseCase {
 class InteractorLoadEventDetailsInfo : KoinComponent {
     private val innerInfo: GetEventDetailsInfoUseCase by inject()
 
-    fun execute(eventId: Int) {
-        innerInfo.loadEventDetails(eventId = eventId)
+    fun execute(params: EventDetailsParams) {
+        innerInfo.loadEventDetails(params = params)
     }
 }
 

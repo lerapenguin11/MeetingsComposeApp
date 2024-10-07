@@ -73,9 +73,9 @@ class DefaultLocationTrackerRepositoryImpl(
 
     private fun getCityName(lat: Double?, long: Double?): String? {
         val geocoder = Geocoder(context, Locale(LANGUAGE))
-        val addresses = lat?.let {
-            long?.let {
-                geocoder.getFromLocation(it, it, MAX_RESULT)
+        val addresses = lat?.let { latitude ->
+            long?.let { longitude ->
+                geocoder.getFromLocation(latitude, longitude, MAX_RESULT)
             }
         }
         return addresses?.get(0)?.locality

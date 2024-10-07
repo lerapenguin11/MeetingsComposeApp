@@ -1,5 +1,6 @@
 package com.example.composeprotject.ui.theme
 
+import android.annotation.SuppressLint
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Brush
@@ -16,6 +17,11 @@ data class MeetColorScheme(
     val backgroundColorSecondary: Brush,
     val darkGray: Color,
     val inactiveSwitch: Color,
+    val primaryTransparent: Color,
+    val red: Color,
+    val blackTransparent: Color,
+    val green: Color,
+    val lightGrey: Color,
 
 
     val disabledButton: Color,
@@ -45,6 +51,7 @@ data class MeetColorScheme(
     val tabUnselectedContentColor: Color
 )
 
+@SuppressLint("InvalidColorHexValue")
 val LightColorScheme = MeetColorScheme(
     primary = Color(0xff9A10F0),
     secondary = Color(0xffF6F6FA),
@@ -70,6 +77,12 @@ val LightColorScheme = MeetColorScheme(
     ),
     darkGray = Color(0xff76778E),
     inactiveSwitch = Color(0xffEFEFEF),
+    primaryTransparent = Color(0xff309A10F0),
+    red = Color(0xffFF0000),
+    blackTransparent = Color(0xff55000000),
+    green = Color(0xff00BF59),
+    lightGrey = Color(0xffCFD3D8),
+
 
 
 

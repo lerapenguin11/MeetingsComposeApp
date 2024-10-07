@@ -86,10 +86,9 @@ fun InterestsScreen(
                             combinedInterests.first[index].id
                         )
                     ) ChipSelect.FALSE else ChipSelect.TRUE,
-                    chipClick = ChipClick.ON_CLICK
-                ) {
-                    interestsViewModel.toggleUserInterest(combinedInterests.first[index])
-                }
+                    chipClick = ChipClick.ON_CLICK,
+                    onClick = { interestsViewModel.toggleUserInterest(combinedInterests.first[index]) }
+                )
             }
         }
         Column(
@@ -102,7 +101,7 @@ fun InterestsScreen(
                 state = if (combinedInterests.second.isNotEmpty()) buttonState else FilledButtonState.DISABLED,
                 buttonText = stringResource(id = CommonString.text_save)
             ) {
-                interestsViewModel.saveOnBoardingInterestState() //TODO зависит от стейта экрана
+                interestsViewModel.saveOnBoardingInterestState()
                 interestsViewModel.addUserInterests(
                     userInterests = combinedInterests.second,
                     stateScreen = screenState

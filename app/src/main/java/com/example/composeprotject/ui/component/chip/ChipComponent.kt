@@ -7,11 +7,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import com.example.composeprotject.ui.component.chip.chipStyle.ChipClick
@@ -33,9 +31,7 @@ fun Chip(
     onClick: () -> Unit
 ) {
     val padding = style.chipSize(variant = chipSize)
-    var selected by remember { mutableStateOf(ChipSelect.FALSE) }
-    selected = chipColors
-    val color = style.chipSelectedColor(variant = selected)
+    val color = style.chipSelectedColor(variant = chipColors)
     Box(
         modifier = modifier
             .clip(shape = RoundedCornerShape(MeetTheme.sizes.sizeX8))
@@ -46,8 +42,6 @@ fun Chip(
                         interactionSource = remember { MutableInteractionSource() },
                         indication = rememberRipple(bounded = false),
                         onClick = {
-                            selected =
-                                if (chipColors == ChipSelect.TRUE) ChipSelect.FALSE else ChipSelect.TRUE
                             onClick()
                         }
                     )
@@ -64,6 +58,36 @@ fun Chip(
             text = text,
             textStyle = style.chipTextStyle(chipSize),
             textColor = color[SELECTED_TEXT_COLOR] ?: MeetTheme.colors.primary
+        )
+    }
+}
+
+@Composable
+fun EditChip(
+    text: String,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(size = MeetTheme.sizes.sizeX8))
+            .background(
+                color = MeetTheme.colors.primaryTransparent,
+                shape = RoundedCornerShape(size = MeetTheme.sizes.sizeX8)
+            )
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = rememberRipple(bounded = false),
+                onClick = {
+                    onClick()
+                }
+            )
+            .padding(all = MeetTheme.sizes.sizeX8)
+    ) {
+        Text(
+            text = text,
+            color = MeetTheme.colors.secondary,
+            style = MeetTheme.typography.interMedium16
         )
     }
 }

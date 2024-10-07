@@ -1,7 +1,6 @@
 package com.example.data.mappers
 
 import android.text.TextUtils
-import com.example.database.entity.UserInterestEntity
 import com.example.domain.model.event.Meeting
 import com.example.domain.model.eventDetails.MeetingAddress
 import com.example.domain.model.eventDetails.MeetingCoordinates
@@ -35,10 +34,6 @@ class EventsMapper {
         )
     }
 
-    fun userInterestEntityToIdInterest(entity: UserInterestEntity): Int {
-        return entity.id
-    }
-
     fun typeConvectorListIdToUriId(ids: List<Int>): String? {
         return try {
             URLEncoder.encode(TextUtils.join(",", ids), "utf-8")
@@ -64,7 +59,8 @@ class EventsMapper {
                 image = item.organizers.get(0).image
             ),
             presenters = item.presenters.map { presentersResponseToPresenters(it) },
-            location = locationResponseToLocation(loc = item.location)
+            location = locationResponseToLocation(loc = item.location),
+            isParticipating = item.isParticipating
         )
     }
 

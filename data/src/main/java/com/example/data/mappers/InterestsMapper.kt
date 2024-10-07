@@ -18,4 +18,8 @@ internal class InterestsMapper {
             title = interest.title
         )
     }
+
+    fun userInterestEntityToIdInterest(entity: UserInterestEntity): Int {
+        return entity.id
+    }
 }

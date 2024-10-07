@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -16,12 +17,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.composeprotject.nav.Main
 import com.example.composeprotject.nav.MainGraph
-import com.example.composeprotject.ui.component.state.InputState
 import com.example.composeprotject.ui.component.state.TopBarState
-import com.example.composeprotject.ui.component.topBar.TopAppBar
-import com.example.composeprotject.ui.component.topBar.searchTopBar.SearchBar
-import com.example.composeprotject.viewModel.SearchViewModel
-import org.koin.androidx.compose.navigation.koinNavViewModel
+import com.example.composeprotject.ui.component.topBar.standard.TopAppBar
+import com.example.composeprotject.ui.theme.MeetTheme
 
 @SuppressLint("UnrememberedGetBackStackEntry")
 @Composable
@@ -30,8 +28,7 @@ fun MainContainer() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
     val baseRoute = currentRoute?.substringBefore("/") ?: ""
-    val topBarIsShow = rememberSaveable { (mutableStateOf(TopBarState.MAIN_TOP_BAR)) }
-    val searchViewModel: SearchViewModel = koinNavViewModel()
+    val topBarIsShow = rememberSaveable { (mutableStateOf(TopBarState.NO_TOP_BAR)) }
 
     topBarIsShow.value = when (baseRoute) {
         Main.CommunityDetails.route,
@@ -39,34 +36,23 @@ fun MainContainer() {
         Main.PeopleEvent.route,
         Main.PeopleCommunity.route -> TopBarState.DETAILS_TOP_BAR
 
-        Main.Home.route -> TopBarState.MAIN_TOP_BAR
         else -> TopBarState.NO_TOP_BAR
     }
 
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .statusBarsPadding(),
+            .statusBarsPadding()
+            .systemBarsPadding(),
         containerColor = Color.White,
         contentWindowInsets = WindowInsets.statusBars,
         topBar = {
             when (topBarIsShow.value) {
-                TopBarState.MAIN_TOP_BAR -> {
-                    SearchBar(
-                        isEnabled = true,
-                        authToken = null, //TODO
-                        state = InputState.SUCCESS,
-                        onValueChange = {
-                            searchViewModel.searchQueryUpdate(text = it)
-                        },
-                        onMainScreenState = {
-                            searchViewModel.mainScreenStateUpdate(state = it)
-                        }
-                    )
-                }
-
                 TopBarState.DETAILS_TOP_BAR -> {
-                    TopAppBar(navController = navController)
+                    TopAppBar(
+                        navController = navController,
+                        containerColor = MeetTheme.colors.neutralWhite
+                    )
                 }
 
                 TopBarState.NO_TOP_BAR -> {}
@@ -75,8 +61,7 @@ fun MainContainer() {
     ) { contentPadding ->
         MainGraph(
             navController = navController,
-            contentPadding = contentPadding,
-            searchViewModel = searchViewModel
+            contentPadding = contentPadding
         )
     }
 }

@@ -13,10 +13,10 @@ class InteractorFullInfoCommunityDetails : KoinComponent {
     private val communityDetailsFlow = combine(
         getCommunityDetails.execute(),
         getCommunityDetails.invoke()
-    ) { t1, t2 ->
+    ) { communityDetails, meetings ->
         CombineCommunityDetails(
-            communityDetails = t1,
-            eventsByCommunityId = t2
+            communityDetails = communityDetails,
+            eventsByCommunityId = meetings
         )
     }
 

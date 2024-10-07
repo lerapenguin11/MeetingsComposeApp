@@ -16,6 +16,8 @@ interface InterestRepository {
         onError: (String?) -> Unit
     )
 
+    fun getUserInterest(): Flow<List<Int>>
+
     /*
 
     fun addInterestsRemote(userInterests: List<Interest>)*/

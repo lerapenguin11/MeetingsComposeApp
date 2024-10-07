@@ -3,7 +3,7 @@ package com.example.domain.usecase.getData
 import com.example.domain.model.event.EventListType
 import com.example.domain.model.event.Meeting
 import com.example.domain.repository.event.EventRepository
-import com.example.domain.usecase.event.GetMainInfoUseCase
+import com.example.domain.usecase.main.GetMainInfoUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapMerge

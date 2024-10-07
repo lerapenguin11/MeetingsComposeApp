@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 internal class InterestRepositoryImpl(
@@ -43,6 +44,14 @@ internal class InterestRepositoryImpl(
             onComplete()
         } else {
             onError("Возникла ошибка при добавлении")
+        }
+    }
+
+    override fun getUserInterest(): Flow<List<Int>> {
+        return dao.getUserInterests().flowOn(Dispatchers.IO).map {
+            it.map { entity ->
+                mapper.userInterestEntityToIdInterest(entity = entity)
+            }
         }
     }
 }

@@ -7,4 +7,5 @@ object Graph {
     const val SPLASH = "splash_graph"
     const val AUTH = "auth_graph"
     const val LOCATION = "location_graph"
+    const val PROFILE = "profile_graph"
 }
