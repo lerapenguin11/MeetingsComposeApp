@@ -2,11 +2,10 @@ package com.example.domain.usecase.getData
 
 import com.example.domain.model.people.People
 import com.example.domain.repository.people.PeopleRepository
-import com.example.domain.usecase.GetPeopleUseCase
+import com.example.domain.usecase.people.GetPeopleUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flattenConcat
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.merge
@@ -27,22 +26,6 @@ class GetPeople : KoinComponent {
                 repository.getPeopleByCommunityId(communityId = it)
             }
         ).flattenConcat()
-
-    /* innerPeople.eventIdTrigger().filterNotNull().mapLatest {
-         repository.getPeopleByEventId(eventId = it)
-     }.flatMapMerge { it }
-*/
-    fun execute() = peoplePrepared
-}
-
-class GetPeopleByCommunityId : KoinComponent {
-    private val innerPeople: GetPeopleUseCase by inject()
-    private val repository: PeopleRepository by inject()
-
-    private val peoplePrepared: Flow<List<People>> =
-        innerPeople.communityIdTrigger().filterNotNull().mapLatest {
-            repository.getPeopleByCommunityId(communityId = it)
-        }.flatMapMerge { it }
 
     fun execute() = peoplePrepared
 }

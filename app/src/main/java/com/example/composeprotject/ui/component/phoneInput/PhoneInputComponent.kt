@@ -17,6 +17,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,7 +33,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.R
 import com.example.composeprotject.app.BaseApplication
@@ -45,9 +45,11 @@ import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.utils.CountryData
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 
-@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun PhoneNumberContainer() {
+fun PhoneNumberContainer(
+    onValueChange: (String) -> Unit,
+    onValidityChange: (Boolean) -> Unit
+) {
     val context = LocalContext.current
     val countryData = (context.applicationContext as? BaseApplication)?.countryData
     var phoneNumberValue by remember { mutableStateOf(EMPTY_LINE) }
@@ -57,6 +59,14 @@ fun PhoneNumberContainer() {
         ?: stringResource(id = CommonString.text_ph_phone_number)
     val colorBorder =
         if (phoneNumberValue.isNotEmpty()) MeetTheme.colors.secondary else MeetTheme.colors.primary
+
+    LaunchedEffect(phoneNumberValue) {
+        onValueChange("$PLUS${countryDataRegion?.callingCode.orEmpty()}$phoneNumberValue")
+
+        if (region.isNotEmpty() && countryDataRegion != null) {
+            onValidityChange(isValidNumber(phoneNumberValue, region, countryDataRegion.callingCode))
+        }
+    }
 
     Row {
         countryDataRegion?.let { country ->
@@ -221,6 +231,103 @@ fun CallingCode(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SimplePhoneInputFields(
+    textPlaceholder: String,
+    isEnabled: Boolean,
+    state: InputState,
+    inputText: String,
+    modifier: Modifier = Modifier,
+    singleLine: Boolean = true,
+    inputColors: InputColors = InputColorsDefaults.colors(),
+    onValueChange: (String) -> Unit
+) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
+    var textOverflow by remember { mutableStateOf(false) }
+    val interactionSource = remember { MutableInteractionSource() }
+
+    val colors =
+        OutlinedTextFieldDefaults.colors(
+            errorContainerColor = inputColors.background(state),
+            errorBorderColor = inputColors.background(state),
+            focusedBorderColor = MeetTheme.colors.primary,
+            unfocusedBorderColor = Color.Transparent,
+            disabledBorderColor = Color.Transparent,
+            unfocusedContainerColor = MeetTheme.colors.secondary,
+            focusedContainerColor = MeetTheme.colors.secondary,
+            focusedTextColor = MeetTheme.colors.black,
+            unfocusedTextColor = MeetTheme.colors.black,
+            errorTextColor = MeetTheme.colors.black
+        )
+    BasicTextField(
+        value = inputText,
+        onValueChange = { newValue ->
+            val value = newValue.take(
+                MASK.count { it == MASK_NUMBER })
+            onValueChange(value)
+        },
+        onTextLayout = { textLayoutResult ->
+            textOverflow = textLayoutResult.hasVisualOverflow
+        },
+        modifier = modifier
+            .fillMaxWidth(),
+        interactionSource = interactionSource,
+        enabled = isEnabled,
+        singleLine = singleLine,
+        textStyle = MeetTheme.typography.interRegular19,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Phone,
+            imeAction = ImeAction.Done
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                keyboardController?.hide()
+                focusManager.clearFocus()
+            }
+        ),
+        visualTransformation = PhoneVisualTransformation(
+            maskNumber = MASK_NUMBER,
+            mask = MASK
+        )
+    ) {
+        OutlinedTextFieldDefaults.DecorationBox(
+            value = inputText,
+            visualTransformation = VisualTransformation.None,
+            innerTextField = it,
+            singleLine = singleLine,
+            enabled = isEnabled,
+            placeholder = {
+                Text(
+                    text = textPlaceholder,
+                    style = MeetTheme.typography.interRegular19,
+                    color = MeetTheme.colors.neutralDisabled
+                )
+            },
+            interactionSource = interactionSource,
+            contentPadding =
+            OutlinedTextFieldDefaults.contentPadding(
+                top = MeetTheme.sizes.sizeX16,
+                bottom = MeetTheme.sizes.sizeX16,
+                start = MeetTheme.sizes.sizeX20,
+                end = MeetTheme.sizes.sizeX20
+            ),
+            colors = colors,
+            container = {
+                OutlinedTextFieldDefaults.ContainerBox(
+                    enabled = isEnabled,
+                    isError = state == InputState.ERROR,
+                    colors = colors,
+                    interactionSource = interactionSource,
+                    shape = RoundedCornerShape(MeetTheme.sizes.sizeX16),
+                    focusedBorderThickness = MeetTheme.sizes.sizeX1
+                )
+            }
+        )
+    }
+}
+
 fun textFieldValueChange(
     region: String,
     numberPhone: String,
@@ -287,6 +394,7 @@ fun getPhoneNumber(callingCode: String, phone: String): String {
 private const val UNSPECIFIED_COUNTRY = "ZZ"
 private const val MASK_NUMBER = 'X'
 private const val EMPTY_LINE = ""
+private const val MASK = "+X XXX-XXX-XX-XX"
 private const val UNSPECIFIED_CALLING_CODE = "001"
 private const val PLUS = "+"
 private const val WHITESPACE = " "

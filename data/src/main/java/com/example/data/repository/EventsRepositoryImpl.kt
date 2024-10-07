@@ -1,56 +1,67 @@
 package com.example.data.repository
 
+import androidx.annotation.WorkerThread
+import com.example.common.result.ResultData
+import com.example.common.result.ResultStatus
 import com.example.data.fakeData.eventDetailsFake
-import com.example.data.fakeData.eventsFake
 import com.example.data.mappers.EventsMapper
-import com.example.data.responseModel.event.EventResponse
-import com.example.database.dao.UserInterestDao
 import com.example.domain.model.event.EventListType
 import com.example.domain.model.event.Meeting
+import com.example.domain.model.eventDetails.EventDetailsParams
 import com.example.domain.model.eventDetails.MeetingDetails
 import com.example.domain.repository.event.EventRepository
+import com.example.network.api.EventApi
+import com.skydoves.sandwich.message
+import com.skydoves.sandwich.onFailure
+import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 
 class EventsRepositoryImpl(
     private val mapper: EventsMapper,
-    private val dao: UserInterestDao
+    private val service: EventApi
 ) : EventRepository {
 
-    private val _test = MutableStateFlow<List<Int>>(emptyList())
-    private val test: StateFlow<List<Int>> = _test.asStateFlow()
-
-    init {
-        getUserInterest()
-    }
-
+    @WorkerThread
     override fun getEventsByUserInterest(
         eventType: EventListType,
         userInterests: List<Int>?,
         authToken: String?
     ): Flow<List<Meeting>> {
         return flow {
-            val filteredEvents = filterEvents(
-                eventType = eventType,
-                events = EventResponse()
-            ).map { mapper.eventResponseToMeeting(it) }
-            emit(
-                value = filteredEvents.take(6)
+            val response = service.getMeetings(
+                eventType = eventType.value,
+                categories = userInterests?.let {
+                    mapper.typeConvectorListIdToUriId(ids = it)
+                }
             )
-            //TODO: response = ...{...}.onFailure{ onError(message())
+            response.suspendOnSuccess {
+                emit(value = data.map { mapper.eventResponseToMeeting(it) }.take(MAX_ELEMENT))
+            }.onFailure {
+                message()
+            }
         }
             .flowOn(Dispatchers.IO)
     }
 
     override fun getEventsByCommunityId(communityId: Int): Flow<List<Meeting>> {
         return flow {
+            //TODO add response
             emit(value = emptyList<Meeting>())
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override fun makeAnAppointment(params: EventDetailsParams): Flow<ResultData<ResultStatus>> {
+        return flow<ResultData<ResultStatus>> {
+            //TODO add response
+            val responseCode = SUCCESS_CODE
+            delay(2000)
+            when (responseCode) {
+                SUCCESS_CODE -> emit(value = ResultData.Success(ResultStatus.SUCCESS))
+            }//TODO добавить на другие коды
         }.flowOn(Dispatchers.IO)
     }
 
@@ -61,60 +72,51 @@ class EventsRepositoryImpl(
         authToken: String?
     ): Flow<List<Meeting>> {
         return flow {
-            val filteredEvents = filterEvents(
-                eventType = eventType,
-                events = EventResponse()
-            ).map { mapper.eventResponseToMeeting(it) }
-            emit(
-                value = filteredEvents.filter { it.id % 2 == 0 }.take(6)
+            val response = service.getMeetings(
+                eventType = eventType.value,
+                categories = userInterests?.let {
+                    mapper.typeConvectorListIdToUriId(ids = it)
+                },
+                city = city
             )
-            //TODO: response = ...{...}.onFailure{ onError(message())
+            response.suspendOnSuccess {
+                emit(
+                    value = data.map { mapper.eventResponseToMeeting(it) }.take(MAX_ELEMENT)
+                )
+            }.onFailure {
+                message()
+            }
         }
             .flowOn(Dispatchers.IO)
     }
 
     override fun getFilteredEventsByCategory(filterParam: List<Int>): Flow<List<Meeting>> {
         return flow {
-            emit(value = eventsFake().map { mapper.eventResponseToMeeting(it) })
+            val response = service.getMeetings(
+                categories = if (filterParam.isEmpty()) null else filterParam.let {
+                    mapper.typeConvectorListIdToUriId(ids = it)
+                }
+            )
+            response.suspendOnSuccess {
+                emit(value = data.map { mapper.eventResponseToMeeting(it) })
+            }.onFailure {
+                message()
+            }
         }.flowOn(Dispatchers.IO)
     }
 
-    override fun getEventDetails(eventId: Int): Flow<MeetingDetails> {
+    override fun getEventDetails(params: EventDetailsParams): Flow<MeetingDetails> {
         return flow {
             emit(
                 value = mapper.eventDetailsResponseToEventDetails(
                     item = eventDetailsFake().elementAt(
-                        eventId
+                        params.eventId
                     )
                 )
             )
         }.flowOn(context = Dispatchers.IO)
     }
-
-    private fun getUserInterest() {
-        dao.getUserInterests().map {
-            it.map { entity ->
-                _test.emit(value = listOf(mapper.userInterestEntityToIdInterest(entity = entity)))
-            }
-        }
-    }
-
-    private fun filterEvents(
-        eventType: EventListType,
-        events: EventResponse
-    ): EventResponse {
-        return when (eventType) {
-            EventListType.RELEVANT -> {
-                eventsFake() //TODO
-            }
-
-            EventListType.CLOSEST -> {
-                eventsFake() //TODO
-            }
-
-            else -> {
-                eventsFake()
-            }
-        }
-    }
 }
+
+private const val MAX_ELEMENT = 6
+private const val SUCCESS_CODE = 200

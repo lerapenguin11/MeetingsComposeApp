@@ -1,26 +1,38 @@
 package com.example.data.repository
 
-import com.example.data.fakeData.communities
 import com.example.data.fakeData.generateCommunityDetails
 import com.example.data.mappers.CommunityMapper
 import com.example.domain.model.community.Community
 import com.example.domain.model.communityDetails.CommunityDetails
 import com.example.domain.repository.community.CommunityRepository
+import com.example.network.api.CommunityApi
+import com.skydoves.sandwich.message
+import com.skydoves.sandwich.onFailure
+import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
 class CommunityRepositoryImpl(
-    private val mapper: CommunityMapper
+    private val mapper: CommunityMapper,
+    private val service: CommunityApi
 ) : CommunityRepository {
 
     override fun getCommunities(userInterest: List<Int>?): Flow<List<Community>> {
         return flow {
-            val communities = communities().map {
-                mapper.communitiesResponseToCommunities(communitiesResponseItem = it)
+            val response = service.getCommunity(categories = userInterest?.let {
+                mapper.typeConvectorListIdToUriId(ids = it)
+            })
+            response.suspendOnSuccess {
+                emit(value = data.map {
+                    mapper.communitiesResponseToCommunities(
+                        communitiesResponseItem = it
+                    )
+                }.take(MAX_ELEMENT))
+            }.onFailure {
+                message()
             }
-            emit(value = communities.take(6))
         }.flowOn(Dispatchers.IO)
     }
 
@@ -36,3 +48,5 @@ class CommunityRepositoryImpl(
         }.flowOn(Dispatchers.IO)
     }
 }
+
+private const val MAX_ELEMENT = 6

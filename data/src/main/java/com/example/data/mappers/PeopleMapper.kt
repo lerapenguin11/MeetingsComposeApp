@@ -1,12 +1,11 @@
 package com.example.data.mappers
 
-import com.example.data.responseModel.people.PeopleResponse
 import com.example.domain.model.interest.Interest
 import com.example.domain.model.people.People
 
 class PeopleMapper {
 
-    fun peopleResponseToPeople(peopleResponse: PeopleResponse): People {
+    fun peopleResponseToPeople(peopleResponse: com.example.network.responseModel.people.PeopleResponse): People {
         return People(
             id = peopleResponse.id,
             name = peopleResponse.name,

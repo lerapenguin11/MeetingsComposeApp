@@ -1,11 +1,8 @@
 package com.example.data.fakeData
 
-import com.example.data.responseModel.eventDetails.Category
-import com.example.data.responseModel.eventDetails.Data
-import com.example.data.responseModel.eventDetails.EventDetailsResponse
-import com.example.data.responseModel.eventDetails.Organizer
-import com.example.data.responseModel.eventDetails.Participants
-import com.example.data.responseModel.eventDetails.Presenter
+import com.example.network.responseModel.eventDetails.Category
+import com.example.network.responseModel.eventDetails.EventDetailsResponse
+import com.example.network.responseModel.eventDetails.Organizer
 import java.util.Date
 
 fun eventDetailsFake(): List<EventDetailsResponse> {
@@ -14,19 +11,22 @@ fun eventDetailsFake(): List<EventDetailsResponse> {
         eventDetailsResponses.add(
             EventDetailsResponse(
                 categories = listOf(
-                    Category(id = i, title = "Category $i")
+                    Category(
+                        id = i,
+                        title = "Category $i"
+                    )
                 ),
                 description = "Description for Event $i",
                 image = "https://example.com/image$i.jpg",
                 isParticipating = i % 2 == 0,
-                location = com.example.data.responseModel.eventDetails.Location(
-                    address = com.example.data.responseModel.eventDetails.Address(
-                        plain = com.example.data.responseModel.eventDetails.Plain(
+                location = com.example.network.responseModel.eventDetails.Location(
+                    address = com.example.network.responseModel.eventDetails.Address(
+                        plain = com.example.network.responseModel.eventDetails.Plain(
                             full = "Address $i",
                             short = "Short Address $i"
                         )
                     ),
-                    coordinates = com.example.data.responseModel.eventDetails.Coordinates(
+                    coordinates = com.example.network.responseModel.eventDetails.Coordinates(
                         lat = 51.5074 + i * 0.01,
                         lon = 0.1278 + i * 0.01
                     )
@@ -39,28 +39,70 @@ fun eventDetailsFake(): List<EventDetailsResponse> {
                         name = "Organizer $i"
                     )
                 ),
-                participants = Participants(
+                participants = com.example.network.responseModel.eventDetails.Participants(
                     `data` = listOf(
-                        Data(id = i, image = "https://example.com/participant$i.jpg"),
-                        Data(id = i, image = "https://example.com/participant$i.jpg"),
-                        Data(id = i, image = "https://example.com/participant$i.jpg"),
-                        Data(id = i, image = "https://example.com/participant$i.jpg"),
-                        Data(id = i, image = "https://example.com/participant$i.jpg"),
-                        Data(id = i, image = "https://example.com/participant$i.jpg"),
-                        Data(id = i, image = "https://example.com/participant$i.jpg"),
-                        Data(id = i, image = "https://example.com/participant$i.jpg"),
-                        Data(id = i, image = "https://example.com/participant$i.jpg"),
-                        Data(id = i, image = "https://example.com/participant$i.jpg"),
-                        Data(id = i, image = "https://example.com/participant$i.jpg"),
-                        Data(id = i, image = "https://example.com/participant$i.jpg"),
-                        Data(id = i, image = "https://example.com/participant$i.jpg"),
-                        Data(id = i, image = "https://example.com/participant$i.jpg"),
+                        com.example.network.responseModel.eventDetails.Data(
+                            id = i,
+                            image = "https://example.com/participant$i.jpg"
+                        ),
+                        com.example.network.responseModel.eventDetails.Data(
+                            id = i,
+                            image = "https://example.com/participant$i.jpg"
+                        ),
+                        com.example.network.responseModel.eventDetails.Data(
+                            id = i,
+                            image = "https://example.com/participant$i.jpg"
+                        ),
+                        com.example.network.responseModel.eventDetails.Data(
+                            id = i,
+                            image = "https://example.com/participant$i.jpg"
+                        ),
+                        com.example.network.responseModel.eventDetails.Data(
+                            id = i,
+                            image = "https://example.com/participant$i.jpg"
+                        ),
+                        com.example.network.responseModel.eventDetails.Data(
+                            id = i,
+                            image = "https://example.com/participant$i.jpg"
+                        ),
+                        com.example.network.responseModel.eventDetails.Data(
+                            id = i,
+                            image = "https://example.com/participant$i.jpg"
+                        ),
+                        com.example.network.responseModel.eventDetails.Data(
+                            id = i,
+                            image = "https://example.com/participant$i.jpg"
+                        ),
+                        com.example.network.responseModel.eventDetails.Data(
+                            id = i,
+                            image = "https://example.com/participant$i.jpg"
+                        ),
+                        com.example.network.responseModel.eventDetails.Data(
+                            id = i,
+                            image = "https://example.com/participant$i.jpg"
+                        ),
+                        com.example.network.responseModel.eventDetails.Data(
+                            id = i,
+                            image = "https://example.com/participant$i.jpg"
+                        ),
+                        com.example.network.responseModel.eventDetails.Data(
+                            id = i,
+                            image = "https://example.com/participant$i.jpg"
+                        ),
+                        com.example.network.responseModel.eventDetails.Data(
+                            id = i,
+                            image = "https://example.com/participant$i.jpg"
+                        ),
+                        com.example.network.responseModel.eventDetails.Data(
+                            id = i,
+                            image = "https://example.com/participant$i.jpg"
+                        ),
                     ),
                     total = 100 + i
                 ),
                 participantsCapacity = 200 + i,
                 presenters = listOf(
-                    Presenter(
+                    com.example.network.responseModel.eventDetails.Presenter(
                         bio = "Presenter Bio $i",
                         name = "Presenter $i"
                     )

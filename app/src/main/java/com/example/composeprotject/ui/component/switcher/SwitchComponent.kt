@@ -13,9 +13,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,8 +24,7 @@ import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.theme.MeetTheme
 
 @Composable
-fun CustomSwitch() {
-    var isSwitchOn by remember { mutableStateOf(false) }
+fun CustomSwitch(isSwitchOn: Boolean, onSwitch: (Boolean) -> Unit) {
     val bgColor: Color by animateColorAsState(
         if (isSwitchOn) MeetTheme.colors.primary else MeetTheme.colors.inactiveSwitch,
         animationSpec = tween(ANIMATION_DURATION_MILLIS, easing = LinearEasing),
@@ -55,7 +51,7 @@ fun CustomSwitch() {
             .clip(shape = CircleShape)
             .background(bgColor)
             .clickable {
-                isSwitchOn = !isSwitchOn
+                onSwitch(!isSwitchOn)
             },
         contentAlignment = Alignment.CenterStart,
     ) {

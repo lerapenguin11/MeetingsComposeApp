@@ -13,5 +13,6 @@ data class MeetingDetails(
     val organizers: MeetingOrganizer,
     val participants: MeetingParticipants,
     val participantsCapacity: Int,
-    val location: MeetingLocation
+    val location: MeetingLocation,
+    val isParticipating: Boolean
 )
