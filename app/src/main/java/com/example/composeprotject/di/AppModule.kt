@@ -17,11 +17,11 @@ val appModule = module {
     viewModelOf(::InterestsViewModel)
     viewModelOf(::MainViewModel)
     viewModelOf(::SplashViewModel)
-    viewModelOf(::EventDetailsViewModel)
     viewModelOf(::CommunityDetailsViewModel)
     viewModelOf(::PeopleViewModel)
     viewModelOf(::SingUpViewModel)
     viewModelOf(::LocationOnboardingViewModel)
     viewModelOf(::ProfileViewModel)
     viewModelOf(::EditUserViewModel)
+    viewModelOf(::EventDetailsViewModel)
 }

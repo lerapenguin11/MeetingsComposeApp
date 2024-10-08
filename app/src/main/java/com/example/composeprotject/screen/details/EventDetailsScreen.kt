@@ -57,6 +57,7 @@ import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.utils.lineBreakInAddress
 import com.example.composeprotject.viewModel.EventDetailsViewModel
 import com.example.domain.model.event.Meeting
+import com.example.domain.model.eventDetails.AppointmentSettings
 import com.example.domain.model.eventDetails.EventDetailsParams
 import com.example.domain.model.eventDetails.MeetingDetails
 import com.example.domain.model.eventDetails.MeetingOrganizer
@@ -79,22 +80,20 @@ fun EventDetailsScreen(
     val authToken by eventDetailsViewModel.getAuthTokenFlow().collectAsStateWithLifecycle()
     val isParticipatingMeeting by eventDetailsViewModel.getIsParticipatingMeetingFlow()
         .collectAsStateWithLifecycle()
+    val fullEventInfo by eventDetailsViewModel.getEventDetailsInfo().collectAsStateWithLifecycle()
+    val actionState by eventDetailsViewModel.getActionBlockStateFlow().collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = Unit, key2 = authToken) {
         if (authToken == null || !authToken.isNullOrEmpty()) {
             eventDetailsViewModel.loadEventDetailsInfo(
                 params = EventDetailsParams(
                     eventId = eventId,
-                    autToken = authToken
+                    autToken = authToken,
+
                 )
             )
         }
     }
-
-    val fullEventInfo by eventDetailsViewModel.getEventDetailsInfo().collectAsStateWithLifecycle()
-    val actionState by eventDetailsViewModel.getActionBlockStateFlow().collectAsStateWithLifecycle()
-
-    val status = MeetingStatus.ACTIVE
 
     Column(
         modifier = modifier
@@ -134,7 +133,7 @@ fun EventDetailsScreen(
                     )
                     SpacerHeight(height = MeetTheme.sizes.sizeX32)
                     PeopleAtMeetings(
-                        meetingStatus = status,
+                        meetingStatus = item.status,
                         avatarList = item.participants.data,
                         onClickMorePeople = {
                             onClickMorePeople(eventId)
@@ -195,16 +194,13 @@ fun EventDetailsScreen(
                             eventDetailsViewModel.updateActionBlockState(state = it)
                         },
                         onMakeAppointment = {
-                            if (isParticipatingMeeting) {
-                                //TODO отписаться от встечи
-                            } else {
-                                eventDetailsViewModel.makeAppointment(
-                                    params = EventDetailsParams(
-                                        eventId = eventId,
-                                        autToken = authToken
-                                    )
+                            eventDetailsViewModel.makeAppointment(
+                                params = AppointmentSettings(
+                                    eventId = eventId,
+                                    autToken = authToken,
+                                    isParticipatingMeeting = isParticipatingMeeting
                                 )
-                            }
+                            )
                         }
                     )
                 }

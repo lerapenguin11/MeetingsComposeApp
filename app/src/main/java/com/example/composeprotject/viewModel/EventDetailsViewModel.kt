@@ -3,16 +3,14 @@ package com.example.composeprotject.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.common.result.ResultData
-import com.example.common.result.ResultStatus
 import com.example.composeprotject.ui.component.state.FilledButtonState
+import com.example.domain.model.eventDetails.AppointmentSettings
 import com.example.domain.model.eventDetails.EventDetailsParams
 import com.example.domain.usecase.combineUseCase.CombineEventDetailsInfo
 import com.example.domain.usecase.combineUseCase.InteractorFullEventDetailsInfo
 import com.example.domain.usecase.details.InteractorLoadEventDetailsInfo
 import com.example.domain.usecase.details.MakeAnAppointmentUseCase
 import com.example.domain.usecase.store.token.ReadAuthTokenUseCase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -76,12 +74,29 @@ class EventDetailsViewModel(
         makeAnAppointmentUseCase.resultRecordAnEvent().flatMapLatest { result ->
             flow {
                 when (result) {
-                    ResultData.Success(ResultStatus.SUCCESS) -> {
-                        updateIsParticipatingMeeting()
+                    is ResultData.Success -> {
+                        val blockState =
+                            if (result.status) FilledButtonState.ACTIVE_SECONDARY else FilledButtonState.ACTIVE_PRIMARY
+                        updateIsParticipatingMeeting(isParticipating = result.status)
+                        updateActionBlockState(state = blockState)
+                    }
+
+                    is ResultData.Error -> {
+                        //TODO
+                    }
+                }
+                when (result) {
+                    ResultData.Success(true) -> {
+                        updateIsParticipatingMeeting(isParticipating = true)
                         updateActionBlockState(state = FilledButtonState.ACTIVE_SECONDARY)
                     }
 
-                    else -> {} //TODO
+                    ResultData.Success(false) -> {
+                        updateIsParticipatingMeeting(isParticipating = false)
+                        updateActionBlockState(state = FilledButtonState.ACTIVE_PRIMARY)
+                    }
+
+                    else -> {}
                 }
                 emit(value = result)
             }
@@ -101,7 +116,7 @@ class EventDetailsViewModel(
     private val isParticipatingMeeting: StateFlow<Boolean> = _isParticipatingMeeting
 
     init {
-        resultMakeAppointment.launchIn(CoroutineScope(Dispatchers.IO))
+        resultMakeAppointment.launchIn(viewModelScope)
     }
 
     fun getAuthTokenFlow() = authToken
@@ -117,13 +132,13 @@ class EventDetailsViewModel(
         _actionBlockState.update { state }
     }
 
-    fun makeAppointment(params: EventDetailsParams) {
+    fun makeAppointment(params: AppointmentSettings) {
         makeAnAppointmentUseCase.execute(params = params)
     }
 
-    private fun updateIsParticipatingMeeting() {
-        _isParticipatingMeeting.update { isParticipating ->
-            !isParticipating
+    private fun updateIsParticipatingMeeting(isParticipating: Boolean) {
+        _isParticipatingMeeting.update {
+            isParticipating
         }
     }
 }

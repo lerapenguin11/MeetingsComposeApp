@@ -136,5 +136,5 @@ internal val useCaseModule = module {
     single { GetUserInfoForEditUseCase() }
     single { InteractorLoadUserInfoForEdit() }
     single { GetUserInfoForEdit() }
-    single<MakeAnAppointmentUseCase> { MakeAnAppointmentUseCaseImpl(repository = get()) }
+    factory<MakeAnAppointmentUseCase> { MakeAnAppointmentUseCaseImpl(repository = get()) }
 }

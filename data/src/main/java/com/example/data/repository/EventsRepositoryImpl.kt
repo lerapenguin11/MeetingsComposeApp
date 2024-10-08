@@ -2,11 +2,11 @@ package com.example.data.repository
 
 import androidx.annotation.WorkerThread
 import com.example.common.result.ResultData
-import com.example.common.result.ResultStatus
 import com.example.data.fakeData.eventDetailsFake
 import com.example.data.mappers.EventsMapper
 import com.example.domain.model.event.EventListType
 import com.example.domain.model.event.Meeting
+import com.example.domain.model.eventDetails.AppointmentSettings
 import com.example.domain.model.eventDetails.EventDetailsParams
 import com.example.domain.model.eventDetails.MeetingDetails
 import com.example.domain.repository.event.EventRepository
@@ -54,13 +54,24 @@ class EventsRepositoryImpl(
         }.flowOn(Dispatchers.IO)
     }
 
-    override fun makeAnAppointment(params: EventDetailsParams): Flow<ResultData<ResultStatus>> {
-        return flow<ResultData<ResultStatus>> {
+    override fun makeAnAppointment(params: AppointmentSettings): Flow<ResultData<Boolean>> {
+        return flow<ResultData<Boolean>> {
             //TODO add response
             val responseCode = SUCCESS_CODE
             delay(2000)
             when (responseCode) {
-                SUCCESS_CODE -> emit(value = ResultData.Success(ResultStatus.SUCCESS))
+                SUCCESS_CODE -> emit(value = ResultData.Success(!params.isParticipatingMeeting))
+            }//TODO добавить на другие коды
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override fun skipMeetings(params: AppointmentSettings): Flow<ResultData<Boolean>> {
+        return flow<ResultData<Boolean>> {
+            //TODO add response
+            val responseCode = SUCCESS_CODE
+            delay(2000)
+            when (responseCode) {
+                SUCCESS_CODE -> emit(value = ResultData.Success(!params.isParticipatingMeeting))
             }//TODO добавить на другие коды
         }.flowOn(Dispatchers.IO)
     }
