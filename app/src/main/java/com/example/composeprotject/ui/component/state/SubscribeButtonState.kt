@@ -1,6 +1,6 @@
 package com.example.composeprotject.ui.component.state
 
-enum class SubscribeButtonState(value: Boolean) {
-    SUBSCRIBED_COMMUNITY(true),
-    NOT_SUBSCRIBED_COMMUNITY(false)
+enum class SubscribeButtonState(val value: Boolean) {
+    SUBSCRIBED_COMMUNITY(value = true),
+    NOT_SUBSCRIBED_COMMUNITY(value = false)
 }

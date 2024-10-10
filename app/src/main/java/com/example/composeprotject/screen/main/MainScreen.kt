@@ -43,7 +43,6 @@ import com.example.composeprotject.ui.component.progressBar.CustomProgressBar
 import com.example.composeprotject.ui.component.spacer.SpacerHeight
 import com.example.composeprotject.ui.component.spacer.SpacerWidth
 import com.example.composeprotject.ui.component.state.InputState
-import com.example.composeprotject.ui.component.state.SubscribeButtonState
 import com.example.composeprotject.ui.component.topBar.search.SearchBar
 import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.FlexRow
@@ -75,6 +74,8 @@ fun MainScreen(
         .collectAsStateWithLifecycle()
     val filteredEventsByCategory by mainViewModel.getFilteredEvents().collectAsStateWithLifecycle()
     var subscriptionCapabilityStatus by remember { mutableStateOf(SubscriptionCapabilityStatus.WITHOUT_SUBSCRIPTION) } //TODO вынести во viewModel
+    val communitySubscriptions by mainViewModel.getCommunitySubscriptionsFlow()
+        .collectAsStateWithLifecycle()
 
     LaunchedEffect(
         key1 = Unit,
@@ -127,6 +128,7 @@ fun MainScreen(
                 MainDefault(
                     contentPadding = innerPadding,
                     mainStateUI = mainStateUI,
+                    communitySubscriptions = communitySubscriptions,
                     subscriptionCapabilityStatus = subscriptionCapabilityStatus,
                     fullInfoMainScreen = fullInfoMainScreen,
                     filteredEvents = filteredEventsByCategory,
@@ -171,7 +173,8 @@ fun MainDefault(
     onClickCommunity: (Community) -> Unit,
     userCategories: List<Interest>,
     mainViewModel: MainViewModel,
-    subscriptionCapabilityStatus: SubscriptionCapabilityStatus
+    subscriptionCapabilityStatus: SubscriptionCapabilityStatus,
+    communitySubscriptions: List<Community>
 ) {
     if (mainStateUI) {
         Box(
@@ -202,8 +205,14 @@ fun MainDefault(
             SpacerHeight(height = MeetTheme.sizes.sizeX32)
             CommunityRow(
                 state = subscriptionCapabilityStatus,
-                communities = fullInfoMainScreen.communities,
-                onClickCommunity = onClickCommunity
+                communities = communitySubscriptions,
+                onClickCommunity = onClickCommunity,
+                onChangingSubscription = { communityId, statusSubscription ->
+                    mainViewModel.updateCommunitySubscriptions(
+                        communityId = communityId,
+                        statusSubscription = statusSubscription
+                    )
+                }
             )
             SpacerHeight(height = MeetTheme.sizes.sizeX40)
             InterestsChipFlex(
@@ -299,7 +308,8 @@ private fun InterestsChipFlex(
 private fun CommunityRow(
     communities: List<Community>,
     state: SubscriptionCapabilityStatus,
-    onClickCommunity: (Community) -> Unit
+    onClickCommunity: (Community) -> Unit,
+    onChangingSubscription: (Int, Boolean) -> Unit
 ) {
     if (communities.isNotEmpty()) {
         Text(
@@ -321,10 +331,14 @@ private fun CommunityRow(
             CommunityCard(
                 state = state,
                 community = community,
-                buttonState = SubscribeButtonState.NOT_SUBSCRIBED_COMMUNITY //TODO
-            ) {
-                onClickCommunity(community)
-            }
+                buttonState = community.statusSubscription,
+                onClickCard = {
+                    onClickCommunity(community)
+                },
+                onChangingSubscription = { communityId, statusSubscription ->
+                    onChangingSubscription(communityId, statusSubscription)
+                }
+            )
             SpacerWidth(width = MeetTheme.sizes.sizeX10)
         }
         item {

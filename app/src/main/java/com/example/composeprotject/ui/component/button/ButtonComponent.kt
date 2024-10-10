@@ -152,7 +152,7 @@ fun FilledButton(
 
 @Composable
 fun SubscribeButton(
-    state: SubscribeButtonState,
+    state: Boolean,
     modifier: Modifier = Modifier,
     style: SubscribeButtonStateStyle = SubscribeButtonStyleDefault.style(),
     onClick: () -> Unit
@@ -169,7 +169,12 @@ fun SubscribeButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    brush = style.background(state = state),
+                    brush = style.background(
+                        state = when (state) {
+                            true -> SubscribeButtonState.SUBSCRIBED_COMMUNITY
+                            false -> SubscribeButtonState.NOT_SUBSCRIBED_COMMUNITY
+                        }
+                    ),
                 )
                 .padding(
                     vertical = MeetTheme.sizes.sizeX8,
@@ -179,7 +184,14 @@ fun SubscribeButton(
         ) {
             Image(
                 modifier = Modifier.size(21.dp),
-                painter = painterResource(id = style.content(state = state)),
+                painter = painterResource(
+                    id = style.content(
+                        state = when (state) {
+                            true -> SubscribeButtonState.SUBSCRIBED_COMMUNITY
+                            false -> SubscribeButtonState.NOT_SUBSCRIBED_COMMUNITY
+                        }
+                    )
+                ),
                 contentDescription = null
             )
         }

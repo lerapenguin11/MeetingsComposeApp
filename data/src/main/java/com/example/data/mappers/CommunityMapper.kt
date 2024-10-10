@@ -15,7 +15,8 @@ class CommunityMapper {
         return Community(
             id = communitiesResponseItem.id,
             title = communitiesResponseItem.title,
-            avatarUrl = communitiesResponseItem.image
+            avatarUrl = communitiesResponseItem.image,
+            statusSubscription = false //TODO
         )
     }
 

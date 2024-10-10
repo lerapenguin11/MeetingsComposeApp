@@ -225,10 +225,11 @@ fun EventCardFillMaxWidth(
 @Composable
 fun CommunityCard(
     community: Community,
-    buttonState: SubscribeButtonState,
+    buttonState: Boolean,
     state: SubscriptionCapabilityStatus,
     modifier: Modifier = Modifier,
-    onClickCard: () -> Unit
+    onClickCard: () -> Unit,
+    onChangingSubscription: (Int, Boolean) -> Unit
 ) {
     Card(
         modifier = modifier.width(104.dp),
@@ -260,7 +261,7 @@ fun CommunityCard(
             SubscribeButton(
                 state = buttonState,
             ) {
-                //TODO
+                onChangingSubscription(community.id, buttonState)
             }
         }
     }
@@ -301,7 +302,7 @@ fun UserCommunityCard(
         Spacer(modifier = Modifier.height(MeetTheme.sizes.sizeX4))
         if (state == SubscriptionCapabilityStatus.THERE_SUBSCRIPTION) {
             SubscribeButton(
-                state = buttonState,
+                state = buttonState.value,
             ) {
                 //TODO
             }

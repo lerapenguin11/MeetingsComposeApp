@@ -3,6 +3,7 @@ package com.example.composeprotject.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composeprotject.screen.state.SearchState
+import com.example.domain.model.community.Community
 import com.example.domain.model.event.Meeting
 import com.example.domain.model.event.QueryParam
 import com.example.domain.model.interest.Interest
@@ -40,6 +41,7 @@ class MainViewModel(
         interactorFullInfoMainScreen.execute().flatMapLatest { fullInfo ->
             flow {
                 _mainStateUI.update { (fullInfo.isLoadingFullData) }
+                _communitySubscriptions.tryEmit(value = fullInfo.communities)
                 emit(value = fullInfo)
             }
         }
@@ -95,6 +97,9 @@ class MainViewModel(
     private val _mainScreenState = MutableStateFlow(SearchState.MAIN_DEFAULT_SCREEN)
     private val mainScreenState: StateFlow<SearchState> = _mainScreenState
 
+    private val _communitySubscriptions = MutableStateFlow<List<Community>>(emptyList())
+    private val communitySubscriptions: StateFlow<List<Community>> = _communitySubscriptions
+
     fun getFullQueryParamLocalFlow() = fullQueryParamLocal
     fun getUserSelectedCategoriesFlow() = userSelectedCategories
     fun getMainStateUIFlow() = mainStateUI
@@ -102,11 +107,22 @@ class MainViewModel(
     fun getSearchQuery() = searchQuery
     fun getMainScreenState() = mainScreenState
     fun getFilteredEvents() = filteredEventsByCategory
+    fun getCommunitySubscriptionsFlow() = communitySubscriptions
+
+    fun updateCommunitySubscriptions(communityId: Int, statusSubscription: Boolean) {
+        _communitySubscriptions.update { communities ->
+            communities.map { community ->
+                if (community.id == communityId) {
+                    community.copy(statusSubscription = !statusSubscription)
+                } else {
+                    community
+                }
+            }
+        }
+    }
 
     fun searchQueryUpdate(text: String?) {
-        _searchQuery.update {
-            text
-        }
+        _searchQuery.update { text }
     }
 
     fun mainScreenStateUpdate(state: SearchState) {
