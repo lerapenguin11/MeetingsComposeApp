@@ -1,6 +1,7 @@
 package com.example.domain.usecase.main
 
 import com.example.domain.model.event.QueryParam
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import org.koin.core.component.KoinComponent
@@ -8,7 +9,7 @@ import org.koin.core.component.inject
 
 internal class GetMainInfoUseCase {
 
-    private val streamEventsWithQueryParam: MutableStateFlow<QueryParam?> =
+    private val streamEventsWithQueryParam: MutableSharedFlow<QueryParam?> =
         MutableStateFlow(null)
     private var lastValue: QueryParam? = null
 
