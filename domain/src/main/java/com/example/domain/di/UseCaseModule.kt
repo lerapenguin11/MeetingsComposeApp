@@ -6,6 +6,8 @@ import com.example.domain.usecase.combineUseCase.InteractorFullInfoMainScreen
 import com.example.domain.usecase.combineUseCase.InteractorFullQueryParamLocal
 import com.example.domain.usecase.combineUseCase.InteractorFullUserInfo
 import com.example.domain.usecase.combineUseCase.InteractorReadIsShowSettingsLists
+import com.example.domain.usecase.community.CommunitySubscriptionUseCase
+import com.example.domain.usecase.community.CommunitySubscriptionUseCaseImpl
 import com.example.domain.usecase.details.GetCommunityDetailsUseCase
 import com.example.domain.usecase.details.GetEventDetailsInfoUseCase
 import com.example.domain.usecase.details.InteractorLoadCommunityDetails
@@ -137,4 +139,5 @@ internal val useCaseModule = module {
     single { InteractorLoadUserInfoForEdit() }
     single { GetUserInfoForEdit() }
     factory<MakeAnAppointmentUseCase> { MakeAnAppointmentUseCaseImpl(repository = get()) }
+    single<CommunitySubscriptionUseCase> { CommunitySubscriptionUseCaseImpl(repository = get()) }
 }

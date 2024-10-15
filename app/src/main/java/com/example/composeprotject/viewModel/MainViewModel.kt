@@ -11,6 +11,7 @@ import com.example.domain.usecase.combineUseCase.CombineFullQueryParamLocal
 import com.example.domain.usecase.combineUseCase.CombineMainDataScreen
 import com.example.domain.usecase.combineUseCase.InteractorFullInfoMainScreen
 import com.example.domain.usecase.combineUseCase.InteractorFullQueryParamLocal
+import com.example.domain.usecase.community.CommunitySubscriptionUseCase
 import com.example.domain.usecase.getData.GetFilteredEventsByCategory
 import com.example.domain.usecase.location.GetCurrentLocationUseCase
 import com.example.domain.usecase.main.InteractorLoadFilteredEvents
@@ -33,7 +34,8 @@ class MainViewModel(
     private val getCurrentLocationUseCase: GetCurrentLocationUseCase,
     private val saveUserCityUseCase: SaveUserCityUseCase,
     private val getFilteredEventsByCategory: GetFilteredEventsByCategory,
-    private val loadFilteredEvents: InteractorLoadFilteredEvents
+    private val loadFilteredEvents: InteractorLoadFilteredEvents,
+    private val communitySubscriptionUseCase: CommunitySubscriptionUseCase
 ) : ViewModel() {
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -109,7 +111,15 @@ class MainViewModel(
     fun getFilteredEvents() = filteredEventsByCategory
     fun getCommunitySubscriptionsFlow() = communitySubscriptions
 
-    fun updateCommunitySubscriptions(communityId: Int, statusSubscription: Boolean) {
+    fun communitySubscription(communityId: Int, statusSubscription: Boolean, authToken: String) {
+        communitySubscriptionUseCase.execute(communityId = communityId, authToken = authToken)
+        updateCommunitySubscriptions(
+            communityId = communityId,
+            statusSubscription = statusSubscription
+        )
+    }
+
+    private fun updateCommunitySubscriptions(communityId: Int, statusSubscription: Boolean) {
         _communitySubscriptions.update { communities ->
             communities.map { community ->
                 if (community.id == communityId) {

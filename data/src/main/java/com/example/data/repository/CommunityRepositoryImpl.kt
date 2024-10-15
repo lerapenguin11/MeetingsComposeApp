@@ -1,5 +1,7 @@
 package com.example.data.repository
 
+import com.example.common.result.ResultData
+import com.example.common.result.ResultStatus
 import com.example.data.fakeData.generateCommunityDetails
 import com.example.data.mappers.CommunityMapper
 import com.example.domain.model.community.Community
@@ -46,6 +48,15 @@ class CommunityRepositoryImpl(
                 )
             )
         }.flowOn(Dispatchers.IO)
+    }
+
+    override fun communitySubscription(
+        communityId: Int,
+        authToken: String
+    ): Flow<ResultData<ResultStatus>> {
+        return flow {
+            //TODO
+        }
     }
 }
 

@@ -128,6 +128,7 @@ fun MainScreen(
                 MainDefault(
                     contentPadding = innerPadding,
                     mainStateUI = mainStateUI,
+                    authToken = fullQueryParamLocal.authToken,
                     communitySubscriptions = communitySubscriptions,
                     subscriptionCapabilityStatus = subscriptionCapabilityStatus,
                     fullInfoMainScreen = fullInfoMainScreen,
@@ -165,7 +166,6 @@ fun MainSearchScreen(
 @Composable
 fun MainDefault(
     contentPadding: PaddingValues,
-    modifier: Modifier = Modifier,
     mainStateUI: Boolean,
     filteredEvents: List<Meeting>,
     fullInfoMainScreen: CombineMainDataScreen,
@@ -174,7 +174,9 @@ fun MainDefault(
     userCategories: List<Interest>,
     mainViewModel: MainViewModel,
     subscriptionCapabilityStatus: SubscriptionCapabilityStatus,
-    communitySubscriptions: List<Community>
+    communitySubscriptions: List<Community>,
+    authToken: String?,
+    modifier: Modifier = Modifier
 ) {
     if (mainStateUI) {
         Box(
@@ -208,10 +210,13 @@ fun MainDefault(
                 communities = communitySubscriptions,
                 onClickCommunity = onClickCommunity,
                 onChangingSubscription = { communityId, statusSubscription ->
-                    mainViewModel.updateCommunitySubscriptions(
-                        communityId = communityId,
-                        statusSubscription = statusSubscription
-                    )
+                    authToken?.let {
+                        mainViewModel.communitySubscription(
+                            communityId = communityId,
+                            statusSubscription = statusSubscription,
+                            authToken = it
+                        )
+                    }
                 }
             )
             SpacerHeight(height = MeetTheme.sizes.sizeX40)
