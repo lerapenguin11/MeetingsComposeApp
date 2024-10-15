@@ -219,7 +219,8 @@ private fun DescriptionBlock(
 @Composable
 private fun ActionBlock(
     buttonState: FilledButtonState,
-    buttonText: String
+    buttonText: String,
+
 ) {
     FilledButton(
         state = buttonState,

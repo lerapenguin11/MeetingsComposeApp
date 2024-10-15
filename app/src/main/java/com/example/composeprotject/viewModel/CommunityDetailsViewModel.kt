@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.usecase.combineUseCase.CombineCommunityDetails
 import com.example.domain.usecase.combineUseCase.InteractorFullInfoCommunityDetails
+import com.example.domain.usecase.community.CommunitySubscriptionUseCase
 import com.example.domain.usecase.details.InteractorLoadCommunityDetails
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
@@ -16,7 +17,8 @@ import kotlinx.coroutines.launch
 
 class CommunityDetailsViewModel(
     private val loadCommunityDetails: InteractorLoadCommunityDetails,
-    private val interactorFullInfoCommunityDetails: InteractorFullInfoCommunityDetails
+    private val interactorFullInfoCommunityDetails: InteractorFullInfoCommunityDetails,
+    private val communitySubscriptionUseCase: CommunitySubscriptionUseCase
 ) : ViewModel() {
 
     @OptIn(ExperimentalCoroutinesApi::class)

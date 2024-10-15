@@ -12,6 +12,7 @@ import com.skydoves.sandwich.message
 import com.skydoves.sandwich.onFailure
 import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -55,7 +56,11 @@ class CommunityRepositoryImpl(
         authToken: String
     ): Flow<ResultData<ResultStatus>> {
         return flow {
-            //TODO
+            val resultStatusCode = 200
+            delay(2000)
+            when (resultStatusCode) {
+                200 -> emit(value = ResultData.Success(ResultStatus.SUCCESS))
+            }
         }
     }
 }
