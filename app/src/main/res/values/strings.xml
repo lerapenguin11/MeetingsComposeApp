@@ -117,4 +117,6 @@
     <string name="text_make_an_appointment">Записаться на встречу</string>
     <string name="text_can_not_go">Не смогу пойти</string>
     <string name="text_wait_bit">Подождите немного...</string>
+    <string name="text_select_interests">Выбрать интересы</string>
+    <string name="text_interests_banner">Расскажите о своих интересах,\nчтобы мы рекомендовали\nполезные встречи</string>
 </resources>
