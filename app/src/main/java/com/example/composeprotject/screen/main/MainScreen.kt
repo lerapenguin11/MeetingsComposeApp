@@ -78,8 +78,6 @@ fun MainScreen(
         .collectAsStateWithLifecycle()
     val filteredEventsByCategory by mainViewModel.getFilteredEvents().collectAsStateWithLifecycle()
     var subscriptionCapabilityStatus by remember { mutableStateOf(SubscriptionCapabilityStatus.WITHOUT_SUBSCRIPTION) } //TODO вынести во viewModel
-    val communitySubscriptions by mainViewModel.getCommunitySubscriptionsFlow()
-        .collectAsStateWithLifecycle()
     val isRefreshing by mainViewModel.getRefreshStateFlow().collectAsStateWithLifecycle()
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = isRefreshing)
 
@@ -136,7 +134,6 @@ fun MainScreen(
                     contentPadding = innerPadding,
                     mainStateUI = mainStateUI,
                     authToken = fullQueryParamLocal.authToken,
-                    communitySubscriptions = communitySubscriptions,
                     subscriptionCapabilityStatus = subscriptionCapabilityStatus,
                     fullInfoMainScreen = fullInfoMainScreen,
                     filteredEvents = filteredEventsByCategory,
@@ -182,7 +179,6 @@ fun MainDefault(
     userCategories: List<Interest>,
     mainViewModel: MainViewModel,
     subscriptionCapabilityStatus: SubscriptionCapabilityStatus,
-    communitySubscriptions: List<Community>,
     authToken: String?,
     swipeRefreshState: SwipeRefreshState,
     modifier: Modifier = Modifier,
@@ -229,7 +225,7 @@ fun MainDefault(
                 SpacerHeight(height = MeetTheme.sizes.sizeX32)
                 CommunityRow(
                     state = subscriptionCapabilityStatus,
-                    communities = communitySubscriptions,
+                    communities = fullInfoMainScreen.communities,
                     onClickCommunity = onClickCommunity,
                     onChangingSubscription = { communityId, statusSubscription ->
                         authToken?.let {

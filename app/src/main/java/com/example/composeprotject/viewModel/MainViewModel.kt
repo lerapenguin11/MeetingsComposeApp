@@ -3,7 +3,6 @@ package com.example.composeprotject.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composeprotject.screen.state.SearchState
-import com.example.domain.model.community.Community
 import com.example.domain.model.event.Meeting
 import com.example.domain.model.event.QueryParam
 import com.example.domain.model.interest.Interest
@@ -96,8 +95,8 @@ class MainViewModel(
     private val _mainScreenState = MutableStateFlow(SearchState.MAIN_DEFAULT_SCREEN)
     private val mainScreenState: StateFlow<SearchState> = _mainScreenState
 
-    private val _communitySubscriptions = MutableStateFlow<List<Community>>(emptyList())
-    private val communitySubscriptions: StateFlow<List<Community>> = _communitySubscriptions
+    /*private val _communitySubscriptions = MutableStateFlow<List<Community>>(emptyList())
+    private val communitySubscriptions: StateFlow<List<Community>> = _communitySubscriptions*/
 
     init {
         getFullInfoMainScreen()
@@ -112,8 +111,7 @@ class MainViewModel(
     fun getSearchQuery() = searchQuery
     fun getMainScreenState() = mainScreenState
     fun getFilteredEvents() = filteredEventsByCategory
-    fun getCommunitySubscriptionsFlow() = communitySubscriptions
-    fun getRefreshStateFlow() = combineRefreshMainInfo/*refreshMainInfoState*/
+    fun getRefreshStateFlow() = combineRefreshMainInfo
 
     fun communitySubscription(communityId: Int, statusSubscription: Boolean, authToken: String) {
         communitySubscriptionUseCase.execute(communityId = communityId, authToken = authToken)
@@ -194,7 +192,6 @@ class MainViewModel(
         interactorFullInfoMainScreen.execute().onEach { fullInfo ->
             _mainStateUI.update { (fullInfo.isLoadingFullData) }
             updateRefreshMainInfoState(isRefreshing = false)
-            _communitySubscriptions.tryEmit(value = fullInfo.communities)
             _fullInfoMainScreen.tryEmit(fullInfo)
         }.launchIn(viewModelScope)
     }
@@ -235,14 +232,21 @@ class MainViewModel(
     }
 
     private fun updateCommunitySubscriptions(communityId: Int, statusSubscription: Boolean) {
-        _communitySubscriptions.update { communities ->
-            communities.map { community ->
+        _fullInfoMainScreen.update { mainDataScreen ->
+            val communities = mainDataScreen.communities.map { community ->
                 if (community.id == communityId) {
                     community.copy(statusSubscription = !statusSubscription)
                 } else {
                     community
                 }
             }
+            CombineMainDataScreen(
+                eventsClosest = mainDataScreen.eventsClosest,
+                eventsByCategory = mainDataScreen.eventsByCategory,
+                communities = communities,
+                categoryList = mainDataScreen.categoryList,
+                isLoadingFullData = mainDataScreen.isLoadingFullData
+            )
         }
     }
 }
