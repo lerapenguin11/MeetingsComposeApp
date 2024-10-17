@@ -29,6 +29,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.composeprotject.R
 import com.example.composeprotject.screen.state.SearchState
 import com.example.composeprotject.screen.state.SubscriptionCapabilityStatus
+import com.example.composeprotject.ui.component.banner.ChoiceInterestsBanner
 import com.example.composeprotject.ui.component.card.CommunityCard
 import com.example.composeprotject.ui.component.card.CommunityViewAllCard
 import com.example.composeprotject.ui.component.card.EventCard
@@ -256,8 +257,21 @@ fun MainDefault(
                     FilteredEventByCategoryBlock(event = event) {
                         onClickEvent(event)
                     }
+                    println(filteredEvents.indexOf(event))
                 }
                 SpacerHeight(height = 38.dp)
+                if (fullInfoMainScreen.categoryList.isEmpty() &&
+                    MEETING_INDEX_DISPLAYING_BANNER == filteredEvents.indexOf(event)
+                ) {
+                    Box(modifier = Modifier.padding(horizontal = MeetTheme.sizes.sizeX16)) {
+                        ChoiceInterestsBanner(
+                            onSelectInterests = {
+                                //TODO
+                            }
+                        )
+                    }
+                    SpacerHeight(height = 38.dp)
+                }
             }
             item {
                 SpacerHeight(height = MeetTheme.sizes.sizeX24)
@@ -457,3 +471,4 @@ private fun BigEventsRow(
 }
 
 private const val MAX_ELEMENT = 5
+private const val MEETING_INDEX_DISPLAYING_BANNER = 2
