@@ -82,6 +82,7 @@ dependencies {
     implementation(libs.play.services.location)
     implementation(libs.androidx.animation.graphics.android)
     implementation(libs.koin.android)
+    implementation(libs.accompanist.swiperefresh)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

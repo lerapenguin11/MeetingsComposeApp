@@ -43,6 +43,8 @@ import com.example.domain.usecase.main.GetFilteredEventsUseCase
 import com.example.domain.usecase.main.GetMainInfoUseCase
 import com.example.domain.usecase.main.InteractorLoadFilteredEvents
 import com.example.domain.usecase.main.InteractorLoadMainInfo
+import com.example.domain.usecase.main.InteractorRefreshFilteredEvents
+import com.example.domain.usecase.main.InteractorRefreshMainInfo
 import com.example.domain.usecase.people.GetPeopleUseCase
 import com.example.domain.usecase.people.InteractorLoadPeopleByCategoryId
 import com.example.domain.usecase.people.InteractorLoadPeopleByEventId
@@ -140,4 +142,6 @@ internal val useCaseModule = module {
     single { GetUserInfoForEdit() }
     factory<MakeAnAppointmentUseCase> { MakeAnAppointmentUseCaseImpl(repository = get()) }
     single<CommunitySubscriptionUseCase> { CommunitySubscriptionUseCaseImpl(repository = get()) }
+    single { InteractorRefreshMainInfo() }
+    single { InteractorRefreshFilteredEvents() }
 }

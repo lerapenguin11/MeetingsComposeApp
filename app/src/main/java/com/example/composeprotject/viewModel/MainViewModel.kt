@@ -16,13 +16,18 @@ import com.example.domain.usecase.getData.GetFilteredEventsByCategory
 import com.example.domain.usecase.location.GetCurrentLocationUseCase
 import com.example.domain.usecase.main.InteractorLoadFilteredEvents
 import com.example.domain.usecase.main.InteractorLoadMainInfo
+import com.example.domain.usecase.main.InteractorRefreshFilteredEvents
+import com.example.domain.usecase.main.InteractorRefreshMainInfo
 import com.example.domain.usecase.store.city.SaveUserCityUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -35,29 +40,22 @@ class MainViewModel(
     private val saveUserCityUseCase: SaveUserCityUseCase,
     private val getFilteredEventsByCategory: GetFilteredEventsByCategory,
     private val loadFilteredEvents: InteractorLoadFilteredEvents,
-    private val communitySubscriptionUseCase: CommunitySubscriptionUseCase
+    private val communitySubscriptionUseCase: CommunitySubscriptionUseCase,
+    private val interactorRefreshMainInfo: InteractorRefreshMainInfo,
+    private val interactorRefreshFilteredEvents: InteractorRefreshFilteredEvents
 ) : ViewModel() {
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private val fullInfoMainScreen: StateFlow<CombineMainDataScreen> =
-        interactorFullInfoMainScreen.execute().flatMapLatest { fullInfo ->
-            flow {
-                _mainStateUI.update { (fullInfo.isLoadingFullData) }
-                _communitySubscriptions.tryEmit(value = fullInfo.communities)
-                emit(value = fullInfo)
-            }
-        }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = CombineMainDataScreen(
-                    eventsByCategory = emptyList(),
-                    eventsClosest = emptyList(),
-                    communities = emptyList(),
-                    categoryList = emptyList(),
-                    isLoadingFullData = true
-                )
-            )
+    private val _fullInfoMainScreen = MutableStateFlow(
+        CombineMainDataScreen(
+            eventsByCategory = emptyList(),
+            eventsClosest = emptyList(),
+            communities = emptyList(),
+            categoryList = emptyList(),
+            isLoadingFullData = true
+        )
+    )
+
+    private val fullInfoMainScreen: StateFlow<CombineMainDataScreen> = _fullInfoMainScreen
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val fullQueryParamLocal: StateFlow<CombineFullQueryParamLocal> =
@@ -75,20 +73,19 @@ class MainViewModel(
             )
         )
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private val filteredEventsByCategory: StateFlow<List<Meeting>> =
-        getFilteredEventsByCategory.execute().flatMapLatest { filteredEvents ->
-            flow {
-                emit(value = filteredEvents)
-            }
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = emptyList()
-        )
+    private val _filteredEventsByCategory = MutableStateFlow<List<Meeting>>(emptyList())
+    private val filteredEventsByCategory: StateFlow<List<Meeting>> = _filteredEventsByCategory
 
     private val _mainStateUI = MutableStateFlow(true)
     private val mainStateUI: StateFlow<Boolean> = _mainStateUI
+
+    private val _refreshMainInfoState: MutableStateFlow<Boolean?> = MutableStateFlow(null)
+
+    private val _refreshFilteredEventsByCategoryState: MutableStateFlow<Boolean?> =
+        MutableStateFlow(null)
+
+    private val _combineRefreshMainInfo = MutableStateFlow(false)
+    private val combineRefreshMainInfo: StateFlow<Boolean> = _combineRefreshMainInfo
 
     private val _userSelectedCategories = MutableStateFlow<List<Interest>>(emptyList())
     private val userSelectedCategories: StateFlow<List<Interest>> = _userSelectedCategories
@@ -102,6 +99,12 @@ class MainViewModel(
     private val _communitySubscriptions = MutableStateFlow<List<Community>>(emptyList())
     private val communitySubscriptions: StateFlow<List<Community>> = _communitySubscriptions
 
+    init {
+        getFullInfoMainScreen()
+        getFilteredEventsByCategory()
+        combineRefreshMainInfo()
+    }
+
     fun getFullQueryParamLocalFlow() = fullQueryParamLocal
     fun getUserSelectedCategoriesFlow() = userSelectedCategories
     fun getMainStateUIFlow() = mainStateUI
@@ -110,6 +113,7 @@ class MainViewModel(
     fun getMainScreenState() = mainScreenState
     fun getFilteredEvents() = filteredEventsByCategory
     fun getCommunitySubscriptionsFlow() = communitySubscriptions
+    fun getRefreshStateFlow() = combineRefreshMainInfo/*refreshMainInfoState*/
 
     fun communitySubscription(communityId: Int, statusSubscription: Boolean, authToken: String) {
         communitySubscriptionUseCase.execute(communityId = communityId, authToken = authToken)
@@ -119,16 +123,12 @@ class MainViewModel(
         )
     }
 
-    private fun updateCommunitySubscriptions(communityId: Int, statusSubscription: Boolean) {
-        _communitySubscriptions.update { communities ->
-            communities.map { community ->
-                if (community.id == communityId) {
-                    community.copy(statusSubscription = !statusSubscription)
-                } else {
-                    community
-                }
-            }
-        }
+    fun refreshMainScreen() {
+        _refreshMainInfoState.update { true }
+        interactorRefreshMainInfo.execute()
+        interactorRefreshFilteredEvents.execute()
+        getFullInfoMainScreen()
+        getFilteredEventsByCategory()
     }
 
     fun searchQueryUpdate(text: String?) {
@@ -174,6 +174,50 @@ class MainViewModel(
         _userSelectedCategories.update { emptyList() }
     }
 
+    fun updateCurrentLocation() {
+        viewModelScope.launch {
+            saveUserCityUseCase.execute(city = getCurrentLocationUseCase.execute())
+        }
+    }
+
+    private fun combineRefreshMainInfo() {
+        combine(_refreshMainInfoState, _refreshFilteredEventsByCategoryState) { t1, t2 ->
+            Pair(t1, t2)
+        }.onEach {
+            if (it.first == false && it.second == false) {
+                updateCombineRefreshMainInfo(isRefreshing = false)
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    private fun getFullInfoMainScreen() {
+        interactorFullInfoMainScreen.execute().onEach { fullInfo ->
+            _mainStateUI.update { (fullInfo.isLoadingFullData) }
+            updateRefreshMainInfoState(isRefreshing = false)
+            _communitySubscriptions.tryEmit(value = fullInfo.communities)
+            _fullInfoMainScreen.tryEmit(fullInfo)
+        }.launchIn(viewModelScope)
+    }
+
+    private fun getFilteredEventsByCategory() {
+        getFilteredEventsByCategory.execute().onEach { filteredEvents ->
+            updateRefreshFilteredEventsByCategoryState(isRefreshing = false)
+            _filteredEventsByCategory.tryEmit(filteredEvents)
+        }.launchIn(viewModelScope)
+    }
+
+    private fun updateRefreshFilteredEventsByCategoryState(isRefreshing: Boolean) {
+        _refreshFilteredEventsByCategoryState.update { isRefreshing }
+    }
+
+    private fun updateRefreshMainInfoState(isRefreshing: Boolean) {
+        _refreshMainInfoState.update { isRefreshing }
+    }
+
+    private fun updateCombineRefreshMainInfo(isRefreshing: Boolean) {
+        _combineRefreshMainInfo.update { isRefreshing }
+    }
+
     private fun hasUserCategories(interest: Interest): Boolean {
         return _userSelectedCategories.value.none { it.id == interest.id }
     }
@@ -190,9 +234,15 @@ class MainViewModel(
         }
     }
 
-    fun updateCurrentLocation() {
-        viewModelScope.launch {
-            saveUserCityUseCase.execute(city = getCurrentLocationUseCase.execute())
+    private fun updateCommunitySubscriptions(communityId: Int, statusSubscription: Boolean) {
+        _communitySubscriptions.update { communities ->
+            communities.map { community ->
+                if (community.id == communityId) {
+                    community.copy(statusSubscription = !statusSubscription)
+                } else {
+                    community
+                }
+            }
         }
     }
 }

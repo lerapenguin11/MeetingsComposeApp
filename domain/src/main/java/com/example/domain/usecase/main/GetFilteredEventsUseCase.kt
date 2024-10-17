@@ -18,6 +18,10 @@ internal class GetFilteredEventsUseCase {
     }
 
     fun trigger(): StateFlow<List<Int>?> = streamEventsWithQueryParam
+
+    fun refresh() {
+        lastValue?.run { streamEventsWithQueryParam.tryEmit(value = this) }
+    }
 }
 
 class InteractorLoadFilteredEvents : KoinComponent {
@@ -25,4 +29,10 @@ class InteractorLoadFilteredEvents : KoinComponent {
 
     fun execute(filterParam: List<Int>) =
         innerFilteredEvents.loadFiltered(filterParam = filterParam)
+}
+
+class InteractorRefreshFilteredEvents : KoinComponent {
+    private val innerFilteredEvents: GetFilteredEventsUseCase by inject()
+
+    fun execute() = innerFilteredEvents.refresh()
 }

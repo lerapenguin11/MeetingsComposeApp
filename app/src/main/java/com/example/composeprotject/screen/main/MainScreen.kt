@@ -53,6 +53,10 @@ import com.example.domain.model.community.Community
 import com.example.domain.model.event.Meeting
 import com.example.domain.model.interest.Interest
 import com.example.domain.usecase.combineUseCase.CombineMainDataScreen
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
+import com.google.accompanist.swiperefresh.SwipeRefreshState
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -76,6 +80,8 @@ fun MainScreen(
     var subscriptionCapabilityStatus by remember { mutableStateOf(SubscriptionCapabilityStatus.WITHOUT_SUBSCRIPTION) } //TODO вынести во viewModel
     val communitySubscriptions by mainViewModel.getCommunitySubscriptionsFlow()
         .collectAsStateWithLifecycle()
+    val isRefreshing by mainViewModel.getRefreshStateFlow().collectAsStateWithLifecycle()
+    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = isRefreshing)
 
     LaunchedEffect(
         key1 = Unit,
@@ -126,6 +132,7 @@ fun MainScreen(
 
             SearchState.MAIN_DEFAULT_SCREEN -> {
                 MainDefault(
+                    swipeRefreshState = swipeRefreshState,
                     contentPadding = innerPadding,
                     mainStateUI = mainStateUI,
                     authToken = fullQueryParamLocal.authToken,
@@ -136,7 +143,8 @@ fun MainScreen(
                     onClickEvent = onClickEvent,
                     onClickCommunity = onClickCommunity,
                     userCategories = userCategories,
-                    mainViewModel = mainViewModel
+                    mainViewModel = mainViewModel,
+                    onRefresh = mainViewModel::refreshMainScreen
                 )
             }
         }
@@ -176,7 +184,9 @@ fun MainDefault(
     subscriptionCapabilityStatus: SubscriptionCapabilityStatus,
     communitySubscriptions: List<Community>,
     authToken: String?,
-    modifier: Modifier = Modifier
+    swipeRefreshState: SwipeRefreshState,
+    modifier: Modifier = Modifier,
+    onRefresh: () -> Unit
 ) {
     if (mainStateUI) {
         Box(
@@ -187,62 +197,75 @@ fun MainDefault(
             CustomProgressBar()
         }
     }
-    LazyColumn(
-        modifier = modifier
-            .padding(contentPadding)
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Center
+    SwipeRefresh(
+        state = swipeRefreshState,
+        onRefresh = { onRefresh() },
+        indicator = { state, refreshTrigger ->
+            SwipeRefreshIndicator(
+                state = state,
+                refreshTriggerDistance = refreshTrigger,
+                backgroundColor = Color.White,
+                contentColor = MeetTheme.colors.primary
+            )
+        }
     ) {
-        item {
-            SpacerHeight(height = MeetTheme.sizes.sizeX20)
-            BigEventsRow(
-                events = fullInfoMainScreen.eventsByCategory,
-                onClickEvent = onClickEvent
-            )
-            SpacerHeight(height = MeetTheme.sizes.sizeX32)
-            SmallEventsRow(
-                events = fullInfoMainScreen.eventsClosest,
-                onClickEvent = onClickEvent
-            )
-            SpacerHeight(height = MeetTheme.sizes.sizeX32)
-            CommunityRow(
-                state = subscriptionCapabilityStatus,
-                communities = communitySubscriptions,
-                onClickCommunity = onClickCommunity,
-                onChangingSubscription = { communityId, statusSubscription ->
-                    authToken?.let {
-                        mainViewModel.communitySubscription(
-                            communityId = communityId,
-                            statusSubscription = statusSubscription,
-                            authToken = it
-                        )
+        LazyColumn(
+            modifier = modifier
+                .padding(contentPadding)
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Center
+        ) {
+            item {
+                SpacerHeight(height = MeetTheme.sizes.sizeX20)
+                BigEventsRow(
+                    events = fullInfoMainScreen.eventsByCategory,
+                    onClickEvent = onClickEvent
+                )
+                SpacerHeight(height = MeetTheme.sizes.sizeX32)
+                SmallEventsRow(
+                    events = fullInfoMainScreen.eventsClosest,
+                    onClickEvent = onClickEvent
+                )
+                SpacerHeight(height = MeetTheme.sizes.sizeX32)
+                CommunityRow(
+                    state = subscriptionCapabilityStatus,
+                    communities = communitySubscriptions,
+                    onClickCommunity = onClickCommunity,
+                    onChangingSubscription = { communityId, statusSubscription ->
+                        authToken?.let {
+                            mainViewModel.communitySubscription(
+                                communityId = communityId,
+                                statusSubscription = statusSubscription,
+                                authToken = it
+                            )
+                        }
+                    }
+                )
+                SpacerHeight(height = MeetTheme.sizes.sizeX40)
+                InterestsChipFlex(
+                    interests = fullInfoMainScreen.categoryList,
+                    userCategories = userCategories,
+                    onFilteringByAllCategories = {
+                        mainViewModel.clearUserSelectedCategories()
+                    }
+                ) {
+                    mainViewModel.toggleUserCategory(fullInfoMainScreen.categoryList[it])
+                }
+                SpacerHeight(height = MeetTheme.sizes.sizeX40)
+            }
+            items(items = filteredEvents, key = { event ->
+                event.id
+            }) { event ->
+                Box(modifier = Modifier.padding(horizontal = MeetTheme.sizes.sizeX16)) {
+                    FilteredEventByCategoryBlock(event = event) {
+                        onClickEvent(event)
                     }
                 }
-            )
-            SpacerHeight(height = MeetTheme.sizes.sizeX40)
-            InterestsChipFlex(
-                interests = fullInfoMainScreen.categoryList,
-                userCategories = userCategories,
-                onFilteringByAllCategories = {
-                    mainViewModel.clearUserSelectedCategories()
-                }
-            ) {
-                mainViewModel.toggleUserCategory(fullInfoMainScreen.categoryList[it])
+                SpacerHeight(height = 38.dp)
             }
-            SpacerHeight(height = MeetTheme.sizes.sizeX40)
-        }
-        items(items = filteredEvents, key = { event ->
-            event.id
-        }) { event ->
-            Box(modifier = Modifier.padding(horizontal = MeetTheme.sizes.sizeX16)) {
-                FilteredEventByCategoryBlock(event = event) {
-                    onClickEvent(event)
-                }
+            item {
+                SpacerHeight(height = MeetTheme.sizes.sizeX24)
             }
-            SpacerHeight(height = 38.dp)
-        }
-        item {
-            SpacerHeight(height = MeetTheme.sizes.sizeX24)
         }
     }
 }
