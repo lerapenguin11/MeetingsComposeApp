@@ -22,6 +22,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -82,14 +85,14 @@ fun EventDetailsScreen(
         .collectAsStateWithLifecycle()
     val fullEventInfo by eventDetailsViewModel.getEventDetailsInfo().collectAsStateWithLifecycle()
     val actionState by eventDetailsViewModel.getActionBlockStateFlow().collectAsStateWithLifecycle()
+    var buttonEnabledMorePeople by remember { mutableStateOf(true) }
 
     LaunchedEffect(key1 = Unit, key2 = authToken) {
         if (authToken == null || !authToken.isNullOrEmpty()) {
             eventDetailsViewModel.loadEventDetailsInfo(
                 params = EventDetailsParams(
                     eventId = eventId,
-                    autToken = authToken,
-
+                    autToken = authToken
                 )
             )
         }
@@ -136,7 +139,10 @@ fun EventDetailsScreen(
                         meetingStatus = item.status,
                         avatarList = item.participants.data,
                         onClickMorePeople = {
-                            onClickMorePeople(eventId)
+                            if (buttonEnabledMorePeople) {
+                                onClickMorePeople(eventId)
+                                buttonEnabledMorePeople = false
+                            }
                         }
                     )
                     SpacerHeight(height = MeetTheme.sizes.sizeX32)

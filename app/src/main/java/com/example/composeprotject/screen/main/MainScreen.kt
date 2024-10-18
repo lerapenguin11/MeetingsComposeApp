@@ -257,7 +257,6 @@ fun MainDefault(
                     FilteredEventByCategoryBlock(event = event) {
                         onClickEvent(event)
                     }
-                    println(filteredEvents.indexOf(event))
                 }
                 SpacerHeight(height = 38.dp)
                 if (fullInfoMainScreen.categoryList.isEmpty() &&

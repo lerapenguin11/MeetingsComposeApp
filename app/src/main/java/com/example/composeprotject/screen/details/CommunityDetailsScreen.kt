@@ -11,6 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -56,6 +59,7 @@ fun CommunityDetailsScreen(
 
     val fullInfoCommunityDetails by communityDetailsViewModel.getCommunityDetails()
         .collectAsStateWithLifecycle()
+    var buttonEnabledMorePeople by remember { mutableStateOf(true) }
 
     LazyColumn(
         modifier = modifier
@@ -87,7 +91,10 @@ fun CommunityDetailsScreen(
                     SubscribersBlock(
                         avatarUrl = it.members.data,
                         onClickMorePeople = {
-                            onClickMorePeople(communityId)
+                            if (buttonEnabledMorePeople) {
+                                onClickMorePeople(communityId)
+                                buttonEnabledMorePeople = false
+                            }
                         }
                     )
                     SpacerHeight(height = MeetTheme.sizes.sizeX32)
@@ -201,7 +208,9 @@ private fun SubscribersBlock(
     SpacerHeight(height = MeetTheme.sizes.sizeX16)
     PersonRow(
         avatarList = avatarUrl.map { it.image },
-        onClickMorePeople = onClickMorePeople
+        onClickMorePeople = {
+            onClickMorePeople()
+        }
     )
 }
 
