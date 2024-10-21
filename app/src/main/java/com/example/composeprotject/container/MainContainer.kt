@@ -34,7 +34,8 @@ fun MainContainer() {
         Main.CommunityDetails.route,
         Main.EventDetails.route,
         Main.PeopleEvent.route,
-        Main.PeopleCommunity.route -> TopBarState.DETAILS_TOP_BAR
+        Main.PeopleCommunity.route,
+        Main.AllEvents.route -> TopBarState.DETAILS_TOP_BAR
 
         else -> TopBarState.NO_TOP_BAR
     }

@@ -13,6 +13,7 @@ import com.example.composeprotject.R
 import com.example.composeprotject.nav.route.Graph
 import com.example.composeprotject.screen.details.CommunityDetailsScreen
 import com.example.composeprotject.screen.details.EventDetailsScreen
+import com.example.composeprotject.screen.main.AllEventsScreen
 import com.example.composeprotject.screen.main.MainScreen
 import com.example.composeprotject.screen.people.PeopleScreen
 import com.example.composeprotject.screen.state.PeopleState
@@ -48,6 +49,11 @@ fun MainGraph(
                 },
                 onGoProfile = {
                     navController.navigate(Graph.PROFILE)
+                },
+                onClickAllEvents = { allEventsState ->
+                    navController.navigate(
+                        route = "${Main.AllEvents.route}/$allEventsState"
+                    )
                 }
             )
         }
@@ -163,7 +169,7 @@ fun MainGraph(
         composable(
             route = "${Main.PeopleCommunity.route}/{${COMMUNITY_ID}}",
             arguments = listOf(
-                navArgument(COMMUNITY_ID) { type = NavType.IntType },
+                navArgument(COMMUNITY_ID) { type = NavType.IntType }
             )
         ) { backStackEntry ->
             backStackEntry.arguments?.getInt(COMMUNITY_ID)?.let {
@@ -179,6 +185,21 @@ fun MainGraph(
                 })
             }
         }
+        composable(
+            route = "${Main.AllEvents.route}/{$ALL_EVENTS_STATE}",
+            arguments = listOf(
+                navArgument(ALL_EVENTS_STATE) { type = NavType.IntType }
+            )
+        ) { backStackEntry ->
+            backStackEntry.arguments?.getInt(ALL_EVENTS_STATE)?.let {
+                AllEventsScreen(contentPadding = contentPadding)
+                ProvideAppBarTitle(title = {
+                    TopAppBarTextWithBackArrow(
+                        text = stringResource(it)
+                    )
+                })
+            }
+        }
         authGraph(contentPadding = contentPadding, navController = navController)
         profileGraph(navController = navController)
     }
@@ -190,6 +211,7 @@ sealed class Main(val route: String) {
     object PeopleEvent : Main(route = "people_event")
     object PeopleCommunity : Main(route = "people_community")
     object CommunityDetails : Main(route = "community_details")
+    object AllEvents : Main(route = "all_events")
 }
 
 private const val EVENT_ID = "event_id"
@@ -198,3 +220,4 @@ private const val COMMUNITY_TITLE = "community_title"
 private const val EVENT_TITLE = "event_title"
 private const val START_DATE = "startDate"
 private const val SHORT_ADDRESS = "shortAddress"
+private const val ALL_EVENTS_STATE = "all_events_state"

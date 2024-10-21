@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.composeprotject.screen.state.AllEventsScreenState
 import com.example.composeprotject.screen.state.SubscriptionCapabilityStatus
@@ -21,10 +20,10 @@ import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.domain.model.community.Community
 import com.example.domain.model.event.Meeting
 
-@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun AllEventsScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues
 ) {
     val state = AllEventsScreenState.ALL_COMMUNITIES
     val communities = listOf(
@@ -77,11 +76,11 @@ fun AllEventsScreen(
 
     when (state) {
         AllEventsScreenState.ALL_COMMUNITIES -> {
-            AllCommunities(contentPadding = PaddingValues(), communities = communities)
+            AllCommunities(contentPadding = contentPadding, communities = communities)
         }
 
         AllEventsScreenState.ALL_RELEVANT_MEETINGS, AllEventsScreenState.ALL_UPCOMING_MEETINGS -> {
-            AllEvents(contentPadding = PaddingValues(), events = events)
+            AllEvents(contentPadding = contentPadding, events = events)
         }
     }
 }

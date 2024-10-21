@@ -27,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.composeprotject.R
+import com.example.composeprotject.screen.state.AllEventsScreenState
 import com.example.composeprotject.screen.state.SearchState
 import com.example.composeprotject.screen.state.SubscriptionCapabilityStatus
 import com.example.composeprotject.ui.component.banner.ChoiceInterestsBanner
@@ -66,7 +67,8 @@ fun MainScreen(
     mainViewModel: MainViewModel = koinViewModel(),
     onGoProfile: () -> Unit,
     onClickEvent: (Meeting) -> Unit,
-    onClickCommunity: (Community) -> Unit
+    onClickCommunity: (Community) -> Unit,
+    onClickAllEvents: (Int) -> Unit
 ) {
     val mainStateUI by mainViewModel.getMainStateUIFlow().collectAsStateWithLifecycle()
     val userCategories by mainViewModel.getUserSelectedCategoriesFlow()
@@ -142,7 +144,10 @@ fun MainScreen(
                     onClickCommunity = onClickCommunity,
                     userCategories = userCategories,
                     mainViewModel = mainViewModel,
-                    onRefresh = mainViewModel::refreshMainScreen
+                    onRefresh = mainViewModel::refreshMainScreen,
+                    onClickAllEvents = {
+                        onClickAllEvents(it.res)
+                    }
                 )
             }
         }
@@ -183,7 +188,8 @@ fun MainDefault(
     authToken: String?,
     swipeRefreshState: SwipeRefreshState,
     modifier: Modifier = Modifier,
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
+    onClickAllEvents: (AllEventsScreenState) -> Unit
 ) {
     if (mainStateUI) {
         Box(
@@ -216,12 +222,18 @@ fun MainDefault(
                 SpacerHeight(height = MeetTheme.sizes.sizeX20)
                 BigEventsRow(
                     events = fullInfoMainScreen.eventsByCategory,
-                    onClickEvent = onClickEvent
+                    onClickEvent = onClickEvent,
+                    onClickAllEventsRelevant = {
+                        onClickAllEvents(it)
+                    }
                 )
                 SpacerHeight(height = MeetTheme.sizes.sizeX32)
                 SmallEventsRow(
                     events = fullInfoMainScreen.eventsClosest,
-                    onClickEvent = onClickEvent
+                    onClickEvent = onClickEvent,
+                    onClickAllUpcomingMeetings = {
+                        onClickAllEvents(it)
+                    }
                 )
                 SpacerHeight(height = MeetTheme.sizes.sizeX32)
                 CommunityRow(
@@ -236,6 +248,9 @@ fun MainDefault(
                                 authToken = it
                             )
                         }
+                    },
+                    onClickAllCommunities = {
+                        onClickAllEvents(it)
                     }
                 )
                 SpacerHeight(height = MeetTheme.sizes.sizeX40)
@@ -346,7 +361,8 @@ private fun CommunityRow(
     communities: List<Community>,
     state: SubscriptionCapabilityStatus,
     onClickCommunity: (Community) -> Unit,
-    onChangingSubscription: (Int, Boolean) -> Unit
+    onChangingSubscription: (Int, Boolean) -> Unit,
+    onClickAllCommunities: (AllEventsScreenState) -> Unit
 ) {
     if (communities.isNotEmpty()) {
         Text(
@@ -380,7 +396,9 @@ private fun CommunityRow(
         }
         item {
             if (communities.size > MAX_ELEMENT) {
-                CommunityViewAllCard {/*TODO*/ }
+                CommunityViewAllCard {
+                    onClickAllCommunities(AllEventsScreenState.ALL_COMMUNITIES)
+                }
                 SpacerWidth(width = MeetTheme.sizes.sizeX16)
             }
         }
@@ -395,7 +413,8 @@ private fun CommunityRow(
 @Composable
 private fun SmallEventsRow(
     events: List<Meeting>,
-    onClickEvent: (Meeting) -> Unit
+    onClickEvent: (Meeting) -> Unit,
+    onClickAllUpcomingMeetings: (AllEventsScreenState) -> Unit
 ) {
     if (events.isNotEmpty()) {
         Text(
@@ -423,7 +442,9 @@ private fun SmallEventsRow(
             if (events.size > MAX_ELEMENT) {
                 EventViewAllCard(
                     variant = EventCardVariant.MEDIUM
-                ) {/*TODO*/ }
+                ) {
+                    onClickAllUpcomingMeetings(AllEventsScreenState.ALL_UPCOMING_MEETINGS)
+                }
                 SpacerWidth(width = MeetTheme.sizes.sizeX16)
             }
         }
@@ -438,7 +459,8 @@ private fun SmallEventsRow(
 @Composable
 private fun BigEventsRow(
     events: List<Meeting>,
-    onClickEvent: (Meeting) -> Unit
+    onClickEvent: (Meeting) -> Unit,
+    onClickAllEventsRelevant: (AllEventsScreenState) -> Unit
 ) {
     LazyRow {
         item { SpacerWidth(width = MeetTheme.sizes.sizeX16) }
@@ -457,7 +479,9 @@ private fun BigEventsRow(
             if (events.size > MAX_ELEMENT) {
                 EventViewAllCard(
                     variant = EventCardVariant.BIG
-                ) { /*TODO*/ }
+                ) {
+                    onClickAllEventsRelevant(AllEventsScreenState.ALL_RELEVANT_MEETINGS)
+                }
                 Spacer(modifier = Modifier.width(MeetTheme.sizes.sizeX16))
             }
         }
