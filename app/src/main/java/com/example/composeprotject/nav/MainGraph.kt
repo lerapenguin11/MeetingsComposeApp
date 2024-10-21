@@ -80,7 +80,9 @@ fun MainGraph(
                     },
                     onMeetingRegistrationCheckIn = { eventInfoShort ->
                         navController.navigate(
-                            route = "${Graph.AUTH}?${EVENT_TITLE}=${eventInfoShort.title}?${EVENT_ID}=${eventInfoShort.id}?$SHORT_ADDRESS=${eventInfoShort.shortAddress}?$START_DATE=${eventInfoShort.startDate}" //TODO удалить toInt()
+                            route = "${Graph.AUTH}?${EVENT_TITLE}=${eventInfoShort.title}?${EVENT_ID}=${eventInfoShort.id}?$SHORT_ADDRESS=${eventInfoShort.shortAddress}?$START_DATE=${eventInfoShort.startDate}",
+
+                            //TODO удалить toInt()
                             //TODO
                         )
                     }

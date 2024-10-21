@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.common.result.PhoneNumberResult
 import com.example.common.result.PhoneNumberStatus
 import com.example.common.result.SendCodeStatus
+import com.example.composeprotject.screen.state.RegistrationScreenState
 import com.example.composeprotject.ui.component.state.FilledButtonState
 import com.example.domain.model.signUp.Token
 import com.example.domain.model.signUp.UserParam
@@ -39,6 +40,9 @@ class SingUpViewModel(
     private val _buttonState: MutableStateFlow<FilledButtonState> =
         MutableStateFlow(FilledButtonState.DISABLED)
     private val buttonState: StateFlow<FilledButtonState> = _buttonState
+
+    private val _currentStep = MutableStateFlow(RegistrationScreenState.INPUT_NAME)
+    private val currentStep: StateFlow<RegistrationScreenState> = _currentStep
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val isSendPhoneVerificationCodeFlow =
@@ -80,6 +84,11 @@ class SingUpViewModel(
     fun getCodeFlow() = confirmationCode
     fun getTokenFlow() = resultToken
     fun getIsSendPhoneVerificationCodeFlow() = isSendPhoneVerificationCodeFlow
+    fun getCurrentStepFlow() = currentStep
+
+    fun updateCurrentStep(state: RegistrationScreenState) {
+        _currentStep.update { state }
+    }
 
     fun updateButtonState(state: FilledButtonState) {
         _buttonState.update { state }

@@ -62,7 +62,6 @@ fun SignInScreen(
     singUpViewModel: SingUpViewModel = koinViewModel(),
     onCancelScreen: () -> Unit
 ) {
-    var currentStep by remember { mutableStateOf(RegistrationScreenState.INPUT_NAME) }
     var inputValue by remember { mutableStateOf(EMPTY_LINE) }
     val code by singUpViewModel.getCodeFlow().collectAsStateWithLifecycle()
     val phoneNumber by singUpViewModel.getPhoneNumberFlow().collectAsStateWithLifecycle()
@@ -71,10 +70,13 @@ fun SignInScreen(
     val isSendPhoneVerificationCode by singUpViewModel.getIsSendPhoneVerificationCodeFlow()
         .collectAsStateWithLifecycle()
     val authToken by singUpViewModel.getTokenFlow().collectAsStateWithLifecycle()
+    val currentStep by singUpViewModel.getCurrentStepFlow().collectAsStateWithLifecycle()
 
     if (inputValue.isEmpty()) {
         singUpViewModel.updateButtonState(state = FilledButtonState.DISABLED)
     }
+
+    
 
     LaunchedEffect(authToken?.token) {
         if (authToken?.token != null) {
@@ -87,7 +89,7 @@ fun SignInScreen(
         if (!isSendPhoneVerificationCode) {
             singUpViewModel.updateButtonState(state = FilledButtonState.DISABLED)
             val nextStepIndex = signUpSteps.indexOf(currentStep) + STEP
-            currentStep = signUpSteps[nextStepIndex]
+            singUpViewModel.updateCurrentStep(state = signUpSteps[nextStepIndex])
         }
     }
 
@@ -113,7 +115,9 @@ fun SignInScreen(
         ) {
             SpacerHeight(height = MeetTheme.sizes.sizeX20)
             SignTopBar(
-                onCancel = { onCancelScreen() }
+                onCancel = {
+                    onCancelScreen()
+                }
             )
             SpacerHeight(height = MeetTheme.sizes.sizeX12)
             DescriptionBlock(
@@ -186,7 +190,9 @@ fun SignInScreen(
                     )
                     goToNextStepRegistration(
                         nextStepExists = nextStepExists,
-                        onCurrentStep = { currentStep = it },
+                        onCurrentStep = {
+                            singUpViewModel.updateCurrentStep(state = it)
+                        },
                         nextStepIndex = nextStepIndex,
                         currentStep = currentStep,
                         onInputValue = { inputValue = it }

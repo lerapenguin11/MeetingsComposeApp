@@ -6,6 +6,7 @@ import com.example.domain.usecase.combineUseCase.CombineCommunityDetails
 import com.example.domain.usecase.combineUseCase.InteractorFullInfoCommunityDetails
 import com.example.domain.usecase.community.CommunitySubscriptionUseCase
 import com.example.domain.usecase.details.InteractorLoadCommunityDetails
+import com.example.domain.usecase.store.token.ReadAuthTokenUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -18,6 +19,7 @@ import kotlinx.coroutines.launch
 class CommunityDetailsViewModel(
     private val loadCommunityDetails: InteractorLoadCommunityDetails,
     private val interactorFullInfoCommunityDetails: InteractorFullInfoCommunityDetails,
+    private val readAuthTokenUseCase: ReadAuthTokenUseCase,
     private val communitySubscriptionUseCase: CommunitySubscriptionUseCase
 ) : ViewModel() {
 
@@ -35,6 +37,20 @@ class CommunityDetailsViewModel(
                 eventsByCommunityId = emptyList()
             )
         )
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private val authToken: StateFlow<String?> = readAuthTokenUseCase.execute()
+        .flatMapLatest { token ->
+            flow {
+                emit(value = token)
+            }
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = null
+        )
+
+    fun getAuthTokenFlow() = authToken
 
     fun getCommunityDetails() = communityDetails
 

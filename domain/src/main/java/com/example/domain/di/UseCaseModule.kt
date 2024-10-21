@@ -135,7 +135,7 @@ internal val useCaseModule = module {
     single<DeleteAuthTokenUseCase> { DeleteAuthTokenUseCaseImpl(repository = get()) }
     single<GetFilteredEventsUseCase> { GetFilteredEventsUseCase() }
     single<InteractorLoadFilteredEvents> { InteractorLoadFilteredEvents() }
-    single<SendUserParamAuthentication> { GetUserParamSendUserParamAuthenticationImpl(repository = get()) }
+    factory<SendUserParamAuthentication> { GetUserParamSendUserParamAuthenticationImpl(repository = get()) }
     single<GetPathFromGalleryUriUseCase> { GetPathFromGalleryUriUseCaseImpl(repository = get()) }
     single { GetUserInfoForEditUseCase() }
     single { InteractorLoadUserInfoForEdit() }

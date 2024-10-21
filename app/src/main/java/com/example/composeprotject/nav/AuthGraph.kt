@@ -44,7 +44,7 @@ fun NavGraphBuilder.authGraph(contentPadding: PaddingValues, navController: NavH
                                 eventId = id,
                                 contentPadding = contentPadding,
                                 onCancelScreen = {
-                                    navController.popBackStack()
+                                    navController.navigateUp()
                                 }
                             )
                         }

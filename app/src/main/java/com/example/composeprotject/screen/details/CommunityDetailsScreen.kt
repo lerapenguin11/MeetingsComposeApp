@@ -59,6 +59,7 @@ fun CommunityDetailsScreen(
 
     val fullInfoCommunityDetails by communityDetailsViewModel.getCommunityDetails()
         .collectAsStateWithLifecycle()
+    val authToken by communityDetailsViewModel.getAuthTokenFlow().collectAsStateWithLifecycle()
     var buttonEnabledMorePeople by remember { mutableStateOf(true) }
 
     LazyColumn(
@@ -79,11 +80,12 @@ fun CommunityDetailsScreen(
                         categories = it.categories
                     )
                     SpacerHeight(height = MeetTheme.sizes.sizeX26)
-                    ActionBlock(
-                        buttonText = stringResource(CommonString.text_subscribe),
-                        buttonState = FilledButtonState.ACTIVE_PRIMARY
-                    )
-                    SpacerHeight(height = MeetTheme.sizes.sizeX32)
+                    if (!authToken.isNullOrEmpty()) {
+                        ActionBlock(
+                            buttonText = stringResource(CommonString.text_subscribe),
+                            buttonState = FilledButtonState.ACTIVE_PRIMARY
+                        )
+                    }
                     DescriptionBlock(
                         description = it.description
                     )
@@ -229,7 +231,6 @@ private fun DescriptionBlock(
 private fun ActionBlock(
     buttonState: FilledButtonState,
     buttonText: String,
-
 ) {
     FilledButton(
         state = buttonState,
@@ -245,6 +246,7 @@ private fun ActionBlock(
         style = MeetTheme.typography.interMedium14
     )
     //TODO: добавить условие
+    SpacerHeight(height = MeetTheme.sizes.sizeX32)
 }
 
 @Composable
