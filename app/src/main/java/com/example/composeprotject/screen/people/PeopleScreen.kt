@@ -49,7 +49,7 @@ fun PeopleScreen(
         verticalArrangement = Arrangement.spacedBy(25.dp),
         horizontalArrangement = Arrangement.spacedBy(15.dp)
     ) {
-        items(people) { item ->
+        items(items = people, key = { it.id }) { item ->
             Person(
                 namePerson = item.name,
                 avatarUrl = item.image,
