@@ -76,8 +76,6 @@ fun SignInScreen(
         singUpViewModel.updateButtonState(state = FilledButtonState.DISABLED)
     }
 
-    
-
     LaunchedEffect(authToken?.token) {
         if (authToken?.token != null) {
             authToken!!.token?.let { singUpViewModel.saveAuthToken(token = it) }
