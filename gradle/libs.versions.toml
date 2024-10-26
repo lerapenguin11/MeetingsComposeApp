@@ -43,6 +43,7 @@ coroutines_adapter = "0.9.2"
 playServicesLocation = "21.3.0"
 securityCrypto = "1.0.0"
 animationGraphicsAndroid = "1.7.2"
+runtimeAndroid = "1.7.4"
 
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
@@ -100,6 +101,7 @@ play-services-location = { group = "com.google.android.gms", name = "play-servic
 sandwich = { module = "com.github.skydoves:sandwich", version.ref = "sandwich" }
 sandwich-retrofit = { module = "com.github.skydoves:sandwich-retrofit", version.ref = "sandwichRetrofit" }
 androidx-animation-graphics-android = { group = "androidx.compose.animation", name = "animation-graphics-android", version.ref = "animationGraphicsAndroid" }
+androidx-runtime-android = { group = "androidx.compose.runtime", name = "runtime-android", version.ref = "runtimeAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

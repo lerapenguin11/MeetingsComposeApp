@@ -31,3 +31,6 @@ android {
         jvmTarget = "1.8"
     }
 }
+dependencies {
+    implementation(libs.androidx.runtime.android)
+}
