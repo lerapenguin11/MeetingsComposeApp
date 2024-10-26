@@ -1,4 +1,4 @@
-package com.example.common.result
+package com.example.result
 
 enum class SendCodeStatus {
     SUCCESS,

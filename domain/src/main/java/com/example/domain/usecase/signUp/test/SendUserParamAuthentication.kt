@@ -1,8 +1,8 @@
 package com.example.domain.usecase.signUp.test
 
-import com.example.common.result.PhoneNumberResult
-import com.example.common.result.PhoneNumberStatus
 import com.example.domain.repository.signUp.SignUpRepository
+import com.example.result.PhoneNumberResult
+import com.example.result.PhoneNumberStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

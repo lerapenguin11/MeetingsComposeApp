@@ -30,7 +30,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.common.result.SendCodeStatus
 import com.example.composeprotject.screen.state.RegistrationScreenState
 import com.example.composeprotject.ui.component.button.FilledButton
 import com.example.composeprotject.ui.component.input.SimpleInputField
@@ -44,6 +43,7 @@ import com.example.composeprotject.ui.component.utils.NoRippleTheme
 import com.example.composeprotject.ui.component.utils.eventDate
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.SingUpViewModel
+import com.example.result.SendCodeStatus
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
 import kotlin.time.Duration.Companion.seconds

@@ -1,11 +1,11 @@
 package com.example.data.repository
 
 import androidx.annotation.WorkerThread
-import com.example.common.result.ResultData
 import com.example.data.fakeData.eventDetailsFake
 import com.example.data.mappers.EventsMapper
 import com.example.domain.repository.event.EventRepository
 import com.example.network.api.EventApi
+import com.example.result.ResultData
 import com.skydoves.sandwich.message
 import com.skydoves.sandwich.onFailure
 import com.skydoves.sandwich.suspendOnSuccess

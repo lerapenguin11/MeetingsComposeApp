@@ -1,6 +1,6 @@
 package com.example.domain.repository.event
 
-import com.example.common.result.ResultData
+import com.example.result.ResultData
 import kotlinx.coroutines.flow.Flow
 
 interface EventRepository {

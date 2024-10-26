@@ -1,11 +1,11 @@
 package com.example.data.repository
 
-import com.example.common.result.ResultData
-import com.example.common.result.ResultStatus
 import com.example.data.fakeData.generateCommunityDetails
 import com.example.data.mappers.CommunityMapper
 import com.example.domain.repository.community.CommunityRepository
 import com.example.network.api.CommunityApi
+import com.example.result.ResultData
+import com.example.result.ResultStatus
 import com.skydoves.sandwich.message
 import com.skydoves.sandwich.onFailure
 import com.skydoves.sandwich.suspendOnSuccess

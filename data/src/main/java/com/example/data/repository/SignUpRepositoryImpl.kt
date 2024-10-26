@@ -1,12 +1,13 @@
 package com.example.data.repository
 
-import com.example.common.result.PhoneNumberResult
-import com.example.common.result.PhoneNumberStatus
-import com.example.common.result.SendCodeStatus
 import com.example.data.mappers.SingUpMapper
 import com.example.domain.repository.signUp.SignUpRepository
+import com.example.model.signUp.Token
 import com.example.network.api.AuthApi
 import com.example.network.responseModel.auth.VerificationCode
+import com.example.result.PhoneNumberResult
+import com.example.result.PhoneNumberStatus
+import com.example.result.SendCodeStatus
 import com.skydoves.sandwich.message
 import com.skydoves.sandwich.onFailure
 import com.skydoves.sandwich.retrofit.statusCode
@@ -40,14 +41,14 @@ class SignUpRepositoryImpl(private val service: AuthApi, private val mapper: Sin
     override fun sendConfirmationCode(
         code: String,
         phoneNumber: String
-    ): Flow<PhoneNumberResult<com.example.model.signUp.Token>> = flow {
+    ): Flow<PhoneNumberResult<Token>> = flow {
         val response = service.checkCode(code = VerificationCode(code = code, phone = phoneNumber))
         response.suspendOnError {
             val responseCode = statusCode.code
             when (responseCode) {
                 ERROR_CODE -> emit(
                     value = PhoneNumberResult.Success(
-                        com.example.model.signUp.Token(
+                        Token(
                             token = null,
                             success = SendCodeStatus.FAILURE
                         )
@@ -56,7 +57,7 @@ class SignUpRepositoryImpl(private val service: AuthApi, private val mapper: Sin
 
                 else -> emit(
                     value = PhoneNumberResult.Success(
-                        com.example.model.signUp.Token(
+                        Token(
                             token = null,
                             success = SendCodeStatus.ERROR
                         )
@@ -69,7 +70,7 @@ class SignUpRepositoryImpl(private val service: AuthApi, private val mapper: Sin
             when (responseCode) {
                 SUCCESS_CODE -> emit(
                     value = PhoneNumberResult.Success(
-                        com.example.model.signUp.Token(
+                        Token(
                             token = data.token,
                             success = SendCodeStatus.SUCCESS
                         )

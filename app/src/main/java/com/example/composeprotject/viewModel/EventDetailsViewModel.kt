@@ -2,13 +2,13 @@ package com.example.composeprotject.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.common.result.ResultData
 import com.example.composeprotject.ui.component.state.FilledButtonState
 import com.example.domain.usecase.combineUseCase.CombineEventDetailsInfo
 import com.example.domain.usecase.combineUseCase.InteractorFullEventDetailsInfo
 import com.example.domain.usecase.details.InteractorLoadEventDetailsInfo
 import com.example.domain.usecase.details.MakeAnAppointmentUseCase
 import com.example.domain.usecase.store.token.ReadAuthTokenUseCase
+import com.example.result.ResultData
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

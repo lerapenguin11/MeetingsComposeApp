@@ -1,8 +1,8 @@
 package com.example.domain.usecase.community
 
-import com.example.common.result.ResultData
-import com.example.common.result.ResultStatus
 import com.example.domain.repository.community.CommunityRepository
+import com.example.result.ResultData
+import com.example.result.ResultStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

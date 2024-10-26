@@ -1,6 +1,6 @@
-package com.example.common.result
+package com.example.result
 
-import com.example.common.result.PhoneNumberResult.Success
+import com.example.result.PhoneNumberResult.Success
 
 sealed class ResultData<out R> {
     data class Success<out T>(val status: T) : ResultData<T>()

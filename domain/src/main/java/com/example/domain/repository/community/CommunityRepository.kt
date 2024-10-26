@@ -1,7 +1,7 @@
 package com.example.domain.repository.community
 
-import com.example.common.result.ResultData
-import com.example.common.result.ResultStatus
+import com.example.result.ResultData
+import com.example.result.ResultStatus
 import kotlinx.coroutines.flow.Flow
 
 interface CommunityRepository {

@@ -2,14 +2,14 @@ package com.example.composeprotject.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.common.result.PhoneNumberResult
-import com.example.common.result.PhoneNumberStatus
-import com.example.common.result.SendCodeStatus
 import com.example.composeprotject.screen.state.RegistrationScreenState
 import com.example.composeprotject.ui.component.state.FilledButtonState
 import com.example.domain.usecase.signUp.SendConfirmationCodeUseCase
 import com.example.domain.usecase.signUp.test.SendUserParamAuthentication
 import com.example.domain.usecase.store.token.SaveAuthTokenUseCase
+import com.example.result.PhoneNumberResult
+import com.example.result.PhoneNumberStatus
+import com.example.result.SendCodeStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

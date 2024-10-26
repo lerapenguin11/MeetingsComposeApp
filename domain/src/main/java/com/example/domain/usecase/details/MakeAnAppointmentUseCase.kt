@@ -1,7 +1,7 @@
 package com.example.domain.usecase.details
 
-import com.example.common.result.ResultData
 import com.example.domain.repository.event.EventRepository
+import com.example.result.ResultData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
