@@ -59,14 +59,6 @@ import com.example.composeprotject.ui.component.utils.eventDetailsDate
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.utils.lineBreakInAddress
 import com.example.composeprotject.viewModel.EventDetailsViewModel
-import com.example.domain.model.event.Meeting
-import com.example.domain.model.eventDetails.AppointmentSettings
-import com.example.domain.model.eventDetails.EventDetailsParams
-import com.example.domain.model.eventDetails.MeetingDetails
-import com.example.domain.model.eventDetails.MeetingOrganizer
-import com.example.domain.model.eventDetails.MeetingStatus
-import com.example.domain.model.eventDetails.MeetingsData
-import com.example.domain.model.interest.Category
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -76,8 +68,8 @@ fun EventDetailsScreen(
     modifier: Modifier = Modifier,
     eventDetailsViewModel: EventDetailsViewModel = koinViewModel(),
     onClickMorePeople: (Int) -> Unit,
-    onClickOrganizer: (MeetingOrganizer) -> Unit,
-    onClickEvent: (Meeting) -> Unit,
+    onClickOrganizer: (com.example.model.eventDetails.MeetingOrganizer) -> Unit,
+    onClickEvent: (com.example.model.event.Meeting) -> Unit,
     onMeetingRegistrationCheckIn: (EventInfoShort) -> Unit
 ) {
     val authToken by eventDetailsViewModel.getAuthTokenFlow().collectAsStateWithLifecycle()
@@ -90,7 +82,7 @@ fun EventDetailsScreen(
     LaunchedEffect(key1 = Unit, key2 = authToken) {
         if (authToken == null || !authToken.isNullOrEmpty()) {
             eventDetailsViewModel.loadEventDetailsInfo(
-                params = EventDetailsParams(
+                params = com.example.model.eventDetails.EventDetailsParams(
                     eventId = eventId,
                     autToken = authToken
                 )
@@ -153,7 +145,7 @@ fun EventDetailsScreen(
                         avatarUrl = item.organizers.image,
                         onClickOrganizer = {
                             onClickOrganizer(
-                                MeetingOrganizer(
+                                com.example.model.eventDetails.MeetingOrganizer(
                                     id = item.organizers.id,
                                     name = item.organizers.name,
                                     bio = item.organizers.bio,
@@ -175,7 +167,7 @@ fun EventDetailsScreen(
             }
             item { SpacerHeight(height = 28.dp) }
         }
-        if (fullEventInfo?.eventDetails?.status == MeetingStatus.ACTIVE) {
+        if (fullEventInfo?.eventDetails?.status == com.example.model.eventDetails.MeetingStatus.ACTIVE) {
             fullEventInfo?.eventDetails?.let { meetingDetails ->
                 BottomActionBar(
                     buttonText = getButtonActionBarText(
@@ -201,7 +193,7 @@ fun EventDetailsScreen(
                         },
                         onMakeAppointment = {
                             eventDetailsViewModel.makeAppointment(
-                                params = AppointmentSettings(
+                                params = com.example.model.eventDetails.AppointmentSettings(
                                     eventId = eventId,
                                     autToken = authToken,
                                     isParticipatingMeeting = isParticipatingMeeting
@@ -225,7 +217,7 @@ private fun getButtonActionBarText(isParticipatingMeeting: Boolean): String {
 @Composable
 private fun getDescTextForActionBar(
     isParticipatingMeeting: Boolean,
-    meetingDetails: MeetingDetails
+    meetingDetails: com.example.model.eventDetails.MeetingDetails
 ): String {
     return buildAnnotatedString {
         if (isParticipatingMeeting) {
@@ -265,8 +257,8 @@ private fun makeAnAppointment(
 
 @Composable
 private fun OtherCommunityMeetings(
-    eventsCommunity: List<Meeting>,
-    onClickEvent: (Meeting) -> Unit
+    eventsCommunity: List<com.example.model.event.Meeting>,
+    onClickEvent: (com.example.model.event.Meeting) -> Unit
 ) {
     Text(
         text = stringResource(CommonString.text_other_community_Meetings),
@@ -330,12 +322,12 @@ private fun OrganizerInfo(
 
 @Composable
 private fun PeopleAtMeetings(
-    meetingStatus: MeetingStatus,
-    avatarList: List<MeetingsData>,
+    meetingStatus: com.example.model.eventDetails.MeetingStatus,
+    avatarList: List<com.example.model.eventDetails.MeetingsData>,
     onClickMorePeople: () -> Unit,
 ) {
     when (meetingStatus) {
-        MeetingStatus.ACTIVE -> {
+        com.example.model.eventDetails.MeetingStatus.ACTIVE -> {
             Text(
                 text = stringResource(CommonString.text_will_meet_halfway),
                 color = Color.Black,
@@ -343,7 +335,7 @@ private fun PeopleAtMeetings(
             )
         }
 
-        MeetingStatus.INACTIVE -> {
+        com.example.model.eventDetails.MeetingStatus.INACTIVE -> {
             Text(
                 text = stringResource(CommonString.text_were_at_meeting),
                 color = Color.Black,
@@ -351,7 +343,7 @@ private fun PeopleAtMeetings(
             )
         }
 
-        MeetingStatus.CANCELLATION -> {
+        com.example.model.eventDetails.MeetingStatus.CANCELLATION -> {
             Text(
                 text = stringResource(CommonString.text_could_have_gone),
                 color = Color.Black,
@@ -466,7 +458,7 @@ private fun MeetingOrganizerBlock(
 }
 
 @Composable
-private fun EventChipBlock(categories: List<Category>) {
+private fun EventChipBlock(categories: List<com.example.model.interest.Category>) {
     FlexRow(
         horizontalGap = MeetTheme.sizes.sizeX8,
         verticalGap = MeetTheme.sizes.sizeX8,
@@ -486,14 +478,14 @@ private fun EventChipBlock(categories: List<Category>) {
 
 @Composable
 private fun CommonInfo(
-    categories: List<Category>,
+    categories: List<com.example.model.interest.Category>,
     avatarUrl: String?,
     title: String,
     startDate: Long,
     shortMeetingAddress: String,
     description: String,
     modifier: Modifier = Modifier,
-    status: MeetingStatus
+    status: com.example.model.eventDetails.MeetingStatus
 ) {
     Column(modifier = modifier) {
         EventDetailsImage(
@@ -507,7 +499,7 @@ private fun CommonInfo(
             color = Color.Black,
             style = MeetTheme.typography.interBold34
         )
-        if (status == MeetingStatus.INACTIVE) {
+        if (status == com.example.model.eventDetails.MeetingStatus.INACTIVE) {
             Text(
                 text = stringResource(CommonString.text_meeting_over),
                 color = MeetTheme.colors.darkGray,

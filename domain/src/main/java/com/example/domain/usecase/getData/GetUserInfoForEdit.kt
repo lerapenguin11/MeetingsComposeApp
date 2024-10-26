@@ -1,6 +1,5 @@
 package com.example.domain.usecase.getData
 
-import com.example.domain.model.editUser.EditUserInfo
 import com.example.domain.repository.editUser.EditUserRepository
 import com.example.domain.usecase.editUser.GetUserInfoForEditUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,12 +15,12 @@ class GetUserInfoForEdit : KoinComponent {
     private val innerUserInfoForEdit: GetUserInfoForEditUseCase by inject()
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val userInfoForEditPrepared: Flow<EditUserInfo> =
+    private val userInfoForEditPrepared: Flow<com.example.model.editUser.EditUserInfo> =
         innerUserInfoForEdit.trigger().mapLatest { autToken ->
             autToken?.let {
                 repository.getUserInfoForEdit(token = it)
             }
         }.flatMapMerge { it ?: emptyFlow() }
 
-    fun execute(): Flow<EditUserInfo> = userInfoForEditPrepared
+    fun execute(): Flow<com.example.model.editUser.EditUserInfo> = userInfoForEditPrepared
 }

@@ -1,6 +1,5 @@
 package com.example.domain.usecase.getData
 
-import com.example.domain.model.userLists.UserEvents
 import com.example.domain.repository.userLists.UserListsRepository
 import com.example.domain.usecase.user.GetUserInfoUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,7 +15,7 @@ class GetUserEvents : KoinComponent {
     private val repository: UserListsRepository by inject()
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val userEventsPrepared: Flow<List<UserEvents>?> =
+    private val userEventsPrepared: Flow<List<com.example.model.userLists.UserEvents>?> =
         innerUserInfo.trigger().mapLatest { loadingParam ->
             loadingParam?.let {
                 if (it.isShowMyEvents) {
@@ -25,7 +24,7 @@ class GetUserEvents : KoinComponent {
                     null
                 }
             }
-        }.flatMapMerge { it ?: flow { emptyList<UserEvents>() } }
+        }.flatMapMerge { it ?: flow { emptyList<com.example.model.userLists.UserEvents>() } }
 
-    fun execute(): Flow<List<UserEvents>?> = userEventsPrepared
+    fun execute(): Flow<List<com.example.model.userLists.UserEvents>?> = userEventsPrepared
 }

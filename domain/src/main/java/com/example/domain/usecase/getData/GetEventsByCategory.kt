@@ -1,7 +1,5 @@
 package com.example.domain.usecase.getData
 
-import com.example.domain.model.event.EventListType
-import com.example.domain.model.event.Meeting
 import com.example.domain.repository.event.EventRepository
 import com.example.domain.usecase.main.GetMainInfoUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -18,12 +16,12 @@ class GetEventsByCategory : KoinComponent {
     private val innerEvents: GetMainInfoUseCase by inject()
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val eventsPrepared: Flow<List<Meeting>> =
+    private val eventsPrepared: Flow<List<com.example.model.event.Meeting>> =
         innerEvents.trigger().flatMapLatest { queryParam ->
             flow {
                 emit(value = queryParam?.let {
                     repository.getEventsByUserInterest(
-                        eventType = EventListType.RELEVANT,
+                        eventType = com.example.model.event.EventListType.RELEVANT,
                         authToken = it.authToken,
                         userInterests = it.userInterests
                     )
@@ -31,5 +29,5 @@ class GetEventsByCategory : KoinComponent {
             }
         }.flatMapMerge { it ?: emptyFlow() }
 
-    fun execute(): Flow<List<Meeting>> = eventsPrepared
+    fun execute(): Flow<List<com.example.model.event.Meeting>> = eventsPrepared
 }

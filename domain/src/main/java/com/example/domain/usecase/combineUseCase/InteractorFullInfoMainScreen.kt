@@ -1,8 +1,5 @@
 package com.example.domain.usecase.combineUseCase
 
-import com.example.domain.model.community.Community
-import com.example.domain.model.event.Meeting
-import com.example.domain.model.interest.Interest
 import com.example.domain.usecase.getData.GetCommunities
 import com.example.domain.usecase.getData.GetEventsByCategory
 import com.example.domain.usecase.getData.GetEventsClosest
@@ -39,9 +36,9 @@ class InteractorFullInfoMainScreen : KoinComponent {
 }
 
 data class CombineMainDataScreen(
-    val eventsByCategory: List<Meeting>,
-    val eventsClosest: List<Meeting>,
-    val communities: List<Community>,
-    val categoryList: List<Interest>,
+    val eventsByCategory: List<com.example.model.event.Meeting>,
+    val eventsClosest: List<com.example.model.event.Meeting>,
+    val communities: List<com.example.model.community.Community>,
+    val categoryList: List<com.example.model.interest.Interest>,
     val isLoadingFullData: Boolean
 )

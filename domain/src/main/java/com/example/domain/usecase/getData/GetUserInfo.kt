@@ -1,6 +1,5 @@
 package com.example.domain.usecase.getData
 
-import com.example.domain.model.user.UserInfo
 import com.example.domain.repository.user.UserRepository
 import com.example.domain.usecase.user.GetUserInfoUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,12 +15,12 @@ class GetUserInfo : KoinComponent {
     private val innerUserInfo: GetUserInfoUseCase by inject()
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val userInfoPrepared: Flow<UserInfo> =
+    private val userInfoPrepared: Flow<com.example.model.user.UserInfo> =
         innerUserInfo.trigger().mapLatest { options ->
             options?.let {
                 repository.getUserInfo(token = it.authToken)
             }
         }.flatMapMerge { it ?: flow { } }
 
-    fun execute(): Flow<UserInfo> = userInfoPrepared
+    fun execute(): Flow<com.example.model.user.UserInfo> = userInfoPrepared
 }

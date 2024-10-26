@@ -50,9 +50,6 @@ import com.example.composeprotject.ui.component.utils.NoRippleTheme
 import com.example.composeprotject.ui.component.utils.imageCash
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.ProfileViewModel
-import com.example.domain.model.interest.Interest
-import com.example.domain.model.userLists.UserCommunities
-import com.example.domain.model.userLists.UserEvents
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -160,9 +157,9 @@ private fun LogOutOfProfileBlock(
 
 @Composable
 private fun MyCommunityBlock(
-    communities: List<UserCommunities>,
+    communities: List<com.example.model.userLists.UserCommunities>,
     modifier: Modifier = Modifier,
-    onClickCommunity: (UserCommunities) -> Unit
+    onClickCommunity: (com.example.model.userLists.UserCommunities) -> Unit
 ) {
     SpacerHeight(height = MeetTheme.sizes.sizeX40)
     Text(
@@ -201,9 +198,9 @@ private fun MyCommunityBlock(
 
 @Composable
 private fun MyMeetingsBlock(
-    myMeeting: List<UserEvents>,
+    myMeeting: List<com.example.model.userLists.UserEvents>,
     modifier: Modifier = Modifier,
-    onClickEvent: (UserEvents) -> Unit
+    onClickEvent: (com.example.model.userLists.UserEvents) -> Unit
 ) {
     SpacerHeight(height = MeetTheme.sizes.sizeX40)
     Text(
@@ -248,7 +245,7 @@ private fun BlockUserInformation(
     bio: String?,
     habr: String?,
     telegram: String?,
-    userInterest: List<Interest>?,
+    userInterest: List<com.example.model.interest.Interest>?,
     modifier: Modifier = Modifier
 ) {
     Column(

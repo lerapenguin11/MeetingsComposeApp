@@ -2,7 +2,6 @@ package com.example.composeprotject.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.model.people.People
 import com.example.domain.usecase.getData.GetPeople
 import com.example.domain.usecase.people.InteractorLoadPeopleByCategoryId
 import com.example.domain.usecase.people.InteractorLoadPeopleByEventId
@@ -22,7 +21,7 @@ class PeopleViewModel(
 ) : ViewModel() {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val people: StateFlow<List<People>> = getPeople.execute()
+    private val people: StateFlow<List<com.example.model.people.People>> = getPeople.execute()
         .filterNotNull().flatMapLatest {
             flow {
                 emit(value = it)

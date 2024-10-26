@@ -1,6 +1,5 @@
 package com.example.domain.usecase.getData
 
-import com.example.domain.model.community.Community
 import com.example.domain.repository.community.CommunityRepository
 import com.example.domain.usecase.main.GetMainInfoUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,14 +15,14 @@ class GetCommunities : KoinComponent {
     private val repository: CommunityRepository by inject()
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val communityPrepared: Flow<List<Community>> =
+    private val communityPrepared: Flow<List<com.example.model.community.Community>> =
         innerEvents.trigger().mapLatest { queryParam ->
             queryParam?.let {
                 repository.getCommunities(
                     userInterest = it.userInterests
                 )
             }
-        }.flatMapMerge { it ?: flow { emptyList<Community>() } }
+        }.flatMapMerge { it ?: flow { emptyList<com.example.model.community.Community>() } }
 
-    fun execute(): Flow<List<Community>> = communityPrepared
+    fun execute(): Flow<List<com.example.model.community.Community>> = communityPrepared
 }

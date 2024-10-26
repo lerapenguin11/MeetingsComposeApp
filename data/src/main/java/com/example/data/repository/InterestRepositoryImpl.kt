@@ -4,7 +4,6 @@ import androidx.annotation.WorkerThread
 import com.example.data.fakeData.interestsFake
 import com.example.data.mappers.InterestsMapper
 import com.example.database.dao.UserInterestDao
-import com.example.domain.model.interest.Interest
 import com.example.domain.repository.interest.InterestRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -19,7 +18,7 @@ internal class InterestRepositoryImpl(
 ) : InterestRepository {
 
     @WorkerThread
-    override fun getInterests(): Flow<List<Interest>> {
+    override fun getInterests(): Flow<List<com.example.model.interest.Interest>> {
         return flow {
             emit(value = interestsFake().map {
                 mapper.responseInterestToInterest(it)
@@ -28,7 +27,7 @@ internal class InterestRepositoryImpl(
     }
 
     override suspend fun addInterestsLocal(
-        userInterests: List<Interest>,
+        userInterests: List<com.example.model.interest.Interest>,
         onStart: () -> Unit,
         onComplete: () -> Unit,
         onError: (String?) -> Unit

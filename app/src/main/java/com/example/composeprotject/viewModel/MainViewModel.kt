@@ -3,9 +3,6 @@ package com.example.composeprotject.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composeprotject.screen.state.SearchState
-import com.example.domain.model.event.Meeting
-import com.example.domain.model.event.QueryParam
-import com.example.domain.model.interest.Interest
 import com.example.domain.usecase.combineUseCase.CombineFullQueryParamLocal
 import com.example.domain.usecase.combineUseCase.CombineMainDataScreen
 import com.example.domain.usecase.combineUseCase.InteractorFullInfoMainScreen
@@ -72,8 +69,10 @@ class MainViewModel(
             )
         )
 
-    private val _filteredEventsByCategory = MutableStateFlow<List<Meeting>>(emptyList())
-    private val filteredEventsByCategory: StateFlow<List<Meeting>> = _filteredEventsByCategory
+    private val _filteredEventsByCategory =
+        MutableStateFlow<List<com.example.model.event.Meeting>>(emptyList())
+    private val filteredEventsByCategory: StateFlow<List<com.example.model.event.Meeting>> =
+        _filteredEventsByCategory
 
     private val _mainStateUI = MutableStateFlow(true)
     private val mainStateUI: StateFlow<Boolean> = _mainStateUI
@@ -86,17 +85,16 @@ class MainViewModel(
     private val _combineRefreshMainInfo = MutableStateFlow(false)
     private val combineRefreshMainInfo: StateFlow<Boolean> = _combineRefreshMainInfo
 
-    private val _userSelectedCategories = MutableStateFlow<List<Interest>>(emptyList())
-    private val userSelectedCategories: StateFlow<List<Interest>> = _userSelectedCategories
+    private val _userSelectedCategories =
+        MutableStateFlow<List<com.example.model.interest.Interest>>(emptyList())
+    private val userSelectedCategories: StateFlow<List<com.example.model.interest.Interest>> =
+        _userSelectedCategories
 
     private val _searchQuery = MutableStateFlow<String?>(null)
     private val searchQuery: StateFlow<String?> = _searchQuery
 
     private val _mainScreenState = MutableStateFlow(SearchState.MAIN_DEFAULT_SCREEN)
     private val mainScreenState: StateFlow<SearchState> = _mainScreenState
-
-    /*private val _communitySubscriptions = MutableStateFlow<List<Community>>(emptyList())
-    private val communitySubscriptions: StateFlow<List<Community>> = _communitySubscriptions*/
 
     init {
         getFullInfoMainScreen()
@@ -139,14 +137,14 @@ class MainViewModel(
         }
     }
 
-    fun loadEventsByCategory(
+    fun loadEventsByParameters(
         userCategories: List<Int>,
         city: String?,
         token: String?
     ) =
         viewModelScope.launch {
             interactorLoadMainInfo.execute(
-                QueryParam(
+                com.example.model.event.QueryParam(
                     authToken = token,
                     userInterests = userCategories,
                     city = city
@@ -160,7 +158,7 @@ class MainViewModel(
         loadFilteredEvents.execute(filterParam = selectedCategory)
     }
 
-    fun toggleUserCategory(id: Interest) {
+    fun toggleUserCategory(id: com.example.model.interest.Interest) {
         if (hasUserCategories(id)) {
             updateUserCategory(id)
         } else {
@@ -215,17 +213,19 @@ class MainViewModel(
         _combineRefreshMainInfo.update { isRefreshing }
     }
 
-    private fun hasUserCategories(interest: Interest): Boolean {
+    private fun hasUserCategories(interest: com.example.model.interest.Interest): Boolean {
         return _userSelectedCategories.value.none { it.id == interest.id }
     }
 
-    private fun updateUserCategory(interest: Interest) = viewModelScope.launch {
+    private fun updateUserCategory(interest: com.example.model.interest.Interest) =
+        viewModelScope.launch {
         _userSelectedCategories.update { currentInterests ->
             currentInterests + interest
         }
     }
 
-    private fun deleteUserCategory(interest: Interest) = viewModelScope.launch {
+    private fun deleteUserCategory(interest: com.example.model.interest.Interest) =
+        viewModelScope.launch {
         _userSelectedCategories.update { currentInterests ->
             currentInterests.filterNot { it.id == interest.id }
         }

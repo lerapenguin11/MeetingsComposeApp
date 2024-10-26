@@ -1,7 +1,5 @@
 package com.example.domain.usecase.getData
 
-import com.example.domain.model.event.EventListType
-import com.example.domain.model.event.Meeting
 import com.example.domain.repository.event.EventRepository
 import com.example.domain.usecase.main.GetMainInfoUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -17,17 +15,17 @@ class GetEventsClosest : KoinComponent {
     private val innerEvents: GetMainInfoUseCase by inject()
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val eventsPrepared: Flow<List<Meeting>> =
+    private val eventsPrepared: Flow<List<com.example.model.event.Meeting>> =
         innerEvents.trigger().mapLatest { queryParam ->
             queryParam?.let {
                 repository.getEventsClosest(
-                    eventType = EventListType.CLOSEST,
+                    eventType = com.example.model.event.EventListType.CLOSEST,
                     authToken = it.authToken,
                     userInterests = it.userInterests,
                     city = it.city
                 )
             }
-        }.flatMapMerge { it ?: flow { emptyList<Meeting>() } }
+        }.flatMapMerge { it ?: flow { emptyList<com.example.model.event.Meeting>() } }
 
-    fun execute(): Flow<List<Meeting>> = eventsPrepared
+    fun execute(): Flow<List<com.example.model.event.Meeting>> = eventsPrepared
 }

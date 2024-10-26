@@ -66,9 +66,6 @@ import com.example.composeprotject.ui.component.utils.NoRippleTheme
 import com.example.composeprotject.ui.component.utils.imageCash
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.EditUserViewModel
-import com.example.domain.model.editUser.EditUserInfo
-import com.example.domain.model.interest.Interest
-import com.example.domain.model.user.SocialNetwork
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -223,7 +220,7 @@ private fun EditPicture(
 
 @Composable
 private fun EditProfile(
-    userInfo: EditUserInfo?,
+    userInfo: com.example.model.editUser.EditUserInfo?,
     navController: NavController,
     galleryUri: String?,
     launcher: ManagedActivityResultLauncher<Intent, ActivityResult>,
@@ -390,7 +387,7 @@ private fun NotificationBlock(
 
 @Composable
 private fun SocialMediaBlock(
-    socialNetwork: SocialNetwork,
+    socialNetwork: com.example.model.user.SocialNetwork,
     modifier: Modifier = Modifier,
     onValueHabrChange: (String) -> Unit,
     onValueTelegramChange: (String) -> Unit
@@ -432,7 +429,7 @@ private fun SocialMediaBlock(
 
 @Composable
 private fun InterestsSelectionBlock(
-    userInterests: List<Interest>?,
+    userInterests: List<com.example.model.interest.Interest>?,
     modifier: Modifier = Modifier,
     onClickUserInterest: (Int) -> Unit
 ) {

@@ -38,7 +38,6 @@ import com.example.composeprotject.ui.component.utils.CommonDrawables
 import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.imageCash
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.domain.model.interest.Interest
 
 @Composable
 fun PersonImage(
@@ -71,7 +70,7 @@ fun PersonImage(
 fun Person(
     namePerson: String,
     avatarUrl: String?,
-    tags: List<Interest>
+    tags: List<com.example.model.interest.Interest>
 ) {
     Column(
         modifier = Modifier

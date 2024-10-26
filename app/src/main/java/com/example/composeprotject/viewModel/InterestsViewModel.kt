@@ -5,9 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composeprotject.screen.state.InterestState
 import com.example.composeprotject.ui.component.state.FilledButtonState
-import com.example.domain.model.interest.AddVariantInterests
-import com.example.domain.model.interest.Interest
-import com.example.domain.model.interest.UserInterestDomain
 import com.example.domain.usecase.interest.AddUserInterestsUseCase
 import com.example.domain.usecase.interest.GetInterestsUseCase
 import com.example.domain.usecase.store.settings.SaveOnBoardingInterestStateUseCase
@@ -42,10 +39,11 @@ class InterestsViewModel(
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = emptyList()
         )
-    private val allInterests: StateFlow<List<Interest>> = _allInterests
+    private val allInterests: StateFlow<List<com.example.model.interest.Interest>> = _allInterests
 
-    private val _userInterests = MutableStateFlow<List<Interest>>(emptyList())
-    private val userInterests: StateFlow<List<Interest>> = _userInterests
+    private val _userInterests =
+        MutableStateFlow<List<com.example.model.interest.Interest>>(emptyList())
+    private val userInterests: StateFlow<List<com.example.model.interest.Interest>> = _userInterests
 
     private val combinedInterests = combine(
         getInterestsFlow(),
@@ -68,7 +66,7 @@ class InterestsViewModel(
 
     fun getButtonState() = buttonState
 
-    fun toggleUserInterest(interest: Interest) {
+    fun toggleUserInterest(interest: com.example.model.interest.Interest) {
         if (hasUserInterest(interest.id)) {
             updateUserInterests(interest)
         } else {
@@ -76,10 +74,13 @@ class InterestsViewModel(
         }
     }
 
-    fun addUserInterests(userInterests: List<Interest>, stateScreen: InterestState) =
+    fun addUserInterests(
+        userInterests: List<com.example.model.interest.Interest>,
+        stateScreen: InterestState
+    ) =
         viewModelScope.launch {
             addUserInterestsUseCase.execute(
-                userInterests = UserInterestDomain(
+                userInterests = com.example.model.interest.UserInterestDomain(
                     userInterest = userInterests,
                     addVariantInterests = determineOptionAddingInterests(stateScreen)
                 ),
@@ -89,10 +90,10 @@ class InterestsViewModel(
             )
         }
 
-    private fun determineOptionAddingInterests(stateScreen: InterestState): AddVariantInterests {
+    private fun determineOptionAddingInterests(stateScreen: InterestState): com.example.model.interest.AddVariantInterests {
         return when (stateScreen) {
-            InterestState.ONBOARDING -> AddVariantInterests.LOCAL
-            InterestState.EDIT_INTERESTS -> AddVariantInterests.REMOTE_AND_LOCAL
+            InterestState.ONBOARDING -> com.example.model.interest.AddVariantInterests.LOCAL
+            InterestState.EDIT_INTERESTS -> com.example.model.interest.AddVariantInterests.REMOTE_AND_LOCAL
         }
     }
 
@@ -104,13 +105,13 @@ class InterestsViewModel(
         return _userInterests.value.none { it.id == id }
     }
 
-    private fun updateUserInterests(interest: Interest) {
+    private fun updateUserInterests(interest: com.example.model.interest.Interest) {
         _userInterests.update { currentInterests ->
             currentInterests + interest
         }
     }
 
-    private fun deleteUserInterest(interest: Interest) {
+    private fun deleteUserInterest(interest: com.example.model.interest.Interest) {
         _userInterests.update { currentInterests ->
             currentInterests.filterNot { it.id == interest.id }
         }

@@ -192,7 +192,7 @@ fun MainGraph(
             )
         ) { backStackEntry ->
             backStackEntry.arguments?.getInt(ALL_EVENTS_STATE)?.let {
-                AllEventsScreen(contentPadding = contentPadding)
+                AllEventsScreen(contentPadding = contentPadding, screenState = it)
                 ProvideAppBarTitle(title = {
                     TopAppBarTextWithBackArrow(
                         text = stringResource(it)

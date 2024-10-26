@@ -4,11 +4,6 @@ import androidx.annotation.WorkerThread
 import com.example.common.result.ResultData
 import com.example.data.fakeData.eventDetailsFake
 import com.example.data.mappers.EventsMapper
-import com.example.domain.model.event.EventListType
-import com.example.domain.model.event.Meeting
-import com.example.domain.model.eventDetails.AppointmentSettings
-import com.example.domain.model.eventDetails.EventDetailsParams
-import com.example.domain.model.eventDetails.MeetingDetails
 import com.example.domain.repository.event.EventRepository
 import com.example.network.api.EventApi
 import com.skydoves.sandwich.message
@@ -27,10 +22,10 @@ class EventsRepositoryImpl(
 
     @WorkerThread
     override fun getEventsByUserInterest(
-        eventType: EventListType,
+        eventType: com.example.model.event.EventListType,
         userInterests: List<Int>?,
         authToken: String?
-    ): Flow<List<Meeting>> {
+    ): Flow<List<com.example.model.event.Meeting>> {
         return flow {
             val response = service.getMeetings(
                 eventType = eventType.value,
@@ -47,14 +42,14 @@ class EventsRepositoryImpl(
             .flowOn(Dispatchers.IO)
     }
 
-    override fun getEventsByCommunityId(communityId: Int): Flow<List<Meeting>> {
+    override fun getEventsByCommunityId(communityId: Int): Flow<List<com.example.model.event.Meeting>> {
         return flow {
             //TODO add response
-            emit(value = emptyList<Meeting>())
+            emit(value = emptyList<com.example.model.event.Meeting>())
         }.flowOn(Dispatchers.IO)
     }
 
-    override fun makeAnAppointment(params: AppointmentSettings): Flow<ResultData<Boolean>> {
+    override fun makeAnAppointment(params: com.example.model.eventDetails.AppointmentSettings): Flow<ResultData<Boolean>> {
         return flow<ResultData<Boolean>> {
             //TODO add response
             val responseCode = SUCCESS_CODE
@@ -65,7 +60,7 @@ class EventsRepositoryImpl(
         }.flowOn(Dispatchers.IO)
     }
 
-    override fun skipMeetings(params: AppointmentSettings): Flow<ResultData<Boolean>> {
+    override fun skipMeetings(params: com.example.model.eventDetails.AppointmentSettings): Flow<ResultData<Boolean>> {
         return flow<ResultData<Boolean>> {
             //TODO add response
             val responseCode = SUCCESS_CODE
@@ -77,11 +72,11 @@ class EventsRepositoryImpl(
     }
 
     override fun getEventsClosest(
-        eventType: EventListType,
+        eventType: com.example.model.event.EventListType,
         userInterests: List<Int>?,
         city: String?,
         authToken: String?
-    ): Flow<List<Meeting>> {
+    ): Flow<List<com.example.model.event.Meeting>> {
         return flow {
             val response = service.getMeetings(
                 eventType = eventType.value,
@@ -101,7 +96,7 @@ class EventsRepositoryImpl(
             .flowOn(Dispatchers.IO)
     }
 
-    override fun getFilteredEventsByCategory(filterParam: List<Int>): Flow<List<Meeting>> {
+    override fun getFilteredEventsByCategory(filterParam: List<Int>): Flow<List<com.example.model.event.Meeting>> {
         return flow {
             val response = service.getMeetings(
                 categories = if (filterParam.isEmpty()) null else filterParam.let {
@@ -116,7 +111,7 @@ class EventsRepositoryImpl(
         }.flowOn(Dispatchers.IO)
     }
 
-    override fun getEventDetails(params: EventDetailsParams): Flow<MeetingDetails> {
+    override fun getEventDetails(params: com.example.model.eventDetails.EventDetailsParams): Flow<com.example.model.eventDetails.MeetingDetails> {
         return flow {
             emit(
                 value = mapper.eventDetailsResponseToEventDetails(

@@ -1,7 +1,5 @@
 package com.example.domain.usecase.getData
 
-import com.example.domain.model.communityDetails.CommunityDetails
-import com.example.domain.model.event.Meeting
 import com.example.domain.repository.community.CommunityRepository
 import com.example.domain.repository.event.EventRepository
 import com.example.domain.usecase.details.GetCommunityDetailsUseCase
@@ -19,13 +17,13 @@ class GetCommunityDetails : KoinComponent {
     private val eventRepository: EventRepository by inject()
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val communityDetailsPrepared: Flow<CommunityDetails> =
+    private val communityDetailsPrepared: Flow<com.example.model.communityDetails.CommunityDetails> =
         innerCommunityDetailInfo.communityIdTrigger().filterNotNull().mapLatest { communityId ->
             communityRepository.getCommunityDetails(communityId = communityId)
         }.flatMapMerge { it }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val eventsByCommunityId: Flow<List<Meeting>> =
+    private val eventsByCommunityId: Flow<List<com.example.model.event.Meeting>> =
         innerCommunityDetailInfo.communityIdTrigger().filterNotNull().mapLatest { communityId ->
             eventRepository.getEventsByCommunityId(communityId = communityId)
         }.flatMapMerge { it }

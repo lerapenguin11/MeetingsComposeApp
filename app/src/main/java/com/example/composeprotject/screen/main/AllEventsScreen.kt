@@ -9,37 +9,41 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.composeprotject.screen.state.AllEventsScreenState
 import com.example.composeprotject.screen.state.SubscriptionCapabilityStatus
 import com.example.composeprotject.ui.component.card.CommunityCard
 import com.example.composeprotject.ui.component.card.EventCardFillMaxWidth
 import com.example.composeprotject.ui.component.spacer.SpacerHeight
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.domain.model.community.Community
-import com.example.domain.model.event.Meeting
+import com.example.composeprotject.viewModel.AllEventsViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun AllEventsScreen(
+    contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues
+    allEventsViewModel: AllEventsViewModel = koinViewModel(),
+    screenState: Int
 ) {
-    val state = AllEventsScreenState.ALL_COMMUNITIES
     val communities = listOf(
-        Community(
+        com.example.model.community.Community(
             id = 0,
             avatarUrl = null,
             title = "TEST",
             statusSubscription = true
         ),
-        Community(
+        com.example.model.community.Community(
             id = 1,
             avatarUrl = null,
             title = "TEST",
             statusSubscription = true
         ),
-        Community(
+        com.example.model.community.Community(
             id = 2,
             avatarUrl = null,
             title = "TEST",
@@ -47,40 +51,37 @@ fun AllEventsScreen(
         )
     )
 
-    val events = listOf(
-        Meeting(
-            id = 0,
-            title = "amogus",
-            avatarUrl = null,
-            categories = emptyList(),
-            shortAddress = "dfdd",
-            startDate = 1212121212121
-        ),
-        Meeting(
-            id = 1,
-            title = "amogus",
-            avatarUrl = null,
-            categories = emptyList(),
-            shortAddress = "dfdd",
-            startDate = 1212121212121
-        ),
-        Meeting(
-            id = 2,
-            title = "amogus",
-            avatarUrl = null,
-            categories = emptyList(),
-            shortAddress = "dfdd",
-            startDate = 1212121212121
-        )
-    )
+    val fullQueryParamLocal by allEventsViewModel.getFullQueryParamLocalFlow()
+        .collectAsStateWithLifecycle()
+    val relevantEvents by allEventsViewModel.getEventsByCategoryFlow().collectAsStateWithLifecycle()
 
-    when (state) {
-        AllEventsScreenState.ALL_COMMUNITIES -> {
+    LaunchedEffect(fullQueryParamLocal) {
+        when (screenState) {
+            AllEventsScreenState.ALL_RELEVANT_MEETINGS.res -> {
+                allEventsViewModel.loadData(
+                    queryParam = com.example.model.allEvents.RelevantEventsQueryParams(
+                        userInterests = fullQueryParamLocal.userInterests,
+                        authToken = fullQueryParamLocal.authToken
+                    )
+                )
+            }
+
+            AllEventsScreenState.ALL_COMMUNITIES.res -> {}
+            AllEventsScreenState.ALL_UPCOMING_MEETINGS.res -> {}
+        }
+    }
+
+    when (screenState) {
+        AllEventsScreenState.ALL_COMMUNITIES.res -> {
             AllCommunities(contentPadding = contentPadding, communities = communities)
         }
 
-        AllEventsScreenState.ALL_RELEVANT_MEETINGS, AllEventsScreenState.ALL_UPCOMING_MEETINGS -> {
-            AllEvents(contentPadding = contentPadding, events = events)
+        AllEventsScreenState.ALL_RELEVANT_MEETINGS.res -> {
+            AllEvents(contentPadding = contentPadding, events = relevantEvents)
+        }
+
+        AllEventsScreenState.ALL_UPCOMING_MEETINGS.res -> {
+            AllEvents(contentPadding = contentPadding, events = emptyList())
         }
     }
 }
@@ -88,7 +89,7 @@ fun AllEventsScreen(
 @Composable
 private fun AllEvents(
     contentPadding: PaddingValues,
-    events: List<Meeting>,
+    events: List<com.example.model.event.Meeting>,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -111,7 +112,7 @@ private fun AllEvents(
 @Composable
 private fun AllCommunities(
     contentPadding: PaddingValues,
-    communities: List<Community>,
+    communities: List<com.example.model.community.Community>,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(

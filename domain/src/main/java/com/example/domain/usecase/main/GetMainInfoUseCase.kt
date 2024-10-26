@@ -1,26 +1,18 @@
 package com.example.domain.usecase.main
 
-import com.example.domain.model.event.QueryParam
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.launchIn
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-internal class GetMainInfoUseCase {
-    private val streamEventsWithQueryParam: MutableSharedFlow<QueryParam?> =
+class GetMainInfoUseCase {
+    private val streamEventsWithQueryParam: MutableSharedFlow<com.example.model.event.QueryParam?> =
         MutableStateFlow(null)
-    private var lastValue: QueryParam? = null
-
-    init {
-        streamEventsWithQueryParam.launchIn(CoroutineScope(Dispatchers.IO))
-    }
+    private var lastValue: com.example.model.event.QueryParam? = null
 
     fun loadMainInfo(
-        queryParam: QueryParam
+        queryParam: com.example.model.event.QueryParam
     ) {
         lastValue = queryParam
         streamEventsWithQueryParam.tryEmit(value = queryParam)
@@ -32,14 +24,14 @@ internal class GetMainInfoUseCase {
         }
     }
 
-    fun trigger(): SharedFlow<QueryParam?> =
+    fun trigger(): SharedFlow<com.example.model.event.QueryParam?> =
         streamEventsWithQueryParam
 }
 
 class InteractorLoadMainInfo : KoinComponent {
     private val innerInfo: GetMainInfoUseCase by inject()
     fun execute(
-        queryParam: QueryParam
+        queryParam: com.example.model.event.QueryParam
     ) {
         innerInfo.loadMainInfo(
             queryParam = queryParam

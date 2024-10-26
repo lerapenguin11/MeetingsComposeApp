@@ -1,6 +1,5 @@
 package com.example.domain.usecase.getData
 
-import com.example.domain.model.userLists.UserCommunities
 import com.example.domain.repository.userLists.UserListsRepository
 import com.example.domain.usecase.user.GetUserInfoUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,7 +15,7 @@ class GetUserCommunities : KoinComponent {
     private val repository: UserListsRepository by inject()
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val userCommunitiesPrepared: Flow<List<UserCommunities>?> =
+    private val userCommunitiesPrepared: Flow<List<com.example.model.userLists.UserCommunities>?> =
         innerUserInfo.trigger().mapLatest { loadingParam ->
             loadingParam?.let {
                 if (it.isShowMyCommunities) {
@@ -25,7 +24,8 @@ class GetUserCommunities : KoinComponent {
                     null
                 }
             }
-        }.flatMapMerge { it ?: flow { emptyList<UserCommunities>() } }
+        }.flatMapMerge { it ?: flow { emptyList<com.example.model.userLists.UserCommunities>() } }
 
-    fun execute(): Flow<List<UserCommunities>?> = userCommunitiesPrepared
+    fun execute(): Flow<List<com.example.model.userLists.UserCommunities>?> =
+        userCommunitiesPrepared
 }

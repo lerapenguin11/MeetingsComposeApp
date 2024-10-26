@@ -35,14 +35,10 @@ import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.component.utils.eventDate
 import com.example.composeprotject.ui.theme.MeetTheme
-import com.example.domain.model.community.Community
-import com.example.domain.model.event.Meeting
-import com.example.domain.model.userLists.UserCommunities
-import com.example.domain.model.userLists.UserEvents
 
 @Composable
 fun EventCard(
-    meeting: Meeting,
+    meeting: com.example.model.event.Meeting,
     variant: EventCardVariant,
     modifier: Modifier = Modifier,
     style: EventCardStyle = EventCardStyleDefault.eventCardStyle(),
@@ -105,7 +101,7 @@ fun EventCard(
 
 @Composable
 fun UserEventCard(
-    meeting: UserEvents,
+    meeting: com.example.model.userLists.UserEvents,
     variant: EventCardVariant,
     modifier: Modifier = Modifier,
     style: EventCardStyle = EventCardStyleDefault.eventCardStyle(),
@@ -167,7 +163,7 @@ fun UserEventCard(
 
 @Composable
 fun EventCardFillMaxWidth(
-    meeting: Meeting,
+    meeting: com.example.model.event.Meeting,
     onClick: () -> Unit
 ) {
     Card(
@@ -224,7 +220,7 @@ fun EventCardFillMaxWidth(
 
 @Composable
 fun CommunityCard(
-    community: Community,
+    community: com.example.model.community.Community,
     buttonState: Boolean,
     state: SubscriptionCapabilityStatus,
     modifier: Modifier = Modifier,
@@ -269,7 +265,7 @@ fun CommunityCard(
 
 @Composable
 fun UserCommunityCard(
-    community: UserCommunities,
+    community: com.example.model.userLists.UserCommunities,
     buttonState: SubscribeButtonState,
     state: SubscriptionCapabilityStatus,
     modifier: Modifier = Modifier,

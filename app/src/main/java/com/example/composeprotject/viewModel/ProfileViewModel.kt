@@ -2,7 +2,6 @@ package com.example.composeprotject.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.model.user.OptionsUploadingMyLists
 import com.example.domain.usecase.combineUseCase.FullUserInfo
 import com.example.domain.usecase.combineUseCase.InteractorFullUserInfo
 import com.example.domain.usecase.combineUseCase.InteractorReadIsShowSettingsLists
@@ -59,7 +58,7 @@ class ProfileViewModel(
 
     fun loadUserInfo(isShowMyEvents: Boolean, isShowMyCommunities: Boolean, authToken: String) {
         interactorLoadUserInfo.execute(
-            optionsUploading = OptionsUploadingMyLists(
+            optionsUploading = com.example.model.user.OptionsUploadingMyLists(
                 isShowMyEvents = isShowMyEvents,
                 isShowMyCommunities = isShowMyCommunities,
                 authToken = authToken

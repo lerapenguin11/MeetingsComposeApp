@@ -1,5 +1,9 @@
 package com.example.domain.di
 
+import com.example.domain.usecase.allEvents.GetRelevantEventsUseCase
+import com.example.domain.usecase.allEvents.InteractorLoadRelevantEvents
+import com.example.domain.usecase.allEvents.InteractorRefreshRelevantEvents
+import com.example.domain.usecase.allEvents.getData.GetRelevantEvents
 import com.example.domain.usecase.combineUseCase.InteractorFullEventDetailsInfo
 import com.example.domain.usecase.combineUseCase.InteractorFullInfoCommunityDetails
 import com.example.domain.usecase.combineUseCase.InteractorFullInfoMainScreen
@@ -144,4 +148,8 @@ internal val useCaseModule = module {
     single<CommunitySubscriptionUseCase> { CommunitySubscriptionUseCaseImpl(repository = get()) }
     single { InteractorRefreshMainInfo() }
     single { InteractorRefreshFilteredEvents() }
+    single { GetRelevantEventsUseCase() }
+    single { InteractorLoadRelevantEvents() }
+    single { InteractorRefreshRelevantEvents() }
+    single { GetRelevantEvents() }
 }

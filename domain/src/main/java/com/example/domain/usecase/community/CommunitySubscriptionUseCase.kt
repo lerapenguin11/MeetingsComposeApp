@@ -2,7 +2,6 @@ package com.example.domain.usecase.community
 
 import com.example.common.result.ResultData
 import com.example.common.result.ResultStatus
-import com.example.domain.model.community.CommunitySubscriptionParams
 import com.example.domain.repository.community.CommunityRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +22,7 @@ interface CommunitySubscriptionUseCase {
 internal class CommunitySubscriptionUseCaseImpl(private val repository: CommunityRepository) :
     CommunitySubscriptionUseCase {
 
-    private val communitySubParamMutableStateFlow: MutableSharedFlow<CommunitySubscriptionParams?> =
+    private val communitySubParamMutableStateFlow: MutableSharedFlow<com.example.model.community.CommunitySubscriptionParams?> =
         MutableStateFlow(null)
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -43,7 +42,7 @@ internal class CommunitySubscriptionUseCaseImpl(private val repository: Communit
 
     override fun execute(communityId: Int, authToken: String) {
         communitySubParamMutableStateFlow.tryEmit(
-            value = CommunitySubscriptionParams(
+            value = com.example.model.community.CommunitySubscriptionParams(
                 communityId = communityId,
                 authToken = authToken
             )

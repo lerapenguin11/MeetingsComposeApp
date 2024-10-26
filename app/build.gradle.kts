@@ -56,6 +56,7 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":core:database"))
     implementation(project(":core:network"))
+    implementation(project(":core:model"))
 
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.accompanist.permissions)

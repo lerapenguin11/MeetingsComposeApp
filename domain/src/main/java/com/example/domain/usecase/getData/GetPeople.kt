@@ -1,6 +1,5 @@
 package com.example.domain.usecase.getData
 
-import com.example.domain.model.people.People
 import com.example.domain.repository.people.PeopleRepository
 import com.example.domain.usecase.people.GetPeopleUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -17,7 +16,7 @@ class GetPeople : KoinComponent {
     private val repository: PeopleRepository by inject()
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val peoplePrepared: Flow<List<People>> =
+    private val peoplePrepared: Flow<List<com.example.model.people.People>> =
         merge(
             innerPeople.eventIdTrigger().filterNotNull().mapLatest {
                 repository.getPeopleByEventId(eventId = it)

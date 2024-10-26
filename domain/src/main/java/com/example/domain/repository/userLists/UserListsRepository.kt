@@ -1,12 +1,10 @@
 package com.example.domain.repository.userLists
 
-import com.example.domain.model.userLists.UserCommunities
-import com.example.domain.model.userLists.UserEvents
 import kotlinx.coroutines.flow.Flow
 
 interface UserListsRepository {
 
-    fun getUserEvents(): Flow<List<UserEvents>>
+    fun getUserEvents(): Flow<List<com.example.model.userLists.UserEvents>>
 
-    fun getUserCommunities(): Flow<List<UserCommunities>>
+    fun getUserCommunities(): Flow<List<com.example.model.userLists.UserCommunities>>
 }

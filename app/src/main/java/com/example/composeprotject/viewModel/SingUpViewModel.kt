@@ -7,8 +7,6 @@ import com.example.common.result.PhoneNumberStatus
 import com.example.common.result.SendCodeStatus
 import com.example.composeprotject.screen.state.RegistrationScreenState
 import com.example.composeprotject.ui.component.state.FilledButtonState
-import com.example.domain.model.signUp.Token
-import com.example.domain.model.signUp.UserParam
 import com.example.domain.usecase.signUp.SendConfirmationCodeUseCase
 import com.example.domain.usecase.signUp.test.SendUserParamAuthentication
 import com.example.domain.usecase.store.token.SaveAuthTokenUseCase
@@ -64,8 +62,8 @@ class SingUpViewModel(
             initialValue = true
         )
 
-    private val _resultToken = MutableStateFlow<Token?>(null)
-    private val resultToken: StateFlow<Token?> = _resultToken
+    private val _resultToken = MutableStateFlow<com.example.model.signUp.Token?>(null)
+    private val resultToken: StateFlow<com.example.model.signUp.Token?> = _resultToken
 
     private val userParam = combine(
         userName,
@@ -110,7 +108,8 @@ class SingUpViewModel(
         saveAuthTokenUseCase.execute(token = token)
     }
 
-    fun sendPhoneVerificationCode(userParam: UserParam) = viewModelScope.launch {
+    fun sendPhoneVerificationCode(userParam: com.example.model.signUp.UserParam) =
+        viewModelScope.launch {
         getUserParamSendStatusCode.execute(userParam = userParam)
     }
 
@@ -119,12 +118,17 @@ class SingUpViewModel(
         //TODO вынести
         sendConfirmationCodeUseCase.resultSendConfirmationCode().collect { result ->
             when (result) {
-                is PhoneNumberResult.Success<Token> -> {
+                is PhoneNumberResult.Success<com.example.model.signUp.Token> -> {
                     _resultToken.update { result.data }
                 }
 
                 is PhoneNumberResult.Error -> {
-                    _resultToken.update { Token(token = null, success = SendCodeStatus.ERROR) }
+                    _resultToken.update {
+                        com.example.model.signUp.Token(
+                            token = null,
+                            success = SendCodeStatus.ERROR
+                        )
+                    }
                 }
             }
         }

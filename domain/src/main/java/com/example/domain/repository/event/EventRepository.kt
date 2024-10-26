@@ -1,37 +1,32 @@
 package com.example.domain.repository.event
 
 import com.example.common.result.ResultData
-import com.example.domain.model.event.EventListType
-import com.example.domain.model.event.Meeting
-import com.example.domain.model.eventDetails.AppointmentSettings
-import com.example.domain.model.eventDetails.EventDetailsParams
-import com.example.domain.model.eventDetails.MeetingDetails
 import kotlinx.coroutines.flow.Flow
 
 interface EventRepository {
 
     fun getEventsByUserInterest(
-        eventType: EventListType,
+        eventType: com.example.model.event.EventListType,
         userInterests: List<Int>?,
         authToken: String?
-    ): Flow<List<Meeting>>
+    ): Flow<List<com.example.model.event.Meeting>>
 
     fun getEventsClosest(
-        eventType: EventListType,
+        eventType: com.example.model.event.EventListType,
         userInterests: List<Int>?,
         city: String?,
         authToken: String?
-    ): Flow<List<Meeting>>
+    ): Flow<List<com.example.model.event.Meeting>>
 
     fun getFilteredEventsByCategory(
         filterParam: List<Int>
-    ): Flow<List<Meeting>>
+    ): Flow<List<com.example.model.event.Meeting>>
 
-    fun getEventDetails(params: EventDetailsParams): Flow<MeetingDetails>
+    fun getEventDetails(params: com.example.model.eventDetails.EventDetailsParams): Flow<com.example.model.eventDetails.MeetingDetails>
 
-    fun getEventsByCommunityId(communityId: Int): Flow<List<Meeting>>
+    fun getEventsByCommunityId(communityId: Int): Flow<List<com.example.model.event.Meeting>>
 
-    fun makeAnAppointment(params: AppointmentSettings): Flow<ResultData<Boolean>>
+    fun makeAnAppointment(params: com.example.model.eventDetails.AppointmentSettings): Flow<ResultData<Boolean>>
 
-    fun skipMeetings(params: AppointmentSettings): Flow<ResultData<Boolean>>
+    fun skipMeetings(params: com.example.model.eventDetails.AppointmentSettings): Flow<ResultData<Boolean>>
 }

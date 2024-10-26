@@ -1,6 +1,5 @@
 package com.example.domain.usecase.getData
 
-import com.example.domain.model.eventDetails.MeetingDetails
 import com.example.domain.repository.event.EventRepository
 import com.example.domain.usecase.details.GetEventDetailsInfoUseCase
 import com.example.domain.usecase.details.InteractorLoadEventsByCommunityId
@@ -20,13 +19,13 @@ class GetEventDetails : KoinComponent {
     private val loadEventsByCommunityId: InteractorLoadEventsByCommunityId by inject()
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val eventPrepared: Flow<MeetingDetails> =
+    private val eventPrepared: Flow<com.example.model.eventDetails.MeetingDetails> =
         innerEvent.eventIdTrigger().filterNotNull().mapLatest { params ->
             val eventDetailsFlow = repository.getEventDetails(params = params)
             eventDetailsFlow.collectLatest { loadEventsByCommunityId.execute(communityId = it.organizers.id) }
             eventDetailsFlow
         }.flatMapMerge { it }
 
-    fun execute(): Flow<MeetingDetails> = eventPrepared
+    fun execute(): Flow<com.example.model.eventDetails.MeetingDetails> = eventPrepared
 
 }

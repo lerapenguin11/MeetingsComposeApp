@@ -35,6 +35,7 @@ android {
 dependencies {
 
     implementation(project(":common"))
+    implementation(project(":core:model"))
 
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)

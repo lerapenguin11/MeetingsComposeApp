@@ -1,7 +1,5 @@
 package com.example.domain.usecase.combineUseCase
 
-import com.example.domain.model.event.Meeting
-import com.example.domain.model.eventDetails.MeetingDetails
 import com.example.domain.usecase.getData.GetEventDetails
 import com.example.domain.usecase.getData.GetEventsByCommunityId
 import com.example.domain.usecase.store.token.ReadAuthTokenUseCase
@@ -32,8 +30,8 @@ class InteractorFullEventDetailsInfo : KoinComponent {
 }
 
 data class CombineEventDetailsInfo(
-    val eventDetails: MeetingDetails?,
+    val eventDetails: com.example.model.eventDetails.MeetingDetails?,
     val isLoadingFullData: Boolean,
-    val eventsByCommunityId: List<Meeting>,
+    val eventsByCommunityId: List<com.example.model.event.Meeting>,
     val authToken: String?
 )

@@ -4,8 +4,6 @@ import com.example.common.result.ResultData
 import com.example.common.result.ResultStatus
 import com.example.data.fakeData.generateCommunityDetails
 import com.example.data.mappers.CommunityMapper
-import com.example.domain.model.community.Community
-import com.example.domain.model.communityDetails.CommunityDetails
 import com.example.domain.repository.community.CommunityRepository
 import com.example.network.api.CommunityApi
 import com.skydoves.sandwich.message
@@ -22,7 +20,7 @@ class CommunityRepositoryImpl(
     private val service: CommunityApi
 ) : CommunityRepository {
 
-    override fun getCommunities(userInterest: List<Int>?): Flow<List<Community>> {
+    override fun getCommunities(userInterest: List<Int>?): Flow<List<com.example.model.community.Community>> {
         return flow {
             val response = service.getCommunity(categories = userInterest?.let {
                 mapper.typeConvectorListIdToUriId(ids = it)
@@ -39,7 +37,7 @@ class CommunityRepositoryImpl(
         }.flowOn(Dispatchers.IO)
     }
 
-    override fun getCommunityDetails(communityId: Int): Flow<CommunityDetails> {
+    override fun getCommunityDetails(communityId: Int): Flow<com.example.model.communityDetails.CommunityDetails> {
         return flow {
             emit(
                 value = mapper.communityDetailsResponseToCommunityResponse(

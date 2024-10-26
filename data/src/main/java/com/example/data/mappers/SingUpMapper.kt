@@ -1,15 +1,13 @@
 package com.example.data.mappers
 
 import android.text.TextUtils
-import com.example.domain.model.interest.Interest
-import com.example.domain.model.signUp.UserParam
 import com.example.network.responseModel.auth.AuthParam
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
 class SingUpMapper {
 
-    fun userParamToAuthParam(userParam: UserParam): AuthParam {
+    fun userParamToAuthParam(userParam: com.example.model.signUp.UserParam): AuthParam {
         return AuthParam(
             name = userParam.name,
             interests = userInterestToInterestId(userParam.userInterests),
@@ -25,7 +23,7 @@ class SingUpMapper {
         }
     }
 
-    private fun userInterestToInterestId(userInterests: List<Interest>?): String? {
+    private fun userInterestToInterestId(userInterests: List<com.example.model.interest.Interest>?): String? {
         return if (userInterests != null) {
             typeConvectorListIdToUriId(ids = userInterests.map { it.id })
         } else null

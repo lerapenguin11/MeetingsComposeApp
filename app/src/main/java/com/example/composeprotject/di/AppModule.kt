@@ -1,5 +1,6 @@
 package com.example.composeprotject.di
 
+import com.example.composeprotject.viewModel.AllEventsViewModel
 import com.example.composeprotject.viewModel.CommunityDetailsViewModel
 import com.example.composeprotject.viewModel.EditUserViewModel
 import com.example.composeprotject.viewModel.EventDetailsViewModel
@@ -24,4 +25,5 @@ val appModule = module {
     viewModelOf(::ProfileViewModel)
     viewModelOf(::EditUserViewModel)
     viewModelOf(::EventDetailsViewModel)
+    viewModelOf(::AllEventsViewModel)
 }

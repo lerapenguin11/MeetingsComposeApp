@@ -4,8 +4,6 @@ import com.example.common.result.PhoneNumberResult
 import com.example.common.result.PhoneNumberStatus
 import com.example.common.result.SendCodeStatus
 import com.example.data.mappers.SingUpMapper
-import com.example.domain.model.signUp.Token
-import com.example.domain.model.signUp.UserParam
 import com.example.domain.repository.signUp.SignUpRepository
 import com.example.network.api.AuthApi
 import com.example.network.responseModel.auth.VerificationCode
@@ -22,7 +20,7 @@ import kotlinx.coroutines.flow.flowOn
 class SignUpRepositoryImpl(private val service: AuthApi, private val mapper: SingUpMapper) :
     SignUpRepository {
 
-    override fun getVerificationCode(userParam: UserParam): Flow<PhoneNumberResult<PhoneNumberStatus>> {
+    override fun getVerificationCode(userParam: com.example.model.signUp.UserParam): Flow<PhoneNumberResult<PhoneNumberStatus>> {
         return flow {
             val response =
                 service.getRequestCode(authParam = mapper.userParamToAuthParam(userParam = userParam))
@@ -42,14 +40,14 @@ class SignUpRepositoryImpl(private val service: AuthApi, private val mapper: Sin
     override fun sendConfirmationCode(
         code: String,
         phoneNumber: String
-    ): Flow<PhoneNumberResult<Token>> = flow {
+    ): Flow<PhoneNumberResult<com.example.model.signUp.Token>> = flow {
         val response = service.checkCode(code = VerificationCode(code = code, phone = phoneNumber))
         response.suspendOnError {
             val responseCode = statusCode.code
             when (responseCode) {
                 ERROR_CODE -> emit(
                     value = PhoneNumberResult.Success(
-                        Token(
+                        com.example.model.signUp.Token(
                             token = null,
                             success = SendCodeStatus.FAILURE
                         )
@@ -58,7 +56,7 @@ class SignUpRepositoryImpl(private val service: AuthApi, private val mapper: Sin
 
                 else -> emit(
                     value = PhoneNumberResult.Success(
-                        Token(
+                        com.example.model.signUp.Token(
                             token = null,
                             success = SendCodeStatus.ERROR
                         )
@@ -71,7 +69,7 @@ class SignUpRepositoryImpl(private val service: AuthApi, private val mapper: Sin
             when (responseCode) {
                 SUCCESS_CODE -> emit(
                     value = PhoneNumberResult.Success(
-                        Token(
+                        com.example.model.signUp.Token(
                             token = data.token,
                             success = SendCodeStatus.SUCCESS
                         )

@@ -4,8 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.common.result.ResultData
 import com.example.composeprotject.ui.component.state.FilledButtonState
-import com.example.domain.model.eventDetails.AppointmentSettings
-import com.example.domain.model.eventDetails.EventDetailsParams
 import com.example.domain.usecase.combineUseCase.CombineEventDetailsInfo
 import com.example.domain.usecase.combineUseCase.InteractorFullEventDetailsInfo
 import com.example.domain.usecase.details.InteractorLoadEventDetailsInfo
@@ -124,7 +122,8 @@ class EventDetailsViewModel(
     fun getActionBlockStateFlow() = actionBlockState
     fun getIsParticipatingMeetingFlow() = isParticipatingMeeting
 
-    fun loadEventDetailsInfo(params: EventDetailsParams) = viewModelScope.launch {
+    fun loadEventDetailsInfo(params: com.example.model.eventDetails.EventDetailsParams) =
+        viewModelScope.launch {
         interactorLoadEventDetailsInfo.execute(params = params)
     }
 
@@ -132,7 +131,7 @@ class EventDetailsViewModel(
         _actionBlockState.update { state }
     }
 
-    fun makeAppointment(params: AppointmentSettings) {
+    fun makeAppointment(params: com.example.model.eventDetails.AppointmentSettings) {
         makeAnAppointmentUseCase.execute(params = params)
     }
 

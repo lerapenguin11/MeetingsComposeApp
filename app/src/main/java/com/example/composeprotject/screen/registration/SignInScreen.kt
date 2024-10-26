@@ -44,7 +44,6 @@ import com.example.composeprotject.ui.component.utils.NoRippleTheme
 import com.example.composeprotject.ui.component.utils.eventDate
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.SingUpViewModel
-import com.example.domain.model.signUp.UserParam
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
 import kotlin.time.Duration.Companion.seconds
@@ -175,7 +174,7 @@ fun SignInScreen(
                     sendUserDataAndStartTimer(
                         currentStep = currentStep,
                         signUpViewModel = singUpViewModel,
-                        userParam = UserParam(
+                        userParam = com.example.model.signUp.UserParam(
                             eventId = eventId,
                             name = userParam.first.orEmpty(),
                             phoneNumber = userParam.second.orEmpty(),
@@ -240,7 +239,7 @@ private fun goToNextStepRegistration(
 private fun sendUserDataAndStartTimer(
     currentStep: RegistrationScreenState,
     signUpViewModel: SingUpViewModel,
-    userParam: UserParam,
+    userParam: com.example.model.signUp.UserParam,
     onSecondsRemaining: (Int) -> Unit,
     onInputValue: (String) -> Unit
 ) {

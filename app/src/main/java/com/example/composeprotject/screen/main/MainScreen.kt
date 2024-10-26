@@ -51,9 +51,6 @@ import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.utils.checkingUserNoSuchInterest
 import com.example.composeprotject.viewModel.MainViewModel
-import com.example.domain.model.community.Community
-import com.example.domain.model.event.Meeting
-import com.example.domain.model.interest.Interest
 import com.example.domain.usecase.combineUseCase.CombineMainDataScreen
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
@@ -66,8 +63,8 @@ fun MainScreen(
     modifier: Modifier = Modifier,
     mainViewModel: MainViewModel = koinViewModel(),
     onGoProfile: () -> Unit,
-    onClickEvent: (Meeting) -> Unit,
-    onClickCommunity: (Community) -> Unit,
+    onClickEvent: (com.example.model.event.Meeting) -> Unit,
+    onClickCommunity: (com.example.model.community.Community) -> Unit,
     onClickAllEvents: (Int) -> Unit
 ) {
     val mainStateUI by mainViewModel.getMainStateUIFlow().collectAsStateWithLifecycle()
@@ -88,7 +85,7 @@ fun MainScreen(
         key1 = Unit,
         key2 = fullQueryParamLocal.authToken
     ) {
-        mainViewModel.loadEventsByCategory(
+        mainViewModel.loadEventsByParameters(
             userCategories = fullQueryParamLocal.userInterests,
             city = fullQueryParamLocal.city,
             token = fullQueryParamLocal.authToken
@@ -178,11 +175,11 @@ fun MainSearchScreen(
 fun MainDefault(
     contentPadding: PaddingValues,
     mainStateUI: Boolean,
-    filteredEvents: List<Meeting>,
+    filteredEvents: List<com.example.model.event.Meeting>,
     fullInfoMainScreen: CombineMainDataScreen,
-    onClickEvent: (Meeting) -> Unit,
-    onClickCommunity: (Community) -> Unit,
-    userCategories: List<Interest>,
+    onClickEvent: (com.example.model.event.Meeting) -> Unit,
+    onClickCommunity: (com.example.model.community.Community) -> Unit,
+    userCategories: List<com.example.model.interest.Interest>,
     mainViewModel: MainViewModel,
     subscriptionCapabilityStatus: SubscriptionCapabilityStatus,
     authToken: String?,
@@ -296,7 +293,7 @@ fun MainDefault(
 
 @Composable
 private fun FilteredEventByCategoryBlock(
-    event: Meeting,
+    event: com.example.model.event.Meeting,
     onClickEvent: (Int) -> Unit
 ) {
     EventCardFillMaxWidth(
@@ -308,8 +305,8 @@ private fun FilteredEventByCategoryBlock(
 
 @Composable
 private fun InterestsChipFlex(
-    interests: List<Interest>,
-    userCategories: List<Interest>,
+    interests: List<com.example.model.interest.Interest>,
+    userCategories: List<com.example.model.interest.Interest>,
     onFilteringByAllCategories: () -> Unit,
     onFilteringByCategory: (Int) -> Unit
 ) {
@@ -358,9 +355,9 @@ private fun InterestsChipFlex(
 
 @Composable
 private fun CommunityRow(
-    communities: List<Community>,
+    communities: List<com.example.model.community.Community>,
     state: SubscriptionCapabilityStatus,
-    onClickCommunity: (Community) -> Unit,
+    onClickCommunity: (com.example.model.community.Community) -> Unit,
     onChangingSubscription: (Int, Boolean) -> Unit,
     onClickAllCommunities: (AllEventsScreenState) -> Unit
 ) {
@@ -412,8 +409,8 @@ private fun CommunityRow(
 
 @Composable
 private fun SmallEventsRow(
-    events: List<Meeting>,
-    onClickEvent: (Meeting) -> Unit,
+    events: List<com.example.model.event.Meeting>,
+    onClickEvent: (com.example.model.event.Meeting) -> Unit,
     onClickAllUpcomingMeetings: (AllEventsScreenState) -> Unit
 ) {
     if (events.isNotEmpty()) {
@@ -458,8 +455,8 @@ private fun SmallEventsRow(
 
 @Composable
 private fun BigEventsRow(
-    events: List<Meeting>,
-    onClickEvent: (Meeting) -> Unit,
+    events: List<com.example.model.event.Meeting>,
+    onClickEvent: (com.example.model.event.Meeting) -> Unit,
     onClickAllEventsRelevant: (AllEventsScreenState) -> Unit
 ) {
     LazyRow {

@@ -1,7 +1,6 @@
 package com.example.domain.usecase.details
 
 import com.example.common.result.ResultData
-import com.example.domain.model.eventDetails.AppointmentSettings
 import com.example.domain.repository.event.EventRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,14 +14,15 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 interface MakeAnAppointmentUseCase {
-    fun execute(params: AppointmentSettings)
+    fun execute(params: com.example.model.eventDetails.AppointmentSettings)
     fun resultRecordAnEvent(): Flow<ResultData<Boolean>>
 }
 
 internal class MakeAnAppointmentUseCaseImpl(private val repository: EventRepository) :
     MakeAnAppointmentUseCase {
 
-    private val eventIdMutableStateFlow = MutableStateFlow<AppointmentSettings?>(null)
+    private val eventIdMutableStateFlow =
+        MutableStateFlow<com.example.model.eventDetails.AppointmentSettings?>(null)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val resultRecordAnEventFlow =
@@ -52,7 +52,7 @@ internal class MakeAnAppointmentUseCaseImpl(private val repository: EventReposit
         }.launchIn(CoroutineScope(Dispatchers.IO))
     }
 
-    override fun execute(params: AppointmentSettings) {
+    override fun execute(params: com.example.model.eventDetails.AppointmentSettings) {
         eventIdMutableStateFlow.tryEmit(value = params)
     }
 

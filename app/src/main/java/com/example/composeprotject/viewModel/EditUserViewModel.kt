@@ -9,9 +9,6 @@ import android.provider.MediaStore
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composeprotject.screen.state.EditState
-import com.example.domain.model.editUser.EditUserInfo
-import com.example.domain.model.token.AutToken
-import com.example.domain.model.user.SocialNetwork
 import com.example.domain.usecase.editUser.GetPathFromGalleryUriUseCase
 import com.example.domain.usecase.editUser.InteractorLoadUserInfoForEdit
 import com.example.domain.usecase.getData.GetUserInfoForEdit
@@ -38,8 +35,8 @@ class EditUserViewModel(
     private val _editProfileScreenState = MutableStateFlow(value = EditState.EDIT_PROFILE)
     private val editProfileScreenState: StateFlow<EditState> = _editProfileScreenState
 
-    private val _userInfo = MutableStateFlow<EditUserInfo?>(null)
-    private val userInfo: StateFlow<EditUserInfo?> = _userInfo
+    private val _userInfo = MutableStateFlow<com.example.model.editUser.EditUserInfo?>(null)
+    private val userInfo: StateFlow<com.example.model.editUser.EditUserInfo?> = _userInfo
 
     init {
         getUserInfoForEdit.execute()
@@ -77,7 +74,7 @@ class EditUserViewModel(
     fun updateSocialNetworkHabr(id: String) {
         _userInfo.update { info ->
             info?.let {
-                val updatedSocialNetwork = SocialNetwork(
+                val updatedSocialNetwork = com.example.model.user.SocialNetwork(
                     habr = id,
                     telegram = it.socialNetwork.telegram
                 )
@@ -89,7 +86,7 @@ class EditUserViewModel(
     fun updateSocialNetworkTelegram(id: String) {
         _userInfo.update { info ->
             info?.let {
-                val updatedSocialNetwork = SocialNetwork(
+                val updatedSocialNetwork = com.example.model.user.SocialNetwork(
                     habr = it.socialNetwork.habr,
                     telegram = id
                 )
@@ -123,7 +120,11 @@ class EditUserViewModel(
         readAuthTokenUseCase.execute()
             .onEach { token ->
                 token?.let {
-                    interactorLoadUserInfoForEdit.execute(token = AutToken(token = it))
+                    interactorLoadUserInfoForEdit.execute(
+                        token = com.example.model.token.AutToken(
+                            token = it
+                        )
+                    )
                 }
             }.launchIn(viewModelScope)
     }

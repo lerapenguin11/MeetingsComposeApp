@@ -1,7 +1,6 @@
 package com.example.domain.usecase.signUp
 
 import com.example.common.result.PhoneNumberResult
-import com.example.domain.model.signUp.Token
 import com.example.domain.repository.signUp.SignUpRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +14,7 @@ import kotlinx.coroutines.flow.mapLatest
 
 interface SendConfirmationCodeUseCase {
     fun execute(code: String, phoneNumber: String)
-    fun resultSendConfirmationCode(): Flow<PhoneNumberResult<Token>>
+    fun resultSendConfirmationCode(): Flow<PhoneNumberResult<com.example.model.signUp.Token>>
 }
 
 internal class SendConfirmationCodeUseCaseImpl(private val repository: SignUpRepository) :
@@ -41,7 +40,7 @@ internal class SendConfirmationCodeUseCaseImpl(private val repository: SignUpRep
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun resultSendConfirmationCode(): Flow<PhoneNumberResult<Token>> {
+    override fun resultSendConfirmationCode(): Flow<PhoneNumberResult<com.example.model.signUp.Token>> {
         return resultConfirmationCodeFlow.flatMapMerge { it ?: emptyFlow() }
     }
 }

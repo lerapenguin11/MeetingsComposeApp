@@ -1,7 +1,5 @@
 package com.example.domain.usecase.combineUseCase
 
-import com.example.domain.model.communityDetails.CommunityDetails
-import com.example.domain.model.event.Meeting
 import com.example.domain.usecase.getData.GetCommunityDetails
 import kotlinx.coroutines.flow.combine
 import org.koin.core.component.KoinComponent
@@ -24,6 +22,6 @@ class InteractorFullInfoCommunityDetails : KoinComponent {
 }
 
 data class CombineCommunityDetails(
-    val communityDetails: CommunityDetails?,
-    val eventsByCommunityId: List<Meeting>
+    val communityDetails: com.example.model.communityDetails.CommunityDetails?,
+    val eventsByCommunityId: List<com.example.model.event.Meeting>
 )

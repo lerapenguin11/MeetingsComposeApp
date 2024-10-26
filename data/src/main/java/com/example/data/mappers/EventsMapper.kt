@@ -1,17 +1,6 @@
 package com.example.data.mappers
 
 import android.text.TextUtils
-import com.example.domain.model.event.Meeting
-import com.example.domain.model.eventDetails.MeetingAddress
-import com.example.domain.model.eventDetails.MeetingCoordinates
-import com.example.domain.model.eventDetails.MeetingDetails
-import com.example.domain.model.eventDetails.MeetingLocation
-import com.example.domain.model.eventDetails.MeetingOrganizer
-import com.example.domain.model.eventDetails.MeetingParticipants
-import com.example.domain.model.eventDetails.MeetingPresenter
-import com.example.domain.model.eventDetails.MeetingStatus
-import com.example.domain.model.eventDetails.MeetingsData
-import com.example.domain.model.interest.Category
 import com.example.network.responseModel.event.EventResponseItem
 import com.example.network.responseModel.eventDetails.EventDetailsResponse
 import com.example.network.responseModel.eventDetails.Location
@@ -23,12 +12,12 @@ import java.net.URLEncoder
 
 class EventsMapper {
 
-    fun eventResponseToMeeting(item: EventResponseItem): Meeting {
-        return Meeting(
+    fun eventResponseToMeeting(item: EventResponseItem): com.example.model.event.Meeting {
+        return com.example.model.event.Meeting(
             id = item.id,
             avatarUrl = item.image,
             title = item.title,
-            categories = item.tags.map { Category(it.id, it.title) },
+            categories = item.tags.map { com.example.model.interest.Category(it.id, it.title) },
             shortAddress = item.location?.address?.plain?.short.toString(), //TODO toString delete
             startDate = 1726583978 //TODO: item.startDate
         )
@@ -42,8 +31,8 @@ class EventsMapper {
         }
     }
 
-    fun eventDetailsResponseToEventDetails(item: EventDetailsResponse): MeetingDetails {
-        return MeetingDetails(
+    fun eventDetailsResponseToEventDetails(item: EventDetailsResponse): com.example.model.eventDetails.MeetingDetails {
+        return com.example.model.eventDetails.MeetingDetails(
             status = determineMeetingStatus(status = item.status),
             title = item.title,
             description = item.description,
@@ -52,7 +41,7 @@ class EventsMapper {
             participantsCapacity = item.participantsCapacity,
             categories = item.categories.map { categoryResponseToCategory(it) },
             participants = participantsToMeetingParticipants(item.participants),
-            organizers = MeetingOrganizer(
+            organizers = com.example.model.eventDetails.MeetingOrganizer(
                 id = item.organizers.get(0).id,
                 name = item.organizers.get(0).name,
                 bio = item.organizers.get(0).bio,
@@ -64,47 +53,52 @@ class EventsMapper {
         )
     }
 
-    private fun locationResponseToLocation(loc: Location): MeetingLocation {
-        return MeetingLocation(
-            meetingAddress = MeetingAddress(
+    private fun locationResponseToLocation(loc: Location): com.example.model.eventDetails.MeetingLocation {
+        return com.example.model.eventDetails.MeetingLocation(
+            meetingAddress = com.example.model.eventDetails.MeetingAddress(
                 short = loc.address.plain.short,
                 full = loc.address.plain.full,
                 metro = "Приморская"//TODO
             ),
-            coordinates = MeetingCoordinates(
+            coordinates = com.example.model.eventDetails.MeetingCoordinates(
                 lat = loc.coordinates.lat,
                 lon = loc.coordinates.lon
             )
         )
     }
 
-    private fun presentersResponseToPresenters(presenter: Presenter): MeetingPresenter {
-        return MeetingPresenter(
+    private fun presentersResponseToPresenters(presenter: Presenter): com.example.model.eventDetails.MeetingPresenter {
+        return com.example.model.eventDetails.MeetingPresenter(
             name = presenter.name,
             bio = presenter.bio,
             avatar = "https://р23.навигатор.дети/images/events/cover/ea24c949d5b9ae168f56e990e0c69b38_big.jpg" //TODO
         )
     }
 
-    private fun participantsToMeetingParticipants(participants: Participants): MeetingParticipants {
-        return MeetingParticipants(
-            data = participants.data.map { MeetingsData(id = it.id, avatarUrl = it.image) },
+    private fun participantsToMeetingParticipants(participants: Participants): com.example.model.eventDetails.MeetingParticipants {
+        return com.example.model.eventDetails.MeetingParticipants(
+            data = participants.data.map {
+                com.example.model.eventDetails.MeetingsData(
+                    id = it.id,
+                    avatarUrl = it.image
+                )
+            },
             total = participants.total
         )
     }
 
-    private fun determineMeetingStatus(status: String): MeetingStatus {
+    private fun determineMeetingStatus(status: String): com.example.model.eventDetails.MeetingStatus {
         return when (status) {
-            MeetingStatus.ACTIVE.string -> MeetingStatus.ACTIVE
-            MeetingStatus.INACTIVE.name -> MeetingStatus.INACTIVE
+            com.example.model.eventDetails.MeetingStatus.ACTIVE.string -> com.example.model.eventDetails.MeetingStatus.ACTIVE
+            com.example.model.eventDetails.MeetingStatus.INACTIVE.name -> com.example.model.eventDetails.MeetingStatus.INACTIVE
             else -> {
-                MeetingStatus.CANCELLATION
+                com.example.model.eventDetails.MeetingStatus.CANCELLATION
             }
         }
     }
 
-    private fun categoryResponseToCategory(category: com.example.network.responseModel.eventDetails.Category): Category {
-        return Category(
+    private fun categoryResponseToCategory(category: com.example.network.responseModel.eventDetails.Category): com.example.model.interest.Category {
+        return com.example.model.interest.Category(
             id = category.id,
             title = category.title
         )

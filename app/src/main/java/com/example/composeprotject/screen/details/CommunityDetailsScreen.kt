@@ -39,9 +39,6 @@ import com.example.composeprotject.ui.component.utils.CommonString
 import com.example.composeprotject.ui.component.utils.FlexRow
 import com.example.composeprotject.ui.theme.MeetTheme
 import com.example.composeprotject.viewModel.CommunityDetailsViewModel
-import com.example.domain.model.communityDetails.Category
-import com.example.domain.model.communityDetails.Data
-import com.example.domain.model.event.Meeting
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -51,7 +48,7 @@ fun CommunityDetailsScreen(
     modifier: Modifier = Modifier,
     communityDetailsViewModel: CommunityDetailsViewModel = koinViewModel(),
     onClickMorePeople: (Int) -> Unit,
-    onClickEvent: (Meeting) -> Unit
+    onClickEvent: (com.example.model.event.Meeting) -> Unit
 ) {
     LaunchedEffect(Unit) {
         communityDetailsViewModel.loadCommunityDetails(communityId = communityId)
@@ -164,7 +161,7 @@ fun CommunityDetailsScreen(
 
 @Composable
 private fun ActiveEventBlock(
-    event: Meeting,
+    event: com.example.model.event.Meeting,
     onClickEvent: () -> Unit
 ) {
     EventCardFillMaxWidth(
@@ -178,7 +175,7 @@ private fun ActiveEventBlock(
 @Composable
 private fun PastMeetingsBlock(
     index: Int,
-    event: Meeting,
+    event: com.example.model.event.Meeting,
     eventSize: Int,
     onClickEvent: () -> Unit
 ) {
@@ -199,7 +196,7 @@ private fun PastMeetingsBlock(
 
 @Composable
 private fun SubscribersBlock(
-    avatarUrl: List<Data>,
+    avatarUrl: List<com.example.model.communityDetails.Data>,
     onClickMorePeople: () -> Unit
 ) {
     Text(
@@ -254,7 +251,7 @@ private fun CommonInfo(
     placeholder: Int,
     avatarUrl: String?,
     name: String,
-    categories: List<Category>
+    categories: List<com.example.model.communityDetails.Category>
 ) {
     PersonImage(
         placeholderImage = placeholder,

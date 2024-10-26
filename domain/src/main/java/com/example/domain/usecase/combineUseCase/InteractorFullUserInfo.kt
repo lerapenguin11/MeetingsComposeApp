@@ -1,8 +1,5 @@
 package com.example.domain.usecase.combineUseCase
 
-import com.example.domain.model.user.UserInfo
-import com.example.domain.model.userLists.UserCommunities
-import com.example.domain.model.userLists.UserEvents
 import com.example.domain.usecase.getData.GetUserCommunities
 import com.example.domain.usecase.getData.GetUserEvents
 import com.example.domain.usecase.getData.GetUserInfo
@@ -32,7 +29,7 @@ class InteractorFullUserInfo : KoinComponent {
 }
 
 data class FullUserInfo(
-    val userInfo: UserInfo?,
-    val userEvents: List<UserEvents>?,
-    val userCommunities: List<UserCommunities>?
+    val userInfo: com.example.model.user.UserInfo?,
+    val userEvents: List<com.example.model.userLists.UserEvents>?,
+    val userCommunities: List<com.example.model.userLists.UserCommunities>?
 )
